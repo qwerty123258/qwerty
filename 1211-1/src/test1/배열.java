@@ -39,6 +39,9 @@ public class 배열 {
 		System.out.println(ar4[1]);
 		System.out.println(ar4[2]);
 		
+		int ar5[] = null;
+		ar5 = new int[3]; //이렇게 null로 미리 선언만 해놓고 쓰는 경우도 있음. 전역변수 사용시
+		
 		
 	
 		
