@@ -7,12 +7,6 @@ import java.util.Scanner;
 public class 배열반복응용종합판 {
 
 	public static void main(String[] args) {
-		
-		program(); //메인메소드는 그저 program() 메소드 호출이 끝.
-		
-		}
-	
-	public static void program() {
 		int command = 0;//명령 입력용 변수
 		int scorecommand=0; // 점수 입력용 변수
 		double avg=0;// 평균 출력용 변수
@@ -82,7 +76,7 @@ public class 배열반복응용종합판 {
 		}
 		}
 		catch(Exception e) {
-			System.out.println("등록된 학생이 바뀌었씁니다.");
+			System.out.println("등록된 학생이 바뀌었습니다.");
 		}
 		if(command==5) {
 			System.out.println("종료되었습니다.");
@@ -98,13 +92,15 @@ public class 배열반복응용종합판 {
 					System.out.println("-----------");
 					System.out.println("재시작 중");
 					System.out.println("-----------"+ "\n");
-					program();// 숫자가 아닌 문자를 입력해서 예외가 발생한 경우 예외처리를 하는데 재시작하는 효과를 주기 위해 현재 실행된 메소드를 호출.
+					
 		}
+		
 	}
 
 		
-	scan.close();	
-	}
+	scan.close();
+		
+		}
 	
 	@SuppressWarnings("resource")
 	private static int score(int scorecommand) { //scorecommand라는 변수를 가져오면서 메서드 생성.
