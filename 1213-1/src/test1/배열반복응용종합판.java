@@ -13,7 +13,7 @@ public class 배열반복응용종합판 {
 		}
 	
 	public static void program() {
-		int command = 0;//명령 입력용 변수
+		int command = 0;//명령 입력용 변수.
 		int scorecommand=0; // 점수 입력용 변수
 		double avg=0;// 평균 출력용 변수
 		int scoresum = 0;//평균 계산용 변수
