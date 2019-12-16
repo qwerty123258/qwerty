@@ -1,5 +1,6 @@
 package test1;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CalculatorMain {
@@ -22,6 +23,7 @@ public class CalculatorMain {
 			System.out.println("1.덧셈 2.뺄셈 3.곱셈 4.나눗셈 5.종료");
 			System.out.println("--------------------------");
 			System.out.println("커맨드를 입력하세요.");
+			try {
 			command=scan.nextInt();
 			if(command==1) {
 				System.out.println("계산할 숫자를 입력하세요.");
@@ -44,12 +46,19 @@ public class CalculatorMain {
 				System.out.println("종료되었습니다");
 				break;
 			}
+			}
+			 catch(InputMismatchException a) {
+					System.out.println("올바른 커맨드가 아닙니다. 커맨드는 숫자로 입력하셔야합니다." +" \n" + "프로그램을 다시 시작합니다." + "\n");
+					System.out.println("-----------");
+					System.out.println("재시작 중");
+					System.out.println("-----------"+ "\n");
+					
+		}
 			
 		}
 		
 		
-
+		scan.close();
 	}
-
 
 }
