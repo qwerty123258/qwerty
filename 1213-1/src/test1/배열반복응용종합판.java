@@ -32,11 +32,12 @@ public class 배열반복응용종합판 {
 			}
 		
 		if(command==2 && error>0) { 
+			scoresum=0;
 			for(int i=0; i<student.length; i++) {
 				scorecommand=score(scorecommand);//score 메서드에서 반환된 값 사용.
 				student[i]=scorecommand;
-				scoresum+=scorecommand; //점수를 2번 3번 입력해버리면 sum이 누적되버림.
-				avg=(double)scoresum/student.length; //그래서 평균 계산할때 문제 생김...
+				scoresum+=scorecommand;
+				avg=(double)scoresum/student.length;
 				error1++;
 				if(max<scorecommand) {
 					max=scorecommand;
