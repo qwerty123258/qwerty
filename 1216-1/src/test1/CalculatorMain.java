@@ -52,7 +52,7 @@ public class CalculatorMain {
 					System.out.println("-----------");
 					System.out.println("재시작 중");
 					System.out.println("-----------"+ "\n");
-					
+					main(args);
 		}
 			
 		}
