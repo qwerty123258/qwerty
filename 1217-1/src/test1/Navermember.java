@@ -9,7 +9,7 @@ public class Navermember {
 	private String email;//이메일 주소
 	private String phone; // 연락처
 	
-	Navermember(String id,String password,String name,String birth, String gender, String email, String phone){
+	public Navermember(String id,String password,String name,String birth, String gender, String email, String phone){
 		// 필드는  private이여도 생성자는 공개가 되어있어 생성자를 통해서 필드에 값은 저장이 됨.
 		this.id=id;
 		this.password=password;
