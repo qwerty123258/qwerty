@@ -19,7 +19,7 @@ public class Navermember {
 		this.email=email;
 		this.phone=phone;
 	}
-	
+
 	public String getPassword() {
 		return password;
 	}
