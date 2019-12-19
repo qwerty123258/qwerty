@@ -38,9 +38,20 @@ public class Banksub extends Bankmain {
 		Scanner scan = new Scanner(System.in);
 		System.out.println("고객번호를 입력하세요.");
 		int cunum=scan.nextInt();
-		System.out.println(customerList.get(cunum-1).getName()+"님 환영합니다.로그인 되었습니다.");
+		System.out.println("본인의 계좌번호를 입력하세요.");
+		int inputacnum=scan.nextInt();
+		for(int i=0; i<customerList.size(); i++) {
+		int acnum=customerList.get(i).getAccountNumber(); //저장되어 있는 계좌번호를 확인
+		if(inputacnum==acnum) { //본인의 계좌번호를 맞게 입력하면
+			System.out.println(customerList.get(cunum-1).getName()+"님 환영합니다.로그인 되었습니다.");
+			return cunum;
+		}
+		else { //계좌 번호가 다르면
+			cunum=0; //입력한 고객번호를 초기화하고 반환.
+			System.out.println("로그인에 실패하였습니다.");
+		}
+		}
 		return cunum;
-	}
 	public void command3(int cunum) {
 		Scanner scan = new Scanner(System.in);
 		if(cunum==customerList.get(cunum-1).getCustomerNumber()) {
