@@ -52,6 +52,7 @@ public class Banksub extends Bankmain {
 		}
 		}
 		return cunum;
+	}
 	public void command3(int cunum) {
 		Scanner scan = new Scanner(System.in);
 		if(cunum==customerList.get(cunum-1).getCustomerNumber()) {
