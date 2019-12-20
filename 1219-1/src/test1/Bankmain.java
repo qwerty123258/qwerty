@@ -30,7 +30,7 @@ public class Bankmain {
 			if(command==7){
 				sub.command7(); //현재 리스트에 저장된 모든 데이터를 출력해주는 메서드.
 			}
-				if(command!=1 &&command!=2 &&command!=3 &&command!=4 &&command!=5 &&command!=6 &&command!=7) {
+				if(command!=1 &&command!=2 &&command!=3 &&command!=4 &&command!=5 &&command!=6 &&command!=7 &&command!=8) {
 					System.out.println("올바른 커맨드가 아닙니다.");
 				}
 				if(command==8) {
