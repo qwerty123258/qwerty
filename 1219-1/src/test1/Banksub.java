@@ -1,11 +1,14 @@
 package test1;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
-public class Banksub extends Bankmain {
+public class Banksub {
 	 int customernumber = 1; //고객 번호의초기값
 	 int accountnumber =110; //계좌 번호의 초기값.
 	 Bank customer=null; //은행 객체.
+	 List<Bank> customerList= new ArrayList<Bank>(); //은행 고객의 정보를 모아두는 리스트.
 	 public void commandlist() {
 			System.out.println("---------------------------------------------------------------------------------");
 			System.out.println("  1.고객등록 | 2.로그인 | 3.예금하기 | 4.출금하기 | 5.잔액조회 | 6.이체    | 7.전체확인  | 8.종료                                  ");
@@ -49,7 +52,8 @@ public class Banksub extends Bankmain {
 				}
 			}
 		}
-		cunum=0;
+		//본인의 고객번호와 계좌번호가 다르면(고객번호를 ID라고 생각하고...)
+		cunum=0; //입력한 고객번호를 초기화하고 리턴
 		System.out.println("로그인 실패.");
 		return cunum;
 		}

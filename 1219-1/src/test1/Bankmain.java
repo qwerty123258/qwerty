@@ -1,8 +1,6 @@
 package test1;
-import java.util.*;
 
 public class Bankmain {	
-	 List<Bank> customerList= new ArrayList<Bank>(); //은행 고객의 정보를 모아두는 리스트.
 	public static void main(String[] args) {
 		 int command=0; //커낸드를 입력할때 사용하는 변수
 		 Banksub sub= new Banksub();
