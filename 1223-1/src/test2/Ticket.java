@@ -2,12 +2,15 @@ package test2;
 
 public class Ticket {	
 	int ticketnum;
-	double price=1000;
+	double price;
 	
-	public double getPrice() {
-		return price;
-	}
-	public void setPrice(double price) {
+	public Ticket(int ticketnum, double price) {
+		super();
+		this.ticketnum = ticketnum;
 		this.price = price;
+	}
+	
+	public double price() {
+		return price;
 	}
 }
