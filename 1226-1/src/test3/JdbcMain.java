@@ -1,7 +1,4 @@
 package test3;
-
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -9,7 +6,7 @@ public class JdbcMain {
 
 	public static void main(String[] args) {
 		DBsql sql = new DBsql(); //쿼리문이 저장되어있는 객체 생성
-		List<Student> stuList =null;
+		List<Student> stuList = null;
 		Scanner scan = new Scanner(System.in);
 		for(;;) {
 			System.out.println("0.db 접속 1.조회 2.조회(2)  3.추가   4.입력하여 데이터 추가(1)  5.입력하여 데이터 추가 (2) 6.입력하여 데이터 추가 (3) 7.삭제  8.종료");
