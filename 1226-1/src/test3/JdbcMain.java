@@ -1,4 +1,5 @@
 package test3;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -27,10 +28,10 @@ public class JdbcMain {
 			sql.insertDB(); // 입력해놓은 쿼리문으로 데이터 추가하기.
 		}
 		if(command==4) {
-			sql.insertDB2(); // 쿼리문에 틀만 입력해놓은뒤에 데이터만 따로 입력하여 추가하기.
+			sql.insertDB2(); // 쿼리문에 틀만 입력해놓은 후에 데이터를 입력하여 추가하기.
 		}
 		if(command==5) {
-			sql.insertDB3(); // 4번과 비슷한 방식이지만 get과 set을 활용하여 추가하기.
+			sql.insertDB3(); // 입력해서 데이터 추가하기.
 		}
 		if(command==6) {
 			sql.insertDB4(); // 쿼리문 전체를 입력해서 데이터 추가하기.
