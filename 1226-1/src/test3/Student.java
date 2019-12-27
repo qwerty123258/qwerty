@@ -12,6 +12,11 @@ public class Student {
 	public int getStudentnum() {
 		return studentnum;
 	}
+	@Override
+	public String toString() {
+		return "Student [studentnum=" + studentnum + ", name=" + name + ", age=" + age + ", address=" + address
+				+ ", gender=" + gender + ", phone=" + phone + "]";
+	}
 	public void setStudentnum(int studentnum) {
 		this.studentnum = studentnum;
 	}

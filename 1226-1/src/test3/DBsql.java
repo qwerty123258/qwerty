@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class DBsql {
@@ -27,6 +29,26 @@ public class DBsql {
 				System.out.print(rs.getString("address")+" ");
 				System.out.print(rs.getString("gender")+" ");
 				System.out.print(rs.getString("phone")+"\n");
+			}
+		} catch (SQLException e) {
+			System.out.println("DB접속 실패");
+			e.printStackTrace();
+		}
+	}
+	public void selectDB2(List<Student> stuList) {
+		String sql = "select * from student"; //쿼리문 저장용 변수, 가독성 위함
+		try {
+			pstmt = con.prepareStatement(sql); //DB에서 쿼리문을 써놓고 실행하기 바로 그 직전인 상태
+			rs=pstmt.executeQuery(); //입력하고 실행한 상태.
+			for(int i=0; rs.next(); i++) {
+				Student stu = new Student();
+				stu.setStudentnum(rs.getInt("studentno"));
+				stu.setName(rs.getString("name"));
+				stu.setAge(	rs.getInt("age"));
+				stu.setAddress(rs.getString("address"));
+				stu.setGender(rs.getString("gender"));
+				stu.setPhone(rs.getString("phone"));
+				stuList.add(i,stu);
 			}
 		} catch (SQLException e) {
 			System.out.println("DB접속 실패");
@@ -78,7 +100,8 @@ public class DBsql {
 			e.printStackTrace();
 		}
 	}
-	public void insertDB3(Student stu) {
+	public void insertDB3() {
+		Student stu = new Student();
 		Scanner scan = new Scanner(System.in);
 		String sql = "insert into STUDENT values(?,?,?,?,?,?)";
 		try {
