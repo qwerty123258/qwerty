@@ -41,14 +41,14 @@ public class DBsql {
 			pstmt = con.prepareStatement(sql); //DB에서 쿼리문을 써놓고 실행하기 바로 그 직전인 상태
 			rs=pstmt.executeQuery(); //입력하고 실행한 상태.
 			for(int i=0; rs.next(); i++) {
-				Student stu = new Student();
-				stu.setStudentnum(rs.getInt("studentno"));
+				Student stu = new Student(); //객체 생성,기본 생성자이므로 값은 다 null 또는 0
+				stu.setStudentnum(rs.getInt("studentno")); //얻어온 결과를 set 메서드를 통해 저장
 				stu.setName(rs.getString("name"));
 				stu.setAge(	rs.getInt("age"));
 				stu.setAddress(rs.getString("address"));
 				stu.setGender(rs.getString("gender"));
 				stu.setPhone(rs.getString("phone"));
-				stuList.add(i,stu);
+				stuList.add(i,stu); //리스트에 추가 후 다시 새로운 객체 생성. 반복~
 			}
 		} catch (SQLException e) {
 			System.out.println("DB접속 실패");
