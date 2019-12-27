@@ -35,8 +35,9 @@ public class DBsql {
 			e.printStackTrace();
 		}
 	}
-	public void selectDB2(List<Student> stuList) {
+	public List<Student> selectDB2() {
 		String sql = "select * from student"; //쿼리문 저장용 변수, 가독성 위함
+		List<Student> stuList = new ArrayList<Student>();
 		try {
 			pstmt = con.prepareStatement(sql); //DB에서 쿼리문을 써놓고 실행하기 바로 그 직전인 상태
 			rs=pstmt.executeQuery(); //입력하고 실행한 상태.
@@ -54,6 +55,7 @@ public class DBsql {
 			System.out.println("DB접속 실패");
 			e.printStackTrace();
 		}
+		return stuList;
 	}
 	public void insertDB() {
 		String sql = "insert into STUDENT values(6,'학생6',25,'부산광역시','여성','010-1234-5678')"; //쿼리문 저장용 변수, 가독성 위함
