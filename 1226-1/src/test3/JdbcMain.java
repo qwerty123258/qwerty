@@ -22,6 +22,9 @@ public class JdbcMain {
 		}
 		if(command==2) {
 		sql.selectDB2(stuList); //데이터 조회한것을 리스트에 넣은뒤 출력하기.
+		for(int i=0; i<stuList.size(); i++) {
+			System.out.println(stuList.get(i).toString());	
+		}
 		}
 		if(command==3) {
 			sql.insertDB(); // 입력해놓은 쿼리문으로 데이터 추가하기.
@@ -41,9 +44,6 @@ public class JdbcMain {
 		if(command==8) {
 			break;
 		}
-		}
-		for(int i=0; i<stuList.size(); i++) {
-			System.out.println(stuList.get(i).toString());	
 		}
 		
 	}
