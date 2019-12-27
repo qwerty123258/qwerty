@@ -10,7 +10,7 @@ public class Studentmain {
 		List<Student> stuList = null;
 		Scanner scan = new Scanner(System.in);
 		for(;;) {
-			System.out.println("0.db 접속 1.조회  2.추가   3.수정하기  4.종료 ");
+			System.out.println("0.db 접속 1.조회  2.추가   3.수정하기  4.삭제하기 5.종료");
 		int command=scan.nextInt();
 		if(command==0) {
 		sql.dbConnection(); 
@@ -28,6 +28,9 @@ public class Studentmain {
 			sql.editDB(); //특정 학생의 전화번호 수정하기.
 		}
 		if(command==4) {
+			sql.deleteDB(); //특정 학생의 데이터 삭제하기
+		}
+		if(command==5) {
 			break;
 		}
 		}

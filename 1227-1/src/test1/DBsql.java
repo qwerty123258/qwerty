@@ -17,7 +17,8 @@ import java.util.Scanner;
 		}
 
 		public List<Student> selectDB() {
-			String sql = "select * from student"; //쿼리문 저장용 변수, 가독성 위함
+			Scanner scan = new Scanner(System.in);
+			String sql = "select * from student order by studentno asc"; //쿼리문 저장용 변수, 가독성 위함
 			List<Student> stuList=new ArrayList<Student>();
 			try {
 				pstmt = con.prepareStatement(sql); //DB에서 쿼리문을 써놓고 실행하기 바로 그 직전인 상태
@@ -70,6 +71,19 @@ import java.util.Scanner;
 				System.out.println("수정할 학생의 학생번호");
 				pstmt.setString(2, scan.nextLine());
 				System.out.println("수정할 전화번호");
+				pstmt.setString(1, scan.nextLine());
+				pstmt.executeUpdate(); //입력하고 실행한 상태.
+			} catch (SQLException e) {
+				System.out.println("DB접속 실패");
+				e.printStackTrace();
+			}
+		}
+		public void deleteDB() {
+			String sql = "delete student where studentno=?"; //쿼리문 저장용 변수, 가독성 위함
+			Scanner scan = new Scanner(System.in);
+			try {
+				pstmt = con.prepareStatement(sql); //DB에서 쿼리문을 써놓고 실행하기 바로 그 직전인 상태
+				System.out.println("삭제할 학생의 학생번호");
 				pstmt.setString(1, scan.nextLine());
 				pstmt.executeUpdate(); //입력하고 실행한 상태.
 			} catch (SQLException e) {
