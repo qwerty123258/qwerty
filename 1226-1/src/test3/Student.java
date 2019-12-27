@@ -1,12 +1,12 @@
 package test3;
 
 public class Student {
-	int studentnum;
-	String name;
-	int age;
-	String address;
-	String gender;
-	String phone;
+	private int studentnum;
+	private String name;
+	private int age;
+	private String address;
+	private String gender;
+	private String phone;
 	
 	
 	public int getStudentnum() {
