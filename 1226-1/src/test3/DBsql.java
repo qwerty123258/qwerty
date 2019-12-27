@@ -35,6 +35,26 @@ public class DBsql {
 			e.printStackTrace();
 		}
 	}
+	public void selectDB3() { // 특정지역에 사는 사람 검색하기.
+		String sql = "select * from student where address like ?"; //쿼리문 저장용 변수, 가독성 위함
+		Scanner scan = new Scanner(System.in);
+		try {
+			pstmt = con.prepareStatement(sql); //DB에서 쿼리문을 써놓고 실행하기 바로 그 직전인 상태
+			pstmt.setString(1,"%"+scan.nextLine()+"%");
+			rs=pstmt.executeQuery(); //입력하고 실행한 상태.
+			while(rs.next()) {
+				System.out.print(rs.getInt("studentno")+" ");
+				System.out.print(rs.getString("name")+" ");
+				System.out.print(rs.getInt("age")+" ");
+				System.out.print(rs.getString("address")+" ");
+				System.out.print(rs.getString("gender")+" ");
+				System.out.print(rs.getString("phone")+"\n");
+			}
+		} catch (SQLException e) {
+			System.out.println("DB접속 실패");
+			e.printStackTrace();
+		}
+	}
 	public List<Student> selectDB2() {
 		String sql = "select * from student"; //쿼리문 저장용 변수, 가독성 위함
 		List<Student> stuList = new ArrayList<Student>();
@@ -91,17 +111,6 @@ public class DBsql {
 			e.printStackTrace();
 		}
 	}
-	public void insertDB4() {
-		Scanner scan = new Scanner(System.in);
-		String sql = scan.nextLine(); //쿼리문 전체를 입력해서 저장해둠.
-		try {
-			pstmt = con.prepareStatement(sql); //DB에서 쿼리문을 써놓고 실행하기 바로 그 직전인 상태
-			pstmt.executeUpdate(); //입력하고 실행한 상태.
-		} catch (SQLException e) {
-			System.out.println("DB접속 실패");
-			e.printStackTrace();
-		}
-	}
 	public void insertDB3() {
 		Student stu = new Student();
 		Scanner scan = new Scanner(System.in);
@@ -132,14 +141,20 @@ public class DBsql {
 			e.printStackTrace();
 		}
 	}
-	public void deleteDB() {
-		String sql = "delete from STUDENT where STUDENTNO=10"; //쿼리문 저장용 변수, 가독성 위함
+	public void editDB() {
+		String sql = "update student set phone=? where studentno=?"; //쿼리문 저장용 변수, 가독성 위함
+		Scanner scan = new Scanner(System.in);
 		try {
 			pstmt = con.prepareStatement(sql); //DB에서 쿼리문을 써놓고 실행하기 바로 그 직전인 상태
+			System.out.println("수정할 학생의 학생번호");
+			pstmt.setString(2, scan.nextLine());
+			System.out.println("수정할 전화번호");
+			pstmt.setString(1, scan.nextLine());
 			pstmt.executeUpdate(); //입력하고 실행한 상태.
 		} catch (SQLException e) {
 			System.out.println("DB접속 실패");
 			e.printStackTrace();
 		}
 	}
+
 }

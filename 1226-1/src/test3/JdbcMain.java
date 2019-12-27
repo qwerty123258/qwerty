@@ -10,13 +10,13 @@ public class JdbcMain {
 		List<Student> stuList = null;
 		Scanner scan = new Scanner(System.in);
 		for(;;) {
-			System.out.println("0.db 접속 1.조회 2.조회(2)  3.추가   4.입력하여 데이터 추가(1)  5.입력하여 데이터 추가 (2) 6.입력하여 데이터 추가 (3) 7.삭제  8.종료");
+			System.out.println("0.db 접속 1.조회 2.조회(2)  3.추가   4.입력하여 데이터 추가(1)  5.입력하여 데이터 추가 (2) 6.수정하기 7.종료 ");
 		int command=scan.nextInt();
 		if(command==0) {
 		sql.dbConnection(); 
 		}
 		if(command==1) {
-		sql.selectDB(); //데이터 조회하기
+			sql.selectDB(); //데이터 조회하기
 		}
 		if(command==2) {
 		stuList=sql.selectDB2(); //데이터 조회한것을 리스트에 넣은뒤 출력하기.
@@ -31,15 +31,12 @@ public class JdbcMain {
 			sql.insertDB2(); // 쿼리문에 틀만 입력해놓은 후에 데이터를 입력하여 추가하기.
 		}
 		if(command==5) {
-			sql.insertDB3(); // 입력해서 데이터 추가하기.
+			sql.insertDB3(); // 4번과 비슷한 방식, 다만 방법을 다르게.
 		}
 		if(command==6) {
-			sql.insertDB4(); // 쿼리문 전체를 입력해서 데이터 추가하기.
+			sql.editDB(); //특정 학생의 전화번호 수정하기.
 		}
 		if(command==7) {
-			sql.deleteDB(); //입력해놓은 쿼리문으로 데이터 삭제하기.
-		}
-		if(command==8) {
 			break;
 		}
 		}
