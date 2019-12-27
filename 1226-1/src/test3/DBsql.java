@@ -11,7 +11,11 @@ public class DBsql {
 	PreparedStatement pstmt = null; // 쿼리문 전송을 위한 변수
 	ResultSet rs=null; //select 결과를 저장하기 위한 변수.
 	
-	public void selectDB(Connection con) {
+	public void dbConnection() {
+		con =DBConnection.MakeConnection();
+	}
+
+	public void selectDB() {
 		String sql = "select * from student"; //쿼리문 저장용 변수, 가독성 위함
 		try {
 			pstmt = con.prepareStatement(sql); //DB에서 쿼리문을 써놓고 실행하기 바로 그 직전인 상태
@@ -29,7 +33,7 @@ public class DBsql {
 			e.printStackTrace();
 		}
 	}
-	public void insertDB(Connection con) {
+	public void insertDB() {
 		String sql = "insert into STUDENT values(6,'학생6',25,'부산광역시','여성','010-1234-5678')"; //쿼리문 저장용 변수, 가독성 위함
 		try {
 			pstmt = con.prepareStatement(sql); //DB에서 쿼리문을 써놓고 실행하기 바로 그 직전인 상태
@@ -39,7 +43,7 @@ public class DBsql {
 			e.printStackTrace();
 		}
 	}
-	public void insertDB2(Connection con) {
+	public void insertDB2() {
 		Scanner scan = new Scanner(System.in);
 		String sql = "insert into STUDENT values(?,?,?,?,?,?)";//쿼리문 저장용 변수, 틀만 저장해둠
 		try {
@@ -63,7 +67,7 @@ public class DBsql {
 			e.printStackTrace();
 		}
 	}
-	public void insertDB3(Connection con) {
+	public void insertDB4() {
 		Scanner scan = new Scanner(System.in);
 		String sql = scan.nextLine(); //쿼리문 전체를 입력해서 저장해둠.
 		try {
@@ -74,8 +78,37 @@ public class DBsql {
 			e.printStackTrace();
 		}
 	}
-	public void deleteDB(Connection con) {
-		String sql = "delete from STUDENT where STUDENTNO=6"; //쿼리문 저장용 변수, 가독성 위함
+	public void insertDB3(Student stu) {
+		Scanner scan = new Scanner(System.in);
+		String sql = "insert into STUDENT values(?,?,?,?,?,?)";
+		try {
+			pstmt = con.prepareStatement(sql); //DB에서 쿼리문을 써놓고 실행하기 바로 그 직전인 상태
+			System.out.println("학생번호");
+			stu.setStudentnum(scan.nextInt());
+			pstmt.setInt(1,stu.getStudentnum());
+			System.out.println("이름");
+			stu.setName(scan.next());
+			pstmt.setString(2, stu.getName());
+			System.out.println("나이");
+			stu.setAge(scan.nextInt());
+			pstmt.setInt(3, stu.getAge());
+			System.out.println("주소");
+			stu.setAddress(scan.next());
+			pstmt.setString(4, stu.getAddress());
+			System.out.println("성별");
+			stu.setGender(scan.next());
+			pstmt.setString(5, stu.getGender());
+			System.out.println("연락처");
+			stu.setPhone(scan.next());
+			pstmt.setString(6, stu.getPhone());
+			pstmt.executeUpdate(); //입력하고 실행한 상태.
+		} catch (SQLException e) {
+			System.out.println("DB접속 실패");
+			e.printStackTrace();
+		}
+	}
+	public void deleteDB() {
+		String sql = "delete from STUDENT where STUDENTNO=10"; //쿼리문 저장용 변수, 가독성 위함
 		try {
 			pstmt = con.prepareStatement(sql); //DB에서 쿼리문을 써놓고 실행하기 바로 그 직전인 상태
 			pstmt.executeUpdate(); //입력하고 실행한 상태.
