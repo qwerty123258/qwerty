@@ -17,6 +17,7 @@ public class Membermain {
 			}
 			if(command==2) {
 				sql.SignUp(); //DB에 일반 데이터(회원)추가하는 메소드
+				memberList=sql.List(); //등록한뒤에 리스트 갱신
 			}
 			if(command==3) {
 				sql.Admin(memberList); //관리자용 전체 조회 메소드
