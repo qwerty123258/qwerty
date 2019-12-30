@@ -11,8 +11,6 @@ public class Member {
 	private String day;
 
 	
-
-	
 	@Override
 	public String toString() {
 		return "Member [ID=" + id + ", 비밀번호=" + password + ", 이름=" + name + ", 생년월일=" + birth + ", 성별="
