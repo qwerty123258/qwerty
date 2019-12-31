@@ -16,7 +16,7 @@ public class Membermain {
 				memberList=sql.List(); //DB에 저장된 데이터를 리스트에 담아서 우선 가져옴(관리자 ID, 본인확인용 ID구별 위해서..)
 			}
 			if(command==2) {
-				sql.SignUp(); //DB에 일반 데이터(회원)추가하는 메소드
+				sql.SignUp(memberList); //DB에 일반 데이터(회원)추가하는 메소드
 				memberList=sql.List(); //등록한뒤에 리스트 갱신
 			}
 			if(command==3) {

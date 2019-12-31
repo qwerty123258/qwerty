@@ -58,13 +58,20 @@ public class Sql {
 			}	
 	
 	}
-	public void SignUp() {
+	public void SignUp(List<Member> memberList) {
 		Scanner scan = new Scanner(System.in);
 		String sql = "insert into member values(?,?,?,?,?,?,?,sysdate)";
 		try {
 			pstmt = con.prepareStatement(sql);
 			System.out.println("ID");
-			pstmt.setString(1,scan.next());
+			String id= scan.next();
+			for(int i=0; i<memberList.size(); i++) {
+				if(memberList.get(i).getId().equals(id)){
+					System.out.println("ID가 중복됩니다. 다시 입력하세요.");
+					SignUp(memberList); //ID가 중복인 경우 등록 메서드 다시 호출
+				}
+			}
+			pstmt.setString(1,id);
 			System.out.println("비밀번호");
 			pstmt.setString(2, scan.next());
 			System.out.println("이름");
