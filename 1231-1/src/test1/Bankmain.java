@@ -9,7 +9,6 @@ public class Bankmain {
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
 		Sql sql = new Sql();
-		int clientnum=1;
 		for(;;) {
 			System.out.println("-------------------------------------------------------------------");
 			System.out.println("1.DB에 접속 | 2.계좌생성 | 3.입금하기 | 4.출금하기 | 5.송금하기 | 6.잔액확인 | 7.종료");
@@ -19,8 +18,7 @@ public class Bankmain {
 			sql.Connection();
 		}
 		if(command==2) {
-			sql.CreateAccount(clientnum);
-			clientnum++;
+			sql.CreateAccount();
 		}
 		if(command==3) {
 			sql.Deposit();
