@@ -6,7 +6,6 @@ public class Bankmain {
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
 		Sql sql = new Sql();
-		try {
 		for(;;) {
 			System.out.println("-------------------------------------------------------------------");
 			System.out.println("1.DB에 접속 | 2.계좌생성 | 3.입금하기 | 4.출금하기 | 5.송금하기 | 6.잔액확인 | 7.전체 리스트 확인 후 종료");
@@ -38,10 +37,4 @@ public class Bankmain {
 		}
 
 	}
-	catch(Exception e) {
-		System.out.println("커맨드 에러");
-		main(args);
-	}
-
-} 
 }
