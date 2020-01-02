@@ -212,7 +212,6 @@ public class Sql {
 	public void TransferWithdraw(String accountnum,String otheraccountnum,int money) { //송금할때 본인 계좌에서 출금을 해주는 메서드
 		Scanner scan = new Scanner(System.in);
 		String sql = "update bank set money=? where accountnum=?";
-		if(CheckAccount(accountnum)) {
 			try {
 				int savemoney=money(accountnum);
 				pstmt = con.prepareStatement(sql);
@@ -230,10 +229,8 @@ public class Sql {
 				e.printStackTrace();
 			}
 		}
-	}
 	public void TransferDeposit(String otheraccountnum,int money) { //송금할때 타인 계좌는 입금이 되는 메서드
 		String sql = "update bank set money=? where accountnum=?";
-		if(CheckAccount(otheraccountnum)) {
 			try {
 				int savemoney=money(otheraccountnum);
 				pstmt = con.prepareStatement(sql);
@@ -246,7 +243,6 @@ public class Sql {
 				e.printStackTrace();
 			}
 		}
-	}
 	public void TransferToast(String accountnum) { //송금시 안내문구 출력용 메서드
 		Scanner scan = new Scanner(System.in);
 		String sql = "select * from bank where accountnum=?";
