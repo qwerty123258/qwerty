@@ -159,7 +159,7 @@ public class Sql {
 				pstmt.setString(2,accountnum);
 				System.out.println("금액");
 				int money=scan.nextInt();
-				if(savemoney>money) {
+				if(savemoney>=money) {
 				int sum=savemoney-money;
 				pstmt.setInt(1,sum);
 				pstmt.executeUpdate();
@@ -216,7 +216,7 @@ public class Sql {
 				int savemoney=money(accountnum);
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(2,accountnum);
-				if(savemoney>money) {
+				if(savemoney>=money) {
 				int sum=savemoney-money;
 				pstmt.setInt(1,sum);
 				pstmt.executeUpdate();
