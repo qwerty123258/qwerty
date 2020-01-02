@@ -194,20 +194,20 @@ public class Sql {
 		System.out.println("계좌번호");
 		String accountnum= scan.nextLine();
 		if(CheckAccount(accountnum)) {
-				System.out.println("이체할 계좌번호");
-				String otheraccountnum= scan.nextLine();
-				if(CheckAccount(otheraccountnum)) {
-					if(accountnum.equals(otheraccountnum)) {
-						System.out.println("자신의 계좌로는 이체가 불가능합니다.");
+			System.out.println("이체할 계좌번호");
+			String otheraccountnum= scan.nextLine();
+			if(CheckAccount(otheraccountnum)) {
+				if(accountnum.equals(otheraccountnum)) {
+					System.out.println("자신의 계좌로는 이체가 불가능합니다.");
+				}
+				else {
+					System.out.println("이체할 금액");
+					int money=scan.nextInt();
+					if(CheckAccount(accountnum) && CheckAccount(otheraccountnum)) {
+						TransferWithdraw(accountnum,otheraccountnum,money);
 					}
-					else {
-						System.out.println("이체할 금액");
-						int money=scan.nextInt();
-						if(CheckAccount(accountnum) && CheckAccount(otheraccountnum)) {
-							TransferWithdraw(accountnum,otheraccountnum,money);
-					}
+				}
 			}
-		}
 		}
 	}
 	public void TransferWithdraw(String accountnum,String otheraccountnum,int money) { //송금할때 본인 계좌에서 출금을 해주는 메서드
