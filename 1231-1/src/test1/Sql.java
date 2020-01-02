@@ -49,38 +49,19 @@ public class Sql {
 		}
 		return true;
 	}
-	public int clientnum() { //고객번호 생성 메서드
-		Scanner scan = new Scanner(System.in);
-		String sql = "select count(*) from bank";
-		int clientnum=0;
-		try {
-			pstmt = con.prepareStatement(sql);
-			rs=pstmt.executeQuery(); 
-			if(rs.next()) {
-				return rs.getInt("count(*)");
-			}
-		}
-		 catch(SQLException e) {
-			System.out.println("DB접속 실패");
-			e.printStackTrace();
-		 }
-		return clientnum;
-	}	
 	public void CreateAccount() { //계좌개설하는 메서드(고객등록)
 		Scanner scan = new Scanner(System.in);
-		String sql = "insert into bank values(?,?,?,?)";
+		String sql = "insert into bank values((select count(*)from bank)+1,?,?,?)";
 		try {
-			int clientnum=clientnum();
 			System.out.println("계좌번호");
 			String accountnum= scan.nextLine();
 			if(CreateCheckAccount(accountnum)) {
 			System.out.println("이름");
 			String name=scan.nextLine();
 			pstmt = con.prepareStatement(sql);
-				pstmt.setInt(1, clientnum+1);
-				pstmt.setString(3,accountnum);
-				pstmt.setString(2, name);
-				pstmt.setInt(4, 0);
+				pstmt.setString(2,accountnum);
+				pstmt.setString(1, name);
+				pstmt.setInt(3, 0);
 				pstmt.executeUpdate();
 			}
 		}
