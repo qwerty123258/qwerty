@@ -103,11 +103,11 @@ public class Sql {
 				int sum=savemoney+money;
 				pstmt.setInt(1,sum);
 				pstmt.executeUpdate();
+				DepositToast(accountnum);
 			}
 			catch(Exception e) {
 				e.printStackTrace();
 			}
-			DepositToast(accountnum);
 		}
 	}
 	public void DepositToast(String accountnum) { //입금시 안내문구 출력용 메서드
@@ -143,6 +143,7 @@ public class Sql {
 				int sum=savemoney-money;
 				pstmt.setInt(1,sum);
 				pstmt.executeUpdate();
+				WithdrawToast(accountnum);
 			}
 				else System.out.println("잔액이 부족합니다.");
 			}
@@ -150,8 +151,6 @@ public class Sql {
 				e.printStackTrace();
 			}
 		}
-
-		WithdrawToast(accountnum);
 	}
 	public void WithdrawToast(String accountnum) { //출금시 안내문구 출력용 메서드
 		Scanner scan = new Scanner(System.in);
