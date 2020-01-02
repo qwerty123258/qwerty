@@ -203,9 +203,8 @@ public class Sql {
 				else {
 					System.out.println("이체할 금액");
 					int money=scan.nextInt();
-					if(CheckAccount(accountnum) && CheckAccount(otheraccountnum)) {
-						TransferWithdraw(accountnum,otheraccountnum,money);
-					}
+					TransferWithdraw(accountnum,otheraccountnum,money);
+					
 				}
 			}
 		}
