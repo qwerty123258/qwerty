@@ -79,7 +79,6 @@ public class Sql {
 			pstmt.setString(1,accountnum);
 			rs=pstmt.executeQuery(); 
 			if(rs.next()) {
-				rs.getInt("money");
 				return rs.getInt("money");
 			}
 		}
