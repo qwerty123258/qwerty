@@ -8,7 +8,7 @@ public class Bankmain {
 		Sql sql = new Sql();
 		for(;;) {
 			System.out.println("-------------------------------------------------------------------");
-			System.out.println("1.DB에 접속 | 2.계좌생성 | 3.입금하기 | 4.출금하기 | 5.송금하기 | 6.잔액확인 | 7.종료");
+			System.out.println("1.DB에 접속 | 2.계좌생성 | 3.입금하기 | 4.출금하기 | 5.송금하기 | 6.잔액확인 | 7.전체 리스트 확인 후 종료");
 			System.out.println("--------------------------------------------------------------------");
 		int command=scan.nextInt();
 		if(command==1) {
@@ -30,6 +30,7 @@ public class Bankmain {
 			sql.InquiryAccount();
 		}
 		if(command==7) {
+			sql.BankList();
 			System.out.println("종료되었습니다.");
 			break;
 		}

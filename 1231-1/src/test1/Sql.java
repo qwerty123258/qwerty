@@ -280,4 +280,22 @@ public class Sql {
 					e.printStackTrace();
 				 }
 	}
+	public void BankList() {
+		String sql = "select * from bank";
+		try {
+			pstmt = con.prepareStatement(sql);
+				rs=pstmt.executeQuery(); 
+				while(rs.next()) {
+					System.out.print("고객번호 : "+rs.getInt("clientnum")+"\t");
+					System.out.print("이름 : "+rs.getString("name")+"\t");
+					System.out.print("계좌번호 : "+rs.getString("accountnum")+"\t");
+					System.out.println("잔액 : "+rs.getInt("money")+"\n"+"\t");
+				}
+			}
+			 catch(SQLException e) {
+				System.out.println("DB접속 실패");
+				e.printStackTrace();
+			 }
+		
+	}
 } 
