@@ -54,10 +54,40 @@
 				UserMoneySearch(userA);
 				BCitySearch(userB);
 				UserMoneySearch(userB);
+				System.out.println("+-------+-------+--------+--------+");
+				System.out.println("+   출      +   인      +   대        +   부        +");
+				System.out.println("+   발      +   천      +   전        +   산        +");
+				System.out.println("+-------+-------+--------+--------+");
+				System.out.println("+   서      +                +   국        +");
+				System.out.println("+       +                +   세        +");
+				System.out.println("+   울      +                +   청        +");
+				System.out.println("+-------+                +--------+");
+				System.out.println("+   수      +                +   제        +");
+				System.out.println("+       +                +   주        +");
+				System.out.println("+   원      +                +   도        +");
+				System.out.println("+-------+-------+--------+--------+");
+				System.out.println("+   송      +   대      +   광        +   독        +");
+				System.out.println("+   도      +   구      +   주        +   도        +");
+				System.out.println("+-------+-------+--------+--------+");
 			locationA=TurnA(locationA,this.start);
 			if(!this.start) {
 				break;
 			}
+			System.out.println("+-------+-------+--------+--------+");
+			System.out.println("+   출      +   인      +   대        +   부        +");
+			System.out.println("+   발      +   천      +   전        +   산        +");
+			System.out.println("+-------+-------+--------+--------+");
+			System.out.println("+   서      +                +   국        +");
+			System.out.println("+       +                +   세        +");
+			System.out.println("+   울      +                +   청        +");
+			System.out.println("+-------+                +--------+");
+			System.out.println("+   수      +                +   제        +");
+			System.out.println("+       +                +   주        +");
+			System.out.println("+   원      +                +   도        +");
+			System.out.println("+-------+-------+--------+--------+");
+			System.out.println("+   송      +   대      +   광        +   독        +");
+			System.out.println("+   도      +   구      +   주        +   도        +");
+			System.out.println("+-------+-------+--------+--------+");
 			locationB=TurnB(locationB,this.start);
 			if(!this.start) {
 				break;
