@@ -48,31 +48,41 @@
 			this.start=start;
 			int count=1;
 			while (this.start) {
+				map();
 				System.out.println("");
 				System.out.println(count+"턴");
 				ACitySearch(userA);
 				UserMoneySearch(userA);
-				BCitySearch(userB);
-				UserMoneySearch(userB);
-				System.out.println("+-------+-------+--------+--------+");
-				System.out.println("+   출      +   인      +   대        +   부        +");
-				System.out.println("+   발      +   천      +   전        +   산        +");
-				System.out.println("+-------+-------+--------+--------+");
-				System.out.println("+   서      +                +   국        +");
-				System.out.println("+       +                +   세        +");
-				System.out.println("+   울      +                +   청        +");
-				System.out.println("+-------+                +--------+");
-				System.out.println("+   수      +                +   제        +");
-				System.out.println("+       +                +   주        +");
-				System.out.println("+   원      +                +   도        +");
-				System.out.println("+-------+-------+--------+--------+");
-				System.out.println("+   송      +   대      +   광        +   독        +");
-				System.out.println("+   도      +   구      +   주        +   도        +");
-				System.out.println("+-------+-------+--------+--------+");
 			locationA=TurnA(locationA,this.start);
 			if(!this.start) {
 				break;
 			}
+			map();
+			System.out.println("");
+			System.out.println(count+"턴");
+			BCitySearch(userB);
+			UserMoneySearch(userB);
+			locationB=TurnB(locationB,this.start);
+			if(!this.start) {
+				break;
+			}
+			count++;
+			if(count>=20) {
+				System.out.println("시간 초과");
+				if(UserMoneySearch(userA)>UserMoneySearch(userB)) {
+					System.out.println
+					(userA+"의 승리!!");
+				}
+				else if(UserMoneySearch(userA)<UserMoneySearch(userB)) {
+					System.out.println(userB+"의 승리!!");
+				}
+				else System.out.println("무승부");
+				break;
+			}
+				}
+				
+			}
+		public void map() {
 			System.out.println("+-------+-------+--------+--------+");
 			System.out.println("+   출      +   인      +   대        +   부        +");
 			System.out.println("+   발      +   천      +   전        +   산        +");
@@ -88,14 +98,8 @@
 			System.out.println("+   송      +   대      +   광        +   독        +");
 			System.out.println("+   도      +   구      +   주        +   도        +");
 			System.out.println("+-------+-------+--------+--------+");
-			locationB=TurnB(locationB,this.start);
-			if(!this.start) {
-				break;
-			}
-			count++;
-				}
-				
-			}
+			
+		}
 		public int dice() { // 주사위 값 반환하는 메서드
 			int dice = (int) (Math.random() * 6) + 1;
 			return dice;
@@ -371,19 +375,23 @@
 			}
 
 		}
-		public void UserMoneySearch(String user) {
+		public int UserMoneySearch(String user) {
 			String sql = "SELECT MONEY FROM USERLIST WHERE NAME=?";
+			int returnmoney=0;
 			try {// 잔액보유
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, user);
 				rs = pstmt.executeQuery();
 				while (rs.next()) {
+					returnmoney=rs.getInt("money");
 					System.out.println(user + "님의 남은잔액: " + rs.getInt("money"));
+					return returnmoney;
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			return returnmoney;
 
 		}
 		public void CityPurchase(int price, String user,int locationA) {// 공백도시 구매(가격,구매하는계정)
