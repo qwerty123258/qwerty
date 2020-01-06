@@ -87,9 +87,9 @@
 		public void gameInfo(int count,String userA, String userB) {
 			System.out.println("");
 			System.out.println(count+"턴");
-			CitySearch(userA);
+			CitySearchToast(userA);
 			UserMoneySearchToast(userA);
-			CitySearch(userB);
+			CitySearchToast(userB);
 			UserMoneySearchToast(userB);			
 		}
 		public void BLose(String userA, String userB) {
@@ -497,7 +497,7 @@
 			}
 
 		}
-		public void CitySearch(String user) {//A가 소유중인 도시를 보기위한 메소드
+		public void CitySearchToast(String user) {//A가 소유중인 도시를 보기위한 메소드
 			String sql = "SELECT * FROM MONOPOLY WHERE PROPERTY=?";
 			try {
 			try {// 도시보유
