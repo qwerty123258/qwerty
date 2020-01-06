@@ -25,27 +25,6 @@
 				e.printStackTrace();
 			}
 		}
-		public void map() { //맵을 보여주는 메소드
-			System.out.println("+-------+-------+--------+--------+");
-			System.out.println("+   출      +   인      +   대        +   부        +");
-			System.out.println("+   발      +   천      +   전        +   산        +");
-			System.out.println("+-------+-------+--------+--------+");
-			System.out.println("+   서      +                +   국        +");
-			System.out.println("+       +                +   세        +");
-			System.out.println("+   울      +                +   청        +");
-			System.out.println("+-------+                +--------+");
-			System.out.println("+   수      +                +   제        +");
-			System.out.println("+       +                +   주        +");
-			System.out.println("+   원      +                +   도        +");
-			System.out.println("+-------+-------+--------+--------+");
-			System.out.println("+   송      +   대      +   광        +   독        +");
-			System.out.println("+   도      +   구      +   주        +   도        +");
-			System.out.println("+-------+-------+--------+--------+");
-		}
-		public int dice() { // 주사위를 굴려서 값을 반환하는 메소드
-			int dice = (int) (Math.random() * 6) + 1;
-			return dice;
-		}
 		public void TurnRepeat() { // 2번 커맨드 누르면 실행이며 반복됨.
 			String userA=firstMemberSearch(); //USER A 이름 변수
 			String userB=secondMemberSearch(); //USER B 이름 변수
@@ -88,12 +67,29 @@
 				}
 			}
 		}
+		public void map() { //맵을 보여주는 메소드
+			System.out.println("+-------+-------+--------+--------+");
+			System.out.println("+   출      +   인      +   대        +   부        +");
+			System.out.println("+   발      +   천      +   전        +   산        +");
+			System.out.println("+-------+-------+--------+--------+");
+			System.out.println("+   서      +                +   국        +");
+			System.out.println("+       +                +   세        +");
+			System.out.println("+   울      +                +   청        +");
+			System.out.println("+-------+                +--------+");
+			System.out.println("+   수      +                +   제        +");
+			System.out.println("+       +                +   주        +");
+			System.out.println("+   원      +                +   도        +");
+			System.out.println("+-------+-------+--------+--------+");
+			System.out.println("+   송      +   대      +   광        +   독        +");
+			System.out.println("+   도      +   구      +   주        +   도        +");
+			System.out.println("+-------+-------+--------+--------+");
+		}
 		public void gameInfo(int count,String userA, String userB) {
 			System.out.println("");
 			System.out.println(count+"턴");
-			ACitySearch(userA);
+			CitySearch(userA);
 			UserMoneySearchToast(userA);
-			BCitySearch(userB);
+			CitySearch(userB);
 			UserMoneySearchToast(userB);			
 		}
 		public void BLose(String userA, String userB) {
@@ -108,6 +104,10 @@
 			LoseScoreInsertDB(userA); // 진 유저에게 스코어 추가
 			DisConnection(); //접속을 종료함.
 		}
+		public int dice() { // 주사위를 굴려서 값을 반환하는 메소드
+			int dice = (int) (Math.random() * 6) + 1;
+			return dice;
+		}
 		public int TurnA(int locationA,String userA,String userB) { //A의 턴을 진행해주는 메소드
 			String name = userA;
 			System.out.println("");
@@ -119,11 +119,11 @@
 			if (locationA >= 13) { // 최대 이동거리는 12인데 현재위치가 13보다 크거나 같아지는 경우
 				UserMoneyBonus(name);
 				locationA = locationA % 12; // 현재위치를 12로 나눈 나머지로 바꿈.ex)현위치가 11일 주사위 3이나오면 다음 위치는 14인데 14%12를 하면 현재위치는 2
-				ACityproPertyCheck(locationA, name,userB); // A유저가 도시에 도착했을시 도시가 공백지인지,자신의 도시인지,타인의 도시인지 판단해주는 메소드.
+				CityproPertyCheck(locationA, name,userB); // A유저가 도시에 도착했을시 도시가 공백지인지,자신의 도시인지,타인의 도시인지 판단해주는 메소드.
 				return locationA;
 			} 
 			else {
-				ACityproPertyCheck(locationA, name,userB);// A유저가 도시에 도착했을시 도시가 공백지인지,자신의 도시인지,타인의 도시인지 판단해주는 메소드.
+				CityproPertyCheck(locationA, name,userB);// A유저가 도시에 도착했을시 도시가 공백지인지,자신의 도시인지,타인의 도시인지 판단해주는 메소드.
 			}
 			return locationA;
 		}
@@ -138,16 +138,16 @@
 			if (locationB >= 13) {
 				UserMoneyBonus(othername);
 				locationB = locationB % 12;
-				BCityproPertyCheck(locationB, othername,userA);// B유저가 도시에 도착했을시 도시가 공백지인지,자신의 도시인지,타인의 도시인지 판단해주는 메소드.
+				CityproPertyCheck(locationB, othername,userA);// B유저가 도시에 도착했을시 도시가 공백지인지,자신의 도시인지,타인의 도시인지 판단해주는 메소드.
 				return locationB;
 			}
 			else {
-				BCityproPertyCheck(locationB, othername,userA);// B유저가 도시에 도착했을시 도시가 공백지인지,자신의 도시인지,타인의 도시인지 판단해주는 메소드.
+				CityproPertyCheck(locationB, othername,userA);// B유저가 도시에 도착했을시 도시가 공백지인지,자신의 도시인지,타인의 도시인지 판단해주는 메소드.
 			}
 			return locationB;
 
 		}
-		public void ACityproPertyCheck(int locationA, String userA,String userB) {// A유저가 도시에 도착했을시 도시가 공백지인지,자신의 도시인지,타인의 도시인지 판단해주는 메소드.
+		public void CityproPertyCheck(int locationA, String userA,String userB) {// A유저가 도시에 도착했을시 도시가 공백지인지,자신의 도시인지,타인의 도시인지 판단해주는 메소드.
 			String sql = "SELECT CITY,PRICE,PROPERTY FROM MONOPOLY WHERE CITYNO=?";
 			try {
 				if (userA.equals(userA)) { //A유저가 도시에 도착하였을때
@@ -194,58 +194,6 @@
 						case 2:
 							enter = scan.nextLine();
 							break;						
-						}
-					}
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		public void BCityproPertyCheck(int locationB,String userB,String userA) {// B유저가 도시에 도착했을시 도시가 공백지인지,자신의 도시인지,타인의 도시인지 판단해주는 메소드.
-			String sql = "SELECT CITY,PRICE,PROPERTY FROM MONOPOLY WHERE CITYNO=?";
-			try {
-				if (userB.equals(userB)) {// @
-					userSave = userA;
-				} else {
-					userSave = userB;
-				}
-				pstmt = con.prepareStatement(sql);
-				pstmt.setInt(1, locationB);
-				rs = pstmt.executeQuery();
-				while (rs.next()) {
-					saveMoney=rs.getInt("price");
-					if(locationB==1) {
-						return;
-					}
-					if (locationB == 5) {
-						System.out.println(rs.getString("city")+"에 방문했습니다.");
-						System.out.println(saveMoney + "를 지불합니다.");
-						UserMoneyTax(saveMoney,userB,userA);
-					} else if ((rs.getString("property")).equals(userB)) {
-						System.out.println("당신의 소유 도시인  "+rs.getString("city")+"에 방문했습니다.");
-					} 
-					else if((rs.getString("property")).equals(userSave)) {
-						System.out.print(rs.getString("city")+"에 방문했습니다.  ");
-						System.out.println(rs.getString("property") + "의 소유지 입니다. " + saveMoney + "를 지불합니다.");
-						// 세금메소드(rs.getInt("price"))
-						UserMoneyPayment(saveMoney, locationB,userB,userA);
-					} 
-					else {
-						System.out.println(rs.getString("city")+"에 방문했습니다.");
-						System.out.println("이 " +rs.getString("city")+"는(은) 소유한 사람이없습니다.  가격: " + saveMoney);
-						System.out.println("");
-						System.out.println("1.구매|2.패스");
-						System.out.println("");
-						int input1 = scan.nextInt();// 구매/패스
-						switch (input1) {
-						case 1:
-							CityPurchase(saveMoney, userB,userA,locationB);
-							String enter=scan.nextLine();
-							break;
-						case 2:
-							enter=scan.nextLine();
-							break;
-
 						}
 					}
 				}
@@ -431,7 +379,7 @@
 			}
 
 		}
-		public void ACitySearch(String user) {//A가 소유중인 도시를 보기위한 메소드
+		public void CitySearch(String user) {//A가 소유중인 도시를 보기위한 메소드
 			String sql = "SELECT * FROM MONOPOLY WHERE PROPERTY=?";
 			try {
 			try {// 도시보유
@@ -451,22 +399,6 @@
 			catch(NullPointerException e){
 				System.out.println("DB와 연결되어 있지 않습니다. 연결을 먼저 하세요.");
 				Monopolymain.main(null);
-			}
-
-		}
-		public void BCitySearch(String user) {//B가 소유중인 도시를 보기위한 메소드
-			String sql = "SELECT * FROM MONOPOLY WHERE PROPERTY=?";
-			try {// 도시보유
-				pstmt = con.prepareStatement(sql);
-				pstmt.setString(1, user);
-				rs = pstmt.executeQuery();
-				System.out.print(user+"의 소유도시 : ");
-				while (rs.next()) {
-					System.out.print(rs.getString("city")+" ");
-				}
-				System.out.println("");
-			} catch (SQLException e) {
-				e.printStackTrace();
 			}
 
 		}
@@ -640,5 +572,5 @@
 			catch(Exception e) {
 				e.printStackTrace();
 			}
-	}
+		}
 	}
