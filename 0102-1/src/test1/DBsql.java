@@ -80,8 +80,8 @@
 			System.out.println("+       +                +   주        +");
 			System.out.println("+   원      +                +   도        +");
 			System.out.println("+-------+-------+--------+--------+");
-			System.out.println("+   송      +   대      +   광        +   독        +");
-			System.out.println("+   도      +   구      +   주        +   도        +");
+			System.out.println("+   찬      +   대      +   광        +   독        +");
+			System.out.println("+   스      +   구      +   주        +   도        +");
 			System.out.println("+-------+-------+--------+--------+");
 		}
 		public void gameInfo(int count,String userA, String userB) {
@@ -164,11 +164,15 @@
 					if(locationA==1) { //1번위치에 도착한 경우는 아무것도 실행하지 않음.(공백지가 아닌 출발지점)
 						return;
 					}
-					if (locationA == 5) { //국세청이므로 세금을 내는 분기점.
+					else if (locationA == 5) { //국세청이므로 세금을 내는 분기점.
 						System.out.println(rs.getString("city")+"에 방문했습니다.");
 						System.out.println(saveMoney + "를 지불합니다.");
 						UserMoneyTax(saveMoney, userA,userB); //A가 5번에 위치했을때 세금을 납부.
-					} 
+					}
+					else if (locationA == 10) { //찬스 분기점
+						System.out.println(rs.getString("city")+"에 방문했습니다.");
+						Chance(userA);
+					}
 					else if ((rs.getString("property")).equals(userA)) { //A의 도시에 방문하였을때 분기점.
 						System.out.println("당신의 소유 도시인  "+rs.getString("city")+"에 방문했습니다.");
 						return;
@@ -201,6 +205,111 @@
 				e.printStackTrace();
 			}
 		}
+		public void Chance(String userA) {
+			int chance=(int)(Math.random()*3)+1;
+			System.out.println("찬스 발동");
+			if(chance==1) {
+				System.out.println("당첨!! 10%의 금액이 가산됩니다.");
+				String sql="update userlist set money=money+money/10 where name=?";
+				try {
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, userA);
+				pstmt.executeUpdate();
+				pstmt.close();
+				}
+				catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if(chance==2) {
+				System.out.println("가위바위보 미니게임 시작!");
+				System.out.println("컴퓨터와 가위바위보를 하여 이기면 상금,지면 벌금");
+				boolean win=minigame();
+				if(win) {
+					String sql="update userlist set money=money+1000 where name=?";
+					try {
+					pstmt = con.prepareStatement(sql);
+					pstmt.setString(1, userA);
+					pstmt.executeUpdate();
+					pstmt.close();
+					}
+					catch(Exception e) {
+						e.printStackTrace();
+					}
+				}
+				if(!win) {
+					String sql="update userlist set money=money-500 where name=?";
+					try {
+					pstmt = con.prepareStatement(sql);
+					pstmt.setString(1, userA);
+					pstmt.executeUpdate();
+					pstmt.close();
+					}
+					catch(Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			if(chance==3) {
+				System.out.println("꽝!! 10%의 금액이 차감됩니다.");
+				String sql="update userlist set money=money-money/10 where name=?";
+				try {
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, userA);
+				pstmt.executeUpdate();
+				pstmt.close();
+				}
+				catch(Exception e) {
+					e.printStackTrace();
+				}
+							
+			}
+		}
+		public boolean minigame() {
+			Scanner scan = new Scanner(System.in);
+			System.out.println("컴퓨터와 가위바위보를 진행하세요. 키워드는 가위,바위,보만 가능합니다.");
+			String userinput = scan.next(); // 유저가 입력하는 변수.
+			int computer=0; // 컴퓨터의 Math.random() 결과 대입 하는 변수.
+			String computeroutput = null; // 컴퓨터의 Math.random() 결과에 따라서 유저 변수와 비교하기 위한 변수.
+			computer= (int) ((Math.random() * 3) +1); // 곱하기 3을 하는이유는 가위바위보는 경우의 수가 3가지뿐이라 숫자도 3개만 있으면 됨.
+			if(computer==1) {
+				computeroutput = "가위";
+			}
+			else if(computer==2){
+				computeroutput = "바위";
+			}
+			else if(computer==3) {
+				computeroutput = "보";
+			}
+			if(!userinput.equals("가위")) {
+				if(!userinput.equals("바위")) {
+					if(!userinput.equals("보")) {
+						if(!userinput.equals("종료")) {
+							System.out.println("잘못 입력하셨습니다.");
+							return false;
+						}			
+					}		
+				}		
+			}
+			switch(computeroutput) {
+			case "가위" :
+				if(userinput.equals("가위")) {System.out.println("비겼습니다."); System.out.println("컴퓨터가 낸 것은? :"+ computeroutput); return false;}
+				else if(userinput.equals("바위")) {System.out.println("이겼습니다."); System.out.println("컴퓨터가 낸 것은? :"+ computeroutput); return true;}
+				else if(userinput.equals("보")) {System.out.println("졌습니다."); System.out.println("컴퓨터가 낸 것은? :"+ computeroutput); 	return false;}
+				break;
+			case "바위" :
+				if(userinput.equals("가위")) {System.out.println("졌습니다."); System.out.println("컴퓨터가 낸 것은? :"+ computeroutput); return false;}
+				else if(userinput.equals("바위")) {System.out.println("비겼습니다."); System.out.println("컴퓨터가 낸 것은? :"+ computeroutput); return false;}
+				else if(userinput.equals("보")) {System.out.println("이겼습니다."); System.out.println("컴퓨터가 낸 것은? :"+ computeroutput); return true;}
+				break;
+			case "보" : 
+				if(userinput.equals("가위")) {System.out.println("이겼습니다."); System.out.println("컴퓨터가 낸 것은? :"+ computeroutput); return true;}
+				else if(userinput.equals("바위")) {System.out.println("졌습니다."); System.out.println("컴퓨터가 낸 것은? :"+ computeroutput); return false;}
+				else if(userinput.equals("보")) {System.out.println("비겼습니다."); System.out.println("컴퓨터가 낸 것은? :"+ computeroutput); return false;}
+				break;
+			}		
+			return false;
+		}
 		public void CityPurchase(int price, String userA,String userB,int locationA) { //도시를 구매하는 메소드
 			String sql = "SELECT MONEY FROM USERLIST WHERE NAME=?";
 			try {
@@ -226,11 +335,13 @@
 					pstmt.setString(1, userA);
 					pstmt.setInt(2, price); //이 메소드를 호출한 곳에서 받아온 도시의 가격
 					pstmt.executeUpdate();
+					pstmt.close();
 					sql = "UPDATE USERLIST SET MONEY=MONEY-? WHERE NAME=?"; //도시를 구매하면 유저의 잔액이 변경
 					pstmt = con.prepareStatement(sql);
 					pstmt.setInt(1, price);
 					pstmt.setString(2, userA);
 					pstmt.executeUpdate();
+					pstmt.close();
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -267,6 +378,7 @@
 					pstmt.setInt(1, price);
 					pstmt.setString(2, userA);
 					pstmt.executeUpdate();
+					pstmt.close();
 					if (userA.equals(userA)) { //만약 위에서 A가 지불을 했다면 B는 돈을 받아야하므로 A와 B를 전환.
 						userSave = userB;
 					} 
@@ -278,6 +390,7 @@
 					pstmt.setInt(1, price);
 					pstmt.setString(2, userSave);// 상대유저 넣는곳
 					pstmt.executeUpdate();
+					pstmt.close();
 					TakeOverCity(price,userA,userB,locationA);
 				}
 			} catch (SQLException e) {
@@ -300,6 +413,7 @@
 						pstmt.setInt(1, price);
 						pstmt.setString(2, userA);
 						pstmt.executeUpdate();
+						pstmt.close();
 						if (userA.equals(userA)) { //만약 위에서 A가 지불을 했다면 B는 돈을 받아야하므로 A와 B를 전환.
 							userSave = userB;
 						} 
@@ -310,7 +424,8 @@
 						pstmt = con.prepareStatement(sql);
 						pstmt.setInt(1, price);
 						pstmt.setString(2, userSave);// 상대유저 넣는곳
-						pstmt.executeUpdate();			
+						pstmt.executeUpdate();
+						pstmt.close();
 						sql = "UPDATE monopoly SET property=? WHERE cityno=?"; //도시의 소유권 변경
 						pstmt = con.prepareStatement(sql);
 						pstmt.setString(1, userA);
@@ -318,6 +433,7 @@
 						pstmt.executeUpdate();
 						System.out.println(userA+"가 " +city+" 를(을) 인수하였습니다.");
 						String enter=scan.nextLine();
+						pstmt.close();
 					}
 					catch(Exception e) {
 						e.printStackTrace();
@@ -335,6 +451,7 @@
 				pstmt.setInt(1, 200);
 				pstmt.setString(2, userA);
 				pstmt.executeUpdate();
+				pstmt.close();
 				System.out.println("출발지점을 만나 보너스를 받습니다.");
 				System.out.println("");
 			} catch (SQLException e) {
@@ -373,6 +490,7 @@
 					pstmt.setInt(1, price);
 					pstmt.setString(2, userA);
 					pstmt.executeUpdate();
+					pstmt.close();
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -392,11 +510,13 @@
 				}
 				System.out.println("");
 			} catch (SQLException e) {
+				e.printStackTrace();
 				System.out.println("DB와 연결되어 있지 않습니다. 연결을 먼저 하세요.");
 				Monopolymain.main(null);
 			}
 			}
 			catch(NullPointerException e){
+				e.printStackTrace();
 				System.out.println("DB와 연결되어 있지 않습니다. 연결을 먼저 하세요.");
 				Monopolymain.main(null);
 			}
@@ -481,6 +601,7 @@
 					pstmt.setInt(3, 0);
 					pstmt.setInt(4, 1500);
 					pstmt.executeUpdate();
+					pstmt.close();
 			}
 			catch(Exception e) {
 				System.out.println("DB접속 실패");
@@ -537,8 +658,8 @@
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, 1);
 			pstmt.setString(2, userA);
-			
 			pstmt.executeUpdate();
+			pstmt.close();
 			}
 			catch(Exception e) {
 			e.printStackTrace();
@@ -552,6 +673,7 @@
 			pstmt.setInt(1, 1);
 			pstmt.setString(2, userA);
 			pstmt.executeUpdate();
+			pstmt.close();
 			}
 			catch(Exception e) {
 			e.printStackTrace();
@@ -570,7 +692,7 @@
 			}
 		}
 			catch(Exception e) {
-				e.printStackTrace();
+				System.out.println("DB와 연결되어있지 않습니다.");
 			}
 		}
 	}
