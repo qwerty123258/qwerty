@@ -65,8 +65,8 @@
 			locationA=TurnA(locationA,userA,userB); //A의턴을 진행.
 			if(!this.start) { //현재 필드의 값이 false이면 게임이 끝난것이므로
 				rollback(); //값이 바뀌어버린 DB값을 롤백
-				WinScoreInsertDB(userB);
-				LoseScoreInsertDB(userA);
+				WinScoreInsertDB(userB); //이긴 유저에게 스코어 추가
+				LoseScoreInsertDB(userA); // 진 유저에게 스코어 추가
 				DisConnection(); //접속을 종료함.
 				break; //반복 종료.
 			}
@@ -255,7 +255,7 @@
 						UserMoneyPayment(saveMoney, locationB,userB,userA);
 					} else {
 						System.out.println(rs.getString("city")+"에 방문했습니다.");
-						System.out.println("이 " +rs.getString("city")+"는 소유한 사람이없습니다.  가격: " + saveMoney);
+						System.out.println("이 " +rs.getString("city")+"는(은) 소유한 사람이없습니다.  가격: " + saveMoney);
 						System.out.println("");
 						System.out.println("1.구매|2.패스");
 						System.out.println("");
@@ -348,7 +348,7 @@
 					pstmt.setString(1, userA);
 					pstmt.setInt(2, locationA);
 					pstmt.executeUpdate();
-					System.out.println(userA+"가 " +city+" 를 인수하였습니다.");
+					System.out.println(userA+"가 " +city+" 를(을) 인수하였습니다.");
 					String enter=scan.nextLine();
 				}
 					if(command==2) {
