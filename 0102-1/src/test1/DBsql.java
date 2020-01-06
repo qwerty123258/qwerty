@@ -60,6 +60,7 @@
 					ALose(userA,userB);
 					break; //반복 종료.
 				}
+				gameInfo(count,userA,userB);
 				map();
 				locationB=TurnB(locationB,userB,userA); //B의 턴을 진행
 				if(!this.start) { //현재 필드의 값이 false이면 게임이 끝난것이므로
