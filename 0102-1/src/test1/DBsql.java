@@ -104,7 +104,6 @@
 				break; //반복 종료.
 			}
 				}
-				
 			}
 		public void WinScoreInsertDB(String userA) {
 			String sql="update userlist set win=win+? where name=?";
@@ -594,6 +593,10 @@
 			while(rs.next()) {
 				return rs.getString("name");
 			}
+			if(!rs.next()) {
+				System.out.println("해당하는 회원이 없습니다.");
+				TurnRepeat();
+			}
 		}
 			catch(Exception e) {
 				e.printStackTrace();
@@ -612,6 +615,10 @@
 			while(rs.next()) {
 				return rs.getString("name");
 			}
+			if(!rs.next()) {
+				System.out.println("해당하는 회원이 없습니다.");
+				TurnRepeat();
+			}
 		}
 			catch(Exception e) {
 				e.printStackTrace();
@@ -627,6 +634,9 @@
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				System.out.print(rs.getString("name")+"의 전적 : "+rs.getInt("win")+"승"+rs.getInt("lose")+"패"+"\n"+"\n");
+			}
+			if(!rs.next()) {
+				System.out.println("해당하는 회원이 없습니다.");
 			}
 		}
 			catch(Exception e) {
