@@ -14,10 +14,11 @@
 		}
 		public void AutoCommitOff() { //1먼 커맨드 누르면 실행, 이미 저장되아있는 DB를 건들지 않기위해 자동커밋기능을 해제하는 메소드
 			try {
-				System.out.println("자동 커밋 해제");
 				con.setAutoCommit(false);
-			} catch (SQLException e) {
-				e.printStackTrace();
+				System.out.println("자동 커밋 해제");
+			} catch (Exception e) {
+				System.out.println("DB연결을 먼저 하세요.");
+				Monopolymain.main(null);
 			}
 		}
 		public void TurnRepeat() { // 2번 커맨드 누르면 실행이며 1P와 2P의 턴이 반복됨.(전석종)
@@ -588,8 +589,8 @@
 					pstmt.close();
 			}
 			catch(Exception e) {
-				System.out.println("DB접속 실패");
-				e.printStackTrace();
+				System.out.println("DB접속을 먼저하세요.");
+				Monopolymain.main(null);
 			}
 		}
 		public String FirstMemberSearch() {//1P를 조회하고 플레이에 참여시키는 메소드(전석종)
