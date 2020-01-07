@@ -5,7 +5,7 @@
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String userSave = "";
+		String NowUser = "";
 		Scanner scan = new Scanner(System.in);
 		boolean start=true;
 		
@@ -151,10 +151,10 @@
 			String sql = "SELECT CITY,PRICE,PROPERTY FROM MONOPOLY WHERE CITYNO=?";  
 			try {  
 				if (userA.equals(userA)) { //게임을이용하는 유저는 2명이므로 어느유저가 이용하는지 판별하기위해 IF문을씀
-					userSave = userB; //상대 유저를 B라고 지정
+					NowUser = userB; //상대 유저를 B라고 지정
 				} 
 				else {
-					userSave = userA; //반대의 경우는 A라고 지정.
+					NowUser = userA; //반대의 경우는 A라고 지정.
 				}
 				pstmt = con.prepareStatement(sql);
 				pstmt.setInt(1, locationA);
@@ -177,7 +177,7 @@
 						System.out.println("당신의 소유 도시인  "+rs.getString("city")+"에 방문했습니다.");
 						return;//자신의 소유지면 더 이상의 실행내용 없으므로 해당 메소드 종료
 					} 
-					else if ((rs.getString("property")).equals(userSave)) {// 상대도시 IF문
+					else if ((rs.getString("property")).equals(NowUser)) {// 상대도시 IF문
 						System.out.print(rs.getString("city")+"에 방문했습니다.  ");
 						System.out.println(rs.getString("property") + "의 소유지 입니다. " + price + "를 지불합니다.");
 						UserMoneyPayment(price, locationA, userA,userB);//상대의 소유지일땐 메세지 출력후 지불 메소드 진행
@@ -358,13 +358,13 @@
 					int saveMoney = rs.getInt("money");
 				if (saveMoney <= price) {// 현재 잔액보다 지불금액이 높거나 같다면 파산하고 게임이 종료되는 분기점
 					if (userA.equals(userA)) { //만약 위에서 A가 지불을 했다면 B는 돈을 받아야하므로 A와 B를 전환.
-						userSave = userB;
+						NowUser = userB;
 					} 
 					else {
-						userSave = userA; //반대로 B가 지불을 했다면 B와 A를 전환.
+						NowUser = userA; //반대로 B가 지불을 했다면 B와 A를 전환.
 					}
 					System.out.println(userA+"님이 파산하셨습니다");
-					System.out.println(userSave+"가 승리하였습니다.");
+					System.out.println(NowUser+"가 승리하였습니다.");
 					System.out.println("");
 					System.out.println("게임종료");
 					System.out.println("");
@@ -379,15 +379,15 @@
 					pstmt.executeUpdate();
 					pstmt.close();
 					if (userA.equals(userA)) { //만약 위에서 A가 지불을 했다면 B는 돈을 받아야하므로 A와 B를 전환.
-						userSave = userB;
+						NowUser = userB;
 					} 
 					else {
-						userSave = userA; //반대로 B가 지불을 했다면 B와 A를 전환.
+						NowUser = userA; //반대로 B가 지불을 했다면 B와 A를 전환.
 					}
 					sql = "UPDATE USERLIST SET MONEY=MONEY+? WHERE NAME=?";
 					pstmt = con.prepareStatement(sql);
 					pstmt.setInt(1, price);
-					pstmt.setString(2, userSave);// 상대유저 넣는곳
+					pstmt.setString(2, NowUser);// 상대유저 넣는곳
 					pstmt.executeUpdate();
 					pstmt.close();
 					TakeOverCity(price,userA,userB,locationA);
@@ -414,15 +414,15 @@
 						pstmt.executeUpdate();
 						pstmt.close();
 						if (userA.equals(userA)) { //만약 위에서 A가 지불을 했다면 B는 돈을 받아야하므로 A와 B를 전환.
-							userSave = userB;
+							NowUser = userB;
 						} 
 						else {
-							userSave = userA; //반대로 B가 지불을 했다면 B와 A를 전환.
+							NowUser = userA; //반대로 B가 지불을 했다면 B와 A를 전환.
 						}
 						sql = "UPDATE USERLIST SET MONEY=MONEY+? WHERE NAME=?";
 						pstmt = con.prepareStatement(sql);
 						pstmt.setInt(1, price);
-						pstmt.setString(2, userSave);// 상대유저 넣는곳
+						pstmt.setString(2, NowUser);// 상대유저 넣는곳
 						pstmt.executeUpdate();
 						pstmt.close();
 						sql = "UPDATE monopoly SET property=? WHERE cityno=?"; //도시의 소유권 변경
@@ -467,12 +467,12 @@
 					int saveMoney = rs.getInt("money");
 				if (saveMoney <= price) {// 현재 잔액보다 지불금액이 높거나 같다면 파산하고 게임이 종료되는 분기점
 					if (userA.equals(userA)) {
-						userSave = userB;
+						NowUser = userB;
 					} else {
-						userSave = userA;
+						NowUser = userA;
 					}
 					System.out.println(userA+"님이 파산하셨습니다");
-					System.out.println(userSave+"가 승리하였습니다.");
+					System.out.println(NowUser+"가 승리하였습니다.");
 					System.out.println("");
 					System.out.println("");
 					System.out.println("게임종료");
