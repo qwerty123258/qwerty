@@ -17,7 +17,7 @@
 		public void Connection() { //1번 커맨드 누르면 실행, DB와 연결해주는 메소드
 			con=DBcon.DBConnection();
 		}
-		public void AutoCommitOff() { //1먼 커맨드 누르면 실행, 이미 저장되아있는 DB를 건들지 않기위해 자동커밋기능을 해제하는 메소드
+		public void AutoCommitOff() { //1먼 커맨드 누르면 실행, 이미 저장되아있는 DB를 건들지 않기위해 자동커밋기능을 해제하는 메소드(전석종)
 			try {
 				System.out.println("자동 커밋 해제");
 				con.setAutoCommit(false);
@@ -25,7 +25,7 @@
 				e.printStackTrace();
 			}
 		}
-		public void TurnRepeat() { // 2번 커맨드 누르면 실행이며 반복됨.
+		public void TurnRepeat() { // 2번 커맨드 누르면 실행이며 1P와 2P의 턴이 반복됨.(전석동)
 			String userA=firstMemberSearch(); //USER A 이름 변수
 			String userB=secondMemberSearch(); //USER B 이름 변수
 			int locationA = 1; // A의 위치값 저장용 변수
@@ -84,7 +84,7 @@
 			System.out.println("+   스      +   구      +   주        +   도        +");
 			System.out.println("+-------+-------+--------+--------+");
 		}
-		public void gameInfo(int count,String userA, String userB) {
+		public void gameInfo(int count,String userA, String userB) { //현재 게임의 진행상황을 보여주는 메소드(전석종)
 			System.out.println("");
 			System.out.println(count+"턴");
 			CitySearchToast(userA);
@@ -92,13 +92,13 @@
 			CitySearchToast(userB);
 			UserMoneySearchToast(userB);			
 		}
-		public void BLose(String userA, String userB) {
+		public void BLose(String userA, String userB) { //2P가 진 경우에 실행되는 메소드(전석종)
 			rollback(); //값이 바뀌어버린 DB값을 롤백
 			WinScoreInsertDB(userA);
 			LoseScoreInsertDB(userB);
 			DisConnection(); //접속을 종료함.
 		}
-		public void ALose(String userA, String userB) {
+		public void ALose(String userA, String userB) {  //1P가 진 경우에 실행되는 메소드(전석종)
 			rollback(); //값이 바뀌어버린 DB값을 롤백
 			WinScoreInsertDB(userB); //이긴 유저에게 스코어 추가
 			LoseScoreInsertDB(userA); // 진 유저에게 스코어 추가
@@ -108,12 +108,12 @@
 			int dice = (int) (Math.random() * 6) + 1;
 			return dice;
 		}
-		public int TurnA(int locationA,String userA,String userB) { //A의 턴을 진행해주는 메소드
+		public int TurnA(int locationA,String userA,String userB) { //1P의 턴을 진행해주는 메소드(전석종)
 			String name = userA;
 			System.out.println("");
 			System.out.println(name + "의 차례입니다.");
 			System.out.println("주사위를 굴리시려면  엔터를 입력하세요.");
-			String enter = scan.nextLine();
+			String enter = scan.nextLine(); //공백을 입력해도 내용이 진행되게끔 nextLine 메소드 사용
 			int dice = dice(); // 주사위 값을 받는 변수
 			locationA += dice; // 현재위치에 주사위값을 누적합
 			if (locationA >= 13) { // 최대 이동거리는 12인데 현재위치가 13보다 크거나 같아지는 경우
@@ -127,12 +127,12 @@
 			}
 			return locationA;
 		}
-		public int TurnB(int locationB,String userB,String userA) { //B의 턴을 진행해주는 메소드
+		public int TurnB(int locationB,String userB,String userA) { //2P의 턴을 진행해주는 메소드(전석종)
 			String othername = userB;
 			System.out.println("");
 			System.out.println(othername + "의 차례입니다.");
 			System.out.println("주사위를 굴리시려면  엔터를 입력하세요.");
-			String enter = scan.nextLine();
+			String enter = scan.nextLine(); //공백을 입력해도 내용이 진행되게끔 nextLine 메소드 사용
 			int dice = dice();
 			locationB += dice;
 			if (locationB >= 13) {
@@ -180,7 +180,6 @@
 					else if ((rs.getString("property")).equals(userSave)) {// 상대 도시에 방문하였을때 분기점.
 						System.out.print(rs.getString("city")+"에 방문했습니다.  ");
 						System.out.println(rs.getString("property") + "의 소유지 입니다. " + saveMoney + "를 지불합니다.");
-						// 세금메소드(rs.getInt("price"))
 						UserMoneyPayment(saveMoney, locationA, userA,userB);
 					} 
 					else { //출발지,국세청,자신의 도시,타인의 도시 모두 아닌 공백지일때 분기점.
@@ -193,10 +192,10 @@
 						switch (input1) {
 						case 1:
 							CityPurchase(saveMoney, userA,userB,locationA);
-							String enter=scan.nextLine();
+							String enter=scan.nextLine(); //도시 구매를 할때는 next() 메소드를 사용하는데 이는 Enter전까지 입력받으므로 남아있는 Enter를 소진시키는 용도
 							break;
 						case 2:
-							enter = scan.nextLine();
+							enter = scan.nextLine();//도시 구매를 할때는 next() 메소드를 사용하는데 이는 Enter전까지 입력받으므로 남아있는 Enter를 소진시키는 용도
 							break;						
 						}
 					}
@@ -205,7 +204,7 @@
 				e.printStackTrace();
 			}
 		}
-		public void Chance(String userA) {
+		public void Chance(String userA) { //1P,2P가 찬스 지역에 위치하는 실행되는 메소드,랜덤한 확률에 의해 실행.(전석종)
 			int chance=(int)(Math.random()*3)+1;
 			System.out.println("찬스 발동");
 			if(chance==1) {
@@ -265,7 +264,7 @@
 							
 			}
 		}
-		public boolean minigame() {
+		public boolean minigame() { //미니게임 가위바위보를 진행하는 메소드 결과에 따라 boolean 값을 반환.(전석종)
 			Scanner scan = new Scanner(System.in);
 			System.out.println("컴퓨터와 가위바위보를 진행하세요. 키워드는 가위,바위,보만 가능합니다.");
 			String userinput = scan.next(); // 유저가 입력하는 변수.
@@ -398,7 +397,7 @@
 			}
 
 		}
-		public void TakeOverCity(int price,String userA,String userB,int locationA) {
+		public void TakeOverCity(int price,String userA,String userB,int locationA) {//현재 위치의 도시가 다른 사람의 소유지일경우 인수 유무를 결정하는 메소드(전석종)
 			int saveMoney=UserMoneySearch(userA);
 			String city=CitySearch(locationA);
 			if(saveMoney >= price) {
@@ -432,7 +431,7 @@
 						pstmt.setInt(2, locationA);
 						pstmt.executeUpdate();
 						System.out.println(userA+"가 " +city+" 를(을) 인수하였습니다.");
-						String enter=scan.nextLine();
+						String enter=scan.nextLine(); //도시 인수를 할때는 next() 메소드를 사용하는데 이는 Enter전까지 입력받으므로 남아있는 Enter를 소진시키는 용도
 						pstmt.close();
 					}
 					catch(Exception e) {
@@ -444,7 +443,7 @@
 				}
 			}
 		}
-		public void UserMoneyBonus(String userA) {// 출발지점을 지나면 추가 월급을 제공해주는 메소드
+		public void UserMoneyBonus(String userA) {// 1P,2P가 출발지점을 지나면 추가 월급을 제공해주는 메소드(전석종)
 			String sql = "UPDATE USERLIST SET MONEY=MONEY+? WHERE NAME=?";
 			try {
 				pstmt = con.prepareStatement(sql);
@@ -497,7 +496,7 @@
 			}
 
 		}
-		public void CitySearchToast(String user) {//A가 소유중인 도시를 보기위한 메소드
+		public void CitySearchToast(String user) {//1P,2P가 현재 소유중인 도시를 출력해주는 메소드(전석종)
 			String sql = "SELECT * FROM MONOPOLY WHERE PROPERTY=?";
 			try {
 			try {// 도시보유
@@ -522,7 +521,7 @@
 			}
 
 		}
-		public String CitySearch(int locationA) {
+		public String CitySearch(int locationA) { //현재 위치에 맞는 도시번호를 조회하여 해당 도시의 이름을 반환해주는 메소드(전석종)
 			String sql = "SELECT * FROM MONOPOLY WHERE cityno=?";
 			try {// 도시보유
 				pstmt = con.prepareStatement(sql);
@@ -538,7 +537,7 @@
 			return null;
 
 		}
-		public int UserMoneySearch(String user) { //A,B의 현재 잔액을 조회하여 반환해주는 메소드
+		public int UserMoneySearch(String user) { //1P,2P의 현재 잔액을 조회하여 반환해주는 메소드
 			String sql = "SELECT MONEY FROM USERLIST WHERE NAME=?";
 			int returnmoney=0;
 			try {// 잔액보유
@@ -553,7 +552,7 @@
 			}
 			return returnmoney;
 		}
-		public void UserMoneySearchToast(String user) { //A,B의 현재 잔액을 조회하여 출력을 해주는 메소드
+		public void UserMoneySearchToast(String user) { //A,B의 현재 잔액을 조회하여 출력을 해주는 메소드(전석종)
 			String sql = "SELECT MONEY FROM USERLIST WHERE NAME=?";
 			try {// 잔액보유
 				pstmt = con.prepareStatement(sql);
@@ -567,7 +566,7 @@
 			}
 
 		}
-		public void DisConnection() {
+		public void DisConnection() { //게임이 끝난뒤에 연결을 해제해주는 메소드
 			try {
 				System.out.println("");
 				System.out.println("");
@@ -580,7 +579,7 @@
 				e.printStackTrace();
 			}
 		}
-		public void rollback() {
+		public void rollback() { //게임이 끝난뒤에 임시저장된 내용들을 롤백(리셋)해주는 메소드
 			try {
 				System.out.println("리셋");
 				con.rollback();
@@ -589,7 +588,7 @@
 			}
 			
 		}
-		public void memberAdd() {
+		public void memberAdd() { //회원 리스트 DB에 유저를 추가시켜주는 메소드(회원가입)(전석종)
 			Scanner scan = new Scanner(System.in);
 			String sql = "insert into userlist values((select count(*)from userlist)+1,?,?,?,?)";
 			try {
@@ -609,7 +608,7 @@
 			}
 			
 		}
-		public String firstMemberSearch() {
+		public String firstMemberSearch() {//1P를 조회하고 플레이에 참여시키는 메소드(전석종)
 			String sql = "SELECT * FROM USERLIST where userno=?";
 			String name=null;
 			try {
@@ -630,7 +629,7 @@
 			}
 			return name;
 	}
-		public String secondMemberSearch() {
+		public String secondMemberSearch() { //2P를 조회하고 플레이에 참여시키는 메소드(전석종)
 			String sql = "SELECT * FROM USERLIST where userno=?";
 			String name=null;
 			try {
@@ -652,7 +651,7 @@
 			}
 			return name;
 	}
-		public void WinScoreInsertDB(String userA) {
+		public void WinScoreInsertDB(String userA) { //승리 스코어를 DB에 반영하는 메소드(전석종)
 			String sql="update userlist set win=win+? where name=?";
 			try {
 			pstmt = con.prepareStatement(sql);
@@ -666,7 +665,7 @@
 			}
 			
 		}
-		public void LoseScoreInsertDB(String userA) {
+		public void LoseScoreInsertDB(String userA) { //패배 스코어를 DB에 반영하는 메소드(전석종)
 			String sql="update userlist set lose=lose+? where name=?";
 			try {
 			pstmt = con.prepareStatement(sql);
@@ -680,15 +679,18 @@
 			}
 			
 		}
-		public void ScoreSearch() {
+		public void ScoreSearch() { //전적 조회용 메소드,이름을 입력하면 출력이 되는데 이름을 다르게 입력하면 출력이 안됨.(전석종)
 			String sql = "SELECT * FROM USERLIST where name=?";
 			try {
 			pstmt = con.prepareStatement(sql);
 			System.out.println("조회할 회원의 이름을 입력하세요.");
-			pstmt.setString(1, scan.next());
+			String name= scan.next();
+			pstmt.setString(1,name);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
-				System.out.print(rs.getString("name")+"의 전적 : "+rs.getInt("win")+"승"+rs.getInt("lose")+"패"+"\n"+"\n");
+				if(name.equals(rs.getString("name"))) {
+					System.out.print(rs.getString("name")+"의 전적 : "+rs.getInt("win")+"승"+rs.getInt("lose")+"패"+"\n"+"\n");	
+				}
 			}
 		}
 			catch(Exception e) {
