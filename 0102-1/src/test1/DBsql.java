@@ -21,8 +21,8 @@
 			}
 		}
 		public void TurnRepeat() { // 2번 커맨드 누르면 실행이며 1P와 2P의 턴이 반복됨.(전석종)
-			String userA=firstMemberSearch(); //USER A 이름 변수
-			String userB=secondMemberSearch(); //USER B 이름 변수
+			String userA=FirstMemberSearch(); //USER A 이름 변수
+			String userB=SecondMemberSearch(); //USER B 이름 변수
 			int locationA = 1; // A의 위치값 저장용 변수
 			int locationB = 1; // B의 위치값 저장용 변수
 			int count=1; //몇턴을 진행하였는지 저장하기 위한 변수
@@ -55,7 +55,7 @@
 					}
 					else {
 						rollback(); //값이 바뀌어버린 DB값을 롤백
-						DisConnection(); //접속을 종료함.
+						disConnection(); //접속을 종료함.
 						System.out.println("무승부");
 					}
 					break; //반복 종료.
@@ -91,13 +91,13 @@
 			rollback(); //값이 바뀌어버린 DB값을 롤백
 			WinScoreInsertDB(userA);
 			LoseScoreInsertDB(userB);
-			DisConnection(); //접속을 종료함.
+			disConnection(); //접속을 종료함.
 		}
 		public void ALose(String userA, String userB) {//B가 이기고 A가 진경우에 실행하는 메소드
 			rollback(); //값이 바뀌어버린 DB값을 롤백
 			WinScoreInsertDB(userB); //이긴 유저에게 스코어 추가
 			LoseScoreInsertDB(userA); // 진 유저에게 스코어 추가
-			DisConnection(); //접속을 종료함.
+			disConnection(); //접속을 종료함.
 		}
 		public int dice() { // 주사위를 굴려서 값을 반환하는 메소드
 			int dice = (int) (Math.random() * 6) + 1;
@@ -399,7 +399,7 @@
 		}
 		public void TakeOverCity(int price,String userA,String userB,int location) {//현재 위치의 도시가 다른 사람의 소유지일경우 인수 유무를 결정하는 메소드(전석종)
 			int saveMoney=UserMoneySearch(userA);
-			String city=CitySearch(location);
+			String city=citySearch(location);
 			if(saveMoney >= price) {
 				System.out.println("해당 도시를 인수하시겠습니까?");
 				System.out.println("");
@@ -510,7 +510,7 @@
 				Monopolymain.main(null);
 			}
 		}
-		public String CitySearch(int location) { //현재 위치에 맞는 도시번호를 조회하여 해당 도시의 이름을 반환해주는 메소드(전석종)
+		public String citySearch(int location) { //현재 위치에 맞는 도시번호를 조회하여 해당 도시의 이름을 반환해주는 메소드(전석종)
 			String sql = "SELECT * FROM MONOPOLY WHERE cityno=?";
 			try {// 도시보유
 				pstmt = con.prepareStatement(sql);
@@ -552,7 +552,7 @@
 				e.printStackTrace();
 			}
 		}
-		public void DisConnection() { //게임이 끝난뒤에 연결을 해제해주는 메소드(전석종)
+		public void disConnection() { //게임이 끝난뒤에 연결을 해제해주는 메소드(전석종)
 			try {
 				System.out.println("");
 				System.out.println("");
@@ -592,7 +592,7 @@
 				e.printStackTrace();
 			}
 		}
-		public String firstMemberSearch() {//1P를 조회하고 플레이에 참여시키는 메소드(전석종)
+		public String FirstMemberSearch() {//1P를 조회하고 플레이에 참여시키는 메소드(전석종)
 			String sql = "SELECT * FROM USERLIST where userno=?";
 			String name=null;
 			try {
@@ -613,7 +613,7 @@
 			}
 			return name;
 	}
-		public String secondMemberSearch() { //2P를 조회하고 플레이에 참여시키는 메소드(전석종)
+		public String SecondMemberSearch() { //2P를 조회하고 플레이에 참여시키는 메소드(전석종)
 			String sql = "SELECT * FROM USERLIST where userno=?";
 			String name=null;
 			try {
