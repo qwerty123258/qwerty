@@ -12,7 +12,41 @@
 		public void Connection() { //1번 커맨드 누르면 실행, DB와 연결해주는 메소드
 			con=DBcon.DBConnection();
 		}
-		public void AutoCommitOff() { //1먼 커맨드 누르면 실행, 이미 저장되아있는 DB를 건들지 않기위해 자동커밋기능을 해제하는 메소드
+		public void memberAdd() {
+			Scanner scan = new Scanner(System.in);
+			String sql = "insert into userlist values((select count(*)from userlist)+1,?,?,?,?)";
+			try {
+				System.out.println("이름");
+				String name=scan.next();
+				pstmt = con.prepareStatement(sql);
+					pstmt.setString(1, name);
+					pstmt.setInt(2, 0);
+					pstmt.setInt(3, 0);
+					pstmt.setInt(4, 1500);
+					pstmt.executeUpdate();
+					pstmt.close();
+					MemberAddToast(name);
+			}
+			catch(Exception e) {
+				System.out.println("DB접속을 먼저하세요.");
+				Monopolymain.main(null);
+			}
+		}
+		public void MemberAddToast(String name) { //회원 추가를 한 뒤 회원번호를 출력해주는 메소드
+			String sql ="select * from userlist where name=?";
+			try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, name);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				System.out.println(rs.getString("name")+"님의 회원번호는"+rs.getString("userno")+"입니다.");	
+			}
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		public void AutoCommitOff() { //3번 커맨드 누르면 실행, 이미 저장되아있는 DB를 건들지 않기위해 자동커밋기능을 해제하는 메소드
 			try {
 				con.setAutoCommit(false);
 				System.out.println("자동 커밋 해제");
@@ -21,47 +55,48 @@
 				Monopolymain.main(null);
 			}
 		}
-		public void TurnRepeat() { // 2번 커맨드 누르면 실행이며 1P와 2P의 턴이 반복됨.(전석종)
+		public void TurnRepeat() { // 3번 커맨드 누르면 실행이며 1P와 2P의 턴이 반복됨.
 			String userA=FirstMemberSearch(); //USER A 이름 변수
 			String userB=SecondMemberSearch(); //USER B 이름 변수
 			int locationA = 1; // A의 위치값 저장용 변수
 			int locationB = 1; // B의 위치값 저장용 변수
 			int count=1; //몇턴을 진행하였는지 저장하기 위한 변수
-			this.start=true; //이 클래스의 boolean 필드 값을 true로 설정한다. >>게임이 한 판 끝난 뒤에는 해당 필드의 값이 false인데 이를 다시 true로 바꿔주며 다시 게임이 시작되게 한다.
 			while (this.start) { //현재 필드의 값이 true이면
-				map();
 				locationA=TurnA(locationA,userA,userB); //A의턴을 진행.
 				if(!this.start) { //현재 필드의 값이 false이면 게임이 끝난것이므로
 					ALose(userA,userB);
 					break; //반복 종료.
 				}
 				gameInfo(count,userA,userB);
-				map();
 				locationB=TurnB(locationB,userB,userA); //B의 턴을 진행
 				if(!this.start) { //현재 필드의 값이 false이면 게임이 끝난것이므로
 					BLose(userA,userB);
 					break; //반복 종료.
 				}
 				gameInfo(count,userA,userB);
-				count++; //총 몇번 오갔는지 저장하위해 증감연산자 사용
+				count++; //총 몇번 오갔는지 저장하기위해 증감연산자 사용
 				if(count>=20) { //현재 턴 수가 20에 도달하면
-					System.out.println("시간 초과, 게임종료");
-					if(UserMoneySearch(userA)>UserMoneySearch(userB)) {
-						System.out.println(userA+"의 승리!!");
-						BLose(userA,userB);
-					}
-					else if(UserMoneySearch(userA)<UserMoneySearch(userB)) {
-						System.out.println(userB+"의 승리!!");
-						ALose(userA,userB);
-					}
-					else {
-						rollback(); //값이 바뀌어버린 DB값을 롤백
-						disConnection(); //접속을 종료함.
-						System.out.println("무승부");
-					}
+					gameFinish(userA,userB);
 					break; //반복 종료.
 				}
 			}
+		}
+		public void gameFinish(String userA, String userB) {
+			System.out.println("시간 초과, 게임종료");
+			if(UserMoneySearch(userA)>UserMoneySearch(userB)) {
+				System.out.println(userA+"의 승리!!");
+				BLose(userA,userB);
+			}
+			else if(UserMoneySearch(userA)<UserMoneySearch(userB)) {
+				System.out.println(userB+"의 승리!!");
+				ALose(userA,userB);
+			}
+			else {
+				rollback(); //값이 바뀌어버린 DB값을 롤백
+				disConnection(); //접속을 종료함.
+				System.out.println("무승부");
+			}
+			
 		}
 		public void map() { //맵을 보여주는 메소드
 			System.out.println("+-------+-------+--------+--------+");
@@ -81,12 +116,13 @@
 			System.out.println("+-------+-------+--------+--------+");
 		}
 		public void gameInfo(int count,String userA, String userB) { //현재 게임의 진행상황을 보여주는 메소드
+			map();
 			System.out.println("");
 			System.out.println(count+"턴");
 			CitySearchToast(userA);
 			UserMoneySearchToast(userA);
 			CitySearchToast(userB);
-			UserMoneySearchToast(userB);			
+			UserMoneySearchToast(userB);
 		}
 		public void BLose(String userA, String userB) { //A가 이기고 B가 진경우에 실행하는 메소드
 			rollback(); //값이 바뀌어버린 DB값을 롤백
@@ -104,18 +140,18 @@
 			int dice = (int) (Math.random() * 6) + 1;
 			return dice;
 		}
-		public int TurnA(int locationA,String userA,String userB) { //1P의 턴을 진행해주는 메소드(전석종)
+		public int TurnA(int locationA,String userA,String userB) { //1P의 턴을 진행해주는 메소드
 			String name = userA;
 			System.out.println("");
 			System.out.println(name + "의 차례입니다.");
 			System.out.println("주사위를 굴리시려면  엔터를 입력하세요.");
 			String enter = scan.nextLine(); //공백을 입력해도 내용이 진행되게끔 nextLine 메소드 사용
 			int dice = dice(); // 주사위 값을 받는 변수
-			locationA += dice; // 현재위치에 주사위값을 누적합
+			locationA += dice; // 현재위치를 기억.
 			if (locationA >= 13) { // 최대 이동거리는 12인데 현재위치가 13보다 크거나 같아지는 경우
 				UserMoneyBonus(name);
-				locationA = locationA % 12; // 현재위치를 12로 나눈 나머지로 바꿈.ex)현위치가 11일때 주사위 3이나오면 다음 위치는 14인데 14%12를 하면 현재위치는 2
-				CityproPertyCheck(locationA, name,userB); // A유저가 도시에 도착했을시 도시가 공백지인지,자신의 도시인지,타인의 도시인지 판단해주는 메소드.
+				locationA = locationA % 12;
+				CityproPertyCheck(locationA, name,userB); 
 				return locationA;
 			} 
 			else {
@@ -123,7 +159,7 @@
 			}
 			return locationA;
 		}
-		public int TurnB(int locationB,String userB,String userA) { //2P의 턴을 진행해주는 메소드(전석종)
+		public int TurnB(int locationB,String userB,String userA) { //2P의 턴을 진행해주는 메소드
 			String othername = userB;
 			System.out.println("");
 			System.out.println(othername + "의 차례입니다.");
@@ -574,32 +610,15 @@
 				e.printStackTrace();
 			}
 		}
-		public void memberAdd() { //회원 리스트 DB에 유저를 추가시켜주는 메소드(회원가입)(전석종)
-			Scanner scan = new Scanner(System.in);
-			String sql = "insert into userlist values((select count(*)from userlist)+1,?,?,?,?)";
-			try {
-				System.out.println("이름");
-				String name=scan.next();
-				pstmt = con.prepareStatement(sql);
-					pstmt.setString(1, name);
-					pstmt.setInt(2, 0);
-					pstmt.setInt(3, 0);
-					pstmt.setInt(4, 1500);
-					pstmt.executeUpdate();
-					pstmt.close();
-			}
-			catch(Exception e) {
-				System.out.println("DB접속을 먼저하세요.");
-				Monopolymain.main(null);
-			}
-		}
 		public String FirstMemberSearch() {//1P를 조회하고 플레이에 참여시키는 메소드(전석종)
-			String sql = "SELECT * FROM USERLIST where userno=?";
+			String sql = "SELECT * FROM USERLIST where userno=? and name=?";
 			String name=null;
 			try {
 			pstmt = con.prepareStatement(sql);
 			System.out.println("1P의 회원번호를 입력하세요.");
 			pstmt.setInt(1, scan.nextInt());
+			System.out.println("1P의 이름을 입력하세요.");
+			pstmt.setString(2, scan.next());
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				return rs.getString("name");
@@ -615,12 +634,14 @@
 			return name;
 	}
 		public String SecondMemberSearch() { //2P를 조회하고 플레이에 참여시키는 메소드(전석종)
-			String sql = "SELECT * FROM USERLIST where userno=?";
+			String sql = "SELECT * FROM USERLIST where userno=? and name=?";
 			String name=null;
 			try {
 			pstmt = con.prepareStatement(sql);
 			System.out.println("2P의 회원번호를 입력하세요.");
 			pstmt.setInt(1, scan.nextInt());
+			System.out.println("2P의 이름을 입력하세요.");
+			pstmt.setString(2, scan.next());
 			String enter=scan.nextLine();
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
@@ -662,18 +683,19 @@
 			e.printStackTrace();
 			}
 		}
-		public void ScoreSearch() { //전적 조회용 메소드,이름을 입력하면 출력이 되는데 이름을 다르게 입력하면 출력이 안됨.(전석종)
-			String sql = "SELECT * FROM USERLIST where name=?";
+		public void ScoreSearch() { //4번 커맨드 누를시 실행,전적 조회용 메소드,이름을 입력하면 출력이 되는데 이름을 다르게 입력하면 출력이 안됨.(전석종)
+			String sql = "SELECT * FROM USERLIST where userno=?";
 			try {
 			pstmt = con.prepareStatement(sql);
-			System.out.println("조회할 회원의 이름을 입력하세요.");
-			String name= scan.next();
-			pstmt.setString(1,name);
+			System.out.println("조회할 회원의 회원번호를 입력하세요.");
+			int userno= scan.nextInt();
+			pstmt.setInt(1,userno);
 			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				if(name.equals(rs.getString("name"))) {
-					System.out.print(rs.getString("name")+"의 전적 : "+rs.getInt("win")+"승"+rs.getInt("lose")+"패"+"\n"+"\n");	
-				}
+			if(rs.next()) {
+				System.out.print(rs.getString("name")+"의 전적 : "+rs.getInt("win")+"승"+rs.getInt("lose")+"패"+"\n"+"\n");	
+			}
+			else {
+				System.out.println("해당하는 회원 정보가 없습니다.");
 			}
 		}
 			catch(Exception e) {
