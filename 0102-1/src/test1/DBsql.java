@@ -113,7 +113,7 @@
 			locationA += dice; // 현재위치에 주사위값을 누적합
 			if (locationA >= 13) { // 최대 이동거리는 12인데 현재위치가 13보다 크거나 같아지는 경우
 				UserMoneyBonus(name);
-				locationA = locationA % 12; // 현재위치를 12로 나눈 나머지로 바꿈.ex)현위치가 11일 주사위 3이나오면 다음 위치는 14인데 14%12를 하면 현재위치는 2
+				locationA = locationA % 12; // 현재위치를 12로 나눈 나머지로 바꿈.ex)현위치가 11일때 주사위 3이나오면 다음 위치는 14인데 14%12를 하면 현재위치는 2
 				CityproPertyCheck(locationA, name,userB); // A유저가 도시에 도착했을시 도시가 공백지인지,자신의 도시인지,타인의 도시인지 판단해주는 메소드.
 				return locationA;
 			} 
