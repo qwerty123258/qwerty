@@ -62,6 +62,7 @@
 			int locationB = 1; // B의 위치값 저장용 변수
 			int count=1; //몇턴을 진행하였는지 저장하기 위한 변수
 			while (this.start) { //현재 필드의 값이 true이면
+				gameInfo(count,userA,userB);
 				locationA=TurnA(locationA,userA,userB); //A의턴을 진행.
 				if(!this.start) { //현재 필드의 값이 false이면 게임이 끝난것이므로
 					ALose(userA,userB);
