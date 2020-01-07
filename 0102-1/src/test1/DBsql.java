@@ -1,10 +1,6 @@
-		package test1;
-
-	import java.sql.Connection;
-	import java.sql.PreparedStatement;
-	import java.sql.ResultSet;
-	import java.sql.SQLException;
-	import java.util.Scanner;
+	package test1;
+	import java.sql.*;
+	import java.util.*;
 	public class DBsql {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -145,7 +141,6 @@
 				CityproPertyCheck(locationB, othername,userA);// B유저가 도시에 도착했을시 도시가 공백지인지,자신의 도시인지,타인의 도시인지 판단해주는 메소드.
 			}
 			return locationB;
-
 		}
 		public void CityproPertyCheck(int locationA, String userA,String userB) {// A유저가 도시에 도착했을시 도시가 공백지인지,자신의 도시인지,타인의 도시인지 판단해주는 메소드.
 			String sql = "SELECT CITY,PRICE,PROPERTY FROM MONOPOLY WHERE CITYNO=?";
@@ -261,7 +256,6 @@
 				catch(Exception e) {
 					e.printStackTrace();
 				}
-							
 			}
 		}
 		public boolean minigame() { //미니게임 가위바위보를 진행하는 메소드 결과에 따라 boolean 값을 반환.(전석종)
@@ -342,7 +336,8 @@
 					pstmt.executeUpdate();
 					pstmt.close();
 				}
-			} catch (SQLException e) {
+			} 
+			catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
@@ -392,10 +387,10 @@
 					pstmt.close();
 					TakeOverCity(price,userA,userB,locationA);
 				}
-			} catch (SQLException e) {
+			} 
+			catch (SQLException e) {
 				e.printStackTrace();
 			}
-
 		}
 		public void TakeOverCity(int price,String userA,String userB,int locationA) {//현재 위치의 도시가 다른 사람의 소유지일경우 인수 유무를 결정하는 메소드(전석종)
 			int saveMoney=UserMoneySearch(userA);
@@ -456,7 +451,6 @@
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-
 		}
 		public void UserMoneyTax(int price, String userA, String userB) {// 세금 메소드(가격,지불하는계정)
 			String sql = "SELECT MONEY FROM USERLIST WHERE NAME=?";
@@ -481,7 +475,6 @@
 					System.out.println("");
 					System.out.println("");
 					this.start=false; //게임을 종료시키기위해 현재 필드의 값을 false로 변경
-
 				} else {
 
 					sql = "UPDATE USERLIST SET MONEY=MONEY-? WHERE NAME=?";
@@ -494,11 +487,9 @@
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-
 		}
 		public void CitySearchToast(String user) {//1P,2P가 현재 소유중인 도시를 출력해주는 메소드(전석종)
 			String sql = "SELECT * FROM MONOPOLY WHERE PROPERTY=?";
-			try {
 			try {// 도시보유
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, user);
@@ -508,18 +499,12 @@
 					System.out.print(rs.getString("city")+" ");
 				}
 				System.out.println("");
-			} catch (SQLException e) {
+			}
+			catch(Exception e){
 				e.printStackTrace();
 				System.out.println("DB와 연결되어 있지 않습니다. 연결을 먼저 하세요.");
 				Monopolymain.main(null);
 			}
-			}
-			catch(NullPointerException e){
-				e.printStackTrace();
-				System.out.println("DB와 연결되어 있지 않습니다. 연결을 먼저 하세요.");
-				Monopolymain.main(null);
-			}
-
 		}
 		public String CitySearch(int locationA) { //현재 위치에 맞는 도시번호를 조회하여 해당 도시의 이름을 반환해주는 메소드(전석종)
 			String sql = "SELECT * FROM MONOPOLY WHERE cityno=?";
@@ -535,7 +520,6 @@
 				e.printStackTrace();
 			}
 			return null;
-
 		}
 		public int UserMoneySearch(String user) { //1P,2P의 현재 잔액을 조회하여 반환해주는 메소드
 			String sql = "SELECT MONEY FROM USERLIST WHERE NAME=?";
@@ -564,7 +548,6 @@
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-
 		}
 		public void DisConnection() { //게임이 끝난뒤에 연결을 해제해주는 메소드
 			try {
@@ -586,7 +569,6 @@
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			
 		}
 		public void memberAdd() { //회원 리스트 DB에 유저를 추가시켜주는 메소드(회원가입)(전석종)
 			Scanner scan = new Scanner(System.in);
@@ -606,7 +588,6 @@
 				System.out.println("DB접속 실패");
 				e.printStackTrace();
 			}
-			
 		}
 		public String firstMemberSearch() {//1P를 조회하고 플레이에 참여시키는 메소드(전석종)
 			String sql = "SELECT * FROM USERLIST where userno=?";
@@ -677,7 +658,6 @@
 			catch(Exception e) {
 			e.printStackTrace();
 			}
-			
 		}
 		public void ScoreSearch() { //전적 조회용 메소드,이름을 입력하면 출력이 되는데 이름을 다르게 입력하면 출력이 안됨.(전석종)
 			String sql = "SELECT * FROM USERLIST where name=?";
