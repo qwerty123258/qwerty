@@ -16,35 +16,56 @@
 			Scanner scan = new Scanner(System.in);
 			String sql = "insert into userlist values((select count(*)from userlist)+1,?,?,?,?)";
 			try {
-				System.out.println("이름");
-				String name=scan.next();
+				System.out.println("ID");
+				String id=scan.next();
+				if(!MemberAddCheck(id)) {
 				pstmt = con.prepareStatement(sql);
-					pstmt.setString(1, name);
+					pstmt.setString(1, id);
 					pstmt.setInt(2, 0);
 					pstmt.setInt(3, 0);
 					pstmt.setInt(4, 1500);
 					pstmt.executeUpdate();
 					pstmt.close();
-					MemberAddToast(name);
+					MemberAddToast(id);
+			}
+				else {
+					System.out.println("중복된 ID입니다.");
+					memberAdd();
+				}
 			}
 			catch(Exception e) {
 				System.out.println("DB접속을 먼저하세요.");
 				Monopolymain.main(null);
 			}
 		}
-		public void MemberAddToast(String name) { //회원 추가를 한 뒤 회원번호를 출력해주는 메소드
-			String sql ="select * from userlist where name=?";
+		public void MemberAddToast(String id) { //회원 추가를 한 뒤 회원번호를 출력해주는 메소드
+			String sql ="select * from userlist where id=?";
 			try {
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, name);
+			pstmt.setString(1, id);
 			rs=pstmt.executeQuery();
 			while(rs.next()) {
-				System.out.println(rs.getString("name")+"님의 회원번호는"+rs.getString("userno")+"입니다.");	
+				System.out.println(rs.getString("id")+"님의 회원번호는"+rs.getString("userno")+"입니다.");	
 			}
 			}
 			catch(Exception e) {
 				e.printStackTrace();
 			}
+		}
+		public boolean MemberAddCheck(String id) { //회원 추가를 한 뒤 회원번호를 출력해주는 메소드
+			String sql ="select * from userlist where id=?";
+			try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				return true;
+			}
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+			return false;
 		}
 		public void AutoCommitOff() { //3번 커맨드 누르면 실행, 이미 저장되아있는 DB를 건들지 않기위해 자동커밋기능을 해제하는 메소드
 			try {
@@ -56,8 +77,8 @@
 			}
 		}
 		public void TurnRepeat() { // 3번 커맨드 누르면 실행이며 1P와 2P의 턴이 반복됨.
-			String userA=FirstMemberSearch(); //USER A 이름 변수
-			String userB=SecondMemberSearch(); //USER B 이름 변수
+			String userA=FirstMemberSearch(); //USER A ID 변수
+			String userB=SecondMemberSearch(); //USER B ID 변수
 			int locationA = 1; // A의 위치값 저장용 변수
 			int locationB = 1; // B의 위치값 저장용 변수
 			int count=1; //몇턴을 진행하였는지 저장하기 위한 변수
@@ -143,40 +164,68 @@
 			return dice;
 		}
 		public int TurnA(int locationA,String userA,String userB) { //1P의 턴을 진행해주는 메소드
-			String name = userA;
+			String id = userA;
 			System.out.println("");
-			System.out.println(name + "의 차례입니다.");
+			System.out.println(id + "의 차례입니다.");
 			System.out.println("주사위를 굴리시려면  엔터를 입력하세요.");
 			String enter = scan.nextLine(); //공백을 입력해도 내용이 진행되게끔 nextLine 메소드 사용
+			boolean loading = true;
+			try {
+				while(loading) {
+					System.out.print("■■■■■");
+					Thread.sleep(300);
+					System.out.print("■■■■■");
+					Thread.sleep(300);
+					System.out.println("■■■■■");
+					loading = false;
+				}
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
 			int dice = dice(); // 주사위 값을 받는 변수
 			locationA += dice; // 현재위치를 기억.
 			if (locationA >= 13) { // 최대 이동거리는 12인데 현재위치가 13보다 크거나 같아지는 경우
-				UserMoneyBonus(name);
+				UserMoneyBonus(id);
 				locationA = locationA % 12;
-				CityproPertyCheck(locationA, name,userB); 
+				CityproPertyCheck(locationA, id,userB); 
 				return locationA;
 			} 
 			else {
-				CityproPertyCheck(locationA, name,userB);// A유저가 도시에 도착했을시 도시가 공백지인지,자신의 도시인지,타인의 도시인지 판단해주는 메소드.
+				CityproPertyCheck(locationA, id,userB);// A유저가 도시에 도착했을시 도시가 공백지인지,자신의 도시인지,타인의 도시인지 판단해주는 메소드.
 			}
 			return locationA;
 		}
 		public int TurnB(int locationB,String userB,String userA) { //2P의 턴을 진행해주는 메소드
-			String othername = userB;
+			String otherid = userB;
 			System.out.println("");
-			System.out.println(othername + "의 차례입니다.");
+			System.out.println(otherid + "의 차례입니다.");
 			System.out.println("주사위를 굴리시려면  엔터를 입력하세요.");
 			String enter = scan.nextLine(); //공백을 입력해도 내용이 진행되게끔 nextLine 메소드 사용
+			boolean loading = true;
+			try {
+				while(loading) {
+					System.out.print("■■■■■");
+					Thread.sleep(300);
+					System.out.print("■■■■■");
+					Thread.sleep(300);
+					System.out.println("■■■■■");
+					loading = false;
+				}
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
 			int dice = dice();
 			locationB += dice;
 			if (locationB >= 13) {
-				UserMoneyBonus(othername);
+				UserMoneyBonus(otherid);
 				locationB = locationB % 12;
-				CityproPertyCheck(locationB, othername,userA);// B유저가 도시에 도착했을시 도시가 공백지인지,자신의 도시인지,타인의 도시인지 판단해주는 메소드.
+				CityproPertyCheck(locationB, otherid,userA);// B유저가 도시에 도착했을시 도시가 공백지인지,자신의 도시인지,타인의 도시인지 판단해주는 메소드.
 				return locationB;
 			}
 			else {
-				CityproPertyCheck(locationB, othername,userA);// B유저가 도시에 도착했을시 도시가 공백지인지,자신의 도시인지,타인의 도시인지 판단해주는 메소드.
+				CityproPertyCheck(locationB, otherid,userA);// B유저가 도시에 도착했을시 도시가 공백지인지,자신의 도시인지,타인의 도시인지 판단해주는 메소드.
 			}
 			return locationB;
 		}
@@ -247,8 +296,22 @@
 			int chance=(int)(Math.random()*3)+1;
 			System.out.println("찬스 발동");
 			if(chance==1) {
+				boolean loading = true;
+				try {
+					while(loading) {
+						System.out.print("■■■■■");
+						Thread.sleep(200);
+						System.out.print("■■■■■");
+						Thread.sleep(100);
+						System.out.println("■■■■■");
+						loading = false;
+					}
+				}
+				catch(Exception e) {
+					e.printStackTrace();
+				}
 				System.out.println("당첨!! 10%의 금액이 가산됩니다.");
-				String sql="update userlist set money=money+money/10 where name=?";
+				String sql="update userlist set money=money+money/10 where id=?";
 				try {
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, user);
@@ -263,8 +326,22 @@
 				System.out.println("가위바위보 미니게임 시작!");
 				System.out.println("컴퓨터와 가위바위보를 하여 이기면 상금,지면 벌금");
 				boolean win=minigame();
+				boolean loading = true;
+				try {
+					while(loading) {
+						System.out.print("■■■■■");
+						Thread.sleep(200);
+						System.out.print("■■■■■");
+						Thread.sleep(100);
+						System.out.println("■■■■■");
+						loading = false;
+					}
+				}
+				catch(Exception e) {
+					e.printStackTrace();
+				}
 				if(win) {
-					String sql="update userlist set money=money+1000 where name=?";
+					String sql="update userlist set money=money+1000 where id=?";
 					try {
 					pstmt = con.prepareStatement(sql);
 					pstmt.setString(1, user);
@@ -276,7 +353,7 @@
 					}
 				}
 				if(!win) {
-					String sql="update userlist set money=money-500 where name=?";
+					String sql="update userlist set money=money-500 where id=?";
 					try {
 					pstmt = con.prepareStatement(sql);
 					pstmt.setString(1, user);
@@ -289,8 +366,22 @@
 				}
 			}
 			if(chance==3) {
+				boolean loading = true;
+				try {
+					while(loading) {
+						System.out.print("■■■■■");
+						Thread.sleep(200);
+						System.out.print("■■■■■");
+						Thread.sleep(100);
+						System.out.println("■■■■■");
+						loading = false;
+					}
+				}
+				catch(Exception e) {
+					e.printStackTrace();
+				}
 				System.out.println("꽝!! 10%의 금액이 차감됩니다.");
-				String sql="update userlist set money=money-money/10 where name=?";
+				String sql="update userlist set money=money-money/10 where id=?";
 				try {
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, user);
@@ -348,7 +439,7 @@
 			return false;
 		}
 		public void CityPurchase(int price, String user,int location) { //도시를 구매하는 메소드
-			String sql = "SELECT MONEY FROM USERLIST WHERE NAME=?";
+			String sql = "SELECT MONEY FROM USERLIST WHERE id=?";
 			try {
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, user);
@@ -363,6 +454,20 @@
 					pstmt = con.prepareStatement(sql);
 					pstmt.setInt(1, location);
 					rs = pstmt.executeQuery();
+					boolean loading = true;
+					try {
+						while(loading) {
+							System.out.print("■■■■■");
+							Thread.sleep(200);
+							System.out.print("■■■■■");
+							Thread.sleep(200);
+							System.out.println("■■■■■");
+							loading = false;
+						}
+					}
+					catch(Exception e) {
+						e.printStackTrace();
+					}
 					while(rs.next()) {
 						System.out.println(user+"가 "+ rs.getString("city")+"를 구매하였습니다.");
 					}
@@ -372,7 +477,7 @@
 					pstmt.setInt(2, price); //이 메소드를 호출한 곳에서 받아온 도시의 가격
 					pstmt.executeUpdate();
 					pstmt.close();
-					sql = "UPDATE USERLIST SET MONEY=MONEY-? WHERE NAME=?"; //도시를 구매하면 유저의 잔액이 변경
+					sql = "UPDATE USERLIST SET MONEY=MONEY-? WHERE id=?"; //도시를 구매하면 유저의 잔액이 변경
 					pstmt = con.prepareStatement(sql);
 					pstmt.setInt(1, price);
 					pstmt.setString(2, user);
@@ -388,7 +493,7 @@
 			// 상대에서 도시의 가격만큼 값을 지불하는 메소드(김현)
 			//순서=값을 지불해야하는 유저의 잔액 조회>>1.지불할 금액보다 잔액이 적으면 파산후 게임종료
 			//1.돈이 있을 경우엔 지불 후 인수 유무 판단>>2.가격보다 넘게 돈 있으면 인수여부 판단
-			String sql = "SELECT MONEY FROM USERLIST WHERE NAME=?"; 			                
+			String sql = "SELECT MONEY FROM USERLIST WHERE id=?"; 			                
 			try {                                                            
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, userA);
@@ -402,6 +507,20 @@
 					else {
 						OtherUser = userA; //반대로 B가 지불을 했다면 B와 A를 전환.
 					}
+					boolean loading = true;
+					try {
+						while(loading) {
+							System.out.print("■■■■■");
+							Thread.sleep(200);
+							System.out.print("■■■■■");
+							Thread.sleep(200);
+							System.out.println("■■■■■");
+							loading = false;
+						}
+					}
+					catch(Exception e) {
+						e.printStackTrace();
+					}
 					System.out.println(userA+"님이 파산하셨습니다");
 					System.out.println(OtherUser+"가 승리하였습니다.");
 					System.out.println("");
@@ -411,7 +530,7 @@
 					this.start=false; //게임을 종료시키기위해 현재 필드의 값을 false로 변경
 				} 
 				else if(saveMoney >= price) {
-					sql = "UPDATE USERLIST SET MONEY=MONEY-? WHERE NAME=?";
+					sql = "UPDATE USERLIST SET MONEY=MONEY-? WHERE id=?";
 					pstmt = con.prepareStatement(sql);
 					pstmt.setInt(1, price);
 					pstmt.setString(2, userA);
@@ -423,7 +542,7 @@
 					else {
 						OtherUser = userA; //반대로 B가 지불을 했다면 B와 A를 전환.
 					}
-					sql = "UPDATE USERLIST SET MONEY=MONEY+? WHERE NAME=?";
+					sql = "UPDATE USERLIST SET MONEY=MONEY+? WHERE id=?";
 					pstmt = con.prepareStatement(sql);
 					pstmt.setInt(1, price);
 					pstmt.setString(2, OtherUser);// 상대유저 넣는곳
@@ -445,7 +564,7 @@
 				System.out.println("1.네 2.아니오");
 				int command=scan.nextInt();
 				if(command==1) {
-					String sql = "UPDATE USERLIST SET MONEY=MONEY-? WHERE NAME=?";
+					String sql = "UPDATE USERLIST SET MONEY=MONEY-? WHERE id=?";
 					try {
 						pstmt = con.prepareStatement(sql);
 						pstmt.setInt(1, price);
@@ -458,7 +577,7 @@
 						else {
 							OtherUser = userA; //반대로 B가 지불을 했다면 B와 A를 전환.
 						}
-						sql = "UPDATE USERLIST SET MONEY=MONEY+? WHERE NAME=?";
+						sql = "UPDATE USERLIST SET MONEY=MONEY+? WHERE id=?";
 						pstmt = con.prepareStatement(sql);
 						pstmt.setInt(1, price);
 						pstmt.setString(2, OtherUser);// 상대유저 넣는곳
@@ -469,6 +588,20 @@
 						pstmt.setString(1, userA);
 						pstmt.setInt(2, location);
 						pstmt.executeUpdate();
+						boolean loading = true;
+						try {
+							while(loading) {
+								System.out.print("■■■■■");
+								Thread.sleep(200);
+								System.out.print("■■■■■");
+								Thread.sleep(200);
+								System.out.println("■■■■■");
+								loading = false;
+							}
+						}
+						catch(Exception e) {
+							e.printStackTrace();
+						}
 						System.out.println(userA+"가 " +city+" 를(을) 인수하였습니다.");
 						String enter=scan.nextLine(); //도시 인수를 할때는 next() 메소드를 사용하는데 이는 Enter전까지 입력받으므로 남아있는 Enter를 소진시키는 용도
 						pstmt.close();
@@ -483,7 +616,7 @@
 			}
 		}
 		public void UserMoneyBonus(String user) {// 1P,2P가 출발지점을 지나면 추가 월급을 제공해주는 메소드(전석종)
-			String sql = "UPDATE USERLIST SET MONEY=MONEY+? WHERE NAME=?";
+			String sql = "UPDATE USERLIST SET MONEY=MONEY+? WHERE id=?";
 			try {
 				pstmt = con.prepareStatement(sql);
 				pstmt.setInt(1, 200);
@@ -497,7 +630,7 @@
 			}
 		}
 		public void UserMoneyTax(int price, String userA, String userB) {// 세금 메소드(가격,지불하는계정)(김현)
-			String sql = "SELECT MONEY FROM USERLIST WHERE NAME=?";
+			String sql = "SELECT MONEY FROM USERLIST WHERE id=?";
 			try {
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, userA);
@@ -510,6 +643,20 @@
 					} else {
 						OtherUser = userA;
 					}
+					boolean loading = true;
+					try {
+						while(loading) {
+							System.out.print("■■■■■");
+							Thread.sleep(200);
+							System.out.print("■■■■■");
+							Thread.sleep(200);
+							System.out.println("■■■■■");
+							loading = false;
+						}
+					}
+					catch(Exception e) {
+						e.printStackTrace();
+					}
 					System.out.println(userA+"님이 파산하셨습니다");
 					System.out.println(OtherUser+"가 승리하였습니다.");
 					System.out.println("");
@@ -520,7 +667,7 @@
 					this.start=false; //게임을 종료시키기위해 현재 필드의 값을 false로 변경
 				} 
 				else {
-					sql = "UPDATE USERLIST SET MONEY=MONEY-? WHERE NAME=?";
+					sql = "UPDATE USERLIST SET MONEY=MONEY-? WHERE id=?";
 					pstmt = con.prepareStatement(sql);
 					pstmt.setInt(1, price);
 					pstmt.setString(2, userA);
@@ -564,7 +711,7 @@
 			return null;
 		}
 		public int UserMoneySearch(String user) { //1P,2P의 현재 잔액을 조회하여 반환해주는 메소드(김현)
-			String sql = "SELECT MONEY FROM USERLIST WHERE NAME=?";
+			String sql = "SELECT MONEY FROM USERLIST WHERE id=?";
 			int returnmoney=0;
 			try {// 잔액보유
 				pstmt = con.prepareStatement(sql);
@@ -579,7 +726,7 @@
 			return returnmoney;
 		}
 		public void UserMoneySearchToast(String user) { //A,B의 현재 잔액을 조회하여 출력을 해주는 메소드(전석종)
-			String sql = "SELECT MONEY FROM USERLIST WHERE NAME=?";
+			String sql = "SELECT MONEY FROM USERLIST WHERE id=?";
 			try {// 잔액보유
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, user);
@@ -613,17 +760,17 @@
 			}
 		}
 		public String FirstMemberSearch() {//1P를 조회하고 플레이에 참여시키는 메소드(전석종)
-			String sql = "SELECT * FROM USERLIST where userno=? and name=?";
-			String name=null;
+			String sql = "SELECT * FROM USERLIST where userno=? and id=?";
+			String id=null;
 			try {
 			pstmt = con.prepareStatement(sql);
 			System.out.println("1P의 회원번호를 입력하세요.");
 			pstmt.setInt(1, scan.nextInt());
-			System.out.println("1P의 이름을 입력하세요.");
+			System.out.println("1P의 ID를 입력하세요.");
 			pstmt.setString(2, scan.next());
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
-				return rs.getString("name");
+				return rs.getString("id");
 			}
 			if(!rs.next()) {
 				System.out.println("해당하는 회원이 없습니다.");
@@ -633,21 +780,21 @@
 			catch(Exception e) {
 				e.printStackTrace();
 			}
-			return name;
+			return id;
 	}
 		public String SecondMemberSearch() { //2P를 조회하고 플레이에 참여시키는 메소드(전석종)
-			String sql = "SELECT * FROM USERLIST where userno=? and name=?";
-			String name=null;
+			String sql = "SELECT * FROM USERLIST where userno=? and id=?";
+			String id=null;
 			try {
 			pstmt = con.prepareStatement(sql);
 			System.out.println("2P의 회원번호를 입력하세요.");
 			pstmt.setInt(1, scan.nextInt());
-			System.out.println("2P의 이름을 입력하세요.");
+			System.out.println("2P의 ID를 입력하세요.");
 			pstmt.setString(2, scan.next());
 			String enter=scan.nextLine();
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
-				return rs.getString("name");
+				return rs.getString("id");
 			}
 			if(!rs.next()) {
 				System.out.println("해당하는 회원이 없습니다.");
@@ -657,10 +804,10 @@
 			catch(Exception e) {
 				e.printStackTrace();
 			}
-			return name;
+			return id;
 	}
 		public void WinScoreInsertDB(String user) { //승리 스코어를 DB에 반영하는 메소드(전석종)
-			String sql="update userlist set win=win+? where name=?";
+			String sql="update userlist set win=win+? where id=?";
 			try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, 1);
@@ -673,7 +820,7 @@
 			}
 		}
 		public void LoseScoreInsertDB(String user) { //패배 스코어를 DB에 반영하는 메소드(전석종)
-			String sql="update userlist set lose=lose+? where name=?";
+			String sql="update userlist set lose=lose+? where id=?";
 			try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, 1);
@@ -694,7 +841,7 @@
 			pstmt.setInt(1,userno);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
-				System.out.print(rs.getString("name")+"의 전적 : "+rs.getInt("win")+"승"+rs.getInt("lose")+"패"+"\n"+"\n");	
+				System.out.print(rs.getString("id")+"의 전적 : "+rs.getInt("win")+"승"+rs.getInt("lose")+"패"+"\n"+"\n");	
 			}
 			else {
 				System.out.println("해당하는 회원 정보가 없습니다.");
