@@ -84,6 +84,53 @@
 			int count=1; //몇턴을 진행하였는지 저장하기 위한 변수
 			turnRepeat(userA,userB,locationA,locationB,count);
 		}
+		public String FirstMemberSearch() {//1P를 조회하고 플레이에 참여시키는 메소드(전석종)
+			String sql = "SELECT * FROM USERLIST where userno=? and id=?";
+			String id=null;
+			try {
+			pstmt = con.prepareStatement(sql);
+			System.out.println("1P의 회원번호를 입력하세요.");
+			pstmt.setInt(1, scan.nextInt());
+			System.out.println("1P의 ID를 입력하세요.");
+			pstmt.setString(2, scan.next());
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				return rs.getString("id");
+			}
+			if(!rs.next()) {
+				System.out.println("해당하는 회원이 없습니다.");
+				Start();
+			}
+		}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+			return id;
+	}
+		public String SecondMemberSearch() { //2P를 조회하고 플레이에 참여시키는 메소드(전석종)
+			String sql = "SELECT * FROM USERLIST where userno=? and id=?";
+			String id=null;
+			try {
+			pstmt = con.prepareStatement(sql);
+			System.out.println("2P의 회원번호를 입력하세요.");
+			pstmt.setInt(1, scan.nextInt());
+			System.out.println("2P의 ID를 입력하세요.");
+			pstmt.setString(2, scan.next());
+			String enter=scan.nextLine();
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				return rs.getString("id");
+			}
+			if(!rs.next()) {
+				System.out.println("해당하는 회원이 없습니다.");
+				Start();
+			}
+		}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+			return id;
+	}
 		public void turnRepeat(String userA, String userB, int locationA, int locationB, int count) {
 			this.start=true;
 			while (this.start) { //현재 필드의 값이 true이면
@@ -104,23 +151,6 @@
 					gameFinish(userA,userB);
 					break; //반복 종료.
 				}
-			}
-			
-		}
-		public void gameFinish(String userA, String userB) {
-			System.out.println("시간 초과, 게임종료");
-			if(UserMoneySearch(userA)>UserMoneySearch(userB)) {
-				System.out.println(userA+"의 승리!!");
-				BLose(userA,userB);
-			}
-			else if(UserMoneySearch(userA)<UserMoneySearch(userB)) {
-				System.out.println(userB+"의 승리!!");
-				ALose(userA,userB);
-			}
-			else {
-				rollback(); //값이 바뀌어버린 DB값을 롤백
-				disConnection(); //접속을 종료함.
-				System.out.println("무승부");
 			}
 			
 		}
@@ -150,6 +180,36 @@
 			CitySearchToast(userB);
 			UserMoneySearchToast(userB);
 		}
+		public void CitySearchToast(String user) {//1P,2P가 현재 소유중인 도시를 출력해주는 메소드(전석종)
+			String sql = "SELECT * FROM MONOPOLY WHERE PROPERTY=?";
+			try {// 도시보유
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, user);
+				rs = pstmt.executeQuery();
+				System.out.print(user+"의 소유 도시 : ");
+				while (rs.next()) {
+					System.out.print(rs.getString("city")+" ");
+				}
+				System.out.println("");
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("DB와 연결되어 있지 않습니다. 연결을 먼저 하세요.");
+				Monopolymain.main(null);
+			}
+		}
+		public void UserMoneySearchToast(String user) { //A,B의 현재 잔액을 조회하여 출력을 해주는 메소드(전석종)
+			String sql = "SELECT MONEY FROM USERLIST WHERE id=?";
+			try {// 잔액보유
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, user);
+				rs = pstmt.executeQuery();
+				while (rs.next()) {
+					System.out.println(user + "님의 잔액: " + rs.getInt("money"));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		public void BLose(String userA, String userB) { //A가 이기고 B가 진경우에 실행하는 메소드
 			rollback(); //값이 바뀌어버린 DB값을 롤백
 			WinScoreInsertDB(userA);
@@ -161,6 +221,22 @@
 			WinScoreInsertDB(userB); //이긴 유저에게 스코어 추가
 			LoseScoreInsertDB(userA); // 진 유저에게 스코어 추가
 			disConnection(); //접속을 종료함.
+		}
+		public void gameFinish(String userA, String userB) {
+			System.out.println("시간 초과, 게임종료");
+			if(UserMoneySearch(userA)>UserMoneySearch(userB)) {
+				System.out.println(userA+"의 승리!!");
+				BLose(userA,userB);
+			}
+			else if(UserMoneySearch(userA)<UserMoneySearch(userB)) {
+				System.out.println(userB+"의 승리!!");
+				ALose(userA,userB);
+			}
+			else {
+				rollback(); //값이 바뀌어버린 DB값을 롤백
+				disConnection(); //접속을 종료함.
+				System.out.println("무승부");
+			}
 		}
 		public int dice() { // 주사위를 굴려서 값을 반환하는 메소드
 			int dice = (int) (Math.random() * 6) + 1;
@@ -682,23 +758,6 @@
 				e.printStackTrace();
 			}
 		}
-		public void CitySearchToast(String user) {//1P,2P가 현재 소유중인 도시를 출력해주는 메소드(전석종)
-			String sql = "SELECT * FROM MONOPOLY WHERE PROPERTY=?";
-			try {// 도시보유
-				pstmt = con.prepareStatement(sql);
-				pstmt.setString(1, user);
-				rs = pstmt.executeQuery();
-				System.out.print(user+"의 소유 도시 : ");
-				while (rs.next()) {
-					System.out.print(rs.getString("city")+" ");
-				}
-				System.out.println("");
-			} catch (Exception e) {
-				e.printStackTrace();
-				System.out.println("DB와 연결되어 있지 않습니다. 연결을 먼저 하세요.");
-				Monopolymain.main(null);
-			}
-		}
 		public String citySearch(int location) { //현재 위치에 맞는 도시번호를 조회하여 해당 도시의 이름을 반환해주는 메소드(전석종)
 			String sql = "SELECT * FROM MONOPOLY WHERE cityno=?";
 			try {// 도시보유
@@ -728,19 +787,6 @@
 			}
 			return returnmoney;
 		}
-		public void UserMoneySearchToast(String user) { //A,B의 현재 잔액을 조회하여 출력을 해주는 메소드(전석종)
-			String sql = "SELECT MONEY FROM USERLIST WHERE id=?";
-			try {// 잔액보유
-				pstmt = con.prepareStatement(sql);
-				pstmt.setString(1, user);
-				rs = pstmt.executeQuery();
-				while (rs.next()) {
-					System.out.println(user + "님의 잔액: " + rs.getInt("money"));
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
 		public void disConnection() { //게임이 끝난뒤에 연결을 해제해주는 메소드(전석종)
 			try {
 				System.out.println("");
@@ -762,53 +808,6 @@
 				e.printStackTrace();
 			}
 		}
-		public String FirstMemberSearch() {//1P를 조회하고 플레이에 참여시키는 메소드(전석종)
-			String sql = "SELECT * FROM USERLIST where userno=? and id=?";
-			String id=null;
-			try {
-			pstmt = con.prepareStatement(sql);
-			System.out.println("1P의 회원번호를 입력하세요.");
-			pstmt.setInt(1, scan.nextInt());
-			System.out.println("1P의 ID를 입력하세요.");
-			pstmt.setString(2, scan.next());
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				return rs.getString("id");
-			}
-			if(!rs.next()) {
-				System.out.println("해당하는 회원이 없습니다.");
-				Start();
-			}
-		}
-			catch(Exception e) {
-				e.printStackTrace();
-			}
-			return id;
-	}
-		public String SecondMemberSearch() { //2P를 조회하고 플레이에 참여시키는 메소드(전석종)
-			String sql = "SELECT * FROM USERLIST where userno=? and id=?";
-			String id=null;
-			try {
-			pstmt = con.prepareStatement(sql);
-			System.out.println("2P의 회원번호를 입력하세요.");
-			pstmt.setInt(1, scan.nextInt());
-			System.out.println("2P의 ID를 입력하세요.");
-			pstmt.setString(2, scan.next());
-			String enter=scan.nextLine();
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				return rs.getString("id");
-			}
-			if(!rs.next()) {
-				System.out.println("해당하는 회원이 없습니다.");
-				Start();
-			}
-		}
-			catch(Exception e) {
-				e.printStackTrace();
-			}
-			return id;
-	}
 		public void WinScoreInsertDB(String user) { //승리 스코어를 DB에 반영하는 메소드(전석종)
 			String sql="update userlist set win=win+? where id=?";
 			try {
