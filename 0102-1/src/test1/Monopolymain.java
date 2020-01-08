@@ -19,7 +19,7 @@ public class Monopolymain {
 			}
 			if(command==3) {
 				sql.AutoCommitOff();//자동 커밋을 off해주는 메서드,맵에 관한 데이터는 늘 일정해야하므로 임시 변경만 되어야해서 커밋은 해제.
-				sql.TurnRepeat(); //게임에서 턴을 반복하는 메서드
+				sql.Start(); //게임에서 턴을 반복하는 메서드
 			}
 			if(command==4) {
 				sql.ScoreSearch();

@@ -76,12 +76,15 @@
 				Monopolymain.main(null);
 			}
 		}
-		public void TurnRepeat() { // 3번 커맨드 누르면 실행이며 1P와 2P의 턴이 반복됨.
+		public void Start() { // 3번 커맨드 누르면 실행이며 1P와 2P의 턴이 반복됨.
 			String userA=FirstMemberSearch(); //USER A ID 변수
 			String userB=SecondMemberSearch(); //USER B ID 변수
 			int locationA = 1; // A의 위치값 저장용 변수
 			int locationB = 1; // B의 위치값 저장용 변수
 			int count=1; //몇턴을 진행하였는지 저장하기 위한 변수
+			turnRepeat(userA,userB,locationA,locationB,count);
+		}
+		public void turnRepeat(String userA, String userB, int locationA, int locationB, int count) {
 			this.start=true;
 			while (this.start) { //현재 필드의 값이 true이면
 				gameInfo(count,userA,userB);
@@ -96,13 +99,13 @@
 					BLose(userA,userB);
 					break; //반복 종료.
 				}
-				gameInfo(count,userA,userB);
 				count++; //총 몇번 오갔는지 저장하기위해 증감연산자 사용
 				if(count>=20) { //현재 턴 수가 20에 도달하면
 					gameFinish(userA,userB);
 					break; //반복 종료.
 				}
 			}
+			
 		}
 		public void gameFinish(String userA, String userB) {
 			System.out.println("시간 초과, 게임종료");
@@ -326,20 +329,6 @@
 				System.out.println("가위바위보 미니게임 시작!");
 				System.out.println("컴퓨터와 가위바위보를 하여 이기면 상금,지면 벌금");
 				boolean win=minigame();
-				boolean loading = true;
-				try {
-					while(loading) {
-						System.out.print("■■■■■");
-						Thread.sleep(200);
-						System.out.print("■■■■■");
-						Thread.sleep(100);
-						System.out.println("■■■■■");
-						loading = false;
-					}
-				}
-				catch(Exception e) {
-					e.printStackTrace();
-				}
 				if(win) {
 					String sql="update userlist set money=money+1000 where id=?";
 					try {
@@ -397,6 +386,20 @@
 			Scanner scan = new Scanner(System.in);
 			System.out.println("컴퓨터와 가위바위보를 진행하세요. 키워드는 가위,바위,보만 가능합니다.");
 			String userinput = scan.next(); // 유저가 입력하는 변수.
+			boolean loading = true;
+			try {
+				while(loading) {
+					System.out.print("■■■■■");
+					Thread.sleep(300);
+					System.out.print("■■■■■");
+					Thread.sleep(200);
+					System.out.println("■■■■■");
+					loading = false;
+				}
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
 			int computer=0; // 컴퓨터의 Math.random() 결과 대입 하는 변수.
 			String computeroutput = null; // 컴퓨터의 Math.random() 결과에 따라서 유저 변수와 비교하기 위한 변수.
 			computer= (int) ((Math.random() * 3) +1); // 곱하기 3을 하는이유는 가위바위보는 경우의 수가 3가지뿐이라 숫자도 3개만 있으면 됨.
@@ -511,9 +514,9 @@
 					try {
 						while(loading) {
 							System.out.print("■■■■■");
-							Thread.sleep(200);
+							Thread.sleep(400);
 							System.out.print("■■■■■");
-							Thread.sleep(200);
+							Thread.sleep(400);
 							System.out.println("■■■■■");
 							loading = false;
 						}
@@ -647,9 +650,9 @@
 					try {
 						while(loading) {
 							System.out.print("■■■■■");
-							Thread.sleep(200);
+							Thread.sleep(400);
 							System.out.print("■■■■■");
-							Thread.sleep(200);
+							Thread.sleep(400);
 							System.out.println("■■■■■");
 							loading = false;
 						}
@@ -774,7 +777,7 @@
 			}
 			if(!rs.next()) {
 				System.out.println("해당하는 회원이 없습니다.");
-				TurnRepeat();
+				Start();
 			}
 		}
 			catch(Exception e) {
@@ -798,7 +801,7 @@
 			}
 			if(!rs.next()) {
 				System.out.println("해당하는 회원이 없습니다.");
-				TurnRepeat();
+				Start();
 			}
 		}
 			catch(Exception e) {
