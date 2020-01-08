@@ -33,7 +33,7 @@
 					memberAdd();
 				}
 			}
-			catch(Exception e) {
+			catch(SQLException e) {
 				System.out.println("DB접속을 먼저하세요.");
 				Monopolymain.main(null);
 			}
