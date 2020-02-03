@@ -49,7 +49,7 @@ public class Sql {
 		}
 		return true;
 	}
-	public void CreateAccount() { //계좌개설하는 메서드(고객등록)
+	public void CreateAccount() {
 		Scanner scan = new Scanner(System.in);
 		String sql = "insert into bank values((select count(*)from bank)+1,?,?,?)";
 		try {
