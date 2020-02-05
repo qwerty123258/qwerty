@@ -14,7 +14,7 @@ function insertName(){
 <body>
 	<h2>InputDB.jsp 파일
 	</h2>
-	<form action="inputServer" method="post" id="nameInsert">
+	<form action="inputServer" method="get" id="nameInsert">
          <label for="id_input">이름</label> 
          <input type="text" id="id_input" name="data1" autocomplete="off"> 
 	</form>

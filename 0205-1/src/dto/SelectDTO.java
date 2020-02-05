@@ -1,9 +1,9 @@
-package controller;
+package dto;
 
-public class Select {
+public class SelectDTO {
 	private String data1;
 	
-	public Select() {
+	public SelectDTO() {
 		super();
 	}
 	

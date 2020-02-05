@@ -11,9 +11,8 @@
 <body>
 <h2>Select.jsp 파일
 </h2>
-<c:forEach var="result" items="${reqData1}">
-${result}
-<a href="getTest?resultParam=${result}">${result}</a>
+<c:forEach var="result" items="${member}">
+${result}<br>
 </c:forEach>
 </body>
 </html>

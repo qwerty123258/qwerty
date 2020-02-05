@@ -7,8 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-
-import controller.Select;
+import dto.SelectDTO;
 
 public class DAO {
 	private static DAO dao;
@@ -43,14 +42,14 @@ public class DAO {
 		return result;
 		
 	}
-	public List<Select> selectDB() {
+	public List<SelectDTO> selectDB() {
 		String sql = "select * from nametest";
-		List<Select> dataList = new ArrayList<Select>();
+		List<SelectDTO> dataList = new ArrayList<SelectDTO>();
 		try {
 		pstmt = con.prepareStatement(sql); 
 		rs=pstmt.executeQuery();
 		while(rs.next()) {
-			Select sel = new Select();
+			SelectDTO sel = new SelectDTO();
 			sel.setData1(rs.getString("name"));
 			dataList.add(sel);
 		}
