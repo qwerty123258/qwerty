@@ -5,12 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script>
+alert("삭제 성공!");
+location.href="LoginMain.jsp";
+</script>
 </head>
 <body>
-<h2>회원 등록 성공
-</h2>
-	<form action="MemberSelect">
-	<input type="submit" value="조회하기">
-	</form>
+
 </body>
 </html>

@@ -5,9 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script>
+alert("당신은 블랙리스트에 추가되었습니다. \n 블랙리스트는 로그인이 불가능합니다.");
+location.href="Main.jsp";
+</script>
 </head>
 <body>
-<h2>회원 등록 실패
-</h2>
+
 </body>
 </html>
