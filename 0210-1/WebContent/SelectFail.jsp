@@ -6,8 +6,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script>
-alert("관리자는 삭제하실 수 없습니다.");
-location.href="LoginMain.jsp";
+alert("조회실패");
+location.href="Main.jsp";
 </script>
 </head>
 <body>

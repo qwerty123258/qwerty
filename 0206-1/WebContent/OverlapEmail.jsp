@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script>
-alert("중복된 ID입니다.");
+alert("해당 이메일은 이미 사용중입니다.");
 location.href="InsertMember.jsp";
 </script>
 </head>

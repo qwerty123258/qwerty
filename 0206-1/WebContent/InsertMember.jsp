@@ -24,9 +24,28 @@
         	alert("입력된 값이 올바르지 않습니다.");
         }
     }
+    function checkID(){
+    	if(addForm.id.value == "") {
+    		alert("id를 입력하시오.");
+    		addForm.id.focus();
+    	} else {
+    		{
+    			url = "CheckID.jsp?id=" + addForm.id.value;
+    			window.open(
+    					url,
+    					"아이디 중복확인", "toolbar=no, width=350, height=150, top=150, left=150");
+    		}
+    }
+    }
     </script>
      <link rel="stylesheet" href="css/login.css">
      <link rel="stylesheet" href="css/form.css">
+     <style>
+     #checkid{
+     width:80px;
+     float:right;
+     }
+     </style>
     <link href="https://fonts.googleapis.com/css?family=Yeon+Sung&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -36,16 +55,16 @@
                 <img id="logo" src="images/logo.png">
             </a>
             <div class="mid">
-            <form action="MemberAdd" method="post" id="formTrans">
+            <form action="MemberAdd" method="post" id="formTrans" name="addForm">
             <table>
                 <tr>
                     <tr>
                         <td>
-                            아이디
+                            아이디<input id="checkid" type="button" onclick="checkID()" value="ID중복확인">
                         </td>
                     </tr>
                     <td>
-                        <input type="text" name="id" id="idinput" placeholder="6~10자리 대소문자,숫자 포함" onfocus="idinputfocus()" onblur="idinputblur()" onkeyup="idcheck()">
+                     <input type="text" name="id" id="idinput" placeholder="6~10자리 대소문자,숫자 포함" onfocus="idinputfocus()" onblur="idinputblur()" onkeyup="idcheck()">
                     </td>
                     <td>
                         <div id="idtext"></div>

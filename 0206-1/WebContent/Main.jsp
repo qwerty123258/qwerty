@@ -72,6 +72,7 @@ function enterkey(){
                 <br>
                 <div id="log">
                     넷플릭스 회원이 아닌가요? <a href="InsertMember.jsp"><b>지금 가입하세요.</b></a>
+                    <a href="Search.jsp">아이디/비밀번호 찾기</a>
                 </div>
             </div>
         </div>

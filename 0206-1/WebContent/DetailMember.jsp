@@ -123,10 +123,14 @@ ${result.email}
 ${result.blacklist}
 </td>
 <td>
+<c:if test="${result.id ne 'qwerty123258'}">
 <a onclick="addBlackList()" href="#">추가</a>
+</c:if>
 </td>
 <td>
+<c:if test="${result.id ne 'qwerty123258'}">
 <a onclick="del()" href="#">삭제</a>
+</c:if>
 </td>
 </tr>
 </c:forEach>

@@ -39,22 +39,21 @@ public class MemberAdd extends HttpServlet {
 		member.setEmail(email);	
 		MemberService service = new MemberService();
 		MemberCheckOverlapService checkservice = new MemberCheckOverlapService();
-		boolean result=checkservice.checkOverlap(id);
-		if(result) {
-			response.sendRedirect("Overlap.jsp");
-		}
-		else {
-			boolean inputResult;
-			inputResult=service.memberDB(member);
-			if(inputResult) {
-				response.sendRedirect("InsertSuccess.jsp");
+		boolean emailresult=checkservice.checkOverlapEmail(email);
+			if(emailresult) {
+				response.sendRedirect("OverlapEmail.jsp");
 			}
 			else {
-				response.sendRedirect("InsertFail.jsp");
+				boolean inputResult;
+				inputResult=service.memberDB(member);
+				if(inputResult) {
+					response.sendRedirect("InsertSuccess.jsp");
+				}
+				else {
+					response.sendRedirect("InsertFail.jsp");
+				}
 			}
 		}
-	}
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doProcess(request, response);
 	}

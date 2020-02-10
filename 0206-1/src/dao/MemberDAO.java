@@ -316,5 +316,74 @@ public class MemberDAO {
 		return false;
 		
 	}
+	public void memberSearch(String name, String email, MemberDTO member) {
+		String sql="select id from Member where name=? and email=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, name);
+			pstmt.setString(2, email);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				member.setId(rs.getString("id"));
+			}
+			else {
+				member.setId("아이디없음");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+				close(pstmt);
+				close(rs);
+		}
+		
+	}
+	public void memberSearchPassword(String id, String email, MemberDTO member) {
+		String sql="select password from Member where id=? and email=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, email);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				member.setPassword(rs.getString("password"));
+			}
+			else {
+				member.setPassword("비밀번호없음");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+				close(pstmt);
+				close(rs);
+		}
+		
+	}
+	public boolean checkOverlapEmail(String email) {
+		String sql="select * from Member where email=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, email);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				rs.getString("id");
+				rs.getString("password");
+				rs.getString("name");
+				rs.getString("birth");
+				rs.getString("gender");
+				rs.getString("email");
+				rs.getString("blacklist");
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+				close(pstmt);
+				close(rs);
+		}
+		return false;
+	}
 	
 }

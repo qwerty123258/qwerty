@@ -112,7 +112,9 @@ ${result.email}
 <a id="select" href="Detail?id=${result.id}">조회</a>
 </td>
 <td>
+<c:if test="${result.id ne 'qwerty123258'}">
 <a onclick="del()" href="#">삭제</a>
+</c:if>
 </td>
 </tr>
 </c:forEach>

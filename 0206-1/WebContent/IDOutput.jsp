@@ -6,11 +6,10 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script>
-alert("관리자는 블랙리스트로 추가하실 수 없습니다.");
-location.href="LoginMain.jsp";
+alert("찾으신 아이디는 ${requestScope.id}");
+location.href="Main.jsp";
 </script>
 </head>
 <body>
-
 </body>
 </html>
