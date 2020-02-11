@@ -8,11 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import service.BoardUpdateService;
 
-@WebServlet("/Update")
-public class Update extends HttpServlet {
+@WebServlet("/BoardUpdate")
+public class BoardUpdate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public Update() {
+    public BoardUpdate() {
         super();
     }
     
@@ -24,10 +24,10 @@ public class Update extends HttpServlet {
     	BoardUpdateService service = new BoardUpdateService();
     	boolean result=service.updateBoard(bnum,title,bcontent);
     	if(result) {
-    		response.sendRedirect("ModifySuccess.jsp");
+    		response.sendRedirect("BoardModifySuccess.jsp");
     	}
     	else {
-    		response.sendRedirect("ModifyFail.jsp");
+    		response.sendRedirect("BoardModifyFail.jsp");
     	}
 	}
 

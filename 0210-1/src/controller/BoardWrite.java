@@ -1,10 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,27 +8,35 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dto.BoardDTO;
-import service.DetailService;
+import service.WriteService;
 
-@WebServlet("/Detail")
-public class Detail extends HttpServlet {
+@WebServlet("/BoardWrite")
+public class BoardWrite extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public Detail() {
+    public BoardWrite() {
         super();
     }
     
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		String bnum=request.getParameter("board");
-		List<BoardDTO> boardList= new ArrayList<BoardDTO>();
-		DetailService service=new DetailService();
-		service.bViewIncrease(bnum);
-		boardList=service.detail(bnum);
-		request.setAttribute("board", boardList);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("BoardDetail.jsp");
-		dispatcher.forward(request, response);
-		
+		String writer=request.getParameter("writer");
+		String bpassword=request.getParameter("bpassword");
+		String title=request.getParameter("title");
+		String bcontent=request.getParameter("bcontent");
+		BoardDTO board=new BoardDTO();
+		board.setWriter(writer);
+		board.setBpassword(bpassword);
+		board.setTitle(title);
+		board.setBcontent(bcontent);
+		WriteService service=new WriteService();
+		boolean result=service.writeBoard(board);
+		if(result) {
+			response.sendRedirect("BoardMain.jsp");
+		}
+		else {
+			response.sendRedirect("BoardWrite.jsp");
+		}
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

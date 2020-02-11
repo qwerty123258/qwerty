@@ -8,20 +8,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
     <link href="https://fonts.googleapis.com/css?family=Yeon+Sung&display=swap" rel="stylesheet">
-        <script>
-	function del(){
-        if(confirm("삭제를 진행하시겠습니까?")){
-            alert("삭제 진행");
-            <c:forEach var="result" items="${member}">
-            location.href="Delete?id=${result.id}";
-            </c:forEach>
-        }
-        else{
-            alert("삭제 취소");
-            location.href="LoginMain.jsp"
-        }
-	}
-        </script>
 <style>
 *{
     font-family: 'Yeon Sung', cursive;
@@ -113,7 +99,7 @@ ${result.email}
 </td>
 <td>
 <c:if test="${result.id ne 'qwerty123258'}">
-<a onclick="del()" href="#">삭제</a>
+<a href="Delete?id=${result.id}">삭제</a>
 </c:if>
 </td>
 </tr>

@@ -3,10 +3,10 @@ package dto;
 public class BoardDTO {
 	private int bnum;
 	private String writer;
-	private String password;
+	private String bpassword;
 	@Override
 	public String toString() {
-		return "BoardDTO [bnum=" + bnum + ", writer=" + writer + ", password=" + password + ", title=" + title
+		return "BoardDTO [bnum=" + bnum + ", writer=" + writer + ", bpassword=" + bpassword + ", title=" + title
 				+ ", bcontent=" + bcontent + ", writedate=" + writedate + ", bview=" + bview + "]";
 	}
 	public int getBnum() {
@@ -21,11 +21,11 @@ public class BoardDTO {
 	public void setWriter(String writer) {
 		this.writer = writer;
 	}
-	public String getPassword() {
-		return password;
+	public String getBpassword() {
+		return bpassword;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+	public void setBpassword(String password) {
+		this.bpassword = password;
 	}
 	public String getTitle() {
 		return title;

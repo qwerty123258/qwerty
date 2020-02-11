@@ -5,12 +5,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script>
-alert("수정 실패");
-location.href="Main.jsp";
-</script>
 </head>
 <body>
-
+<a href="BoardWrite.jsp">글쓰기</a>
+<a href="PageList">글 목록보기</a>
 </body>
 </html>

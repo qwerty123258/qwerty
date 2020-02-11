@@ -11,14 +11,12 @@ import dto.BoardDTO;
 
 public class DetailService {
 
-	public List<BoardDTO> detail(String bnum) {
+	public void detail(String bnum,BoardDTO board) {
 		BoardDAO dao=BoardDAO.getInstance();
 		Connection con=getConnection();
 		dao.setConnection(con);
-		List<BoardDTO> boardList= new ArrayList<BoardDTO>();
-		boardList=dao.detail(bnum);
+		dao.detail(bnum,board);
 		close(con);
-		return boardList;	
 	}
 
 	public void bViewIncrease(String bnum) {

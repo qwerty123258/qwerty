@@ -20,7 +20,7 @@ padding:3px;
 </head>
 <body>
 <h2>
-글 목록
+글 목록(조회수순)
 </h2>
 <table>
 <tr>
@@ -34,7 +34,7 @@ padding:3px;
 작성자
 </th>
 <th>
-<a href="PageListOrder">
+<a href="PageList">
 조회수
 </a>
 </th>

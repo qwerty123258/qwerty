@@ -23,4 +23,14 @@ public class BoardListService {
 		
 	}
 
+	public List<BoardDTO> boardListBviewOrder() {
+		BoardDAO dao=BoardDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		List<BoardDTO> boardList= new ArrayList<BoardDTO>();
+		boardList=dao.boardListBviewOrder();
+		close(con);
+		return boardList;
+	}
+
 }

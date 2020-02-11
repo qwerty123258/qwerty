@@ -6,8 +6,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script>
-alert("수정 완료");
-location.href="Main.jsp";
+alert("수정 실패");
+location.href="BoardMain.jsp";
 </script>
 </head>
 <body>

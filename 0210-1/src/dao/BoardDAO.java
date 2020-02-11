@@ -10,6 +10,7 @@ import java.util.List;
 import static db.JdbcUtil.*;
 
 import dto.BoardDTO;
+import page.Paging;
 
 public class BoardDAO {
 	private static BoardDAO dao;
@@ -35,7 +36,7 @@ public class BoardDAO {
 			pstmt.setString(1, board.getTitle());
 			pstmt.setString(2, board.getWriter());
 			pstmt.setString(3, board.getBcontent());
-			pstmt.setString(4, board.getPassword());
+			pstmt.setString(4, board.getBpassword());
 			result=pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -58,6 +59,7 @@ public class BoardDAO {
 				board.setTitle(rs.getString("title"));
 				board.setWriter(rs.getString("writer"));
 				board.setWritedate(rs.getString("writedate"));
+				board.setBpassword(rs.getString("bpassword"));
 				board.setBview(rs.getInt("bview"));
 				boardList.add(board);
 			}
@@ -70,22 +72,20 @@ public class BoardDAO {
 		}
 		return boardList;
 	}
-	public List<BoardDTO> detail(String bnum) {
+	public void detail(String bnum,BoardDTO board) {
 		String sql="select * from Board where bnum=?";
-		List<BoardDTO> boardList= new ArrayList<BoardDTO>();
 		try {
 			pstmt=con.prepareStatement(sql);
 			pstmt.setString(1, bnum);
 			rs=pstmt.executeQuery();
 			while(rs.next()){
-				BoardDTO board=new BoardDTO();
 				board.setBnum(rs.getInt("bnum"));
 				board.setTitle(rs.getString("title"));
 				board.setWriter(rs.getString("writer"));
 				board.setWritedate(rs.getString("writedate"));
 				board.setBcontent(rs.getString("bcontent"));
 				board.setBview(rs.getInt("bview"));
-				boardList.add(board);
+				board.setBpassword(rs.getString("bpassword"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -94,7 +94,6 @@ public class BoardDAO {
 			close(pstmt);
 			close(rs);
 		}
-		return boardList;
 	}
 	public int bViewIncrease(String bnum) {
 		String sql="update Board set bview=bview+? where bnum=?";
@@ -114,7 +113,7 @@ public class BoardDAO {
 		
 	}
 	public int updateBoard(String bnum, String title, String bcontent) {
-		String sql="update Board set title=?,bcontent=? where bnum=?";
+		String sql="update Board set title=?,bcontent=?,writedate=sysdate where bnum=?";
 		int result=0;
 		try {
 			pstmt=con.prepareStatement(sql);
@@ -130,4 +129,122 @@ public class BoardDAO {
 		}
 		return result;
 	}
+	public List<BoardDTO> boardListBviewOrder() {
+		String sql="select * from Board order by bview desc";
+		List<BoardDTO> boardList= new ArrayList<BoardDTO>();
+		try {
+			pstmt = con.prepareStatement(sql);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				BoardDTO board=new BoardDTO();
+				board.setBnum(rs.getInt("bnum"));
+				board.setTitle(rs.getString("title"));
+				board.setWriter(rs.getString("writer"));
+				board.setWritedate(rs.getString("writedate"));
+				board.setBview(rs.getInt("bview"));
+				boardList.add(board);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+			close(rs);
+		}
+		return boardList;
+	}
+	public int deleteBoard(String bnum) {
+		String sql="delete Board where bnum=?";
+		int result=0;
+		try {
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, bnum);
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+		}
+		return result;
+		
+	}
+	public List<BoardDTO> BoardList(Paging paging){        
+	    int startNum = paging.getStartNum();
+	    int endNum = paging.getEndNum();
+        //1번 페이지 1~10
+        //2번 페이지 11~20        
+        String sql = "SELECT * FROM (SELECT * FROM (SELECT ROWNUM row_num, Board.* FROM Board) WHERE row_num >= ?) WHERE row_num <= ?";
+        List<BoardDTO> boardList = new ArrayList<BoardDTO>();
+        try{
+            pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, startNum);
+            pstmt.setInt(2, endNum);
+            rs = pstmt.executeQuery();
+            while(rs.next()){
+				BoardDTO board=new BoardDTO();
+				board.setBnum(rs.getInt("bnum"));
+				board.setTitle(rs.getString("title"));
+				board.setWriter(rs.getString("writer"));
+				board.setWritedate(rs.getString("writedate"));
+				board.setBpassword(rs.getString("bpassword"));
+				board.setBview(rs.getInt("bview"));
+				boardList.add(board);
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally{
+			close(pstmt);
+			close(rs);
+        }
+        return boardList;
+    }
+	
+	public List<BoardDTO> BoardListOrder(Paging paging){        
+	    int startNum = paging.getStartNum();
+	    int endNum = paging.getEndNum();
+        //1번 페이지 1~10
+        //2번 페이지 11~20        
+        String sql = "SELECT * FROM (SELECT * FROM (SELECT ROWNUM row_num, Board.* FROM Board) WHERE row_num >= ?) WHERE row_num <= ? order by bview desc";
+        List<BoardDTO> boardList = new ArrayList<BoardDTO>();
+        try{
+            pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, startNum);
+            pstmt.setInt(2, endNum);
+            rs = pstmt.executeQuery();
+            while(rs.next()){
+				BoardDTO board=new BoardDTO();
+				board.setBnum(rs.getInt("bnum"));
+				board.setTitle(rs.getString("title"));
+				board.setWriter(rs.getString("writer"));
+				board.setWritedate(rs.getString("writedate"));
+				board.setBpassword(rs.getString("bpassword"));
+				board.setBview(rs.getInt("bview"));
+				boardList.add(board);
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }finally{
+			close(pstmt);
+			close(rs);
+        }
+        return boardList;
+    }
+	public int getAllCount() {
+	    String sql = "SELECT COUNT(*) as count FROM Board";
+	    int count = 0;
+	    try{
+	    	pstmt = con.prepareStatement(sql);
+	        rs= pstmt.executeQuery();
+	        if(rs.next()){
+	            count = rs.getInt("count");
+	        }
+	    }catch(SQLException e){
+	        e.printStackTrace();
+	    }finally{
+			close(pstmt);
+			close(rs);
+	    }
+	    return count;
+	 }
 }

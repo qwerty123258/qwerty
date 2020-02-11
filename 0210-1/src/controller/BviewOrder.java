@@ -10,14 +10,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import dto.BoardDTO;
 import service.BoardListService;
 
-@WebServlet("/BoardList")  
-public class BoardList extends HttpServlet {
+
+@WebServlet("/bviewOrder")
+public class BviewOrder extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    public BoardList() {
+
+    public BviewOrder() {
         super();
     }
     
@@ -25,14 +27,16 @@ public class BoardList extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		List<BoardDTO> boardList= new ArrayList<BoardDTO>();
 		BoardListService service= new BoardListService();
-		boardList=service.boardList();
+		boardList=service.boardListBviewOrder();
 		request.setAttribute("board", boardList);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("BoardList.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("BoardListBviewOrder.jsp");
 		dispatcher.forward(request, response);
 	}
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doProcess(request, response);
 	}
+
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doProcess(request, response);
