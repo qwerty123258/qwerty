@@ -25,7 +25,7 @@ public class BoardDelete extends HttpServlet {
 		BoardDeleteService service=new BoardDeleteService();
 		boolean result=service.deleteBoard(bnum);
 		if(result) {
-			response.sendRedirect("BoardList");
+			response.sendRedirect("PageList");
 		}
 		else {
 			request.setAttribute("board", bnum);

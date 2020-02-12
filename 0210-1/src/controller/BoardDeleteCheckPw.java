@@ -13,11 +13,11 @@ import dto.BoardDTO;
 import service.DetailService;
 
 
-@WebServlet("/BoardCheckPw")
-public class BoardCheckPw extends HttpServlet {
+@WebServlet("/BoardDeleteCheckPw")
+public class BoardDeleteCheckPw extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public BoardCheckPw() {
+    public BoardDeleteCheckPw() {
         super();
     }
     
@@ -29,7 +29,7 @@ public class BoardCheckPw extends HttpServlet {
 		service.detail(bnum,board);
 		request.setAttribute("bnum", bnum);
 		request.setAttribute("bpassword", board.getBpassword());
-		RequestDispatcher dispatcher = request.getRequestDispatcher("BoardCheckPw.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("BoardDeleteCheckPw.jsp");
 		dispatcher.forward(request, response);
 
 		}

@@ -11,8 +11,15 @@ public class Paging {
     boolean next; //next 버튼이 보일건지 안보일건지
     private int startNum;
     private int endNum;
+    private int totalPage;
         
-    public int getStartNum() {
+    public int getTotalPage() {
+		return totalPage;
+	}
+	public void setTotalPage(int totalPage) {
+		this.totalPage = totalPage;
+	}
+	public int getStartNum() {
     	startNum = (page-1)*displayRow+1;
 		return startNum;
 	}
@@ -60,14 +67,10 @@ public class Paging {
     private void paging(){
         endPage = ((int)Math.ceil(page/(double)displayPage))*displayPage;
         beginPage = endPage - (displayPage - 1);
-        int totalPage = (int)Math.ceil(totalCount/(double)displayRow);
+        totalPage = (int)Math.ceil(totalCount/(double)displayRow);
         if(totalPage<endPage){
             endPage = totalPage;
-            next = false;
-        }else{
-            next = true;
         }
-        prev = (beginPage==1)?false:true;
         
     }
 }

@@ -32,12 +32,13 @@ function writeboard(){
 <h2>
 글 쓰기
 </h2>
-<form action="BoardWrite" method="post" id="boardwrite">
+<form action="BoardWrite" method="post" id="boardwrite" enctype="multipart/form-data">
 작성자 <input type="text" name="writer" id="boardwriter"><br>
 비밀번호 <input type="password" name="bpassword" id="boardpassword"> <br><br>
 제목
 <input type="text" name="title" id="boardtitle"><br><br><br>
 <textarea rows="10" cols="100" name="bcontent"></textarea>
+<input type="file" name="bfile">
 </form>
 <button onclick="writeboard()">작성완료</button>
 <a href="BoardMain.jsp">홈</a>

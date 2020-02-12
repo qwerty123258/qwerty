@@ -7,14 +7,16 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+title{
+width:100%;
+}
 td,th{
 border:black solid 1px;
-width:60px;
 text-align:center;
 padding:3px;
 }
 #title{
-	width:800px;
+	width:60%;
 }
 </style>
 </head>
@@ -32,6 +34,9 @@ padding:3px;
 </th>
 <th>
 작성자
+</th>
+<th>
+작성시간
 </th>
 <th>
 <a href="PageList">
@@ -53,18 +58,45 @@ ${result.title}
 ${result.writer}
 </td>
 <td>
+${result.writedate}
+</td>
+<td>
 ${result.bview}
 </td>
 </tr>
 </c:forEach>
 </table>
-<jsp:include page="paging.jsp">
-    <jsp:param value="${paging.page}" name="page"/>
-    <jsp:param value="${paging.beginPage}" name="beginPage"/>
-    <jsp:param value="${paging.endPage}" name="endPage"/>
-    <jsp:param value="${paging.prev}" name="prev"/>
-    <jsp:param value="${paging.next}" name="next"/>
-</jsp:include>
+<div id="paging">
+<c:url var="action" value="/PageListOrder"/>
+ <a href="${action}?page=1">처음으로</a>
+     <c:choose>
+      <c:when test="${paging.beginPage==1}">
+            <a>이전</a>
+        </c:when>
+        <c:otherwise>
+   			 <a href="${action}?page=${paging.beginPage-1}">이전</a>
+        </c:otherwise>
+    </c:choose>
+<c:forEach begin="${paging.beginPage}" end="${paging.endPage}" step="1" var="index">
+    <c:choose>
+        <c:when test="${paging.page==index}">
+            ${index}
+        </c:when>
+        <c:otherwise>
+            <a href="${action}?page=${index}">${index}</a>
+        </c:otherwise>
+    </c:choose>
+    </c:forEach>
+        <c:choose>
+        <c:when test="${paging.endPage==paging.totalPage}">
+            <a>다음</a>
+        </c:when>
+        <c:otherwise>
+   			 <a href="${action}?page=${paging.endPage+1}">다음</a>
+        </c:otherwise>
+    </c:choose>
+ <a href="${action}?page=${paging.totalPage}">끝으로</a>
+</div>
 <a href="BoardWrite.jsp">글쓰기</a>
 <a href="BoardMain.jsp">홈</a>
 </body>

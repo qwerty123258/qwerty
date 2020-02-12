@@ -10,6 +10,7 @@
 function checkPw(){
 	var pass="${requestScope.bpassword}";
 	if(document.getElementById("checkPass").value==pass){
+		alert("삭제 진행");
 		document.getElementById("pwCheck").submit();
 	}
 	else{
@@ -21,7 +22,7 @@ function checkPw(){
 <body>
 <h2>비밀번호 확인
 </h2>
-<form action="BoardModify?bnum=${requestScope.bnum}" id="pwCheck" method="post">
+<form action="BoardDelete?bnum=${requestScope.bnum}" id="pwCheck" method="post">
 <input type="password" id="checkPass" name="bpassword">
 </form>
 <button onclick="checkPw()">체크</button>

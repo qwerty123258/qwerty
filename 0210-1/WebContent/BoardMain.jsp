@@ -9,5 +9,6 @@
 <body>
 <a href="BoardWrite.jsp">글쓰기</a>
 <a href="PageList">글 목록보기</a>
+<a href="MailForm.jsp">메일 전송</a>
 </body>
 </html>

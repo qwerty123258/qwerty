@@ -20,13 +20,13 @@ public class PageControllerOrder extends HttpServlet{
         Paging paging = new Paging();
     	PageService service = new PageService();
     	int count=service.BoardCount();
-    	List<BoardDTO> boardList=service.BoardListOrder(paging);
     	int page = 1;
         if(request.getParameter("page")!=null){
             page = Integer.parseInt(request.getParameter("page"));
         }
-        paging.setTotalCount(count);
         paging.setPage(page);
+        paging.setTotalCount(count);
+    	List<BoardDTO> boardList=service.BoardListOrder(paging);
         request.setAttribute("board", boardList);
         request.setAttribute("paging", paging);
         RequestDispatcher dispatcher = request.getRequestDispatcher("BoardListOrder.jsp");

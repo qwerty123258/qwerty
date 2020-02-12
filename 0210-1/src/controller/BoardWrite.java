@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+
 import dto.BoardDTO;
 import service.WriteService;
 
@@ -20,15 +23,22 @@ public class BoardWrite extends HttpServlet {
     
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		String writer=request.getParameter("writer");
-		String bpassword=request.getParameter("bpassword");
-		String title=request.getParameter("title");
-		String bcontent=request.getParameter("bcontent");
+		String savePath="C:/Users/5/git/qwerty/0210-1/WebContent/fileUpload";
+		int size=10*1024*1024;
+		MultipartRequest multiRequest = new MultipartRequest(
+				request,savePath,size,"UTF-8",new DefaultFileRenamePolicy()
+				);
+		String writer=multiRequest.getParameter("writer");
+		String bpassword=multiRequest.getParameter("bpassword");
+		String title=multiRequest.getParameter("title");
+		String bcontent=multiRequest.getParameter("bcontent");
+		String bfile=multiRequest.getOriginalFileName((String)multiRequest.getFileNames().nextElement());
 		BoardDTO board=new BoardDTO();
 		board.setWriter(writer);
 		board.setBpassword(bpassword);
 		board.setTitle(title);
 		board.setBcontent(bcontent);
+		board.setBfile(bfile);
 		WriteService service=new WriteService();
 		boolean result=service.writeBoard(board);
 		if(result) {

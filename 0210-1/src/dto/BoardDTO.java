@@ -4,10 +4,23 @@ public class BoardDTO {
 	private int bnum;
 	private String writer;
 	private String bpassword;
+	private String bfile;
+	private String title;
+	private String bcontent;
+	private String writedate;
+	private int bview;
+
 	@Override
 	public String toString() {
-		return "BoardDTO [bnum=" + bnum + ", writer=" + writer + ", bpassword=" + bpassword + ", title=" + title
-				+ ", bcontent=" + bcontent + ", writedate=" + writedate + ", bview=" + bview + "]";
+		return "BoardDTO [bnum=" + bnum + ", writer=" + writer + ", bpassword=" + bpassword + ", bfile=" + bfile
+				+ ", title=" + title + ", bcontent=" + bcontent + ", writedate=" + writedate + ", bview=" + bview + "]";
+	}
+	
+	public String getBfile() {
+		return bfile;
+	}
+	public void setBfile(String bfile) {
+		this.bfile = bfile;
 	}
 	public int getBnum() {
 		return bnum;
@@ -45,14 +58,10 @@ public class BoardDTO {
 	public void setWritedate(String writedate) {
 		this.writedate = writedate;
 	}
-	private String title;
 	public int getBview() {
 		return bview;
 	}
 	public void setBview(int bview) {
 		this.bview = bview;
 	}
-	private String bcontent;
-	private String writedate;
-	private int bview;
 }

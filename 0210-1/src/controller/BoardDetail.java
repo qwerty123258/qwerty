@@ -36,6 +36,7 @@ public class BoardDetail extends HttpServlet {
 			request.setAttribute("writer", board.getWriter());
 			request.setAttribute("writedate", board.getWritedate());
 			request.setAttribute("bpassword", board.getBpassword());
+			request.setAttribute("bfile", board.getBfile());
 			RequestDispatcher dispatcher = request.getRequestDispatcher("BoardDetail.jsp");
 			dispatcher.forward(request, response);
 		}

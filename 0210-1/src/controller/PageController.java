@@ -25,8 +25,8 @@ public class PageController extends HttpServlet{
         if(request.getParameter("page")!=null){
             page = Integer.parseInt(request.getParameter("page"));
         }
-        paging.setTotalCount(count);
         paging.setPage(page);
+        paging.setTotalCount(count);
     	List<BoardDTO> boardList=service.BoardList(paging);
         request.setAttribute("board", boardList);
         request.setAttribute("paging", paging);
