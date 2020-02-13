@@ -36,6 +36,9 @@ public class MemberCheck extends HttpServlet {
 		String email=member.getEmail();
 		request.setAttribute("name", name);
 		request.setAttribute("email", email); 
+		request.setAttribute("phone", member.getPhone());
+		request.setAttribute("address", member.getAddress());
+		request.setAttribute("mempicture", member.getMempicture());
 		if(result) {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("ModifyMember.jsp");
 			dispatcher.forward(request, response);

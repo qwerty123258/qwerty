@@ -156,14 +156,17 @@ public class MemberDAO {
 		}
 		return memberList;
 	}
-	public int updateMember(String id, String name, String email) {
-		String sql = "update Member set name=?,email=? where id=?";
+	public int updateMember(String id, String name, String email, String address, String phone, String mempicture) {
+		String sql = "update Member set name=?,email=?,address=?,phone=?,mempicture=? where id=?";
 		int result=0;
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, name);
 			pstmt.setString(2, email);
-			pstmt.setString(3, id);
+			pstmt.setString(3, address);
+			pstmt.setString(4, phone);
+			pstmt.setString(5, mempicture);
+			pstmt.setString(6, id);
 			result=pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO 자동 생성된 catch 블록
@@ -235,6 +238,9 @@ public class MemberDAO {
 				member.setGender(rs.getString("gender"));
 				member.setEmail(rs.getString("email"));
 				member.setBlacklist(rs.getString("blacklist"));
+				member.setAddress(rs.getString("address"));
+				member.setPhone(rs.getString("phone"));
+				member.setMempicture(rs.getString("mempicture"));
 				return true;
 			}
 		} catch (SQLException e) {

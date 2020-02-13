@@ -8,11 +8,11 @@ import dao.MemberDAO;
 
 public class MemberUpdateService {
 
-	public boolean updateMember(String id, String name, String email) {
+	public boolean updateMember(String id, String name, String email, String address, String phone, String mempicture) {
 		MemberDAO dao=MemberDAO.getInstance();
 		Connection con=getConnection();
 		dao.setConnection(con);
-		int result=dao.updateMember(id,name,email);
+		int result=dao.updateMember(id,name,email,address,phone,mempicture);
 		if(result>0) {
 			commit(con);
 			close(con);

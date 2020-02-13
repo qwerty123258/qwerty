@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+
 import service.MemberUpdateService;
 
 
@@ -24,12 +27,20 @@ public class MemberUpdate extends HttpServlet {
     
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		String savePath="C:/Users/5/git/qwerty/0213-1/WebContent/fileUpload";
+		int size=10*1024*1024;
+		MultipartRequest multiRequest = new MultipartRequest(
+				request,savePath,size,"UTF-8",new DefaultFileRenamePolicy()
+				);
 		HttpSession session =request.getSession();
 		String id=(String) session.getAttribute("id");
-		String name=request.getParameter("name");
-		String email=request.getParameter("email");
+		String name=multiRequest.getParameter("name");
+		String email=multiRequest.getParameter("email");
+		String address=multiRequest.getParameter("address");
+		String phone=multiRequest.getParameter("address");
+		String mempicture=multiRequest.getFilesystemName("mempicture");
 		MemberUpdateService service = new MemberUpdateService();
-		boolean result=service.updateMember(id,name,email);
+		boolean result=service.updateMember(id,name,email,address,phone,mempicture);
 			if(result) {
 				session.setAttribute("id", id);
 				response.sendRedirect("LoginMain.jsp");

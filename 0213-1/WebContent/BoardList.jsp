@@ -6,6 +6,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script>
+function ShowPopUp(){
+	url = "ShowWriterDetailPopUp.jsp?id=${result.writer}";
+	window.open(
+			url,
+			"작성자 상세조회", "toolbar=no, width=350, height=150, top=150, left=150");
+}
+</script>
 <style>
 title{
 width:100%;
@@ -55,7 +63,9 @@ ${result.title}
 </a>
 </td>
 <td>
+<a href="#" onclick="ShowPopUp()">
 ${result.writer}
+</a>
 </td>
 <td>
 ${result.writedate}
