@@ -8,8 +8,12 @@
 <title>Insert title here</title>
 <script>
 function viewFile(){
-			url = "FileDownLoad.jsp?bfile=${requestScope.bfile}";
-			window.open(url,"파일 다운로드", "width=150, height=150, top=100,left=1600");
+	if(document.getElementById("filedownload").style.display=="block"){
+		document.getElementById("filedownload").style.display="none";
+	}
+	else{
+		document.getElementById("filedownload").style.display="block";
+	}
 }
 </script>
 <style>
@@ -28,22 +32,36 @@ float:right;
 #file{
 float:right;
 }
+#filedownload{
+display:none;
+}
 </style>
 </head>
 <body>
-<div id="title">제목 : ${requestScope.title} <div id="modify"><a href="BoardModifyCheckPw?bnum=${requestScope.bnum}">수정하기</a></div></div>
+<div id="title">제목 : ${requestScope.title} <div id="modify"><a href="BoardModifyCheckPw?bnum=${requestScope.bnum}&page=${requestScope.page}">수정하기</a></div></div>
 <div>작성자 : ${requestScope.writer} <div id="bview">조회수 : ${requestScope.bview}</div></div>
 <div id="writedate">
 작성시간: ${requestScope.writedate}
 </div>
 <br>
+<c:if test="${requestScope.bfile ne NULL}">
 <div id="file">
 <a href="#" onclick="viewFile()">첨부파일</a>
 </div>
-<img src="fileUpload/${requestScope.bfile}">
+</c:if>
+<div id="filedownload">
+<h2>
+첨부파일 이름
+</h2>
+<br><br>
+<b><a href="FileDownload?bfile=${requestScope.bfile}">${requestScope.bfile}</a></b>
+</div>
+<c:if test="${requestScope.bimgfile ne NULL}">
+<img src="fileUpload/${requestScope.bimgfile}">
+</c:if>
 <pre>
 ${requestScope.bcontent}
 </pre><br><br><br>
-<a href="PageList">글 목록</a> <a href="BoardDeleteCheckPw?bnum=${requestScope.bnum}">삭제 하기</a>
+<a href="PageList?page=${requestScope.page}">글 목록</a> <a href="BoardDeleteCheckPw?bnum=${requestScope.bnum}">삭제 하기</a>
 </body>
 </html>

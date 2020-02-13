@@ -1,0 +1,58 @@
+body{
+    background-color: black;
+    color: white;
+}
+#logo{
+    margin-left: 20px;
+    width: 90px;
+    height: 50px;
+    margin-top: 20px;
+}
+.mid{
+    margin-left: 10%;
+    margin-right: 10%;
+}
+select{
+  border: none;
+  outline: none;
+  background-color: #999;  
+}
+table{
+    margin: auto;
+}
+input{
+    background-color: #999;
+    margin-bottom: 10px;
+    outline: none;
+}
+input:focus{
+    background-color: rgba(255,255,255,0.7);
+}
+input::placeholder{
+    color: white;
+}
+#free{
+    background-color: rgb(167,33,22);
+    outline: none;
+    border: none;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 7px;
+    margin-top: 20px;
+    width: 100%;
+}
+.footer{
+text-align: center;
+background-color: black;
+border: none;
+outline: none;
+padding: 10px;
+color: grey;
+position:absolute;
+bottom:0;
+width:100%;
+height:70px;   
+}

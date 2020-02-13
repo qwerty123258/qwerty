@@ -23,7 +23,25 @@ function writeboard(){
 		document.getElementById("boardtitle").focus();
 	}
 	else{
-		document.getElementById("boardwrite").submit();
+		if(bimgFileCheck()){
+			document.getElementById("boardwrite").submit();
+		}
+	}
+}
+function bimgFileCheck(){
+    var bimgfile=document.getElementById("bimgfile").value;
+	if (bimgfile != "") {
+	    var ext = bimgfile.slice(bimgfile.lastIndexOf(".") + 1).toLowerCase();
+	    if (!(ext == "gif" || ext == "jpg" || ext == "png" || ext == "bmp")) {
+	        alert("이미지파일 (.jpg, .png, .gif,.bmp ) 만 업로드 가능합니다.");
+	        return false;
+	}
+	    else{
+	    	return true;
+	    }
+}
+	else{
+		return true;
 	}
 }
 </script>
@@ -37,8 +55,9 @@ function writeboard(){
 비밀번호 <input type="password" name="bpassword" id="boardpassword"> <br><br>
 제목
 <input type="text" name="title" id="boardtitle"><br><br><br>
-<textarea rows="10" cols="100" name="bcontent"></textarea>
-<input type="file" name="bfile">
+<textarea rows="10" cols="100" name="bcontent"></textarea><br>
+사진 첨부 <input type="file" name="bimgfile" id="bimgfile">
+파일 첨부 <input type="file" name="bfile" id="file">
 </form>
 <button onclick="writeboard()">작성완료</button>
 <a href="BoardMain.jsp">홈</a>

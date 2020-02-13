@@ -32,12 +32,14 @@ public class BoardWrite extends HttpServlet {
 		String bpassword=multiRequest.getParameter("bpassword");
 		String title=multiRequest.getParameter("title");
 		String bcontent=multiRequest.getParameter("bcontent");
-		String bfile=multiRequest.getOriginalFileName((String)multiRequest.getFileNames().nextElement());
+		String bimgfile=multiRequest.getFilesystemName("bimgfile");
+		String bfile=multiRequest.getFilesystemName("bfile");
 		BoardDTO board=new BoardDTO();
 		board.setWriter(writer);
 		board.setBpassword(bpassword);
 		board.setTitle(title);
 		board.setBcontent(bcontent);
+		board.setBimgfile(bimgfile);
 		board.setBfile(bfile);
 		WriteService service=new WriteService();
 		boolean result=service.writeBoard(board);

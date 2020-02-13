@@ -50,7 +50,7 @@ padding:3px;
 ${result.bnum}
 </td>
 <td id="title">
-<a href="BoardDetail?board=${result.bnum}">
+<a href="BoardDetailOrder?board=${result.bnum}&page=${paging.page}">
 ${result.title}
 </a>
 </td>

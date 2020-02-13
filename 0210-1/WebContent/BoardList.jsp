@@ -50,7 +50,7 @@ padding:3px;
 ${result.bnum}
 </td>
 <td id="title">
-<a href="BoardDetail?board=${result.bnum}">
+<a href="BoardDetail?board=${result.bnum}&page=${paging.page}">
 ${result.title}
 </a>
 </td>
@@ -77,13 +77,13 @@ ${result.bview}
    			 <a href="${action}?page=${paging.beginPage-1}">이전</a>
         </c:otherwise>
     </c:choose>
-<c:forEach begin="${paging.beginPage}" end="${paging.endPage}" step="1" var="index">
+<c:forEach begin="${paging.beginPage}" end="${paging.endPage}" step="1" var="page">
     <c:choose>
-        <c:when test="${paging.page==index}">
-            ${index}
+        <c:when test="${paging.page==page}">
+            ${page}
         </c:when>
         <c:otherwise>
-            <a href="${action}?page=${index}">${index}</a>
+            <a href="${action}?page=${page}">${page}</a>
         </c:otherwise>
     </c:choose>
     </c:forEach>
