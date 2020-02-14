@@ -6,10 +6,11 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script>
-alert("로그인 실패 \n 아이디 또는 비밀번호가 맞지 않습니다.");
-location.href="Main.jsp";
+alert("블랙리스트 삭제 성공!");
+location.href="../MemberBoardMain.jsp";
 </script>
 </head>
 <body>
+
 </body>
 </html>

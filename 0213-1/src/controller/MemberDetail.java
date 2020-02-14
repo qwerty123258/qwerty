@@ -29,7 +29,8 @@ public class MemberDetail extends HttpServlet {
 		MemberDetailService service=new MemberDetailService();
 		memberList=service.detailMember(id);
 		request.setAttribute("member", memberList);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("DetailMember.jsp");
+		memberList.toString();
+		RequestDispatcher dispatcher = request.getRequestDispatcher("Member/DetailMember.jsp");
 		dispatcher.forward(request, response);
 	}
 

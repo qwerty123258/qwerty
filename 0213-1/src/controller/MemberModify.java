@@ -31,7 +31,7 @@ public class MemberModify extends HttpServlet {
 		MemberModifyService service = new MemberModifyService();
 		memberList=service.modifyMember(id);
 		request.setAttribute("member", memberList);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("CheckMember.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("Member/CheckMember.jsp");
 		dispatcher.forward(request, response);
 	}
 

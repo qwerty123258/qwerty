@@ -5,10 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-	<% session.invalidate(); %>
-	<script>
-	location.href="Main.jsp";
-	</script>
+<script>
+alert("로그인 실패 \n 아이디 또는 비밀번호가 맞지 않습니다.");
+location.href="../MemberBoardMain.jsp";
+</script>
 </head>
 <body>
 </body>

@@ -44,10 +44,10 @@ public class BoardWrite extends HttpServlet {
 		WriteService service=new WriteService();
 		boolean result=service.writeBoard(board);
 		if(result) {
-			response.sendRedirect("LoginMain.jsp");
+			response.sendRedirect("MemberBoardMain.jsp");
 		}
 		else {
-			response.sendRedirect("BoardWrite.jsp");
+			response.sendRedirect("Member/BoardWrite.jsp");
 		}
 	}
 

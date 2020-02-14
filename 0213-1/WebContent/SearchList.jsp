@@ -39,7 +39,7 @@ padding:3px;
 작성시간
 </th>
 <th>
-<a href="PageListOrder">
+<a href="BoardSearchOrder?searchOpt=${requestScope.searchOpt}&keyword=${requestScope.keyword}">
 조회수
 </a>
 </th>
@@ -69,13 +69,13 @@ ${result.bview}
 </c:forEach>
 </table>
 <div id="paging">
-<c:url var="action" value="/PageList"/>
+<c:url var="action" value="/BoardSearch"/>
             <c:choose>
         <c:when test="${paging.page==paging.beginPage}">
             <a>처음으로</a>
         </c:when>
         <c:otherwise>
- <a href="${action}?page=1&searchOpt=${requestScope.searchOpt}&keyword${requestScope.keyword}">처음으로</a>
+ <a href="${action}?page=1&searchOpt=${requestScope.searchOpt}&keyword=${requestScope.keyword}">처음으로</a>
         </c:otherwise>
     </c:choose>
      <c:choose>
@@ -83,7 +83,7 @@ ${result.bview}
             <a>이전</a>
         </c:when>
         <c:otherwise>
-   			 <a href="${action}?page=${paging.beginPage-1}">이전</a>
+   			 <a href="${action}?page=${paging.beginPage-1}&searchOpt=${requestScope.searchOpt}&keyword=${requestScope.keyword}">이전</a>
         </c:otherwise>
     </c:choose>
 <c:forEach begin="${paging.beginPage}" end="${paging.endPage}" step="1" var="page">
@@ -92,7 +92,7 @@ ${result.bview}
             ${page}
         </c:when>
         <c:otherwise>
-            <a href="${action}?page=${page}&searchOpt=${requestScope.searchOpt}&keyword${requestScope.keyword}">${page}</a>
+            <a href="${action}?page=${page}&searchOpt=${requestScope.searchOpt}&keyword=${requestScope.keyword}">${page}</a>
         </c:otherwise>
     </c:choose>
     </c:forEach>
@@ -101,7 +101,7 @@ ${result.bview}
             <a>다음</a>
         </c:when>
         <c:otherwise>
-   			 <a href="${action}?page=${paging.endPage+1}">다음</a>
+   			 <a href="${action}?page=${paging.endPage+1}&searchOpt=${requestScope.searchOpt}&keyword=${requestScope.keyword}">다음</a>
         </c:otherwise>
     </c:choose>
             <c:choose>
@@ -109,7 +109,7 @@ ${result.bview}
             <a>끝으로</a>
         </c:when>
         <c:otherwise>
- <a href="${action}?page=${paging.totalPage}&searchOpt=${requestScope.searchOpt}&keyword${requestScope.keyword}">끝으로</a>
+ <a href="${action}?page=${paging.totalPage}&searchOpt=${requestScope.searchOpt}&keyword=${requestScope.keyword}">끝으로</a>
         </c:otherwise>
     </c:choose>
 </div>
@@ -118,7 +118,7 @@ ${result.bview}
 <option value="제목" <c:if test="${requestScope.searchOpt eq '제목'}">selected</c:if>>제목</option>
 <option value="작성자" <c:if test="${requestScope.searchOpt eq '작성자'}">selected</c:if>>작성자</option>
 </select>
-<input type="text" name="keyword">
+<input type="text" name="keyword" value="${requestScope.keyword}">
 <input type="submit" value="검색하기">
 </form>
 <c:if test="${sessionScope.id ne NULL}">

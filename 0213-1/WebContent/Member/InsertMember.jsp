@@ -18,9 +18,15 @@
         var pass=document.getElementById("passinput").value;
         var pass2=document.getElementById("pass_checkinput").value;
         var phone=document.getElementById("inputphone").value;
+        var idcheckresult=document.getElementById("idresult").value;
         if(pass.match(passreg) && id.match(idreg) && pass==pass2 && phone.match(phonereg)){
         	if(imgFileCheck()){
-            	document.getElementById("formTrans").submit();
+        		if(idcheckresult=="true"){
+                	document.getElementById("formTrans").submit();
+        		}
+        		else if(idcheckresult==""){
+        			alert("아이디 중복확인을 하셔야합니다.");
+        		}
         	}
         }
         else if(pass!=pass2){
@@ -56,7 +62,7 @@
     	    }
     }
     	else{
-    		return true;
+    		return false;
     	}
     }
     function idcheck(){
@@ -112,8 +118,8 @@
         }
     }
     </script>
-     <link rel="stylesheet" href="css/login.css">
-     <link rel="stylesheet" href="css/create.css">
+     <link rel="stylesheet" href="../css/login.css">
+     <link rel="stylesheet" href="../css/create.css">
      <style>
      #checkid{
      width:80px;
@@ -125,11 +131,11 @@
 <body>
 <div class="header">
         <div class="top">
-            <a href="Main.jsp">
-                <img id="logo" src="images/logo.png">
+            <a href="Member/MemberBoardMain.jsp">
+                <img id="logo" src="../images/logo.png">
             </a>
             <div class="mid">
-            <form action="MemberAdd" method="post" id="formTrans" name="addForm" enctype="multipart/form-data">
+            <form action="../MemberAdd" method="post" id="formTrans" name="addForm" enctype="multipart/form-data">
             <table>
                 <tr>
                     <tr>
@@ -139,6 +145,9 @@
                     </tr>
                     <td>
                      <input type="text" name="id" id="idinput" placeholder="6~10자리 대소문자,숫자 포함" onkeyup="idcheck()">
+                        <td>
+                           <input id="idresult" name="checkidresult" type="hidden" value="">
+                        </td>
                     </td>
                     <td>
                         <div id="idtext"></div>
@@ -251,7 +260,7 @@
                 </td>
                 </tr>
                 <tr>
-                                <td>
+                <td>
                 <input type="file" name="mempicture" id="picture">
                 </td>
                 </tr>

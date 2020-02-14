@@ -60,7 +60,7 @@ function bimgFileCheck(){
 파일 첨부 <input type="file" name="bfile" id="file">
 </form>
 <button onclick="writeboard()">작성완료</button>
-<a href="LoginMain.jsp">홈</a>
+<a href="MemberBoardMain.jsp">홈</a>
 <a href="PageList">글 목록보기</a>
 </body>
 </html>

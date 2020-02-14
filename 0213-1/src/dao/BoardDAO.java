@@ -10,6 +10,7 @@ import java.util.List;
 import static db.JdbcUtil.*;
 
 import dto.BoardDTO;
+import dto.MemberDTO;
 import page.Paging;
 
 public class BoardDAO {
@@ -207,4 +208,204 @@ public class BoardDAO {
 	    }
 	    return count;
 	 }
+	public List<BoardDTO> titleSearch(String keyword, Paging paging) {
+	    int startNum = paging.getStartNum();
+	    int endNum = paging.getEndNum(); 
+        String sql = "SELECT b.*,to_char(writedate,'YYYY-MM-DD HH:MM') as bdate "
+        		+ "FROM (select ROWNUM row_num,board.* "
+        		+ "from (select * from board where title like ?) board"
+        		+ ") b  WHERE row_num >= ? and row_num <= ?";
+        List<BoardDTO> boardList = new ArrayList<BoardDTO>();
+    	try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1,"%"+keyword+"%");
+            pstmt.setInt(2, startNum);
+            pstmt.setInt(3, endNum);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				BoardDTO board=new BoardDTO();
+				board.setBnum(rs.getInt("bnum"));
+				board.setTitle(rs.getString("title"));
+				board.setWriter(rs.getString("writer"));
+				board.setWritedate(rs.getString("bdate"));
+				board.setBpassword(rs.getString("bpassword"));
+				board.setBview(rs.getInt("bview"));
+				board.setBimgfile(rs.getString("bimgfile"));
+				board.setBfile(rs.getString("bfile"));
+				boardList.add(board);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	finally {
+    		close(pstmt);
+    		close(rs);
+    	}
+        return boardList;
+		
+	}
+	public List<BoardDTO> writerSearch(String keyword, Paging paging) {
+	    int startNum = paging.getStartNum();
+	    int endNum = paging.getEndNum();   
+        String sql = "SELECT b.*,to_char(writedate,'YYYY-MM-DD HH:MM') as bdate "
+        		+ "FROM (select ROWNUM row_num,board.* "
+        		+ "from (select * from board where writer like ?) board"
+        		+ ") b  WHERE row_num >= ? and row_num <= ?";
+        List<BoardDTO> boardList = new ArrayList<BoardDTO>();
+    	try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1,"%"+keyword+"%");
+            pstmt.setInt(2, startNum);
+            pstmt.setInt(3, endNum);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				BoardDTO board=new BoardDTO();
+				board.setBnum(rs.getInt("bnum"));
+				board.setTitle(rs.getString("title"));
+				board.setWriter(rs.getString("writer"));
+				board.setWritedate(rs.getString("bdate"));
+				board.setBpassword(rs.getString("bpassword"));
+				board.setBview(rs.getInt("bview"));
+				board.setBimgfile(rs.getString("bimgfile"));
+				board.setBfile(rs.getString("bfile"));
+				boardList.add(board);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	finally {
+    		close(pstmt);
+    		close(rs);
+    	}
+        return boardList;
+	}
+	public List<BoardDTO> titleSearchOrder(String keyword, Paging paging) {
+	    int startNum = paging.getStartNum();
+	    int endNum = paging.getEndNum(); 
+        String sql = "SELECT b.*,to_char(writedate,'YYYY-MM-DD HH:MM') as bdate "
+        		+ "FROM (select ROWNUM row_num,board.* "
+        		+ "from (select * from board where title like ? order by bview desc) board"
+        		+ ") b  WHERE row_num >= ? and row_num <= ?";
+        List<BoardDTO> boardList = new ArrayList<BoardDTO>();
+    	try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1,"%"+keyword+"%");
+            pstmt.setInt(2, startNum);
+            pstmt.setInt(3, endNum);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				BoardDTO board=new BoardDTO();
+				board.setBnum(rs.getInt("bnum"));
+				board.setTitle(rs.getString("title"));
+				board.setWriter(rs.getString("writer"));
+				board.setWritedate(rs.getString("bdate"));
+				board.setBpassword(rs.getString("bpassword"));
+				board.setBview(rs.getInt("bview"));
+				board.setBimgfile(rs.getString("bimgfile"));
+				board.setBfile(rs.getString("bfile"));
+				boardList.add(board);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	finally {
+    		close(pstmt);
+    		close(rs);
+    	}
+        return boardList;
+		
+	}
+	public List<BoardDTO> writerSearchOrder(String keyword, Paging paging) {
+	    int startNum = paging.getStartNum();
+	    int endNum = paging.getEndNum();   
+        String sql = "SELECT b.*,to_char(writedate,'YYYY-MM-DD HH:MM') as bdate "
+        		+ "FROM (select ROWNUM row_num,board.* "
+        		+ "from (select * from board where writer like ? order by bview desc) board"
+        		+ ") b  WHERE row_num >= ? and row_num <= ?";
+        List<BoardDTO> boardList = new ArrayList<BoardDTO>();
+    	try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1,"%"+keyword+"%");
+            pstmt.setInt(2, startNum);
+            pstmt.setInt(3, endNum);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				BoardDTO board=new BoardDTO();
+				board.setBnum(rs.getInt("bnum"));
+				board.setTitle(rs.getString("title"));
+				board.setWriter(rs.getString("writer"));
+				board.setWritedate(rs.getString("bdate"));
+				board.setBpassword(rs.getString("bpassword"));
+				board.setBview(rs.getInt("bview"));
+				board.setBimgfile(rs.getString("bimgfile"));
+				board.setBfile(rs.getString("bfile"));
+				boardList.add(board);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	finally {
+    		close(pstmt);
+    		close(rs);
+    	}
+        return boardList;
+	}
+	public int titlesearchCount(String keyword) {   
+		String sql="select COUNT(*) as count from Board where title like ?";
+		int count=0;
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1,"%"+keyword+"%");
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				count=rs.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	finally {
+    		close(pstmt);
+    		close(rs);
+    	}
+		return count;
+	}
+	public int writersearchCount(String keyword) {   
+		String sql="select COUNT(*) as count from Board where writer like ?";
+		int count=0;
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1,"%"+keyword+"%");
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				count=rs.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	finally {
+    		close(pstmt);
+    		close(rs);
+    	}
+		return count;
+	}
+	public int ArticleCount(String id) {
+		String sql="select COUNT(*) as count from Board where writer=?";
+		int count=0;
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1,id);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				count=rs.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	finally {
+    		close(pstmt);
+    		close(rs);
+    	}
+		return count;
+		
+	}
 }

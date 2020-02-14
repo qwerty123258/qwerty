@@ -6,11 +6,10 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script>
-alert("수정에 실패하였습니다.");
-location.href="LoginMain.jsp";
+alert("회원 가입성공");
+location.href="Member/MemberBoardMain.jsp";
 </script>
 </head>
 <body>
-
 </body>
 </html>

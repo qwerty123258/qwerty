@@ -22,7 +22,7 @@
 	} else {
 %>
 		는(은) 사용 가능 합니다.<p/>
-		<a href="#" onclick = "opener.document.addForm.password.focus(); window.close();">닫기</a>
+		<a href="#" onclick = "opener.document.addForm.password.focus();opener.document.addForm.checkidresult.value=true; window.close();">닫기</a>
 
 <%	} %>
 </body>

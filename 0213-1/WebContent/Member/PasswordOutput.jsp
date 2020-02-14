@@ -5,6 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script>
+alert("찾으신 비밀번호는 ${requestScope.password}");
+location.href="Member/MemberBoardMain.jsp";
+</script>
 </head>
 <body>
 

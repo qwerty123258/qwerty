@@ -55,8 +55,10 @@ ${result.title}
 </a>
 </td>
 <td>
+<a href="#" onclick="window.open('DetailPopUp?id=${result.writer}','상세보기','width=430,height=500,location=no,status=no,scrollbars=yes');">
 ${result.writer}
 </td>
+</a>
 <td>
 ${result.writedate}
 </td>
@@ -68,7 +70,14 @@ ${result.bview}
 </table>
 <div id="paging">
 <c:url var="action" value="/PageListOrder"/>
- <a href="${action}?page=1">처음으로</a>
+            <c:choose>
+        <c:when test="${paging.page==paging.beginPage}">
+            <a>처음으로</a>
+        </c:when>
+        <c:otherwise>
+ <a href="${action}?page=1&searchOpt=${requestScope.searchOpt}&keyword${requestScope.keyword}">처음으로</a>
+        </c:otherwise>
+    </c:choose>
      <c:choose>
       <c:when test="${paging.beginPage==1}">
             <a>이전</a>
@@ -77,13 +86,13 @@ ${result.bview}
    			 <a href="${action}?page=${paging.beginPage-1}">이전</a>
         </c:otherwise>
     </c:choose>
-<c:forEach begin="${paging.beginPage}" end="${paging.endPage}" step="1" var="index">
+<c:forEach begin="${paging.beginPage}" end="${paging.endPage}" step="1" var="page">
     <c:choose>
-        <c:when test="${paging.page==index}">
-            ${index}
+        <c:when test="${paging.page==page}">
+            ${page}
         </c:when>
         <c:otherwise>
-            <a href="${action}?page=${index}">${index}</a>
+            <a href="${action}?page=${page}&searchOpt=${requestScope.searchOpt}&keyword${requestScope.keyword}">${page}</a>
         </c:otherwise>
     </c:choose>
     </c:forEach>
@@ -95,9 +104,26 @@ ${result.bview}
    			 <a href="${action}?page=${paging.endPage+1}">다음</a>
         </c:otherwise>
     </c:choose>
- <a href="${action}?page=${paging.totalPage}">끝으로</a>
+            <c:choose>
+        <c:when test="${paging.page==paging.totalPage}">
+            <a>끝으로</a>
+        </c:when>
+        <c:otherwise>
+ <a href="${action}?page=${paging.totalPage}&searchOpt=${requestScope.searchOpt}&keyword${requestScope.keyword}">끝으로</a>
+        </c:otherwise>
+    </c:choose>
 </div>
+<form action="BoardSearchOrder">
+<select name="searchOpt">
+<option value="제목" <c:if test="${requestScope.searchOpt eq '제목'}">selected</c:if>>제목</option>
+<option value="작성자" <c:if test="${requestScope.searchOpt eq '작성자'}">selected</c:if>>작성자</option>
+</select>
+<input type="text" name="keyword">
+<input type="submit" value="검색하기">
+</form>
+<c:if test="${sessionScope.id ne NULL}">
 <a href="BoardWrite.jsp">글쓰기</a>
-<a href="LoginMain.jsp">홈</a>
+</c:if>
+<a href="MemberBoardMain.jsp">홈</a>
 </body>
 </html>

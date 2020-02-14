@@ -38,7 +38,7 @@ function check(){
 <body>
 <h2>비밀 번호 확인
 </h2>
-<form action="Check" method="post" id="pwcheck">
+<form action="../Check" method="post" id="pwcheck">
 비밀번호
 <input type="password" name="password">
 </form>

@@ -6,8 +6,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script>
-alert("블랙리스트 삭제 성공!");
-location.href="LoginMain.jsp";
+alert("수정에 실패하였습니다.");
+location.href="MemberBoardMain.jsp";
 </script>
 </head>
 <body>

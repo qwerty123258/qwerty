@@ -45,7 +45,7 @@ function update(){
 function imgFileCheck(){
     var imgfile=document.getElementById("picture").value;
 	if (imgfile != "") {
-	    var ext = imgfile.slice(imgfile.lastIndexOf(".") + 1).toLowerCase();
+	    var ext = imgfile.slice(imgfile.lastIndexOf("@") + 1).toLowerCase();
 	    if (!(ext == "gif" || ext == "jpg" || ext == "png" || ext == "bmp")) {
 	        alert("이미지파일 (.jpg, .png, .gif,.bmp ) 만 업로드 가능합니다.");
 	        return false;
@@ -67,7 +67,7 @@ function imgFileCheck(){
   <c:if test="${requestScope.mempicture ne NULL}">
     <img src="fileUpload/${requestScope.mempicture}" width="130px" height="130px">
   </c:if>
-  <input type="file" name="mempicture" id="picture" value="${requestScope.mempicture}"><br>
+  <input type="file" name="mempicture" id="picture"><br>
  아이디 <br>
  <input type="text" name="id" autocomplete="off" value="${sessionScope.id}" readonly="true"><br>
  이름 <br>
@@ -85,7 +85,7 @@ function imgFileCheck(){
 수정 완료
 </button>
 <br><br>
-<a href="LoginMain.jsp">홈으로</a>
+<a href="MemberBoardMain.jsp">홈으로</a>
 </body>
 <script>
 function sample5_execDaumPostcode10() {

@@ -37,16 +37,17 @@ public class MemberUpdate extends HttpServlet {
 		String name=multiRequest.getParameter("name");
 		String email=multiRequest.getParameter("email");
 		String address=multiRequest.getParameter("address");
-		String phone=multiRequest.getParameter("address");
+		String phone=multiRequest.getParameter("phone");
 		String mempicture=multiRequest.getFilesystemName("mempicture");
 		MemberUpdateService service = new MemberUpdateService();
 		boolean result=service.updateMember(id,name,email,address,phone,mempicture);
 			if(result) {
 				session.setAttribute("id", id);
-				response.sendRedirect("LoginMain.jsp");
+				session.setAttribute("mempicture",mempicture);
+				response.sendRedirect("MemberBoardMain.jsp");
 				}
 			else if(!result) {
-				response.sendRedirect("UpdateFail.jsp");
+				response.sendRedirect("Member/UpdateFail.jsp");
 			}
 	}
 

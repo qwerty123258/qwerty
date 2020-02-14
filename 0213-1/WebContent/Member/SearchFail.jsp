@@ -6,8 +6,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script>
-alert("추가 성공!");
-location.href="LoginMain.jsp";
+alert("가입된 이력이 없습니다.");
+location.href="Member/MemberBoardMain.jsp";
 </script>
 </head>
 <body>

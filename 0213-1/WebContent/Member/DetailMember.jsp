@@ -18,7 +18,7 @@
         }
         else{
             alert("삭제 취소");
-            location.href="LoginMain.jsp"
+            location.href="MemberBoardMain.jsp"
         }
 	}
 	function addBlackList(){
@@ -30,7 +30,7 @@
         }
         else{
             alert("추가 취소");
-            location.href="LoginMain.jsp"
+            location.href="MemberBoardMain.jsp"
         }
 	}
     </script>
@@ -136,6 +136,6 @@ ${result.blacklist}
 </c:forEach>
 </table>
 <br><br>
-<a id="home" href="LoginMain.jsp">홈으로</a>
+<a id="home" href="MemberBoardMain.jsp">홈으로</a>
 </body>
 </html>

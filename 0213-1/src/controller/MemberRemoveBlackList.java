@@ -24,10 +24,10 @@ public class MemberRemoveBlackList extends HttpServlet {
 		MemberRemoveBlackListService service = new MemberRemoveBlackListService();
 		boolean result=service.removeBlackList(id);
 		if(result) {
-			response.sendRedirect("BlackListRemoveSuccess.jsp");
+			response.sendRedirect("Member/BlackListRemoveSuccess.jsp");
 		}
 		else {
-			response.sendRedirect("BlackListRemoveFail.jsp");
+			response.sendRedirect("Member/BlackListRemoveFail.jsp");
 		}
 		
 		

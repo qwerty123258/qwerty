@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dto.MemberDTO;
 import service.MemberBlackListCheck;
 import service.MemberLoginService;
 
@@ -26,19 +27,21 @@ public class MemberLogin extends HttpServlet {
 		String password=request.getParameter("password");
 		MemberLoginService service= new MemberLoginService();
 		MemberBlackListCheck check=new MemberBlackListCheck();
+		MemberDTO member =new MemberDTO();
 		boolean blacklist=check.blackListCheck(id);
 		if(blacklist) {
-			response.sendRedirect("BlackListLoginFail.jsp");
+			response.sendRedirect("Member/BlackListLoginFail.jsp");
 		}
 		else {
-			boolean result=service.memberLogin(id,password);
+			boolean result=service.memberLogin(id,password,member);
 			if(result) {
 				HttpSession session =request.getSession();
 				session.setAttribute("id", id);
-				response.sendRedirect("LoginMain.jsp");
+				session.setAttribute("mempicture", member.getMempicture());
+				response.sendRedirect("MemberBoardMain.jsp");
 				}
 			else if(!result) {
-				response.sendRedirect("LoginFail.jsp");
+				response.sendRedirect("Member/LoginFail.jsp");
 			}
 		}
 	}

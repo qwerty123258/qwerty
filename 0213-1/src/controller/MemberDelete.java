@@ -24,10 +24,10 @@ public class MemberDelete extends HttpServlet {
 		MemberDeleteService service = new MemberDeleteService();
 		boolean result=service.deleteMember(id);
 		if(result) {
-			response.sendRedirect("DeleteSuccess.jsp");
+			response.sendRedirect("Member/DeleteSuccess.jsp");
 		}
 		else {
-			response.sendRedirect("DeleteFail.jsp");
+			response.sendRedirect("Member/DeleteFail.jsp");
 		}
 
 	}

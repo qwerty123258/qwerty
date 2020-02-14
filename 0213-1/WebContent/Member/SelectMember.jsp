@@ -99,13 +99,13 @@ ${result.email}
 </td>
 <td>
 <c:if test="${result.id ne 'qwerty123258'}">
-<a href="Delete?id=${result.id}">삭제</a>
+<a href="../Delete?id=${result.id}">삭제</a>
 </c:if>
 </td>
 </tr>
 </c:forEach>
 </table>
 <br><br>
-<a id="home" href="LoginMain.jsp">홈으로</a>
+<a id="home" href="MemberBoardMain.jsp">홈으로</a>
 </body>
 </html>

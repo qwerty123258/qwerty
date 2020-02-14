@@ -40,11 +40,11 @@ public class MemberCheck extends HttpServlet {
 		request.setAttribute("address", member.getAddress());
 		request.setAttribute("mempicture", member.getMempicture());
 		if(result) {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("ModifyMember.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("Member/ModifyMember.jsp");
 			dispatcher.forward(request, response);
 		}
 		else {
-			response.sendRedirect("CheckFail.jsp");
+			response.sendRedirect("Member/CheckFail.jsp");
 		}
 		
 

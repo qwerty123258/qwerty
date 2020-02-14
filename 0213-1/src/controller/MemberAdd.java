@@ -55,20 +55,20 @@ public class MemberAdd extends HttpServlet {
 		boolean idresult=checkservice.checkOverlap(id);
 		boolean emailresult=checkservice.checkOverlapEmail(email);
 			if(idresult) {
-				response.sendRedirect("OverlapID.jsp");
+				response.sendRedirect("Member/OverlapID.jsp");
 			}
 		
 			else if(emailresult) {
-				response.sendRedirect("OverlapEmail.jsp");
+				response.sendRedirect("Member/OverlapEmail.jsp");
 			}
 			else {
 				boolean inputResult;
 				inputResult=service.memberDB(member);
 				if(inputResult) {
-					response.sendRedirect("InsertSuccess.jsp");
+					response.sendRedirect("Member/InsertSuccess.jsp");
 				}
 				else {
-					response.sendRedirect("InsertFail.jsp");
+					response.sendRedirect("Member/InsertFail.jsp");
 				}
 			}
 		}

@@ -103,7 +103,7 @@ public class MemberDAO {
 		}
 		return result;
 	}
-	public boolean memberLoginDAO(String id, String password) {
+	public boolean memberLoginDAO(String id, String password, MemberDTO member) {
 		String sql = "select * from Member where id=? and password=?";
 		try {
 			pstmt = con.prepareStatement(sql);
@@ -111,6 +111,7 @@ public class MemberDAO {
 			pstmt.setString(2, password);
 			rs=pstmt.executeQuery();
 			if(rs.next()) {
+				member.setMempicture(rs.getString("mempicture"));
 				return true;
 			}
 			else {
@@ -399,6 +400,37 @@ public class MemberDAO {
 				close(rs);
 		}
 		return false;
+	}
+	
+	public List<MemberDTO> DetailPopUp(String id) {
+		String sql="select * from member where id=?";
+		List<MemberDTO> memberList= new ArrayList<MemberDTO>();
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				MemberDTO member = new MemberDTO();
+				member.setId(rs.getString("id"));
+				member.setName(rs.getString("name"));
+				member.setGender(rs.getString("gender"));
+				member.setBirth(rs.getString("birth"));
+				member.setAddress(rs.getString("address"));
+				member.setEmail(rs.getString("email"));
+				member.setPhone(rs.getString("phone"));
+				member.setBlacklist(rs.getString("blacklist"));
+				member.setMempicture(rs.getString("mempicture"));
+				memberList.add(member);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	finally {
+    		close(pstmt);
+    		close(rs);
+    	}
+		return memberList;
+		
 	}
 	
 }

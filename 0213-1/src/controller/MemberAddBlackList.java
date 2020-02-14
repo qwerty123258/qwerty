@@ -22,10 +22,10 @@ public class MemberAddBlackList extends HttpServlet {
 			MemberAddBlackListService service = new MemberAddBlackListService();
 			boolean result=service.addBlackList(id);
 			if(result) {
-				response.sendRedirect("BlackListSuccess.jsp");
+				response.sendRedirect("Member/BlackListSuccess.jsp");
 			}
 			else {
-				response.sendRedirect("BlackListFail.jsp");
+				response.sendRedirect("Member/BlackListFail.jsp");
 			}
 		}
 

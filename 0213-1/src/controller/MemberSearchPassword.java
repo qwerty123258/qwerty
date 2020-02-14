@@ -30,11 +30,11 @@ public class MemberSearchPassword extends HttpServlet {
 		boolean result=service.memberSearchPassword(id,email,member);
 		if(result) {
 			request.setAttribute("password", member.getPassword());
-			RequestDispatcher dispatcher = request.getRequestDispatcher("PasswordOutput.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("Member/PasswordOutput.jsp");
 			dispatcher.forward(request, response);
 		}
 		else {
-			response.sendRedirect("SearchFail.jsp");
+			response.sendRedirect("Member/SearchFail.jsp");
 		}
 
 	}

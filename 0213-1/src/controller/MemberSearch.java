@@ -13,7 +13,7 @@ import dto.MemberDTO;
 import service.MemberSearchService;
 
 
-@WebServlet("/Search")
+@WebServlet("/SearchID")
 public class MemberSearch extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -30,11 +30,11 @@ public class MemberSearch extends HttpServlet {
 		boolean result=service.memberSearch(name,email,member);
 		if(result) {
 			request.setAttribute("id", member.getId());
-			RequestDispatcher dispatcher = request.getRequestDispatcher("IDOutput.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("Member/IDOutput.jsp");
 			dispatcher.forward(request, response);
 		}
 		else {
-			response.sendRedirect("SearchFail.jsp");
+			response.sendRedirect("Member/SearchFail.jsp");
 		}
 
 	}

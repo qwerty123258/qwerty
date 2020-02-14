@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 <script>
 alert("찾으신 아이디는 ${requestScope.id}");
-location.href="Main.jsp";
+location.href="Member/MemberBoardMain.jsp";
 </script>
 </head>
 <body>
