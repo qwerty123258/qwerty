@@ -25,9 +25,11 @@ public class MemberSearch extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		String name=request.getParameter("name");
 		String email=request.getParameter("email");
+		String phone=request.getParameter("phone");
+		String birth=request.getParameter("birth");
 		MemberSearchService service = new MemberSearchService();
 		MemberDTO member = new MemberDTO();
-		boolean result=service.memberSearch(name,email,member);
+		boolean result=service.memberSearch(name,email,phone,birth,member);
 		if(result) {
 			request.setAttribute("id", member.getId());
 			RequestDispatcher dispatcher = request.getRequestDispatcher("Member/IDOutput.jsp");

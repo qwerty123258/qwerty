@@ -52,13 +52,8 @@ public class MemberAdd extends HttpServlet {
 		member.setMempicture(mempicture);
 		MemberService service = new MemberService();
 		MemberCheckOverlapService checkservice = new MemberCheckOverlapService();
-		boolean idresult=checkservice.checkOverlap(id);
 		boolean emailresult=checkservice.checkOverlapEmail(email);
-			if(idresult) {
-				response.sendRedirect("Member/OverlapID.jsp");
-			}
-		
-			else if(emailresult) {
+			if(emailresult) {
 				response.sendRedirect("Member/OverlapEmail.jsp");
 			}
 			else {

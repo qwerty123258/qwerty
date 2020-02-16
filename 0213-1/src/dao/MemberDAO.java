@@ -332,12 +332,14 @@ public class MemberDAO {
 		return false;
 		
 	}
-	public void memberSearch(String name, String email, MemberDTO member) {
-		String sql="select id from Member where name=? and email=?";
+	public void memberSearch(String name, String email, String phone, String birth, MemberDTO member) {
+		String sql="select id from Member where name=? and email=? and phone=? and birth=?";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, name);
 			pstmt.setString(2, email);
+			pstmt.setString(3, phone);
+			pstmt.setString(4, birth);
 			rs=pstmt.executeQuery();
 			if(rs.next()) {
 				member.setId(rs.getString("id"));

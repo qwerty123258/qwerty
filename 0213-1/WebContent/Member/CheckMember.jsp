@@ -45,6 +45,6 @@ function check(){
 <br>
 <button class="btn" onclick="check()">확인하기</button>
 <br><br>
-<a id="home" href="LoginMain.jsp">홈으로</a>
+<a id="home" href="../MemberBoardMain.jsp">홈으로</a>
 </body>
 </html>

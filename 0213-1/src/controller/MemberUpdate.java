@@ -44,7 +44,7 @@ public class MemberUpdate extends HttpServlet {
 			if(result) {
 				session.setAttribute("id", id);
 				session.setAttribute("mempicture",mempicture);
-				response.sendRedirect("MemberBoardMain.jsp");
+				response.sendRedirect("Member/UpdateSuccess.jsp");
 				}
 			else if(!result) {
 				response.sendRedirect("Member/UpdateFail.jsp");

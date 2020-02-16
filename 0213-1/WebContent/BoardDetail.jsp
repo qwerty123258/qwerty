@@ -17,9 +17,6 @@ function viewFile(){
 }
 </script>
 <style>
-#title{
-
-}
 #bview{
 float:right;
 }
@@ -34,6 +31,16 @@ float:right;
 }
 #filedownload{
 display:none;
+position:absolute;
+z-index:1000;
+left:80%;
+right:15%;
+border:black solid 1px;
+width:10%;
+}
+#contentar{
+position:absolute;
+z-index:900;
 }
 </style>
 </head>
@@ -53,18 +60,19 @@ display:none;
 </div>
 </c:if>
 <div id="filedownload">
-<h2>
+<p>
 첨부파일 이름
-</h2>
-<br><br>
+</p>
 <b><a href="FileDownload?bfile=${requestScope.bfile}">${requestScope.bfile}</a></b>
 </div>
 <c:if test="${requestScope.bimgfile ne NULL}">
 <img src="fileUpload/${requestScope.bimgfile}">
 </c:if>
+<div id="contentar">
 <pre>
 ${requestScope.bcontent}
-</pre><br><br><br>
+</pre>
+</div><br><br><br>
 <a href="PageList?page=${requestScope.page}">글 목록</a> 
 <c:if test="${sessionScope.id eq requestScope.writer || sessionScope.id eq 'qwerty123258'}">
 <a href="BoardDeleteCheckPw?bnum=${requestScope.bnum}">삭제 하기</a>

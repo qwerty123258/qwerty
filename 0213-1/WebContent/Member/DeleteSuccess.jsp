@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 <script>
 alert("삭제 성공!");
-location.href="LoginMain.jsp";
+location.href="../MemberBoardMain.jsp";
 </script>
 </head>
 <body>

@@ -6,66 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style>
-.mid{
-display:block;
-}
-.textbox {
-    position: relative;
-}
-.textbox input{
-    font-size: 20px;
-    height: 40px;
-    width: 200px;
-    outline: none;
-    border: none;
-    margin-bottom: 10px;
-    background-color: #999;
-    color:white;
-}
-.textbox label {
-    position: absolute;  
-    color: white; 
-    cursor: text; 
-    transition: 0.3s;
-}
-.loginar{
-	float:right;
-	margin-left:70%;
-	display:flex;
-	border:black solid 1px;
-	padding :10px;
-}
-#loginbtn{
-	width:80px;
-	height:80px;
-	padding:10px;
-	cursor:pointer;
-}
-.loginbtnar{
-	padding:10px;
-}
-.loginMain{
-	float:right;
-	margin-left:70%;
-	display:block;
-	border:black solid 1px;
-	padding :10px;
-	width:300px;
-height:auto;
-}
-#profileimg{
-width:80px;
-height:80px;
-}
-.rightar{
-display:flex;
-padding:10px;
-}
-.infoFnar{
-padding:10px;
-}
-</style>
+     <link rel="stylesheet" href="css/login.css">
     <script
 src="https://code.jquery.com/jquery-3.4.1.js"
 integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="

@@ -9,6 +9,30 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>Insert title here</title>
         <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+                        <script
+src="https://code.jquery.com/jquery-3.4.1.js"
+integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+crossorigin="anonymous">
+    </script>
+            <script type="text/javascript">
+        $(function() {
+            $("#picture").on('change', function(){
+                readURL(this);
+            });
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                    $('#profileimg').attr('src', e.target.result);
+                }
+
+              reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
     <script>
     function transfer(){
         var idreg = /^(?=.*[a-z])[A-Za-z\d]{6,20}$/;
@@ -118,7 +142,6 @@
         }
     }
     </script>
-     <link rel="stylesheet" href="../css/login.css">
      <link rel="stylesheet" href="../css/create.css">
      <style>
      #checkid{
@@ -130,9 +153,9 @@
 </head>
 <body>
 <div class="header">
-        <div class="top">
-            <a href="Member/MemberBoardMain.jsp">
-                <img id="logo" src="../images/logo.png">
+        <div>
+            <a href="../MemberBoardMain.jsp">
+                <img id="logo" src="../images/logo.PNG">
             </a>
             <div class="mid">
             <form action="../MemberAdd" method="post" id="formTrans" name="addForm" enctype="multipart/form-data">
@@ -261,6 +284,7 @@
                 </tr>
                 <tr>
                 <td>
+                <img id="profileimg" src="fileUpload/${requestScope.mempicture}" width="130px" height="130px"><br>
                 <input type="file" name="mempicture" id="picture">
                 </td>
                 </tr>

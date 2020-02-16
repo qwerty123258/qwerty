@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 <script>
 alert("수정에 실패하였습니다.");
-location.href="MemberBoardMain.jsp";
+location.href="../MemberBoardMain.jsp";
 </script>
 </head>
 <body>

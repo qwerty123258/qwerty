@@ -16,13 +16,13 @@
 	if(result){
 %>		
 		는(은) 이미  사용중인 id 입니다.<p/>
-		<a href="#" onclick = "opener.document.addForm.id.focus(); window.close();">닫기</a>
+		<a href="#" onclick = "opener.document.addForm.id.focus(); window.close();">다시 입력하기</a>
 		
 <%
 	} else {
 %>
 		는(은) 사용 가능 합니다.<p/>
-		<a href="#" onclick = "opener.document.addForm.password.focus();opener.document.addForm.checkidresult.value=true; window.close();">닫기</a>
+		<a href="#" onclick = "opener.document.addForm.checkidresult.value=true; window.close();">사용하기</a>
 
 <%	} %>
 </body>

@@ -45,14 +45,28 @@ margin-top:15%;
 <td>
 이름
 <br>
-<input type="text" name="name" autocomplete="off"><br><br><br>
+<input type="text" name="name" autocomplete="off">
 </td>
 </tr>
 <tr>
 <td>
 이메일
 <br>
-<input type="text" name="email" autocomplete="off"><br><br><br>
+<input type="text" name="email" autocomplete="off">
+</td>
+</tr>
+<tr>
+<td>
+연락처
+<br>
+<input type="text" name="phone" autocomplete="off">
+</td>
+</tr>
+<tr>
+<td>
+생년월일
+<br>
+<input type="date" name="birth" autocomplete="off">
 </td>
 </tr>
 <tr>

@@ -8,6 +8,11 @@
 <title>Insert title here</title>
     <link href="https://fonts.googleapis.com/css?family=Yeon+Sung&display=swap" rel="stylesheet">
             <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+                <script
+src="https://code.jquery.com/jquery-3.4.1.js"
+integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+crossorigin="anonymous">
+    </script>
 <style>
 body{
 background-Color:black;
@@ -31,6 +36,27 @@ color:white;
     font-family: 'Yeon Sung', cursive;
 }
 </style>
+    <script type="text/javascript">
+        $(function() {
+            $("#picture").on('change', function(){
+                readURL(this);
+            });
+        });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                    $('#profileimg').attr('src', e.target.result);
+                }
+
+              reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+
+    </script>
 <script>
 function update(){
 	var phone=document.getElementById("phoneinput").value;
@@ -65,7 +91,7 @@ function imgFileCheck(){
 <h2>정보 변경</h2>
 <br>프로필사진 변경 <br>
   <c:if test="${requestScope.mempicture ne NULL}">
-    <img src="fileUpload/${requestScope.mempicture}" width="130px" height="130px">
+    <img id="profileimg" src="fileUpload/${requestScope.mempicture}" width="130px" height="130px">
   </c:if>
   <input type="file" name="mempicture" id="picture"><br>
  아이디 <br>

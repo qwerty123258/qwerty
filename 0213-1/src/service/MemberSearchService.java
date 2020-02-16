@@ -9,11 +9,11 @@ import dto.MemberDTO;
 
 public class MemberSearchService {
 
-	public boolean memberSearch(String name, String email, MemberDTO member) {
+	public boolean memberSearch(String name, String email, String phone, String birth, MemberDTO member) {
 		MemberDAO dao=MemberDAO.getInstance();
 		Connection con=getConnection();
 		dao.setConnection(con);
-		dao.memberSearch(name,email,member);
+		dao.memberSearch(name,email,phone,birth,member);
 		if(member.getId().equals("아이디없음")) {
 			close(con);
 			return false;

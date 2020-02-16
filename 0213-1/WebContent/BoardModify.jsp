@@ -37,9 +37,9 @@ function bimgFileCheck(){
 <form action="BoardUpdate?bnum=${requestScope.bnum}&page=${requestScope.page}" method="post" id="updateboard" enctype="multipart/form-data">
 제목 <input type="text" name="title" value="${requestScope.title}"><br>
 <br>
-<textarea rows="10" cols="100" name="bcontent">${requestScope.bcontent}</textarea>
-<input type="file" name="bimgfile" value="${requestScope.bimgfile}" id="imgfile"><br>
-<input type="file" name="bfile" value="${requestScope.bfile}"><br>
+<textarea rows="10" cols="100" name="bcontent">${requestScope.bcontent}</textarea><br>
+첨부 사진 변경 : <input type="file" name="bimgfile" id="imgfile">
+첨부 파일 변경 : <input type="file" name="bfile"><br>
 </form>
 <button onclick="updateboard()">수정하기</button>
 <a href="BoardDetail?board=${requestScope.bnum}&page=${requestScope.page}">뒤로가기</a>
