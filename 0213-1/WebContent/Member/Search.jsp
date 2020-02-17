@@ -6,39 +6,19 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
     <link href="https://fonts.googleapis.com/css?family=Yeon+Sung&display=swap" rel="stylesheet">
-    <style>
-    body{
-color:white;
-background-Color:black;
-}
-    *{
-    font-family: 'Yeon Sung', cursive;
-}
-.btn{
-    background-color: rgb(167,33,22);
-    outline: none;
-    border: none;
-    color: white;
-    text-align: center;
-    padding: 10px;
-    font-size: 15px;
-    cursor: pointer;
-    border-radius: 7px;
-}
-a{
-color:white;
-}
-a:hover{
-   background-color:rgba(255,255,255,0.3);
-}
-table{
-margin:auto;
-margin-top:15%;
-}
-
+    <link href="../css/base.css" rel="stylesheet">
+                <style>
+    td,th{
+    border:none;
+    text-align:left;
+    }
     </style>
 </head>
 <body>
+            <a id="logoar" href="../MemberBoardMain.jsp">
+                <img id="logo" src="../images/logo.PNG">
+            </a>
+<h2>아이디 찾기</h2>
 <form action="../SearchID" method="post">
 <table>
 <tr>

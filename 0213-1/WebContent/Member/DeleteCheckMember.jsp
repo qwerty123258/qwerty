@@ -7,12 +7,8 @@
 <title>Insert title here</title>
     <link href="https://fonts.googleapis.com/css?family=Yeon+Sung&display=swap" rel="stylesheet">
 <style>
-body{
-	color:white;
-	background-Color:black;
-}
 .btn{
-    background-color: rgb(167,33,22);
+    background-color: rgb(0,200,80);
     outline: none;
     border: none;
     color: white;
@@ -38,7 +34,7 @@ function check(){
 <body>
 <h2>비밀 번호 확인
 </h2>
-<form action="../Check" method="post" id="pwcheck">
+<form action="../DeleteCheck" method="post" id="pwcheck">
 비밀번호
 <input type="password" name="password">
 </form>

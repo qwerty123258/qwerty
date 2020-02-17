@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
     <link href="https://fonts.googleapis.com/css?family=Yeon+Sung&display=swap" rel="stylesheet">
+    <link href="css/detail.css" rel="stylesheet">
     <script>
 	function del(){
         if(confirm("삭제를 진행하시겠습니까?")){
@@ -34,40 +35,11 @@
         }
 	}
     </script>
-<style>
-*{
-    font-family: 'Yeon Sung', cursive;
-}
-td,th{
-width:150px;
-text-align:center;
-padding:5px;
-border:white solid 1px;
-}
-body{
-background-Color:black;
-color:white;
-}
-.btn{
-    background-color: rgb(167,33,22);
-    outline: none;
-    border: none;
-    color: white;
-    text-align: center;
-    padding: 10px;
-    font-size: 15px;
-    cursor: pointer;
-    border-radius: 7px;
-}
-#home{
-color:white;
-}
-a{
-color:red;
-}
-</style>
 </head>
 <body>
+            <a id="logoar" href="MemberBoardMain.jsp">
+                <img id="logo" src="images/logo.PNG">
+            </a>
 <h2>상세 조회</h2>
 <table>
 <tr>
@@ -135,7 +107,5 @@ ${result.blacklist}
 </tr>
 </c:forEach>
 </table>
-<br><br>
-<a id="home" href="MemberBoardMain.jsp">홈으로</a>
 </body>
 </html>

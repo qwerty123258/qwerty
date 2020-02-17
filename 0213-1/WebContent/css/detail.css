@@ -1,0 +1,40 @@
+*{
+    font-family: 'Yeon Sung', cursive;
+}
+td,th{
+width:150px;
+text-align:center;
+padding:5px;
+border:black solid 1px;
+}
+body{
+	        background-color: rgb(245,246,247);
+}
+.btn{
+    background-color: rgb(167,33,22);
+    outline: none;
+    border: none;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 7px;
+}
+#home{
+color:white;
+}
+a{
+color:red;
+}
+#logoar{
+    margin-right: 80%;
+    width: 140px;
+    height: 50px;
+    margin-top: 20px;
+}
+#logo{
+    width: 140px;
+    height: 50px;
+    margin-top: 20px;
+}

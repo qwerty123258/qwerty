@@ -38,4 +38,22 @@ public class PageService {
 		return boardList;
 	}
 
+	public int MyBoardCount(String id) {
+		BoardDAO dao=BoardDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		int count = dao.getMyBoardCount(id);
+		close(con);
+		return count;
+	}
+
+	public List<BoardDTO> MyBoardList(String id,Paging paging) {
+		BoardDAO dao=BoardDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		List<BoardDTO> boardList = dao.MyBoardList(id,paging);
+		close(con);
+		return boardList;
+	}
+
 }

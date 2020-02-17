@@ -6,24 +6,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style>
-title{
-width:100%;
-}
-td,th{
-border:black solid 1px;
-text-align:center;
-padding:3px;
-}
-#title{
-	width:60%;
-}
-</style>
+     <link rel="stylesheet" href="css/base.css">
 </head>
 <body>
-<h2>
-글 목록
-</h2>
+            <a id="logoar" href="MemberBoardMain.jsp">
+                <img id="logo" src="images/logo.PNG">
+            </a>
 <table>
 <tr>
 <th>
@@ -32,7 +20,7 @@ padding:3px;
 <th id="title">
 글 제목
 </th>
-<th>
+<th id="writer">
 작성자
 </th>
 <th>
@@ -55,9 +43,16 @@ ${result.title}
 </a>
 </td>
 <td>
+     <c:choose>
+      <c:when test="${result.writer eq'탈퇴멤버'}">
+            <a>${result.writer}</a>
+        </c:when>
+        <c:otherwise>
 <a href="#" onclick="window.open('DetailPopUp?id=${result.writer}','상세보기','width=430,height=500,location=no,status=no,scrollbars=yes');">
 ${result.writer}
 </a>
+        </c:otherwise>
+    </c:choose>
 </td>
 <td>
 ${result.writedate}
@@ -113,6 +108,7 @@ ${result.bview}
         </c:otherwise>
     </c:choose>
 </div>
+<div id="searchar">
 <form action="BoardSearchOrder">
 <select name="searchOpt">
 <option value="제목" <c:if test="${requestScope.searchOpt eq '제목'}">selected</c:if>>제목</option>
@@ -121,9 +117,9 @@ ${result.bview}
 <input type="text" name="keyword" value="${requestScope.keyword}">
 <input type="submit" value="검색하기">
 </form>
+</div>
 <c:if test="${sessionScope.id ne NULL}">
 <a href="BoardWrite.jsp">글쓰기</a>
 </c:if>
-<a href="MemberBoardMain.jsp">홈</a>
 </body>
 </html>

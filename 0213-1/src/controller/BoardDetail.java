@@ -26,6 +26,7 @@ public class BoardDetail extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		String bnum=request.getParameter("board");
 		String page=request.getParameter("page");
+		System.out.println(bnum);
 		BoardDTO board=new BoardDTO();
 		DetailService service=new DetailService();
 		service.bViewIncrease(bnum);

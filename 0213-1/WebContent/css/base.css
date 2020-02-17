@@ -1,0 +1,46 @@
+body{
+    background-color: rgb(245,246,247);
+}
+table{
+	width:100%;
+}
+td,th{
+border:black solid 1px;
+text-align:center;
+padding:3px;
+}
+#title{
+	width:60%;
+}
+#writer{
+	width:10%;
+}
+#logoar{
+    margin-right: 80%;
+    width: 140px;
+    height: 50px;
+    margin-top: 20px;
+}
+#logo{
+    width: 140px;
+    height: 50px;
+    margin-top: 20px;
+}
+.btn{
+    background-color: rgb(0,200,80);
+    outline: none;
+    border: none;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 7px;
+}
+#paging{
+	margin-left:35%;
+	margin-right:35%;
+}
+#searchar{
+	width:100%;
+}

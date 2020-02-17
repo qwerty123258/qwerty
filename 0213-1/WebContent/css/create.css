@@ -2,6 +2,10 @@ body{
     background-color: rgb(245,246,247);
     color: black;
 }
+table{
+	
+	width:100%;
+}
 *{
     font-family: 'Yeon Sung', cursive;
 }
@@ -16,7 +20,6 @@ body{
     margin-right: 10%;
 }
 select{
-  border: none;
   outline: none;
   background-color: rgba(255,255,255,0.7);  
 }
@@ -28,6 +31,17 @@ input{
 input::placeholder{
     color: black;
 }
+#logoar{
+    margin-right: 80%;
+    width: 140px;
+    height: 50px;
+    margin-top: 20px;
+}
+#logo{
+    width: 140px;
+    height: 50px;
+    margin-top: 20px;
+}
 .footer{
 text-align: center;
 background-color: white;
@@ -38,7 +52,7 @@ color: grey;
 position:absolute;
 bottom:0;
 width:100%;
-height:70px;   
+height:50px;   
 }
 .btn{
     background-color: rgb(0,200,80);
@@ -51,3 +65,6 @@ height:70px;
     cursor: pointer;
     border-radius: 7px;
 }
+     #checkid{
+     width:80px;
+     }

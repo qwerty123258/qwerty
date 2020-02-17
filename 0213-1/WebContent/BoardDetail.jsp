@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link href="css/detailboard.css" rel="stylesheet">
 <script>
 function viewFile(){
 	if(document.getElementById("filedownload").style.display=="block"){
@@ -15,38 +16,22 @@ function viewFile(){
 		document.getElementById("filedownload").style.display="block";
 	}
 }
+function closefilear(){
+	if(document.getElementById("filedownload").style.display=="block"){
+		document.getElementById("filedownload").style.display="none";
+	}
+	else{
+		document.getElementById("filedownload").style.display="block";
+	}
+}
 </script>
-<style>
-#bview{
-float:right;
-}
-#modify{
-float:right;
-}
-#writedate{
-float:right;
-}
-#file{
-float:right;
-}
-#filedownload{
-display:none;
-position:absolute;
-z-index:1000;
-left:80%;
-right:15%;
-border:black solid 1px;
-width:10%;
-}
-#contentar{
-position:absolute;
-z-index:900;
-}
-</style>
 </head>
 <body>
+            <a id="logoar" href="MemberBoardMain.jsp">
+                <img id="logo" src="images/logo.PNG">
+            </a>
 <div id="title">제목 : ${requestScope.title} 
-<c:if test="${sessionScope.id eq requestScope.writer}">
+<c:if test="${sessionScope.id eq requestScope.writer && requestScope.writer ne null}">
 <div id="modify"><a href="BoardModifyCheckPw?bnum=${requestScope.bnum}&page=${requestScope.page}">수정하기</a></div>
 </c:if></div>
 <div>작성자 : ${requestScope.writer} <div id="bview">조회수 : ${requestScope.bview}</div></div>
@@ -60,22 +45,47 @@ z-index:900;
 </div>
 </c:if>
 <div id="filedownload">
-<p>
-첨부파일 이름
-</p>
-<b><a href="FileDownload?bfile=${requestScope.bfile}">${requestScope.bfile}</a></b>
+첨부파일 이름 <a id="close" onclick="closefilear()" href="#">닫기</a><br>
+<a href="FileDownload?bfile=${requestScope.bfile}">${requestScope.bfile}</a>
 </div>
+<div id="contentar">
 <c:if test="${requestScope.bimgfile ne NULL}">
 <img src="fileUpload/${requestScope.bimgfile}">
 </c:if>
-<div id="contentar">
 <pre>
 ${requestScope.bcontent}
 </pre>
-</div><br><br><br>
+</div>
+<div class="footer">
+<c:if test="${sessionScope.id ne null}">
+덧글 쓰기
+<form action="WriteComment?page=${requestScope.page}&bnum=${requestScope.bnum}" method="post">
+<input type="text" name="writer" value="${sessionScope.id}" readonly="true">
+<textarea name="ccontent"></textarea>
+<input type="submit" value="작성완료">
+</form>
+</c:if>
+<table>
+<c:forEach var="result" items="${commentList}">
+<tr>
+<td>
+${result.cnum}
+</td>
+<td>
+${result.writer}
+</td>
+<td>
+${result.ccontent}
+</td>
+<td>
+${result.writedate}
+</td>
+</tr>
+</c:forEach>
+</table>
 <a href="PageList?page=${requestScope.page}">글 목록</a> 
 <c:if test="${sessionScope.id eq requestScope.writer || sessionScope.id eq 'qwerty123258'}">
 <a href="BoardDeleteCheckPw?bnum=${requestScope.bnum}">삭제 하기</a>
 </c:if>
-</body>
+</div>
 </html>

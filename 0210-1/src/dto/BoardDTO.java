@@ -1,5 +1,7 @@
 package dto;
 
+import java.util.List;
+
 public class BoardDTO {
 	private int bnum;
 	private String writer;

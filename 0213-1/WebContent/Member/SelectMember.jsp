@@ -12,15 +12,18 @@
 *{
     font-family: 'Yeon Sung', cursive;
 }
+body{
+        background-color: rgb(245,246,247);
+}
+table{
+border:black solid 1px;
+border-collapse:collapse;
+}
 td,th{
 width:150px;
 text-align:center;
 padding:5px;
-border:white solid 1px;
-}
-body{
-background-Color:black;
-color:white;
+border:black solid 1px;
 }
 a{
 color:red;
@@ -29,7 +32,7 @@ color:red;
     background-color: rgb(167,33,22);
     outline: none;
     border: none;
-    color: white;
+    color: black;
     text-align: center;
     padding: 10px;
     font-size: 15px;
@@ -37,15 +40,29 @@ color:red;
     border-radius: 7px;
 }
 #home{
-color:white;
+color:black;
 }
 #select{
-color:skyblue;
+color:green;
+}
+#logoar{
+    margin-right: 80%;
+    width: 140px;
+    height: 50px;
+    margin-top: 20px;
+}
+#logo{
+    width: 140px;
+    height: 50px;
+    margin-top: 20px;
 }
 </style>
 </head>
 <body>
-<h2>Select.jsp 파일
+            <a id="logoar" href="MemberBoardMain.jsp">
+                <img id="logo" src="images/logo.PNG">
+            </a>
+<h2>회원 목록 조회
 </h2>
 <table>
 <tr>
@@ -105,7 +122,5 @@ ${result.email}
 </tr>
 </c:forEach>
 </table>
-<br><br>
-<a id="home" href="MemberBoardMain.jsp">홈으로</a>
 </body>
 </html>

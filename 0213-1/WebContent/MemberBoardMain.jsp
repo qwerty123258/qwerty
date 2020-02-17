@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-     <link rel="stylesheet" href="css/login.css">
+     <link rel="stylesheet" href="css/main.css">
     <script
 src="https://code.jquery.com/jquery-3.4.1.js"
 integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
@@ -41,10 +41,17 @@ function logout(){
 	alert("로그아웃 되었습니다.");
 	location.href="Member/Logout.jsp";                            
 }
-function check(){
+function modifyCheck(){
 alert("본인 확인을 위해 비밀번호를 확인합니다.");
-location.href="Member/CheckMember.jsp";  
+location.href="Member/ModifyCheckMember.jsp";  
 }
+function deleteCheck(){
+	alert("본인 확인을 위해 비밀번호를 확인합니다.");
+	location.href="Member/DeleteCheckMember.jsp";  
+	}
+	function viewMyBoard(){
+		location.href="ViewMyBoard?id=${sessionScope.id}";
+	}
 </script>
 </head>
 <body>
@@ -81,7 +88,8 @@ location.href="Member/CheckMember.jsp";
                                 <c:if test="${sessionScope.id eq 'qwerty123258'}">
                  <a href="MemberSelect"><button class="btn">전체조회</button></a>
                                  				</c:if>
-                                 <button onclick="check()" class="btn">정보수정</button>
+                                 <button onclick="modifyCheck()" class="btn">정보수정</button>
+                                 <button onclick="deleteCheck()" class="btn">회원탈퇴</button>
                 <button onclick="logout()" class="btn">로그아웃</button>
                 </div>
                 </div>
@@ -91,6 +99,7 @@ location.href="Member/CheckMember.jsp";
                 <div>
 				<a href="BoardWrite.jsp"><button class="btn">글 쓰기</button></a>
 				<a href="PageList"><button class="btn">글 보기</button></a>
+				                                 <button onclick="viewMyBoard()" class="btn">작성글 보기</button>
 				<a href="MailForm.jsp"><button class="btn">메일 전송</button></a>
                 </div>
                 </div>

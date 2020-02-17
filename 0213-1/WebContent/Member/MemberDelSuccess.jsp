@@ -6,8 +6,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script>
-alert("수정 실패");
-location.href="BoardDetail?page=${requestScope.page}&board=${requestScope.bnum}&$bimgfile=${requestScope.bimgfile}";
+alert("회원 탈퇴 완료");
+location.href="../MemberBoardMain.jsp";
 </script>
 </head>
 <body>

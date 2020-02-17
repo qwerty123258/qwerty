@@ -12,7 +12,7 @@
             <a id="logoar" href="MemberBoardMain.jsp">
                 <img id="logo" src="images/logo.PNG">
             </a>
-<table>
+<table width="100%">
 <tr>
 <th>
 글 번호
@@ -20,16 +20,8 @@
 <th id="title">
 글 제목
 </th>
-<th id="writer">
-작성자
-</th>
 <th>
 작성시간
-</th>
-<th>
-<a href="PageListOrder">
-조회수
-</a>
 </th>
 </tr>
 <c:forEach var="result" items="${board}">
@@ -43,28 +35,13 @@ ${result.title}
 </a>
 </td>
 <td>
-     <c:choose>
-      <c:when test="${result.writer eq'탈퇴멤버'}">
-            <a>${result.writer}</a>
-        </c:when>
-        <c:otherwise>
-<a href="#" onclick="window.open('DetailPopUp?id=${result.writer}','상세보기','width=430,height=500,location=no,status=no,scrollbars=yes');">
-${result.writer}
-</a>
-        </c:otherwise>
-    </c:choose>
-</td>
-<td>
 ${result.writedate}
-</td>
-<td>
-${result.bview}
 </td>
 </tr>
 </c:forEach>
 </table>
 <div id="paging">
-<c:url var="action" value="/PageList"/>
+<c:url var="action" value="/MyBoardList"/>
             <c:choose>
         <c:when test="${paging.page==paging.beginPage}">
             <a>처음으로</a>
@@ -107,16 +84,6 @@ ${result.bview}
  <a href="${action}?page=${paging.totalPage}&searchOpt=${requestScope.searchOpt}&keyword${requestScope.keyword}">끝으로</a>
         </c:otherwise>
     </c:choose>
-</div>
-<div id="searchar">
-<form action="BoardSearch">
-<select name="searchOpt">
-<option value="제목" <c:if test="${requestScope.searchOpt eq '제목'}">selected</c:if>>제목</option>
-<option value="작성자" <c:if test="${requestScope.searchOpt eq '작성자'}">selected</c:if>>작성자</option>
-</select>
-<input type="text" name="keyword" value="${requestScope.keyword}">
-<input type="submit" value="검색하기">
-</form>
 </div>
 <c:if test="${sessionScope.id ne NULL}">
 <a href="BoardWrite.jsp">글쓰기</a>
