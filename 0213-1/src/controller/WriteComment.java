@@ -15,7 +15,9 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import dto.CommentDTO;
+import page.Paging;
 import service.BoardUpdateService;
+import service.CommentPageService;
 import service.CommentService;
 
 @WebServlet("/WriteComment")
@@ -36,17 +38,28 @@ public class WriteComment extends HttpServlet {
     	CommentService service= new CommentService();
     	boolean result=service.writeComment(bnum,writer,ccontent);
     	if(result) {
-    		commentList=service.selectComment(bnum);
+            Paging paging = new Paging();
+        	CommentPageService commentPageService = new CommentPageService();
+        	int count=commentPageService.CommentCount(bnum);
+        	int commentpage = 1;
+            if(request.getParameter("commentpage")!=null){
+            	commentpage = Integer.parseInt(request.getParameter("commentpage"));
+            }
+            paging.setPage(commentpage);
+            paging.setTotalCount(count);
+    		commentList=service.selectComment(bnum,paging);
         	request.setAttribute("page", page);
-        	request.setAttribute("bnum", bnum);
+        	request.setAttribute("board", bnum);
+        	request.setAttribute("paging", paging);
         	request.setAttribute("commentList", commentList);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("BoardDetail.jsp");
+        	request.setAttribute("commentpage", commentpage);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("BoardDetail");
 			dispatcher.forward(request, response);
     	}
     	else {
         	request.setAttribute("page", page);
-        	request.setAttribute("bnum", bnum);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("BoardDetail.jsp");
+        	request.setAttribute("board", bnum);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("BoardDetail");
 			dispatcher.forward(request, response);
     	}
     	

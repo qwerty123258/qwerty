@@ -37,7 +37,7 @@ crossorigin="anonymous">
                     <td>
                      <input type="text" name="id" id="idinput" placeholder="6~20자리 소문자,숫자 포함" onkeyup="idcheck()">
                      <div id="idtext"></div>
-                           <input id="idresult" name="checkidresult" type="hidden" value="">
+                     <input id="idresult" name="checkidresult" type="hidden" value="">
                     </td>
                     </tr>
                 <tr>

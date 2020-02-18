@@ -31,10 +31,12 @@ public class MemberDetailPopUp extends HttpServlet {
 		MemberDetailPopUpService service= new MemberDetailPopUpService();
 		MemberArticlecountService countservice = new MemberArticlecountService();
 		int count=countservice.ArticleCount(id);
+		int commentcount=countservice.MyCommentCount(id);
 		List<MemberDTO> memberList = new ArrayList<MemberDTO>();
 		memberList=service.DetailPopUp(id);
 		request.setAttribute("member", memberList);
 		request.setAttribute("count", count);
+		request.setAttribute("commentcount", commentcount);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("Member/MemberDetailPopUp.jsp");
 		dispatcher.forward(request, response);
 

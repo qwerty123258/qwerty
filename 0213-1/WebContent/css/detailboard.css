@@ -2,8 +2,7 @@
     font-family: 'Yeon Sung', cursive;
 }
 body{
-	        background-color: rgb(245,246,247);
-	
+	background-color: rgb(245,246,247);
 }
 #bview{
 float:right;
@@ -13,6 +12,7 @@ float:right;
 }
 #writedate{
 float:right;
+display:block;
 }
 #file{
 float:right;
@@ -21,14 +21,13 @@ float:right;
 display:none;
 position:absolute;
 z-index:1000;
-left:75%;
-right:15%;
-top:20%;
+right:0;
 border:black solid 1px;
 width:200px;
 background-color: rgba(128,128,128,0.3);
 }
 #contentar{
+width:100%;
 position:absolute;
 z-index:900;
 }
@@ -43,16 +42,53 @@ z-index:900;
     height: 50px;
     margin-top: 20px;
 }
-.footer{
-border: none;
-outline: none;
-padding: 10px;
-color: grey;
-position:absolute;
-bottom:0;
-width:100%;
-height:50px;   
-}
 #close{
 	float:right;
+}
+#main{
+	display:block;
+	width:100%;
+}
+table{
+	width:100%;
+}
+th{
+	border-bottom:black solid 1px;
+}
+.commentar{
+	width:100%;
+}
+#profileimg{
+width:80px;
+height:80px;
+float:left;
+}
+#writerinfo{
+	width:5%;
+	text-align:center;
+}
+#commentwritear{
+		width:90%;
+		text-align:left;
+}
+#commentwrite{
+	width:100%;
+}
+#commentbtnar{
+	width:5%;
+}
+#commentbtn{
+	width:100%;
+	padding:10px;
+	cursor:pointer;
+}
+#commentwriterar{
+	width:10%;
+}
+#commentcontentar{
+	width:80%;
+}
+#commentwridatear{
+	width:10%;
+	text-align:center;
 }

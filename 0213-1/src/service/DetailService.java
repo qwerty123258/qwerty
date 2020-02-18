@@ -16,13 +16,6 @@ public class DetailService {
 		Connection con=getConnection();
 		dao.setConnection(con);
 		dao.detail(bnum,board);
-		close(con);
-	}
-
-	public void bViewIncrease(String bnum) {
-		BoardDAO dao=BoardDAO.getInstance();
-		Connection con=getConnection();
-		dao.setConnection(con);
 		int result=dao.bViewIncrease(bnum);
 		if(result>0) {
 			commit(con);
@@ -32,7 +25,7 @@ public class DetailService {
 			rollback(con);
 			close(con);
 		}
-		
+		close(con);
 	}
 
 }

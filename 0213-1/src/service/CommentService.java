@@ -8,6 +8,7 @@ import java.util.List;
 
 import dao.BoardDAO;
 import dto.CommentDTO;
+import page.Paging;
 
 public class CommentService {
 
@@ -29,12 +30,12 @@ public class CommentService {
 		
 	}
 
-	public List<CommentDTO> selectComment(String bnum) {
+	public List<CommentDTO> selectComment(String bnum, Paging paging) {
 		BoardDAO dao=BoardDAO.getInstance();
 		Connection con=getConnection();
 		dao.setConnection(con);
 		List<CommentDTO> commentList = new ArrayList<CommentDTO>();
-		commentList=dao.selectComment(bnum);
+		commentList=dao.selectComment(bnum,paging);
 		close(con);
 		return commentList;
 		

@@ -38,7 +38,7 @@
 ${result.bnum}
 </td>
 <td id="title">
-<a href="BoardDetailOrder?board=${result.bnum}&page=${paging.page}">
+<a href="BoardDetailOrder?bnum=${result.bnum}&page=${paging.page}">
 ${result.title}
 </a>
 </td>

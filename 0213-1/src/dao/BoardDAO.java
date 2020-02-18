@@ -495,12 +495,19 @@ public class BoardDAO {
 		return result;
 		
 	}
-	public List<CommentDTO> selectComment(String bnum) {
-		String sql="select * from ccomment where bnum=?";
+	public List<CommentDTO> selectComment(String bnum, Paging paging) {
+	    int startNum = paging.getStartNum();
+	    int endNum = paging.getEndNum();   
+        String sql = "SELECT c.*,to_char(writedate,'YYYY-MM-DD HH:MM') as cdate "
+        		+ "FROM (select ROWNUM row_num,ccomment.* "
+        		+ "from (select * from ccomment where bnum = ?) ccomment"
+        		+ ") c  WHERE row_num >= ? and row_num <= ?";
 		List<CommentDTO> commentList = new ArrayList<CommentDTO>();
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, bnum);
+			pstmt.setInt(2, startNum);
+			pstmt.setInt(3, endNum);
 			rs=pstmt.executeQuery();
 			while(rs.next()) {
 				CommentDTO comment = new CommentDTO();
@@ -508,7 +515,7 @@ public class BoardDAO {
 				comment.setBnum(rs.getInt("bnum"));
 				comment.setCcontent(rs.getString("ccontent"));
 				comment.setWriter(rs.getString("writer"));
-				comment.setWritedate(rs.getString("writedate"));
+				comment.setWritedate(rs.getString("cdate"));
 				commentList.add(comment);
 			}
 		} catch (SQLException e) {
@@ -520,5 +527,47 @@ public class BoardDAO {
 			close(rs);
 		}
 		return commentList;
+	}
+	public int CommentCount(String bnum) {
+		String sql="select count(*) as count from ccomment where bnum=?";
+		int count=0;
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, bnum);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				count=rs.getInt("count");
+			}
+		} catch (SQLException e) {
+			// TODO 자동 생성된 catch 블록
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+			close(rs);
+		}
+		return count;
+		
+	}
+	public int MyCommentCount(String id) {
+		String sql="select count(*) as count from ccomment where writer=?";
+		int count=0;
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				count=rs.getInt("count");
+			}
+		} catch (SQLException e) {
+			// TODO 자동 생성된 catch 블록
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+			close(rs);
+		}
+		return count;
+		
 	}
 }

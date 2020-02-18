@@ -59,7 +59,7 @@
 </table>
 <div id="bottom">
 사진 첨부 <input type="file" name="bimgfile" id="bimgfile">
-파일 첨부 <input type="file" name="bfile" id="file">
+파일 첨부 <input multiple="multiple" type="file" name="bfile" id="file">
 </div>
 </form>
 </body>

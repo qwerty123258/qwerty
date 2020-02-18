@@ -12,6 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dto.BoardDTO;
+import dto.CommentDTO;
+import page.Paging;
+import service.CommentPageService;
+import service.CommentService;
 import service.DetailService;
 
 @WebServlet("/BoardDetailOrder")
@@ -24,12 +28,23 @@ public class BoardDetailOrder extends HttpServlet {
     
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		String bnum=request.getParameter("board");
+		String bnum=request.getParameter("bnum");
 		String page=request.getParameter("page");
+		List<CommentDTO> commentList = new ArrayList<CommentDTO>();
+		CommentService commentService= new CommentService();
+        Paging paging = new Paging();
+    	CommentPageService commentPageService = new CommentPageService();
+    	int count=commentPageService.CommentCount(bnum);
+    	int commentpage = 1;
+        if(request.getParameter("commentpage")!=null){
+        	commentpage = Integer.parseInt(request.getParameter("commentpage"));
+        }
+        paging.setPage(commentpage);
+        paging.setTotalCount(count);
 		BoardDTO board=new BoardDTO();
 		DetailService service=new DetailService();
-		service.bViewIncrease(bnum);
 		service.detail(bnum,board);
+		commentList=commentService.selectComment(bnum,paging);
 			request.setAttribute("bnum", board.getBnum());
 			request.setAttribute("title", board.getTitle());
 			request.setAttribute("bcontent", board.getBcontent());
@@ -39,6 +54,9 @@ public class BoardDetailOrder extends HttpServlet {
 			request.setAttribute("bpassword", board.getBpassword());
 			request.setAttribute("bimgfile", board.getBimgfile());
 			request.setAttribute("bfile", board.getBfile());
+			request.setAttribute("paging", paging);
+			request.setAttribute("commentpage", commentpage);
+			request.setAttribute("commentList", commentList);
 			request.setAttribute("page", page);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("BoardDetailOrder.jsp");
 			dispatcher.forward(request, response);

@@ -23,24 +23,18 @@ public class FileDownload extends HttpServlet  {
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     // reads input file from an absolute path
 	String filename=request.getParameter("bfile");	
-    String filePath = "C:/Users/5/git/qwerty/0213-1/WebContent/fileUpload/"+filename;
-    File downloadFile = new File(filePath);
-    FileInputStream inStream = new FileInputStream(downloadFile);
-     
-    // if you want to use a relative path to context root:
-    String relativePath = getServletContext().getRealPath("");
-    System.out.println("relativePath = " + relativePath);
-     
+    String relativePath = getServletContext().getRealPath("fileUpload/"+filename);
+    File downloadFile = new File(relativePath);
+    FileInputStream inStream = new FileInputStream(downloadFile); 
     // obtains ServletContext
     ServletContext context = getServletContext();
      
     // gets MIME type of the file
-    String mimeType = context.getMimeType(filePath);
+    String mimeType = context.getMimeType(relativePath);
     if (mimeType == null) {        
         // set to binary type if MIME mapping not found
         mimeType = "application/octet-stream";
     }
-    System.out.println("MIME type: " + mimeType);
      
     // modifies response
     response.setContentType(mimeType);

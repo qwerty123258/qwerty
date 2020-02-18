@@ -19,4 +19,14 @@ public class MemberArticlecountService {
 		
 	}
 
+	public int MyCommentCount(String id) {
+		int count=0;
+		BoardDAO dao=BoardDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		count=dao.MyCommentCount(id);
+		close(con);
+		return count;
+	}
+
 }

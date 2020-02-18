@@ -23,7 +23,6 @@ public class MemberSelect extends HttpServlet {
     }
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		System.out.println("do Process 메소드");
 		MemberSelectService service = new MemberSelectService();
 		List<MemberDTO> memberList = new ArrayList<MemberDTO>();
 		memberList=service.selectMember();

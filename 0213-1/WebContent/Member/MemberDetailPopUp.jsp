@@ -23,7 +23,7 @@ font-size:20px;
 <img id="profileimg" src="fileUpload/${result.mempicture}" onerror="this.src='fileUpload/profile.png'">
 <pre>
 아이디 : ${result.id}    글 개수 : ${requestScope.count}
-이름 : ${result.name}
+이름 : ${result.name}   댓글 개수 : ${requestScope.commentcount}
 성별 : ${result.gender}
 연락처 : ${result.phone}
 이메일 주소 : ${result.email}

@@ -6,6 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+body{
+    background-color: rgb(245,246,247);
+}
+</style>
      <link rel="stylesheet" href="css/main.css">
     <script
 src="https://code.jquery.com/jquery-3.4.1.js"
@@ -55,10 +60,22 @@ function deleteCheck(){
 </script>
 </head>
 <body>
-<h2>회원제 게시판 연습용 메인 페이지</h2>
-<h3>Welcome!!
-</h3>
+            <a id="logoar" href="MemberBoardMain.jsp">
+                <img id="logo" src="images/logo.PNG">
+            </a>
             <div class="mid">
+            <h2>회원제 게시판 연습용 메인</h2>
+            <a href="PageList"><button class="btn">전체글 보기</button></a>
+            <br><br>
+            글 검색하기
+            <form action="BoardSearch">
+<select name="searchOpt">
+<option value="제목" <c:if test="${requestScope.searchOpt eq '제목'}">selected</c:if>>제목</option>
+<option value="작성자" <c:if test="${requestScope.searchOpt eq '작성자'}">selected</c:if>>작성자</option>
+</select>
+<input type="text" name="keyword" value="${requestScope.keyword}">
+<input type="submit" value="검색하기">
+</form>
               <c:if test="${sessionScope.id eq NULL}">
                 <div class="loginar">
                 <form action="Login" method="post" id="loginForm">
@@ -70,6 +87,8 @@ function deleteCheck(){
                     <label for="pass_input">비밀번호</label> 
                     <input type="password" onkeyup="enterkey()" autocomplete="off" name="password" id="pass_input">
                 </div>
+                                <a href="Member/Search.jsp">아이디/비밀번호 찾기</a>
+								<a href="Member/InsertMember.jsp">회원가입</a>
                 </form>
                 <div class="loginbtnar">
 					<button onclick="login()" id="loginbtn" type="submit">
@@ -105,10 +124,5 @@ function deleteCheck(){
                 </div>
                                 </c:if>
                 </div>
-<c:if test="${sessionScope.id eq NULL}">
-<a href="Member/Search.jsp">아이디/비밀번호 찾기</a>
-<a href="Member/InsertMember.jsp">회원가입하기</a>
-<a href="PageList">글 보기</a>
-</c:if>
 </body>
 </html>
