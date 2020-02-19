@@ -25,12 +25,14 @@ public class BoardModifyCheckPw extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		String bnum=request.getParameter("bnum");
 		String page=request.getParameter("page");
+		String commentpage=request.getParameter("commentpage");
 		BoardDTO board=new BoardDTO();
 		DetailService service=new DetailService();
 		service.detail(bnum,board);
 		request.setAttribute("bnum", bnum);
 		request.setAttribute("bpassword", board.getBpassword());
 		request.setAttribute("page", page);
+		request.setAttribute("commentpage", commentpage);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("BoardModifyCheckPw.jsp");
 		dispatcher.forward(request, response);
 

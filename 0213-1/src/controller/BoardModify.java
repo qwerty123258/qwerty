@@ -25,8 +25,8 @@ public class BoardModify extends HttpServlet {
     	request.setCharacterEncoding("UTF-8");
     	String bnum=request.getParameter("bnum");
     	String page=request.getParameter("page");
-    	System.out.println(bnum);
     	String bpassword=request.getParameter("bpassword");
+    	String commentpage=request.getParameter("commentpage");
     	BoardDTO board=new BoardDTO();
     	DetailService service=new DetailService();
     	service.detail(bnum,board);
@@ -36,7 +36,18 @@ public class BoardModify extends HttpServlet {
     		request.setAttribute("bcontent", board.getBcontent());
     		request.setAttribute("page", page);
     		request.setAttribute("bimgfile",board.getBimgfile());
-    		request.setAttribute("bfile",board.getBfile());
+    		request.setAttribute("commentpage", commentpage);
+			ArrayList<String> fileList=new ArrayList<String>();
+			if(board.getBfile()==null) {
+				request.setAttribute("bfile", board.getBfile());
+			}
+			else {
+				String filear[]=board.getBfile().split("&fileName");
+				for(int i=1; i<filear.length; i++) {
+					fileList.add(filear[i]);
+				}
+				request.setAttribute("bfile", fileList);
+			}
     		RequestDispatcher dispatcher = request.getRequestDispatcher("BoardModify.jsp");
     		dispatcher.forward(request, response);
     	}

@@ -12,6 +12,8 @@
 table{
 		margin:auto;
 		width:100%;
+		border:black solid 1px;
+		border-colapse:colapse;
 }
 body{
     background-color: rgb(245,246,247);
@@ -48,4 +50,19 @@ th{
 .mid{
 	width:100%;
 	display:inline;
+}
+#addFile{
+	float:right;
+}
+#imgview{
+	border-top:none;
+}
+#fileview{
+	border:none;
+	outline:none;
+	border-spacing: 0px;
+}
+.fileList td{
+	border:black solid 1px;
+	border-top:none;
 }

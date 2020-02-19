@@ -23,7 +23,6 @@ position:absolute;
 z-index:1000;
 right:0;
 border:black solid 1px;
-width:200px;
 background-color: rgba(128,128,128,0.3);
 }
 #contentar{

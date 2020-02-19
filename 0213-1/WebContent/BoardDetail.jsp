@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="css/detailboard.css?after" rel="stylesheet">
+<link href="css/detailboard.css" rel="stylesheet">
 <script>
 function viewFile(){
 	if(document.getElementById("filedownload").style.display=="block"){
@@ -34,9 +34,9 @@ function closefilear(){
 <div id="title">제목 : ${requestScope.title}
 <div id="modify"> 
 <c:if test="${sessionScope.id eq requestScope.writer && requestScope.writer ne null}">
-<a href="BoardModifyCheckPw?bnum=${requestScope.bnum}&page=${requestScope.page}">수정하기</a></c:if>
+<a href="BoardModifyCheckPw?bnum=${requestScope.bnum}&page=${requestScope.page}&commentpage=${requestScope.commentpage}">수정하기</a></c:if>
 <c:if test="${sessionScope.id eq requestScope.writer || sessionScope.id eq 'qwerty123258'}">
-<a href="BoardDeleteCheckPw?bnum=${requestScope.bnum}">삭제 하기</a>
+<a href="BoardDeleteCheckPw?bnum=${requestScope.bnum}&page=${requestScope.page}&commentpage=${requestScope.commentpage}">삭제 하기</a>
 </c:if></div>
 </div>
 <div>작성자 : ${requestScope.writer} <div id="bview">조회수 : ${requestScope.bview}</div></div>
@@ -52,8 +52,21 @@ function closefilear(){
 <br><br>
 <div id="main">
 <div id="filedownload">
-첨부파일 이름 <a id="close" onclick="closefilear()" href="#">닫기</a><br>
-<a href="FileDownload?bfile=${requestScope.bfile}">${requestScope.bfile}</a>
+ <br>
+<table>
+<caption>
+첨부파일 목록 <a id="close" onclick="closefilear()" href="#">닫기</a>
+</caption>
+<tr>
+<c:forEach var="result" items="${bfile}">
+<tr>
+<td>
+파일 이름 : <a href="FileDownload?bfile=${result}">${result}</a>
+</td>
+</tr>
+</c:forEach>
+</tr>
+</table>
 </div>
 <div id="contentar">
 <c:if test="${requestScope.bimgfile ne NULL}">

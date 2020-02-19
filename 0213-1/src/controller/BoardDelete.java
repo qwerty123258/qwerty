@@ -22,13 +22,17 @@ public class BoardDelete extends HttpServlet {
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		String bnum=request.getParameter("bnum");
+		String page=request.getParameter("page");
+		String commentpage=request.getParameter("commentpage");
 		BoardDeleteService service=new BoardDeleteService();
 		boolean result=service.deleteBoard(bnum);
 		if(result) {
 			response.sendRedirect("PageList");
 		}
 		else {
-			request.setAttribute("board", bnum);
+			request.setAttribute("bnum", bnum);
+			request.setAttribute("page", page);
+			request.setAttribute("commentpage", commentpage);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("BoardDetail.jsp");
 			dispatcher.forward(request, response);
 		}

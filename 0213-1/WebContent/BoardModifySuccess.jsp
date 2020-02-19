@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 <script>
 alert("수정 완료");
-location.href="BoardDetail?page=${requestScope.page}&board=${requestScope.bnum}&$bimgfile=${requestScope.bimgfile}";
+location.href="BoardDetail?page=${requestScope.page}&bnum=${requestScope.bnum}&commentpage=${requestScope.commentpage}";
 </script>
 </head>
 <body>

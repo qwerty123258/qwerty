@@ -22,7 +22,7 @@ function checkPw(){
 <body>
 <h2>비밀번호 확인
 </h2>
-<form action="BoardDelete?bnum=${requestScope.bnum}" id="pwCheck" method="post">
+<form action="BoardDelete?bnum=${requestScope.bnum}&page=${requestScope.page}&commentpage=${requestScope.commentpage}"" id="pwCheck" method="post">
 <input type="password" id="checkPass" name="bpassword">
 </form>
 <button onclick="checkPw()">체크</button>

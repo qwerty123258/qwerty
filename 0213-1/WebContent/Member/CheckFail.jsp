@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 <script>
 alert("본인 확인에 실패했습니다.");
-location.href="CheckMember.jsp";
+location.href="ModifyCheckMember.jsp";
 </script>
 </head>
 <body>

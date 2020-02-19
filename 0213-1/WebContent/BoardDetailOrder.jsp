@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="css/detailboard.css?after" rel="stylesheet">
+<link href="css/detailboard.css" rel="stylesheet">
 <script>
 function viewFile(){
 	if(document.getElementById("filedownload").style.display=="block"){
@@ -52,8 +52,21 @@ function closefilear(){
 <br><br>
 <div id="main">
 <div id="filedownload">
-첨부파일 이름 <a id="close" onclick="closefilear()" href="#">닫기</a><br>
-<a href="FileDownload?bfile=${requestScope.bfile}">${requestScope.bfile}</a>
+ <br>
+<table>
+<caption>
+첨부파일 목록 <a id="close" onclick="closefilear()" href="#">닫기</a>
+</caption>
+<tr>
+<c:forEach var="result" items="${bfile}">
+<tr>
+<td>
+파일 이름 : <a href="FileDownload?bfile=${result}">${result}</a>
+</td>
+</tr>
+</c:forEach>
+</tr>
+</table>
 </div>
 <div id="contentar">
 <c:if test="${requestScope.bimgfile ne NULL}">
@@ -66,7 +79,7 @@ ${requestScope.bcontent}
 <br><br> 
 <c:if test="${sessionScope.id ne null}">
 덧글 쓰기
-<form action="WriteComment?page=${requestScope.page}&bnum=${requestScope.bnum}&writer=${sessionScope.id}" method="post">
+<form action="WriteComment?page=${requestScope.page}&bnum=${requestScope.bnum}&writer=${sessionScope.id}&commentpage=${commentpage}" method="post">
 <table>
 <tr class="commentar">
 <td id="writerinfo">
@@ -102,6 +115,12 @@ ${result.writer}
 </td>
 <td id="commentcontentar">
 ${result.ccontent}
+<c:if test="${sessionScope.id eq result.writer}">
+<a href="#">수정</a>
+</c:if>
+<c:if test="${sessionScope.id eq result.writer || sessionScope.id eq 'qwerty123258'}">
+<a href="#">삭제</a>
+</c:if>
 </td>
 <td id="commentwridatear">
 ${result.writedate}

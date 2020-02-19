@@ -23,7 +23,7 @@ public class MemberAdd extends HttpServlet {
     }
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		String savePath="C:/Users/5/git/qwerty/0213-1/WebContent/fileUpload";
+	    String savePath = getServletContext().getRealPath("fileUpload");
 		int size=10*1024*1024;
 		MultipartRequest multiRequest = new MultipartRequest(
 				request,savePath,size,"UTF-8",new DefaultFileRenamePolicy()

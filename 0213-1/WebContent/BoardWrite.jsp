@@ -6,8 +6,30 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript" src="js/write.js"></script>
-     <link rel="stylesheet" href="css/write.css">
+     <link rel="stylesheet" href="css/write.css?after">
 </head>
+    <script
+src="https://code.jquery.com/jquery-3.4.1.js"
+integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+crossorigin="anonymous">
+    </script>
+<script>
+$(document).ready(function() {
+    $('#addFile').click(
+    		function fileadd() {
+        var fileIndex = $('#fileview tr').children().length;
+        if(fileIndex>4){
+    	alert("파일을 5개 이상 첨부 하실 수 없습니다.");
+    }
+        else{
+            $('#fileview').append(
+                    '<tr class="fileList"><td>'+
+                    '   첨부 파일 : <input type="file" name="bfiles['+ fileIndex +']" />'+
+                    '</td></tr>');
+        }
+    });     
+});
+</script>
 <body>
 <div>
             <a id="logoar" href="MemberBoardMain.jsp">
@@ -57,10 +79,18 @@
 </td>
 </tr>
 </table>
-<div id="bottom">
-사진 첨부 <input type="file" name="bimgfile" id="bimgfile">
-파일 첨부 <input multiple="multiple" type="file" name="bfile" id="file">
-</div>
+    <table id="imgview">
+        <tr>
+        <td>
+                사진 첨부 : <input type="file" name="bimgfile" id="bimgfile">
+        </td>
+        </tr>
+     </table>
+    <table id="fileview">
+        <tr class="fileList">
+            <td>첨부 파일 : <input name="bfiles[0]" type="file" /><input id="addFile" type="button" value="파일 추가" /></td>
+        </tr>
+    </table>
 </form>
 </body>
 </html>

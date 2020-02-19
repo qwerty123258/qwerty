@@ -53,7 +53,17 @@ public class BoardDetail extends HttpServlet {
 			request.setAttribute("writedate", board.getWritedate());
 			request.setAttribute("bpassword", board.getBpassword());
 			request.setAttribute("bimgfile", board.getBimgfile());
-			request.setAttribute("bfile", board.getBfile());
+			ArrayList<String> fileList=new ArrayList<String>();
+			if(board.getBfile()==null) {
+				request.setAttribute("bfile", board.getBfile());
+			}
+			else {
+				String filear[]=board.getBfile().split("&fileName");
+				for(int i=1; i<filear.length; i++) {
+					fileList.add(filear[i]);
+				}
+				request.setAttribute("bfile", fileList);
+			}
 			request.setAttribute("paging", paging);
 			request.setAttribute("commentpage", commentpage);
 			request.setAttribute("commentList", commentList);

@@ -421,26 +421,6 @@ public class BoardDAO {
 		return count;
 		
 	}
-	public int getMyBoardCount(String id) {
-		String sql="select COUNT(*) as count from Board where writer=?";
-		int count=0;
-		try {
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1,id);
-			rs=pstmt.executeQuery();
-			if(rs.next()) {
-				count=rs.getInt("count");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-    	finally {
-    		close(pstmt);
-    		close(rs);
-    	}
-		return count;
-		
-	}
 	public List<BoardDTO> MyBoardList(String id,Paging paging) {
 	    int startNum = paging.getStartNum();
 	    int endNum = paging.getEndNum();   
@@ -569,5 +549,25 @@ public class BoardDAO {
 		}
 		return count;
 		
+	}
+	public int getMyBoardCount(String id) {
+		String sql="select count(*) as count from ccomment where writer=?";
+		int count=0;
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				count=rs.getInt("count");
+			}
+		} catch (SQLException e) {
+			// TODO 자동 생성된 catch 블록
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+			close(rs);
+		}
+		return count;
 	}
 }
