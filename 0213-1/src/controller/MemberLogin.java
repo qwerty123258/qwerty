@@ -23,8 +23,8 @@ public class MemberLogin extends HttpServlet {
     }
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		String id=request.getParameter("id");
-		String password=request.getParameter("password");
+		String id=request.getParameter("id1");
+		String password=request.getParameter("password1");
 		MemberLoginService service= new MemberLoginService();
 		MemberBlackListCheck check=new MemberBlackListCheck();
 		MemberDTO member =new MemberDTO();
@@ -38,10 +38,11 @@ public class MemberLogin extends HttpServlet {
 				HttpSession session =request.getSession();
 				session.setAttribute("id", id);
 				session.setAttribute("mempicture", member.getMempicture());
-				response.sendRedirect("MemberBoardMain.jsp");
+				response.getWriter().write("loginSuccess");
+				
 				}
 			else if(!result) {
-				response.sendRedirect("Member/LoginFail.jsp");
+				 response.getWriter().write("loginFail");
 			}
 		}
 	}

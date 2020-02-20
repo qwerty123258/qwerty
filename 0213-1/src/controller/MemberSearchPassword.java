@@ -29,8 +29,15 @@ public class MemberSearchPassword extends HttpServlet {
 		MemberDTO member = new MemberDTO();
 		boolean result=service.memberSearchPassword(id,email,member);
 		if(result) {
-			request.setAttribute("password", member.getPassword());
-			RequestDispatcher dispatcher = request.getRequestDispatcher("Member/PasswordOutput.jsp");
+			String sender="qwerty123258@naver.com";
+			String title="비밀번호 찾기 결과";
+			String content="<a href='http://localhost:8090/0213-1/MemberBoardMain.jsp'>로그인 하러가기</a><br><br>"
+					+ "찾으신 비밀번호는"+ member.getPassword()+"입니다.";
+			request.setAttribute("sender", sender);
+			request.setAttribute("receiver", email);
+			request.setAttribute("title", title);
+			request.setAttribute("content",content);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("PasswordSend.jsp");
 			dispatcher.forward(request, response);
 		}
 		else {

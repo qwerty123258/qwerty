@@ -19,6 +19,26 @@ crossorigin="anonymous">
     </script>
    <script>
     $(document).ready(function(){
+    	$('#loginbtn').click(function() {
+            var id = $('#id_input').val();
+             var password = $('#pass_input').val();
+          $.ajax({
+               type : "POST",
+                 url : "Login",
+                 data : "id1=" + id + "&password1=" + password,
+                 dataType : "text",
+               success : function(data, textStatus, xhr) {
+                    if (data == 'loginFail') {
+                         alert('로그인에 실패하였습니다.');
+                  } else if(data=='loginSuccess') {
+                       location.href = 'MemberBoardMain.jsp';
+    	}
+               },
+   error : function(request, status, error) {
+   alert("code:" + request.status + "\n" + "error:" + error);
+   }
+    })
+   });
        $("#idbox input").focus(function(){
         $("#idbox label").css("font-size","4px");
        });
@@ -34,12 +54,9 @@ crossorigin="anonymous">
     });
     </script>
 <script>
-function login(){
-	loginForm.submit();
-}
 function enterkey(){
     if (window.event.keyCode == 13) { //로그인 버튼 말고 엔터키로 로그인 하는 경우
-        login();
+    	document.getElementById("loginbtn").click();
    }
 }
 function logout(){
@@ -65,6 +82,7 @@ function deleteCheck(){
             </a>
             <div class="mid">
             <h2>회원제 게시판 연습용 메인</h2>
+            <iframe src="PageList"></iframe>
             <a href="PageList"><button class="btn">전체글 보기</button></a>
             <br><br>
             글 검색하기
@@ -78,7 +96,7 @@ function deleteCheck(){
 </form>
               <c:if test="${sessionScope.id eq NULL}">
                 <div class="loginar">
-                <form action="Login" method="post" id="loginForm">
+                <form id="loginForm">
                 <div id="idbox" class="textbox"> 
                     <label for="id_input">아이디</label> 
                     <input type="text" autocomplete="off" name="id" id="id_input"> 
@@ -91,7 +109,7 @@ function deleteCheck(){
 								<a href="Member/InsertMember.jsp">회원가입</a>
                 </form>
                 <div class="loginbtnar">
-					<button onclick="login()" id="loginbtn" type="submit">
+					<button id="loginbtn" type="submit">
                         로그인
                    </button> 
                 </div>

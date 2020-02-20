@@ -28,12 +28,11 @@ public class MailSend extends HttpServlet {
 		try {
 			Properties properties = System.getProperties();
 			properties.put("mail.smtp.starttls.enable","true");
-			properties.put("mail.smtp.host","smtp.gmail.com");
+			properties.put("mail.smtp.host","smtp.naver.com");
 			properties.put("mail.smtp.auth","true");
 			properties.put("mail.smtp.port","587");
-			Authenticator auth = new GoogleAuthentication();
+			Authenticator auth = new NaverAuthentication();
 			Session s = Session.getDefaultInstance(properties, auth);
-		
 			Message message = new MimeMessage(s);
 			Address sender_address = new InternetAddress(sender);
 			Address receiver_address = new InternetAddress(receiver);
@@ -45,9 +44,9 @@ public class MailSend extends HttpServlet {
 			message.setContent(content, "text/html;charset=UTF-8");
 			message.setSentDate(new java.util.Date());
 			Transport.send(message);
-			System.out.println("메일발송 성공");
+			response.sendRedirect("MemberBoardMain.jsp");
 		}catch (Exception e) {
-			System.out.println("메일발송 실패");
+			response.sendRedirect("MemberBoardMain.jsp");
 			e.printStackTrace();
 		}
 	}

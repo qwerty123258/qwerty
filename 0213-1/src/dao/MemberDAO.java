@@ -378,32 +378,6 @@ public class MemberDAO {
 		}
 		
 	}
-	public boolean checkOverlapEmail(String email) {
-		String sql="select * from Member where email=?";
-		try {
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, email);
-			rs=pstmt.executeQuery();
-			if(rs.next()) {
-				rs.getString("id");
-				rs.getString("password");
-				rs.getString("name");
-				rs.getString("birth");
-				rs.getString("gender");
-				rs.getString("email");
-				rs.getString("blacklist");
-				return true;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		finally {
-				close(pstmt);
-				close(rs);
-		}
-		return false;
-	}
-	
 	public List<MemberDTO> DetailPopUp(String id) {
 		String sql="select * from member where id=?";
 		List<MemberDTO> memberList= new ArrayList<MemberDTO>();

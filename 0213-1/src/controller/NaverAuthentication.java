@@ -3,12 +3,12 @@ package controller;
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 
-public class GoogleAuthentication extends Authenticator {
+public class NaverAuthentication extends Authenticator {
 	PasswordAuthentication passAuth;
 	
-	public GoogleAuthentication() {
+	public NaverAuthentication() {
 		passAuth = 
-			new PasswordAuthentication("jangeanove3","embwgsioufadwmpt");
+			new PasswordAuthentication("qwerty123258","628D6MSGK4GH");
 	}
 	
 	public PasswordAuthentication getPasswordAuthentication() {

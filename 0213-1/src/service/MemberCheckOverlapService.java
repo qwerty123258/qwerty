@@ -23,19 +23,4 @@ public class MemberCheckOverlapService {
 		}
 
 	}
-	public boolean checkOverlapEmail(String email) {
-		MemberDAO dao=MemberDAO.getInstance();
-		Connection con=getConnection();
-		dao.setConnection(con);
-		boolean result =dao.checkOverlapEmail(email);
-		if(result) {
-			close(con);
-			return true;
-		}
-		else {
-			close(con);
-			return false;
-		}
-
-	}
 }

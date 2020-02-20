@@ -51,12 +51,6 @@ public class MemberAdd extends HttpServlet {
 		member.setPhone(phone);
 		member.setMempicture(mempicture);
 		MemberService service = new MemberService();
-		MemberCheckOverlapService checkservice = new MemberCheckOverlapService();
-		boolean emailresult=checkservice.checkOverlapEmail(email);
-			if(emailresult) {
-				response.sendRedirect("Member/OverlapEmail.jsp");
-			}
-			else {
 				boolean inputResult;
 				inputResult=service.memberDB(member);
 				if(inputResult) {
@@ -65,7 +59,6 @@ public class MemberAdd extends HttpServlet {
 				else {
 					response.sendRedirect("Member/InsertFail.jsp");
 				}
-			}
 		}
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doProcess(request, response);

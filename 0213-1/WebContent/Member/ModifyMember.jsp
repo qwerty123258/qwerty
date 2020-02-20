@@ -9,12 +9,12 @@
     <link href="https://fonts.googleapis.com/css?family=Yeon+Sung&display=swap" rel="stylesheet">
     <link href="css/modify.css" rel="stylesheet">
             <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-            <script type="text/javascript" src="js/modify.js"></script>
-                            <script
+                                        <script
 src="https://code.jquery.com/jquery-3.4.1.js"
 integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
 crossorigin="anonymous">
     </script>
+            <script type="text/javascript" src="js/modify.js"></script>
 </head>
 <body>
             <a id="logoar" href="MemberBoardMain.jsp">
@@ -23,9 +23,7 @@ crossorigin="anonymous">
             <h2>정보 변경</h2>
 <form action="Update" id="update" enctype="multipart/form-data" method="post">
 <br>프로필사진 변경 <br>
-  <c:if test="${requestScope.mempicture ne NULL}">
-    <img id="profileimg" src="fileUpload/${requestScope.mempicture}" width="130px" height="130px">
-  </c:if>
+    <img id="profileimg" src="fileUpload/${requestScope.mempicture}" onerror="this.src='fileUpload/profile.png'" width="130px" height="130px">
   <input type="file" name="mempicture" id="picture"><br>
  아이디 <br>
  <input type="text" name="id" autocomplete="off" value="${sessionScope.id}" readonly="true"><br>
