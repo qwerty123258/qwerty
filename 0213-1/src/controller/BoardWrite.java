@@ -49,7 +49,8 @@ public class BoardWrite extends HttpServlet {
                 }
                 else {
                     String str = file.getName();
-                    fileName += "&fileName"+str;  
+                    fileName += "&fileName"+str;
+                    System.out.println(fileName);
                 } 
         } 
 		BoardDTO board=new BoardDTO();

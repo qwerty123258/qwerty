@@ -21,10 +21,11 @@ public class MailSend extends HttpServlet {
     
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		String id= request.getParameter("id");
 		String sender = request.getParameter("sender");
 		String receiver = request.getParameter("receiver");
-		String subject = request.getParameter("title");
-		String content = request.getParameter("content");
+		String subject=request.getParameter("subject");
+		String content=request.getParameter("content");
 		try {
 			Properties properties = System.getProperties();
 			properties.put("mail.smtp.starttls.enable","true");
@@ -44,9 +45,9 @@ public class MailSend extends HttpServlet {
 			message.setContent(content, "text/html;charset=UTF-8");
 			message.setSentDate(new java.util.Date());
 			Transport.send(message);
-			response.sendRedirect("Main.jsp");
+			response.getWriter().write("Success");
 		}catch (Exception e) {
-			response.sendRedirect("Main.jsp");
+			response.getWriter().write("emailFail");
 			e.printStackTrace();
 		}
 	}
