@@ -72,4 +72,48 @@ public class BoardService {
 		
 	}
 
+	public void deleteBoard(String bno) {
+		BoardDAO dao=BoardDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		int result=dao.deleteBoard(bno);
+		if(result>0){
+			commit(con);
+			close(con);
+		}
+		else {
+			rollback(con);
+			close(con);
+			
+		}
+		
+	}
+
+	public void updateBoard(String title, String category, String content, String bimgfile, String bno) {
+		BoardDAO dao=BoardDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		int result=dao.updateBoard(title,category,content,bimgfile,bno);
+		if(result>0){
+			commit(con);
+			close(con);
+		}
+		else {
+			rollback(con);
+			close(con);
+			
+		}
+		
+	}
+
+	public String checkUploder(String bno) {
+		String id="";
+		BoardDAO dao=BoardDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		id=dao.checkUploder(bno);
+		close(con);
+		return id;
+	}
+
 }

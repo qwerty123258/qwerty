@@ -139,7 +139,7 @@ ${user.blacklist}
         </c:otherwise>
     </c:choose>
             <c:choose>
-        <c:when test="${paging.page==paging.totalPage}">
+        <c:when test="${paging.page==paging.totalPage || paging.totalPage eq 0}">
             <a>끝으로</a>
         </c:when>
         <c:otherwise>

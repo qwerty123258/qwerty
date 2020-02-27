@@ -393,4 +393,57 @@ public class UserDAO {
 		}
 		return result;
 	}
+	public int checkPoint(String id) {
+		String sql="select * from users where id=?";
+		int point=0;
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				point=rs.getInt("point");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+			close(rs);
+		}
+		return point;
+	}
+	public int payPoint(String id, int price) {
+		int result=0;
+		String sql="update users set point=point-? where id=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, price);
+			pstmt.setString(2, id);
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	public int receivePoint(String uploder, int price) {
+		int result=0;
+		String sql="update users set point=point+? where id=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, price);
+			pstmt.setString(2, uploder);
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
 	}

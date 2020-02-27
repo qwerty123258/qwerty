@@ -6,38 +6,28 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import service.CommentService;
+import service.BoardService;
 
-@WebServlet("/AddComments")
-public class AddComments extends HttpServlet {
+@WebServlet("/DeleteBoard")
+public class DeleteBoard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public AddComments() {
+    public DeleteBoard() {
         super();
     }
     
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		HttpSession session =request.getSession();
-		String id=(String) session.getAttribute("id");
 		String bno=request.getParameter("bno");
-		String content=request.getParameter("comment");
-		CommentService service = new CommentService();
-		boolean result=service.addComments(id,bno,content);
-		if(result) {
-			 response.getWriter().write("Success");
-		}
-		else {
-			 response.getWriter().write("Fail");
-		}
+		BoardService service = new BoardService();
+		service.deleteBoard(bno);
+		response.sendRedirect("BoardList");
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doProcess(request, response);
 	}
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doProcess(request, response);
 	}

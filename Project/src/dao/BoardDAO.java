@@ -127,4 +127,57 @@ public class BoardDAO {
 		}
 		return result;
 	}
+	public int deleteBoard(String bno) {
+		String sql="delete Board where bno=?";
+		int result=0;
+		try {
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, bno);
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	public int updateBoard(String title, String category, String content, String bimgfile, String bno) {
+		String sql="update Board set title=?,category=?,contents=?,bimgfile=? where bno=?";
+		int result=0;
+		try {
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, title);
+			pstmt.setString(2, category);
+			pstmt.setString(3, content);
+			pstmt.setString(4, bimgfile);
+			pstmt.setString(5, bno);
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	public String checkUploder(String bno) {
+		String id="";
+		String sql="select * from board where bno=?";
+		try {
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, bno);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				id=rs.getString("id");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+			close(rs);
+		}
+		return id;
+	}
 }

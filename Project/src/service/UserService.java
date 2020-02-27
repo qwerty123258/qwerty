@@ -264,4 +264,46 @@ public class UserService {
 			return false;
 		}
 	}
+
+	public int checkPonit(String id) {
+		UserDAO dao=UserDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		int point=0;
+		point=dao.checkPoint(id);
+		close(con);
+		return point;
+	}
+
+	public void payPoint(String id, int price) {
+		UserDAO dao=UserDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		int result=dao.payPoint(id,price);
+		if(result>0) {
+			commit(con);
+			close(con);
+		}
+		else {
+			rollback(con);
+			close(con);
+		}
+		
+	}
+
+	public void receivePoint(String uploder, int price) {
+		UserDAO dao=UserDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		int result=dao.receivePoint(uploder,price);
+		if(result>0) {
+			commit(con);
+			close(con);
+		}
+		else {
+			rollback(con);
+			close(con);
+		}
+		
+	}
 }

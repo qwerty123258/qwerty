@@ -11,18 +11,28 @@ src="https://code.jquery.com/jquery-3.4.1.js"
 integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
 crossorigin="anonymous">
     </script>
+    <script>
+    function deleteBoard(){
+    	if(confirm("삭제하시겠습니까?")){
+    		location.href="DeleteBoard?bno=${requestScope.bno}";
+    	}
+    }
+    </script>
 <script>
 $(document).ready(function() {
-	$('comments').click(function(){
+	$('#comments').click(function(){
 	    $.ajax({
 	        type:'POST',
-	        url : "<c:url value='/AddComments'/>",
+	        url : "<c:url value='AddComments?bno=${requestScope.bno}'/>",
 	        data:$("#commentForm").serialize(),
 	        success : function(data){
-	            if(data=="success")
-	            {
+	            if(data=="Success") {
 	                getCommentList();
+	                
 	                $("#comment").val("");
+	            }
+	            else if(data=="Fail"){
+	            	alert('댓글 등록 실패');
 	            }
 	        },
 	        error:function(request,status,error){
@@ -33,22 +43,23 @@ $(document).ready(function() {
 	})
 	
     getCommentList();
+	fileView();
 
     function getCommentList(){
         $.ajax({
             type:'GET',
-            url : "<c:url value='CommentList'/>",
+            url : "<c:url value='CommentList?bno=${requestScope.bno}'/>",
             dataType : "json",
             data:$("#commentForm").serialize(),
             contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
             success : function(data){
                 var html = "";
-                var cCnt = data.length;
-                if(data.length > 0){
-                    for(i=0; i<data.length; i++){
+                var cCnt = data.comment.length;
+                if(data.comment.length > 0){
+                    for(i=0; i<data.comment.length; i++){
                         html += "<div>";
-                        html += "<div><table class='table'><h6><strong>"+data[i].writer+"</strong></h6>";
-                        html += data[i].comment + "<tr><td></td></tr>";
+                        html += "<div><table class='table'><tr><td><h4><strong>"+data.comment[i].id+"</strong></h4></td>";
+                        html += "<td>"+data.comment[i].ccontent+"</td></tr>";
                         html += "</table></div>";
                         html += "</div>";
                     }
@@ -68,13 +79,53 @@ $(document).ready(function() {
             
         });
     }
+    function fileView(){
+        $.ajax({
+            type:'GET',
+            url : "<c:url value='FileList?bno=${requestScope.bno}'/>",
+            dataType : "json",
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
+            success : function(data){
+                var html = "";
+                var file = data.file.length;
+                if(data.file.length > 0){
+                    for(i=0; i<data.file.length; i++){
+                        html += "<div>";
+                        html += "<div><table class='table'><tr><td><h4><strong><a href=DownloadFile?price="+data.file[i].price+"&bfile="+data.file[i].bfile+"&bno="+${requestScope.bno}+"&bfno="+data.file[i].bfno+">"+data.file[i].boriginfile+"</a></strong></h4></td>";
+                        html += "<td>"+data.file[i].price+"</td></tr>";
+                        html += "</table></div>";
+                        html += "</div>";
+                    }
+                } else {
+                    html += "<div>";
+                    html += "<div><table class='table'><h6><strong>등록된 파일이 없습니다.</strong></h6>";
+                    html += "</table></div>";
+                    html += "</div>";
+                }
+                $("#file").html(file);
+                $("#fileList").html(html);
+                
+            },
+            error:function(request,status,error){
+                
+           }
+            
+        });
+    }
 })
 </script>
 </head>
 <body>
-글 번호 : ${requestScope.bno}
 제목 : ${requestScope.title}<br>
-작성자 : ${requestScope.id} 조회수 : ${requestScope.bview}  작성일 : ${requestScope.writedate}<br><br><br>
+작성자 : ${requestScope.id} 조회수 : ${requestScope.bview}  작성일 : ${requestScope.writedate}<br>
+        <c:if test="${sessionScope.id eq requestScope.id}"><a href="ModifyBoard?bno=${requestScope.bno}">수정</a></c:if>
+        
+        <c:if test="${sessionScope.id eq requestScope.id || sessionScope.id eq 'qwerty123258'}"><a href="#" onclick="deleteBoard()">삭제</a></c:if><br><br>
+        <div>
+        <span><strong>Files</strong></span> <span id="file"></span>
+        </div>
+        <div id="fileList">
+        </div>
 <c:if test="${requestScope.bimgfile ne null}">
 <img src="fileUpload/${requestScope.bimgfile}">
 </c:if>
@@ -89,6 +140,17 @@ ${requestScope.content}
                 <span><strong>Comments</strong></span> <span id="cCnt"></span>
             </div>
             <div>
+                        <c:choose>
+        <c:when test="${sessionScope.id eq null}">
+                <table class="table">                    
+                    <tr>
+                        <td>
+                            <textarea style="width: 1100px" rows="3" cols="30" id="comment" name="comment" readonly="true">댓글을 작성하시려면 로그인 하세요.</textarea>
+                        </td>
+                    </tr>
+                </table>
+        </c:when>
+        <c:otherwise>
                 <table class="table">                    
                     <tr>
                         <td>
@@ -100,16 +162,15 @@ ${requestScope.content}
                         </td>
                     </tr>
                 </table>
+        </c:otherwise>
+    </c:choose>
             </div>
-        </div>
-        <input type="hidden" id="b_code" name="b_code" value="${result.code }" />        
+        </div>       
     </form>
 </div>
 <div class="container">
-    <form id="commentListForm" name="commentListForm" method="post">
         <div id="commentList">
         </div>
-    </form>
 </div>
 </body>
 </html>

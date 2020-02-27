@@ -1,37 +1,40 @@
 package controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
+
+import dto.CommentDTO;
 import service.CommentService;
 
-@WebServlet("/AddComments")
-public class AddComments extends HttpServlet {
+@WebServlet("/CommentList")
+public class CommentList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public AddComments() {
+    public CommentList() {
         super();
     }
     
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		HttpSession session =request.getSession();
-		String id=(String) session.getAttribute("id");
 		String bno=request.getParameter("bno");
-		String content=request.getParameter("comment");
 		CommentService service = new CommentService();
-		boolean result=service.addComments(id,bno,content);
-		if(result) {
-			 response.getWriter().write("Success");
-		}
-		else {
-			 response.getWriter().write("Fail");
-		}
+		List<CommentDTO> commentList = new ArrayList<CommentDTO>();
+		commentList=service.commentList(bno);
+		JSONObject jso=new JSONObject();    
+		jso.put("comment", commentList);
+		response.setContentType("application/x-www-form-urlencoded; charset=UTF-8");
+		PrintWriter out=response.getWriter();
+		out.print(jso); 
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
