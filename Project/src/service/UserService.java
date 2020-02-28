@@ -306,4 +306,38 @@ public class UserService {
 		}
 		
 	}
+
+	public boolean addBlackList(String id) {
+		UserDAO dao=UserDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		int result=dao.addBlackList(id);
+		if(result>0) {
+			commit(con);
+			close(con);
+			return true;
+		}
+		else {
+			rollback(con);
+			close(con);
+			return false;
+		}
+	}
+	
+	public boolean removeBlackList(String id) {
+		UserDAO dao=UserDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		int result=dao.removeBlackList(id);
+		if(result>0) {
+			commit(con);
+			close(con);
+			return true;
+		}
+		else {
+			rollback(con);
+			close(con);
+			return false;
+		}
+	}
 }

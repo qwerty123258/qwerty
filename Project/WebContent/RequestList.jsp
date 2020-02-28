@@ -3,12 +3,21 @@
                     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-<table>
+<table class="table table-striped table-bordered table-hover">
+<thead>
 <tr>
 <td>
 글 번호
@@ -23,6 +32,7 @@
 작성날짜
 </td>
 </tr>
+</thead>
 <c:forEach var="request" items="${requestList}">
 <tr>
 <td>
@@ -42,50 +52,52 @@ ${request.writedate}
 </tr>
 </c:forEach>
 </table>
-<div id="paging">
 <c:url var="action" value="RequestList"/>
-            <c:choose>
+<div class="text-center">
+    <ul class="pagination pagination-sm pager">
+                <c:choose>
         <c:when test="${paging.page==paging.beginPage}">
-            <a>처음으로</a>
+ <li class="disabled"><a>처음으로</a></li>
         </c:when>
         <c:otherwise>
- <a href="${action}?page=1">처음으로</a>
+ <li><a href="${action}?page=1">처음으로</a></li>
         </c:otherwise>
     </c:choose>
      <c:choose>
       <c:when test="${paging.beginPage==1}">
-            <a>이전</a>
+            <li class="disabled" ><a>이전</a></li>
         </c:when>
         <c:otherwise>
-   			 <a href="${action}?page=${paging.beginPage-1}">이전</a>
+   			 <li><a href="${action}?page=${paging.beginPage-1}">이전</a></li>
         </c:otherwise>
     </c:choose>
-<c:forEach begin="${paging.beginPage}" end="${paging.endPage}" step="1" var="page">
+    <c:forEach begin="${paging.beginPage}" end="${paging.endPage}" step="1" var="page">
     <c:choose>
         <c:when test="${paging.page==page}">
-            ${page}
+           <li class="active"><a>${page}</a></li>
         </c:when>
         <c:otherwise>
-            <a href="${action}?page=${page}">${page}</a>
+            <li><a href="${action}?page=${page}">${page}</a></li>
         </c:otherwise>
     </c:choose>
     </c:forEach>
-        <c:choose>
+          <c:choose>
         <c:when test="${paging.endPage==paging.totalPage}">
-            <a>다음</a>
+            <li class="disabled"><a>다음</a></li>
         </c:when>
         <c:otherwise>
-   			 <a href="${action}?page=${paging.endPage+1}">다음</a>
+   			 <li><a href="${action}?page=${paging.endPage+1}">다음</a></li>
         </c:otherwise>
     </c:choose>
-            <c:choose>
-        <c:when test="${paging.page==paging.totalPage}">
-            <a>끝으로</a>
+                <c:choose>
+        <c:when test="${paging.page==paging.totalPage || paging.totalPage eq 0}">
+ <li class="disabled"><a>끝으로</a></li>
         </c:when>
         <c:otherwise>
- <a href="${action}?page=${paging.totalPage}">끝으로</a>
+ <li><a href="${action}?page=${paging.totalPage}">끝으로</a></li>
         </c:otherwise>
     </c:choose>
+</ul>
 </div>
 </body>
 </html>

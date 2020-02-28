@@ -58,7 +58,7 @@ public class BoardUpdate extends HttpServlet {
 			fileservice.updateFile(file,fileoriname,price[i],bfno[i]);
 		}
 		request.setAttribute("bno", bno);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("BoardDetail.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("BoardDetail");
         dispatcher.forward(request, response);
 		
 	}

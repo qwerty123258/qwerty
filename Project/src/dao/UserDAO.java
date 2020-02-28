@@ -446,4 +446,37 @@ public class UserDAO {
 		
 		return result;
 	}
+	public int addBlackList(String id) {
+		int result=0;
+		String sql="update users set blacklist='Y' where id=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+	
+	public int removeBlackList(String id) {
+		int result=0;
+		String sql="update users set blacklist='N' where id=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
 	}
