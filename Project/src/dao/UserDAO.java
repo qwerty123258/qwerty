@@ -375,6 +375,10 @@ public class UserDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		finally {
+			close(pstmt);
+			close(rs);
+		}
 		return result;
 	}
 	public int permission(String id) {
@@ -477,6 +481,22 @@ public class UserDAO {
 			close(pstmt);
 		}
 		
+		return result;
+	}
+	public int addPoint(String id,String point) {
+		int result=0;
+		String sql="update users set point=point+? where id=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, point);
+			pstmt.setString(2, id);
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+		}
 		return result;
 	}
 	}

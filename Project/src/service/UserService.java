@@ -104,7 +104,10 @@ public class UserService {
 			close(con);
 			return true;
 		}
-		return false;
+		else {
+			close(con);
+			return false;
+		}
 	}
 
 	public boolean checkCertify(String id) {
@@ -116,7 +119,10 @@ public class UserService {
 			close(con);
 			return true;
 		}
-		return false;
+		else {
+			close(con);
+			return false;
+		}
 	}
 
 	public boolean login(String id, String pw) {
@@ -128,7 +134,10 @@ public class UserService {
 			close(con);
 			return true;
 		}
-		return false;
+		else {
+			close(con);
+			return false;
+		}
 	}
 
 	public int userCount() {
@@ -329,6 +338,23 @@ public class UserService {
 		Connection con=getConnection();
 		dao.setConnection(con);
 		int result=dao.removeBlackList(id);
+		if(result>0) {
+			commit(con);
+			close(con);
+			return true;
+		}
+		else {
+			rollback(con);
+			close(con);
+			return false;
+		}
+	}
+
+	public boolean addPoint(String id,String point) {
+		UserDAO dao=UserDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		int result=dao.addPoint(id,point);
 		if(result>0) {
 			commit(con);
 			close(con);

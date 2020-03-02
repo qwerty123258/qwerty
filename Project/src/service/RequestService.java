@@ -46,6 +46,7 @@ public class RequestService {
 		Connection con=getConnection();
 		dao.setConnection(con);
 		requestList=dao.requestList(paging);
+		close(con);
 		return requestList;
 	}
 

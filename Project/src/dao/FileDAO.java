@@ -62,8 +62,11 @@ public class FileDAO {
 				fileList.add(file);
 			}
 		} catch (SQLException e) {
-			// TODO 자동 생성된 catch 블록
 			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+			close(rs);
 		}
 		return fileList;
 	}

@@ -11,11 +11,14 @@ function Pwdomainselect(){
     document.getElementById("Pwdomain_input").value=email;
 }
 </script>
-<script
-src="https://code.jquery.com/jquery-3.4.1.js"
-integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-crossorigin="anonymous">
-</script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script>
 $(document).ready(function(){
 	$('#Pwcheck').click(function() {

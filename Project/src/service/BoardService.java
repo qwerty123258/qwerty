@@ -169,4 +169,20 @@ public class BoardService {
 		return id;
 	}
 
+	public void checkLike(String bno, BoardDTO board) {
+		BoardDAO dao=BoardDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		dao.checkLike(bno,board);
+		close(con);
+	}
+
+	public void checkReport(String bno, BoardDTO board) {
+		BoardDAO dao=BoardDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		dao.checkReport(bno,board);
+		close(con);
+	}
+
 }

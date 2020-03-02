@@ -59,6 +59,7 @@ public class FileService {
 		Connection con=getConnection();
 		dao.setConnection(con);
 		fileList=dao.fileList(bno);
+		close(con);
 		return fileList;
 	}
 

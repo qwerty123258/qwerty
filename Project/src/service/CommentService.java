@@ -49,4 +49,21 @@ public class CommentService {
 		return count;
 	}
 
+	public boolean deleteComment(String cno) {
+		CommentDAO dao=CommentDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		int result=dao.deleteComment(cno);
+		if(result>0) {
+			commit(con);
+			close(con);
+			return true;
+		}
+		else {
+			rollback(con);
+			close(con);
+			return false;
+		}
+	}
+
 }

@@ -32,6 +32,8 @@ public class BoardDetail extends HttpServlet {
 		BoardService service = new BoardService();
 		service.bviewIncrease(bno);
 		service.boardDetail(bno,board);
+		service.checkLike(bno,board);
+		service.checkReport(bno,board);
 		request.setAttribute("bno", bno);
 		request.setAttribute("title", board.getTitle());
 		request.setAttribute("id", board.getId());
@@ -39,6 +41,8 @@ public class BoardDetail extends HttpServlet {
 		request.setAttribute("writedate", board.getWritedate());
 		request.setAttribute("bimgfile", board.getBimgfile());
 		request.setAttribute("content", board.getContent());
+		request.setAttribute("likeuser", board.getLikeuser());
+		request.setAttribute("reportuser", board.getReportuser());
 		if(category.equals("movie")) {
 			Paging paging = new Paging();
 			int count=service.countMovieBoard();

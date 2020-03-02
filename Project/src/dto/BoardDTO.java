@@ -16,12 +16,26 @@ public class BoardDTO {
 	private String bimgfile;
 	private String category;
 	private String blacklist;
+	private String likeuser;
+	private String reportuser;
 	
+	public String getReportuser() {
+		return reportuser;
+	}
+	public void setReportuser(String reportuser) {
+		this.reportuser = reportuser;
+	}
+	public String getLikeuser() {
+		return likeuser;
+	}
+	public void setLikeuser(String likeuser) {
+		this.likeuser = likeuser;
+	}
 	@Override
 	public String toString() {
 		return "BoardDTO [bno=" + bno + ", title=" + title + ", id=" + id + ", content=" + content + ", writedate="
 				+ writedate + ", bview=" + bview + ", bimgfile=" + bimgfile + ", category=" + category + ", blacklist="
-				+ blacklist + "]";
+				+ blacklist + ", likeuser=" + likeuser + ", reportuser=" + reportuser + "]";
 	}
 	public String getBno() {
 		return bno;

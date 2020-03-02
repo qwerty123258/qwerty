@@ -93,4 +93,19 @@ public class CommentDAO {
 		
 		return count;
 	}
+	public int deleteComment(String cno) {
+		int result=0;
+		String sql ="delete comments where cno=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, cno);
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+		}
+		return result;
+	}
 }

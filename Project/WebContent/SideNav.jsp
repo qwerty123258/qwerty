@@ -22,6 +22,8 @@ function boardList(){
 </script>
 <script>
 $(document).ready(function() {
+	  getPoint();
+	
 	$('#loginbtn').click(function() {
         var id = $('#id_input').val();
         var password = $('#pw_input').val();
@@ -96,6 +98,9 @@ alert("code:" + request.status + "\n" + "error:" + error);
 	$('#request').click(function() {
         location.href="RequestList";
 });
+	$('#point').click(function() {
+        location.href="Point.jsp";
+});
 })
 </script>
 <script>
@@ -104,6 +109,22 @@ alert("code:" + request.status + "\n" + "error:" + error);
     	document.getElementById("loginbtn").click();
    }
 }
+    
+    function getPoint(){
+        $.ajax({
+            type : "POST",
+              url : "CheckPoint",
+              dataType : "text",
+            success : function(data, textStatus, xhr) {
+ 					var html="";
+ 					html+="<p> 포인트 : "+data+"</p>";
+ 					$("#savePoint").html(html);
+            },
+ error : function(request, status, error) {
+ alert("code:" + request.status + "\n" + "error:" + error);
+ }
+ })
+    }
    </script>
 </head>
 <body>
@@ -125,16 +146,19 @@ alert("code:" + request.status + "\n" + "error:" + error);
 <p><a href="#" onclick="searchUserPw()">비밀번호 찾기</a></p>
 </c:if>
 <c:if test="${sessionScope.id  ne NULL}">
-<div class="loginar" style=display:flex>
-${sessionScope.id}님 환영합니다.
+<div class="loginar">
+<div id="idar" style=padding:3px>${sessionScope.id}님</div>
+<br>
+<div id="savePoint" style=padding:3px></div>
 </div>
 <c:if test="${sessionScope.id  eq 'qwerty123258'}">
 <p><a href="#" id="alluser">회원 전체조회</a></p>
-<p><a href="#" id="request">작성권한 요청확인</a></p>
+<p><a href="#" id="request">컨텐츠 등록 자격 요청확인</a></p>
 </c:if>
-<p><a href="#" id="write">글쓰기</a></p>
+<p><a href="#" id="point">포인트 충전</a></p>
+<p><a href="#" id="write">컨텐츠 등록</a></p>
 <c:if test="${sessionScope.id  ne 'qwerty123258'}">
-<p><a href="#" id="requestWrite">작성 권한 요청 글쓰기</a></p>
+<p><a href="#" id="requestWrite">컨텐츠 등록 자격 요청</a></p>
 </c:if>
 <p><a href="#" id="modify">정보수정</a></p>
 <p><a href="#" id="delete">회원탈퇴</a></p>

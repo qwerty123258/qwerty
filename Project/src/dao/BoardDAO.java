@@ -88,6 +88,10 @@ public class BoardDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		finally {
+			close(pstmt);
+			close(rs);
+		}
 		return boardList;
 	}
 	
@@ -133,6 +137,10 @@ public class BoardDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		finally {
+			close(pstmt);
+			close(rs);
+		}
 		return boardList;
 	}
 	public int countUtilBoard() {
@@ -176,6 +184,10 @@ public class BoardDAO {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+			close(rs);
 		}
 		return boardList;
 	}
@@ -221,6 +233,10 @@ public class BoardDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		finally {
+			close(pstmt);
+			close(rs);
+		}
 		return boardList;
 	}
 	
@@ -241,8 +257,47 @@ public class BoardDAO {
 				board.setCategory(rs.getString("category"));
 			}
 		} catch (SQLException e) {
-			// TODO 자동 생성된 catch 블록
 			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+			close(rs);
+		}
+		
+	}
+	public void checkLike(String bno, BoardDTO board) {
+		String sql="select b.*,l.id as likeuser from board b,likes l where b.bno=? and b.bno=l.bno";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, bno);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				board.setLikeuser(rs.getString("likeuser"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+			close(rs);
+		}
+		
+	}
+	public void checkReport(String bno, BoardDTO board) {
+		String sql="select b.*,r.id as reportuser from board b,reports r where b.bno=? and b.bno=r.bno";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, bno);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				board.setReportuser(rs.getString("reportuser"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+			close(rs);
 		}
 		
 	}

@@ -17,7 +17,7 @@
     <script>
     function deleteBoard(){
     	if(confirm("삭제하시겠습니까?")){
-    		location.href="DeleteBoard?bno=${requestScope.bno}";
+    		location.href="DeleteBoard?bno=${requestScope.bno}&category=${requestScope.category}";
     	}
     }
     </script>
@@ -30,8 +30,6 @@ $(document).ready(function() {
 	        data:$("#commentForm").serialize(),
 	        success : function(data){
 	            if(data=="Success") {
-	            	console.log(Math.ceil($("#cCnt").text()/5));
-	            	console.log(Math.ceil($("#cCnt").text()/5)+1);
 	            	if(Math.ceil($("#cCnt").text()/5)<=$("#cCnt").text()/5){
 		                getCommentList(Math.ceil($("#cCnt").text()/5)+1);
 	            	}
@@ -53,6 +51,8 @@ $(document).ready(function() {
 	
     getCommentList(1);
 	fileView();
+	getLikeCount();
+	getReportCount();
     
     function fileView(){
         $.ajax({
@@ -145,8 +145,10 @@ $(document).ready(function() {
                 if(data.comment.length > 0){
                     html += "<tr><th>작성자</th><th>댓글 내용</th></tr>";
                     for(i=0; i<data.comment.length; i++){
+                    	var content=data.comment[i].ccontent;
                         html += "<tr><td style=width:15%>"+data.comment[i].id+"</td>";
-                        html += "<td style=width:85%>"+data.comment[i].ccontent+"</td></tr>";
+                        html += "<td class='commentContent"+data.comment[i].cno+"' style=width:85%>"+data.comment[i].ccontent+"<a href='javascript:modifyComment(";
+                        html += data.comment[i].cno+")'>수정</a><a href='javascript:deleteComment("+data.comment[i].cno+")'>삭제</a></td></tr>";
                     }
                 } else {
                     html += "<td><h6><strong>등록된 댓글이 없습니다.</strong></h6></td>";
@@ -209,6 +211,167 @@ $(document).ready(function() {
     	alert("code:" + request.status + "\n" + "error:" + error);
     	}
     	})
+    }
+    function Like(){
+  	  $.ajax({
+	       type : "POST",
+	         url : "Like?bno=${requestScope.bno}",
+	         dataType : "text",
+	       success : function(data, textStatus, xhr) {
+	            if (data == 'Fail') {
+	                 alert('좋아요 실패');
+	          	}
+	            else if(data=='likeSuccess') {
+	        	  alert('해당 게시글을 좋아요하셨습니다.');
+	        	  $("#like").children().remove();
+	   	        	getLikeCount();
+	        	  var html="";
+	        	  html+="<p>해당 게시물을 이미 좋아요하셨습니다.</p>";
+	        	  html+="<a href='javascript:LikeCancel()'>좋아요 취소!</a>";
+	        	  $("#like").html(html);
+	}
+	       },
+	error : function(request, status, error) {
+	alert("code:" + request.status + "\n" + "error:" + error);
+	}
+	})
+    }
+    function LikeCancel(){
+    	  $.ajax({
+   	       type : "POST",
+   	         url : "LikeCancel?bno=${requestScope.bno}",
+   	         dataType : "text",
+   	       success : function(data, textStatus, xhr) {
+   	            if (data == 'Fail') {
+   	                 alert('좋아요 취소 실패');
+   	          	}
+   	            else if(data=='likeCancelSuccess') {
+   	        	  alert('해당 게시글에 대해서 좋아요를 취소하셨습니다.');
+   	        	  $("#like").children().remove();
+     	        	getLikeCount();
+   	        	  var html="";
+   	        	  html+="<p>이 게시글이 좋다면 좋아요를 눌러주세요!</p>";
+   	        	  html+="<a href='javascript:Like()'>좋아요!</a>";
+   	        	  $("#like").html(html);
+   	}
+   	       },
+   	error : function(request, status, error) {
+   	alert("code:" + request.status + "\n" + "error:" + error);
+   	}
+   	})
+    }
+    function Report(){
+    	  $.ajax({
+  	       type : "POST",
+  	         url : "Report?bno=${requestScope.bno}",
+  	         dataType : "text",
+  	       success : function(data, textStatus, xhr) {
+  	            if (data == 'Fail') {
+  	                 alert('신고 실패');
+  	          	}
+  	            else if(data=='reportSuccess') {
+  	        	  alert('해당 게시글을 신고하셨습니다.');
+  	        	  $("#report").children().remove();
+  	   	        	getReportCount();
+  	        	  var html="";
+  	        	  html+="<p>해당 게시물을 이미 신고하셨습니다.</p>";
+  	        	  html+="<a href='javascript:ReportCancel()'>신고 취소</a>";
+  	        	  $("#report").html(html);
+  	}
+  	       },
+  	error : function(request, status, error) {
+  	alert("code:" + request.status + "\n" + "error:" + error);
+  	}
+  	})
+      }
+      function ReportCancel(){
+      	  $.ajax({
+     	       type : "POST",
+     	         url : "ReportCancel?bno=${requestScope.bno}",
+     	         dataType : "text",
+     	       success : function(data, textStatus, xhr) {
+     	            if (data == 'Fail') {
+     	                 alert('신고 취소 실패');
+     	          	}
+     	            else if(data=='reportCancelSuccess') {
+     	        	  alert('해당 게시글에 대해서 신고를 취소하셨습니다.');
+     	        	  $("#report").children().remove();
+       	        	getReportCount();
+     	        	  var html="";
+     	        	  html+="<p>불량한 게시물은 신고하기를 눌러주세요!</p>";
+     	        	  html+="<a href='javascript:Report()'>신고하기</a>";
+     	        	  $("#report").html(html);
+     	}
+     	       },
+     	error : function(request, status, error) {
+     	alert("code:" + request.status + "\n" + "error:" + error);
+     	}
+     	})
+      }
+    function getLikeCount(){
+  	  $.ajax({
+  	       type : "POST",
+  	         url : "LikeCount?bno=${requestScope.bno}",
+  	         dataType : "text",
+  	       success : function(data, textStatus, xhr) {
+					$("#likeCount").html("좋아요 수 : "+ data);
+  	       },
+  	error : function(request, status, error) {
+  	alert("code:" + request.status + "\n" + "error:" + error);
+  	}
+  	})
+    }
+    function getReportCount(){
+    	  $.ajax({
+     	       type : "POST",
+     	         url : "ReportCount?bno=${requestScope.bno}",
+     	         dataType : "text",
+     	       success : function(data, textStatus, xhr) {
+   					$("#reportCount").html("신고 수 : "+ data);
+     	       },
+     	error : function(request, status, error) {
+     	alert("code:" + request.status + "\n" + "error:" + error);
+     	}
+     	})
+    	
+    }
+    function deleteComment(cno){
+    	var cno=cno;
+  	  $.ajax({
+	       type : "POST",
+	         url : "DeleteComment",
+	         data : "cno=" + cno,
+	         dataType : "text",
+	       success : function(data, textStatus, xhr) {
+							if(data=='Success'){
+								if($("#cCnt").text()%5<=1){
+									getCommentList(1);
+								}
+								else{
+									getCommentList(Math.ceil($("#cCnt").text()/5));
+								}
+							}
+							else if(data=='Fail'){
+								alert('삭제 실패');
+							}
+	       },
+	error : function(request, status, error) {
+	alert("code:" + request.status + "\n" + "error:" + error);
+	}
+	})
+	
+    }
+    function modifyComment(cno){
+    	var cno=cno;
+    	console.log(cno);
+    	    var a ='';
+    	    a += '<div class="input-group">';
+    	    a += '<input type="text" class="form-control" name="content_'+cno+'" value=""/>';
+    	    a += '<span class="input-group-btn"><button class="btn btn-default" type="button" onclick="commentUpdateProc('+cno+');">수정</button> </span>';
+    	    a += '</div>';
+    	    
+    	    $('.commentContent'+cno).html(a);
+    	    
     }
 </script>
 </head>
@@ -285,8 +448,40 @@ $(document).ready(function() {
 <pre>
 ${requestScope.content}
 </pre>
+<div class="col-sm-6">
+<span id="likeCount"></span>
+</div>
+<div class="col-sm-6">
+<span id="reportCount"></span>
+</div>
+        <c:if test="${sessionScope.id ne null}">
+<div id="like" class="col-sm-6">
+          <c:choose>
+<c:when test="${sessionScope.id eq requestScope.likeuser}">
+        <p>해당 게시물을 이미 좋아요하셨습니다.</p>
+<a href='javascript:LikeCancel()'>좋아요 취소!</a>
+        </c:when>
+        <c:otherwise>
+                <p>이 게시글이 좋다면 좋아요를 눌러주세요!</p>
+<a href="javascript:Like()">좋아요!</a>
+        </c:otherwise>
+    </c:choose>
+</div>
+<div id="report" class="col-sm-6">
+          <c:choose>
+        <c:when test="${sessionScope.id eq requestScope.reportuser}">
+        <p>해당 게시물을 이미 신고하셨습니다.</p>
+<a href='javascript:ReportCancel()'>신고 취소!</a>
+        </c:when>
+        <c:otherwise>
+                <p>불량한 게시물은 신고하기를 눌러주세요!</p>
+<a href="javascript:Report()">신고하기!</a>
+        </c:otherwise>
+    </c:choose>
+</div>
+</c:if>
     <form id="commentForm" name="commentForm" method="post">
-        <div>
+        <div class="col-sm-12">
             <div>
                 <span><strong>Comments</strong></span> <span id="cCnt"></span>
             </div>
