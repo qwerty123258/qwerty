@@ -40,7 +40,6 @@ public class BoardUpdate extends HttpServlet {
 		if(bimgfile==null) {
 			bimgfile=beforeimg;
 		}
-		System.out.println(bimgfile);
 		BoardService boardservice = new BoardService();
 		boardservice.updateBoard(title,category,content,bimgfile,bno);
 		FileService fileservice= new FileService();
@@ -57,8 +56,7 @@ public class BoardUpdate extends HttpServlet {
 			}
 			fileservice.updateFile(file,fileoriname,price[i],bfno[i]);
 		}
-		request.setAttribute("bno", bno);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("BoardDetail");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("BoardDetail?bno="+bno+"&category="+category);
         dispatcher.forward(request, response);
 		
 	}

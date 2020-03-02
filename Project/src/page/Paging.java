@@ -1,7 +1,13 @@
 package page;
  
 public class Paging {
-    private int page =1; //현재 페이지 (get)
+    @Override
+	public String toString() {
+		return "Paging [page=" + page + ", totalCount=" + totalCount + ", beginPage=" + beginPage + ", endPage="
+				+ endPage + ", displayRow=" + displayRow + ", displayPage=" + displayPage + ", startNum=" + startNum
+				+ ", endNum=" + endNum + ", totalPage=" + totalPage + "]";
+	}
+	private int page =1; //현재 페이지 (get)
     private int totalCount; //전체 게시글의 수
     private int beginPage;  //페이지 네비게이션의 시작 페이지 번호
     private int endPage;    //페이지 네비게이션의 끝 페이지 번호

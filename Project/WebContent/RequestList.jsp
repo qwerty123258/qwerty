@@ -16,6 +16,24 @@
 <title>Insert title here</title>
 </head>
 <body>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+                        <jsp:include page="Header.jsp"></jsp:include>
+        </div>
+        <div class="col-sm-12">
+  <ul class="nav nav-pills nav-justified">
+    <li class="active"><a href="Main.jsp">Home</a></li>
+    <li><a href="MovieList">영화</a></li>
+ 	<li><a href="DramaList">드라마</a></li>
+    <li><a href="UtilList">유틸</a></li>
+    <li><a href="OtherList">기타</a></li>
+  </ul>
+        </div>
+        <div class="col-sm-3">
+                        <jsp:include page="SideNav.jsp"></jsp:include>
+        </div>
+        <div class="col-sm-9">
 <table class="table table-striped table-bordered table-hover">
 <thead>
 <tr>
@@ -99,5 +117,9 @@ ${request.writedate}
     </c:choose>
 </ul>
 </div>
+        </div>
+    </div>
+</div>
+  <jsp:include page="Footer.jsp"></jsp:include>
 </body>
 </html>

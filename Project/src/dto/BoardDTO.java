@@ -1,6 +1,12 @@
 package dto;
 
 public class BoardDTO {
+	public String getBlacklist() {
+		return blacklist;
+	}
+	public void setBlacklist(String blacklist) {
+		this.blacklist = blacklist;
+	}
 	private String bno;
 	private String title;
 	private String id;
@@ -9,11 +15,13 @@ public class BoardDTO {
 	private String bview;
 	private String bimgfile;
 	private String category;
+	private String blacklist;
 	
 	@Override
 	public String toString() {
 		return "BoardDTO [bno=" + bno + ", title=" + title + ", id=" + id + ", content=" + content + ", writedate="
-				+ writedate + ", bview=" + bview + ", bimgfile=" + bimgfile + ", category=" + category + "]";
+				+ writedate + ", bview=" + bview + ", bimgfile=" + bimgfile + ", category=" + category + ", blacklist="
+				+ blacklist + "]";
 	}
 	public String getBno() {
 		return bno;

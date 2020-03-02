@@ -6,9 +6,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script>
-function domainselect(){
-    var email=document.getElementById("domainvalue").value;
-    document.getElementById("domain_input").value=email;
+function Pwdomainselect(){
+    var email=document.getElementById("Pwdomainvalue").value;
+    document.getElementById("Pwdomain_input").value=email;
 }
 </script>
 <script
@@ -18,10 +18,10 @@ crossorigin="anonymous">
 </script>
 <script>
 $(document).ready(function(){
-	$('#check').click(function() {
-	     var id=$('#id_input').val();
-	     var email=$('#email_input').val();
-	     var domain=$('#domain_input').val();
+	$('#Pwcheck').click(function() {
+	     var id=$('#Pwid_input').val();
+	     var email=$('#Pwemail_input').val();
+	     var domain=$('#Pwdomain_input').val();
 	     var email2=email+"@"+domain;
             $.ajax({
                 type : "POST",
@@ -46,18 +46,40 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+                        <jsp:include page="Header.jsp"></jsp:include>
+        </div>
+        <div class="col-sm-12">
+  <ul class="nav nav-pills nav-justified">
+    <li class="active"><a href="Main.jsp">Home</a></li>
+    <li><a href="MovieList">영화</a></li>
+ 	<li><a href="DramaList">드라마</a></li>
+    <li><a href="UtilList">유틸</a></li>
+    <li><a href="OtherList">기타</a></li>
+  </ul>
+        </div>
+        <div class="col-sm-3">
+                        <jsp:include page="SideNav.jsp"></jsp:include>
+        </div>
+        <div class="col-sm-9">
 아이디<br>
-<input type="text" id="id_input">
+<input type="text" id="Pwid_input"><br>
 이메일 주소<br>
-<input type="text" id="email_input">
+<input type="text" id="Pwemail_input">
 @
-<input type="text" id="domain_input">
-<select onchange="domainselect()" id="domainvalue">
+<input type="text" id="Pwdomain_input">
+<select onchange="Pwdomainselect()" id="Pwdomainvalue">
   <option value="">직접입력</option>
   <option value="naver.com">네이버</option>
   <option value="hanmail.net">한메일</option>
   <option value="gmail.com">구글</option>
 </select>
-<button id="check">확인</button>
+<button id="Pwcheck">확인</button>
+        </div>
+    </div>
+</div>
+  <jsp:include page="Footer.jsp"></jsp:include>
 </body>
 </html>

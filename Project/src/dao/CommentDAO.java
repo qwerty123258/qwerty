@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dto.CommentDTO;
+import page.Paging;
 
 public class CommentDAO {
 	private static CommentDAO dao;
@@ -44,19 +45,23 @@ public class CommentDAO {
 		}
 		return result;
 	}
-	public List<CommentDTO> commentList(String bno) {
+	public List<CommentDTO> commentList(String bno, Paging paging) {
 		List<CommentDTO> commentList = new ArrayList<CommentDTO>();
-		String sql="select * from comments where bno=? order by cno";
+	    int startNum = paging.getStartNum();
+	    int endNum = paging.getEndNum();
+        String sql = "SELECT c.*,to_char(writedate,'YYYY-MM-DD HH:MM') as cdate FROM  (select ROWNUM row_num,Comments.* from Comments where bno=? order by cno) c  WHERE row_num >= ? and row_num <= ?";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, bno);
+			pstmt.setInt(2, startNum);
+			pstmt.setInt(3, endNum);
 			rs=pstmt.executeQuery();
 			while(rs.next()) {
 				CommentDTO comment = new CommentDTO();
 				comment.setCno(rs.getString("cno"));
 				comment.setId(rs.getString("id"));
 				comment.setCcontent(rs.getString("ccontent"));
-				comment.setWritedate(rs.getString("writedate"));
+				comment.setWritedate(rs.getString("cdate"));
 				commentList.add(comment);
 			}
 		} catch (SQLException e) {
@@ -67,5 +72,25 @@ public class CommentDAO {
 			close(rs);
 		}
 		return commentList;
+	}
+	public int countComment(String bno) {
+		String sql="select count(*) as count from comments where bno=?";
+		int count=0;
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, bno);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				count=rs.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+			close(rs);
+		}
+		
+		return count;
 	}
 }

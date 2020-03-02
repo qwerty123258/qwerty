@@ -28,20 +28,73 @@ public class BoardService {
 		
 	}
 
-	public int countBoard() {
+	public int countMovieBoard() {
 		BoardDAO dao=BoardDAO.getInstance();
 		Connection con=getConnection();
 		dao.setConnection(con);
-		int result=dao.countBoard();
+		int result=dao.countMovieBoard();
 		close(con);
 		return result;
 	}
 
-	public List<BoardDTO> boardList(Paging paging) {
+	public List<BoardDTO> movieList(Paging paging) {
 		BoardDAO dao=BoardDAO.getInstance();
 		Connection con=getConnection();
 		dao.setConnection(con);
-		List<BoardDTO> boardList = dao.boardList(paging);
+		List<BoardDTO> boardList = dao.movieList(paging);
+		close(con);
+		return boardList;
+	}
+	
+	public int countDramaBoard() {
+		BoardDAO dao=BoardDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		int result=dao.countDramaBoard();
+		close(con);
+		return result;
+	}
+
+	public List<BoardDTO> dramaList(Paging paging) {
+		BoardDAO dao=BoardDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		List<BoardDTO> boardList = dao.dramaList(paging);
+		close(con);
+		return boardList;
+	}
+	
+	public int countUtilBoard() {
+		BoardDAO dao=BoardDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		int result=dao.countUtilBoard();
+		close(con);
+		return result;
+	}
+
+	public List<BoardDTO> utilList(Paging paging) {
+		BoardDAO dao=BoardDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		List<BoardDTO> boardList = dao.utilList(paging);
+		close(con);
+		return boardList;
+	}
+	public int countOtherBoard() {
+		BoardDAO dao=BoardDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		int result=dao.countOtherBoard();
+		close(con);
+		return result;
+	}
+
+	public List<BoardDTO> otherList(Paging paging) {
+		BoardDAO dao=BoardDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		List<BoardDTO> boardList = dao.otherList(paging);
 		close(con);
 		return boardList;
 	}

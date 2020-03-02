@@ -16,7 +16,6 @@ public class JdbcUtil {
 					(DataSource)envCtx.lookup("jdbc/OracleDB");
 			con = ds.getConnection();
 			con.setAutoCommit(false);
-			System.out.println("DB접속성공");
 		}
 		catch (Exception e) {
 			e.printStackTrace();

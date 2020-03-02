@@ -5,11 +5,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script
-src="https://code.jquery.com/jquery-3.4.1.js"
-integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-crossorigin="anonymous">
-</script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script>
 function domainselect(){
     var email=document.getElementById("domainvalue").value;
@@ -68,6 +71,24 @@ $(document).ready(function(){
 
 </head>
 <body>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+                        <jsp:include page="Header.jsp"></jsp:include>
+        </div>
+        <div class="col-sm-12">
+  <ul class="nav nav-pills nav-justified">
+    <li class="active"><a href="Main.jsp">Home</a></li>
+    <li><a href="MovieList">영화</a></li>
+ 	<li><a href="DramaList">드라마</a></li>
+    <li><a href="UtilList">유틸</a></li>
+    <li><a href="OtherList">기타</a></li>
+  </ul>
+        </div>
+        <div class="col-sm-3">
+                        <jsp:include page="SideNav.jsp"></jsp:include>
+        </div>
+        <div class="col-sm-9">
 <table>
 <tr>
 <td>
@@ -120,5 +141,8 @@ ${sessionScope.id}
 </tr>
 </table>
 <button id="update">수정하기</button>
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -5,6 +5,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <style>
 #createbtn_ar{
 	width:100%
@@ -25,7 +33,7 @@ function domainselect(){
 }
 function idreg(){
     var reg = /^(?=.*[a-z])[A-Za-z\d]{6,20}$/;
-    var id=document.getElementById("id_input").value;
+    var id=document.getElementById("createid_input").value;
     if(id.match(reg)){
         document.getElementById("idtext").style.color="green";
         document.getElementById("idtext").innerHTML="사용가능"
@@ -37,7 +45,7 @@ function idreg(){
 }
 function pwreg(){
     var reg = /^(?=.*[a-z])(?=.*\d)[a-zA-Z\d$@$!%*#?&]{8,16}$/;
-    var pw=document.getElementById("pw_input").value;
+    var pw=document.getElementById("createpw_input").value;
     if(pw.match(reg)){
         document.getElementById("pwtext").style.color="green";
         document.getElementById("pwtext").innerHTML="사용가능"
@@ -70,8 +78,8 @@ $(document).ready(function(){
 		     var personnoreg= /^(?:[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[1,2][0-9]|3[0,1]))-[1-4][0-9]{6}$/;
 			var pwcheck = $('#pwcheck_input').val();
 				var idcheck=$('#idcheck_input').val();
-			    var id = $('#id_input').val();
-			     var password = $('#pw_input').val();
+			    var id = $('#createid_input').val();
+			     var password = $('#createpw_input').val();
 			     var personno=$('#personno_input').val();
 			     var personno2=$('#personno_input2').val();
 			     var personno3=personno+"-"+personno2;
@@ -83,15 +91,15 @@ $(document).ready(function(){
 			     }
 			     else if(password!=pwcheck){
 			    	 alert('비밀번호가 일치하지 않습니다.');
-			    	 $('#pw_input').focus();
+			    	 $('#createpw_input').focus();
 			     }
 			     else if(id==''){
 			    	 alert('ID는 필수 입력입니다.');
-			    	 $('#id_input').focus();
+			    	 $('#createid_input').focus();
 			     }
 			     else if(password==''){
 			    	 alert('비밀번호는 필수 입력입니다.');
-			    	 $('#pw_input').focus();
+			    	 $('#createpw_input').focus();
 			     }
 			     else if(name==''){
 			    	 alert('이름은 필수 입력입니다.');
@@ -125,7 +133,7 @@ $(document).ready(function(){
 			            }
 			            else if(data=='Success') {
 			        	  alert('회원가입 성공');
-	                      location.href = 'Main.jsp';
+	                      location.reload();
 			}
 			       },
 			error : function(request, status, error) {
@@ -135,15 +143,15 @@ $(document).ready(function(){
 	     }
 	});
 	$('#checkid').click(function checkUser() {
-	    var id = $('#id_input').val();
+	    var id = $('#createid_input').val();
 		var idreg = /^(?=.*[a-z])(?=.*\d)[A-Za-z\d]{6,20}$/;
 	    if(id==''){
 	    	alert("ID를 입력하세요.");
-	    	$('#id_input').focus();
+	    	$('#createid_input').focus();
 	    }
 	    else if(!id.match(idreg)){
 	    	alert("유효하지 않은 아이디입니다.");
-	    	$('#id_input').focus();
+	    	$('#createid_input').focus();
 	    }
 	    else{
 	  	  $.ajax({
@@ -172,8 +180,24 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-<h3> 회원가입
-</h3>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+                        <jsp:include page="Header.jsp"></jsp:include>
+        </div>
+        <div class="col-sm-12">
+  <ul class="nav nav-pills nav-justified">
+    <li class="active"><a href="Main.jsp">Home</a></li>
+    <li><a href="MovieList">영화</a></li>
+ 	<li><a href="DramaList">드라마</a></li>
+    <li><a href="UtilList">유틸</a></li>
+    <li><a href="OtherList">기타</a></li>
+  </ul>
+        </div>
+        <div class="col-sm-3">
+                        <jsp:include page="SideNav.jsp"></jsp:include>
+        </div>
+        <div class="col-sm-9">
 <table>
 <tr>
 <td>
@@ -182,7 +206,7 @@ $(document).ready(function(){
 </tr>
 <tr>
 <td>
-<input type="text" id="id_input" onkeyup="idreg()">
+<input type="text" id="createid_input" onkeyup="idreg()">
 <input type="hidden" id="idcheck_input" value="false">
 <div id="idtext"></div>
 </td>
@@ -194,7 +218,7 @@ $(document).ready(function(){
 </tr>
 <tr>
 <td>
-<input type="password" id="pw_input" onkeyup="pwreg()">
+<input type="password" id="createpw_input" onkeyup="pwreg()">
 <div id="pwtext"></div>
 </td>
 </tr>
@@ -255,5 +279,9 @@ $(document).ready(function(){
 <button id="createbtn">회원가입하기</button>
 </td>
 </table>
+        </div>
+    </div>
+</div>
+  <jsp:include page="Footer.jsp"></jsp:include>
 </body>
 </html>

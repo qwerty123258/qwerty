@@ -15,34 +15,34 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script>
-$(document).ready(function(){
-
-})
-</script>
-<script>
 function deleteUser(id){
 	var id=id;
-	  $.ajax({
-	       type : "POST",
-	         url : "AdminDeleteUser",
-	         data : "id=" + id,
-	         dataType : "text",
-	       success : function(data, textStatus, xhr) {
-	            if (data == 'deleteFail') {
-	                 alert('회원삭제 실패 \n 또는 가입된 회원이 아닙니다.');
-	          	}
-	            else if(data=='adminDelFail'){
-		        	  alert('관리자는 삭제 하실 수 없습니다.');
-	            }
-	            else if(data=='deleteSuccess') {
-	        	  alert('삭제성공');
-              location.href = 'SelectUser';
+	if(confirm("탈퇴시키겠습니까?")){
+		  $.ajax({
+		       type : "POST",
+		         url : "AdminDeleteUser",
+		         data : "id=" + id,
+		         dataType : "text",
+		       success : function(data, textStatus, xhr) {
+		            if (data == 'deleteFail') {
+		                 alert('회원삭제 실패 \n 또는 가입된 회원이 아닙니다.');
+		          	}
+		            else if(data=='adminDelFail'){
+			        	  alert('관리자는 삭제 하실 수 없습니다.');
+		            }
+		            else if(data=='deleteSuccess') {
+		        	  alert('삭제성공');
+	              location.href = 'BoardList?page=${requestScope.page}';
+		}
+		       },
+		error : function(request, status, error) {
+		alert("code:" + request.status + "\n" + "error:" + error);
+		}
+		})
 	}
-	       },
-	error : function(request, status, error) {
-	alert("code:" + request.status + "\n" + "error:" + error);
+	else{
+		alert("탈퇴 취소");
 	}
-	})
 }
 function addBlack(id){
 	var id=id;
@@ -60,7 +60,7 @@ function addBlack(id){
 	            }
 	            else if(data=='addSuccess') {
 	        	  alert('블랙리스트에 추가하였습니다.');
-              location.href = 'SelectUser';
+	        	  location.reload();
 	}
 	       },
 	error : function(request, status, error) {
@@ -84,7 +84,7 @@ function removeBlack(id){
 	            }
 	            else if(data=='removeSuccess') {
 	        	  alert('블랙리스트를 해제 하였습니다.');
-              location.href = 'SelectUser';
+	        	  location.reload();
 	}
 	       },
 	error : function(request, status, error) {
@@ -102,8 +102,8 @@ function removeBlack(id){
         </div>
         <div class="col-sm-12">
   <ul class="nav nav-pills nav-justified">
-    <li class="active"><a href="Main.jsp">Home</a></li>
-    <li><a href="MovieList">영화</a></li>
+    <li><a href="Main.jsp">Home</a></li>
+    <li class="active"><a href="MovieList">영화</a></li>
  	<li><a href="DramaList">드라마</a></li>
     <li><a href="UtilList">유틸</a></li>
     <li><a href="OtherList">기타</a></li>
@@ -113,81 +113,47 @@ function removeBlack(id){
                         <jsp:include page="SideNav.jsp"></jsp:include>
         </div>
         <div class="col-sm-9">
-<table class="table table-striped table-bordered table-hover">
-<thead>
-<tr>
-<td>
-아이디
-</td>
-<td>
-이름
-</td>
-<td>
-이메일 주소
-</td>
-<td>
-포인트
-</td>
-<td>
-회원등급
-</td>
-<td>
-이메일 인증
-</td>
-<td>
-업로드 자격
-</td>
-<td>
-블랙리스트
-</td>
-</tr>
-</thead>
-<tbody>
-<c:forEach var="user" items="${users}" >
-<tr>
-<td>
-  <div class="dropdown">
-    <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">${user.ID}</button>
-    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-      <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="window.open('SelectDetailUser?id=${user.ID}','상세보기','width=430,height=500,location=no,status=no,scrollbars=yes');">상세보기</a></li>
-      <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="deleteUser('${user.ID}')">탈퇴시키기</a></li>
-          <c:choose>
-        <c:when test="${user.blacklist eq 'N'}">
-      <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="addBlack('${user.ID}')">블랙리스트 추가</a></li>
+        	            <table class='table table-striped table-bordered table-hover'>
+	            <thead>
+	            <tr>
+	            <th>카테고리</th>
+	            <th>글 제목</th>
+	            <th>작성자</th>
+	            <th>조회수</th>
+	            <th> 작성날짜</th>
+	            </tr>
+	            </thead>
+	                    <tbody>
+	                    <c:forEach var="board" items="${boardList}">
+	                    <tr>
+	                    <td>${board.category}</td>
+	                    <td><a href="BoardDetail?bno=${board.bno}&page=${paging.page}&category=${board.category}">${board.title}</a></td>
+	                    <td>
+	                    <div class='dropdown'>
+	                    <button class='btn btn-default dropdown-toggle' type='button' id='menu1' data-toggle='dropdown'>${board.id}</button>
+	                    <ul class='dropdown-menu' role='menu' aria-labelledby='menu1'>
+	                    <li role='presentation'><a role='menuitem' tabindex='-1' href='#' onclick="window.open('SelectDetailUser?id=${board.id}','상세보기','width=430,height=500,location=no,status=no,scrollbars=yes')";>상세보기</a></li>
+	                    <c:if test="${sessionScope.id eq 'qwerty123258'}"><li role='presentation'><a role='menuitem' tabindex='-1' href='#' onclick="deleteUser('${board.id}')">탈퇴시키기</a></li>
+	                    	                              <c:choose>
+        <c:when test="${board.blacklist eq 'N'}">
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="addBlack('${board.id}')">블랙리스트 추가</a></li>
         </c:when>
         <c:otherwise>
-      <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="removeBlack('${user.ID}')">블랙리스트 해제</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="removeBlack('${board.id}')">블랙리스트 해제</a></li>
         </c:otherwise>
     </c:choose>
-    </ul>
-  </div>
-</td>
-<td>
-${user.name}
-</td>
-<td>
-${user.email}
-</td>
-<td>
-${user.point}
-</td>
-<td>
-${user.grade}
-</td>
-<td>
-${user.certify}
-</td>
-<td>
-${user.bfile}
-</td>
-<td>
-${user.blacklist}
-</td>
-</tr>
-</c:forEach>
-</tbody>
-</table>
-<c:url var="action" value="/SelectUser"/>
+	                    
+	                    </c:if>
+	                    </ul>
+	                    </div>
+	                  </td>
+	                  <td>${board.bview}</td>
+	                  <td>${board.writedate}</td>
+	                  </tr>
+	                    </c:forEach>
+                    </tbody>
+                    </table>
+                    <c:url var="action" value="MovieList"/>
 <div class="text-center">
     <ul class="pagination pagination-sm pager">
                 <c:choose>
@@ -233,9 +199,9 @@ ${user.blacklist}
         </c:otherwise>
     </c:choose>
 </ul>
-</div>
         </div>
     </div>
+</div>
 </div>
   <jsp:include page="Footer.jsp"></jsp:include>
 </body>

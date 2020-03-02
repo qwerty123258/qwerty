@@ -18,11 +18,11 @@ import dto.BoardDTO;
 import page.Paging;
 import service.BoardService;
 
-@WebServlet("/BoardList")
-public class BoardList extends HttpServlet {
+@WebServlet("/MovieList")
+public class MovieList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public BoardList() {
+    public MovieList() {
         super();
     }
     
@@ -30,7 +30,7 @@ public class BoardList extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		Paging paging = new Paging();
 		BoardService boardservice = new BoardService();
-		int count=boardservice.countBoard();
+		int count=boardservice.countMovieBoard();
     	int page = 1;
         if(request.getParameter("page")!=null){
             page = Integer.parseInt(request.getParameter("page"));
@@ -38,15 +38,11 @@ public class BoardList extends HttpServlet {
         paging.setPage(page);
         paging.setTotalCount(count);
         List<BoardDTO> boardList=new ArrayList<BoardDTO>();
-        boardList=boardservice.boardList(paging);
-		JSONObject jso=new JSONObject();    
-		jso.put("board", boardList);
-		System.out.println(page);
-		response.setContentType("application/x-www-form-urlencoded; charset=UTF-8");
-		PrintWriter out=response.getWriter();
-		out.print(jso); 
+        boardList=boardservice.movieList(paging);
         request.setAttribute("boardList", boardList);
         request.setAttribute("paging", paging);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("MovieList.jsp");
+        dispatcher.forward(request, response);
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

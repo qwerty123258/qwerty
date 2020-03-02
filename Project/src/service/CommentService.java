@@ -8,6 +8,7 @@ import java.util.List;
 
 import dao.CommentDAO;
 import dto.CommentDTO;
+import page.Paging;
 
 public class CommentService {
 
@@ -29,14 +30,23 @@ public class CommentService {
 		
 	}
 
-	public List<CommentDTO> commentList(String bno) {
+	public List<CommentDTO> commentList(String bno, Paging paging) {
 		CommentDAO dao=CommentDAO.getInstance();
 		Connection con=getConnection();
 		dao.setConnection(con);
 		List<CommentDTO> commentList = new ArrayList<CommentDTO>();
-		commentList=dao.commentList(bno);
+		commentList=dao.commentList(bno,paging);
 		close(con);
 		return commentList;
+	}
+
+	public int countComment(String bno) {
+		CommentDAO dao=CommentDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		int count=dao.countComment(bno);
+		close(con);
+		return count;
 	}
 
 }
