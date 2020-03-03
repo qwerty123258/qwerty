@@ -7,17 +7,22 @@
 <title>Insert title here</title>
 <style>
 .header{
-	top:0;
-	margin-right:40%;
-	margin-left:40%;
+
+margin-left:50%;
+margin-right:50%;
+}
+#logo{
+width:250px;
+height:250px;
 }
 </style>
 </head>
 <body>
-<div class="header">
 <a href="Main.jsp">
-<h1>파일 천국</h1>
-</a>
+<div class="header">
+<img id="logo" src="images/logo.png">
 </div>
+</a>
+
 </body>
 </html>

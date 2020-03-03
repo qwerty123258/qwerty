@@ -19,7 +19,7 @@
 </style>
 <body>
 <div class="footer">
-	footer 영역입니다~.
+	<p>@Copyright.ICIA.Jsj</p>
 </div>
 </body>
 </html>

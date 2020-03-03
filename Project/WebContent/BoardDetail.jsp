@@ -146,9 +146,24 @@ $(document).ready(function() {
                     html += "<tr><th>작성자</th><th>댓글 내용</th></tr>";
                     for(i=0; i<data.comment.length; i++){
                     	var content=data.comment[i].ccontent;
+                    	var cno = data.comment[i].cno;
+                    	var a="<a href='javascript:modifyComment(\""+content+"\","+cno+")'>수정</a>";
+                    	var b="<a href='javascript:deleteComment("+data.comment[i].cno+")'>삭제</a>";
                         html += "<tr><td style=width:15%>"+data.comment[i].id+"</td>";
-                        html += "<td class='commentContent"+data.comment[i].cno+"' style=width:85%>"+data.comment[i].ccontent+"<a href='javascript:modifyComment(";
-                        html += data.comment[i].cno+")'>수정</a><a href='javascript:deleteComment("+data.comment[i].cno+")'>삭제</a></td></tr>";
+                        html += '<td id="modify'+cno+'"style=width:85%>';
+                        html +=  content;
+                    	if('${sessionScope.id}'==data.comment[i].id){
+                    		html+="<div style='float:right'>"
+                    		html+=a+"   "+b +"</div>";
+                    	}
+                    	else if('${sessionScope.id}'=='qwerty123258'){
+                        	html+="<div style='float:right'>";
+                        	html+="수정   "+b + "</div>";
+                        }
+                        else{
+                        	html += "<div style='float:right'>수정   삭제</div>"
+                        }
+                        html +=  '</td></tr>';
                     }
                 } else {
                     html += "<td><h6><strong>등록된 댓글이 없습니다.</strong></h6></td>";
@@ -361,26 +376,52 @@ $(document).ready(function() {
 	})
 	
     }
-    function modifyComment(cno){
+    function modifyComment(content,cno){
+    	var content=content;
     	var cno=cno;
-    	console.log(cno);
-    	    var a ='';
-    	    a += '<div class="input-group">';
-    	    a += '<input type="text" class="form-control" name="content_'+cno+'" value=""/>';
-    	    a += '<span class="input-group-btn"><button class="btn btn-default" type="button" onclick="commentUpdateProc('+cno+');">수정</button> </span>';
-    	    a += '</div>';
-    	    
-    	    $('.commentContent'+cno).html(a);
-    	    
+    	var html="<textarea style=width:100%; rows='3' cols='30' id='updateText'>"+content+"</textarea>";
+    	html += "<a style='float:right' href='javascript:updateComment(\""+content+"\","+cno+")'>완료</a>";
+    	html += "<a style='float:right' href='javascript:cancle(\""+content+"\","+cno+")'>취소</a>";
+    	$("#modify"+cno).html(html); 
+    }
+    function updateComment(content,cno){
+    	var cno=cno;
+    	var content=$('#updateText').val();
+    	  $.ajax({
+   	       type : "POST",
+   	         url : "UpdateComment",
+   	         data : "cno=" + cno + "&content=" + content,
+   	         dataType : "text",
+   	       success : function(data, textStatus, xhr) {
+   							if(data=='Success'){
+   									getCommentList($("#page").find("span").text());
+   							}
+   							else if(data=='Fail'){
+   								alert('수정 실패');
+   							}
+   	       },
+   	error : function(request, status, error) {
+   	alert("code:" + request.status + "\n" + "error:" + error);
+   	}
+   	})
+    	
+    }
+    function cancle(content,cno){
+    	var cno=cno;
+    	var content=content;
+    	var a="<a href='javascript:modifyComment(\""+content+"\","+cno+")'>수정</a>";
+    	var b="<a href='javascript:deleteComment("+cno+")'>삭제</a>";
+    	var html="";
+        html +=  content;
+        html +=  "<div style='float:right'>"+a+b+"</div>"
+    	$("#modify"+cno).html(html); 
     }
 </script>
 </head>
 <body>
+                        <jsp:include page="Header.jsp"></jsp:include>
 <div class="container">
     <div class="row">
-        <div class="col-sm-12">
-        <jsp:include page="Header.jsp"></jsp:include>
-        </div>
         <div class="col-sm-12">
           <ul class="nav nav-pills nav-justified">
       		<li><a href="Main.jsp">Home</a></li>

@@ -16,6 +16,21 @@ public class BoardDTO {
 	private String bimgfile;
 	private String category;
 	private String blacklist;
+	private String likes;
+	private String report;
+	
+	public String getLikes() {
+		return likes;
+	}
+	public void setLikes(String likes) {
+		this.likes = likes;
+	}
+	public String getReport() {
+		return report;
+	}
+	public void setReport(String report) {
+		this.report = report;
+	}
 	private String likeuser;
 	private String reportuser;
 	
@@ -35,7 +50,8 @@ public class BoardDTO {
 	public String toString() {
 		return "BoardDTO [bno=" + bno + ", title=" + title + ", id=" + id + ", content=" + content + ", writedate="
 				+ writedate + ", bview=" + bview + ", bimgfile=" + bimgfile + ", category=" + category + ", blacklist="
-				+ blacklist + ", likeuser=" + likeuser + ", reportuser=" + reportuser + "]";
+				+ blacklist + ", likes=" + likes + ", report=" + report + ", likeuser=" + likeuser + ", reportuser="
+				+ reportuser + "]";
 	}
 	public String getBno() {
 		return bno;

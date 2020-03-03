@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+                    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,20 +14,6 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script>
-$(document).ready(function() {
-	$('#writebtn').click(function(){
-		var title=$('#title_input').val();
-		if(title==''){
-			alert('제목이 비어있습니다.');
-		}
-		else{
-        	document.getElementById("writeForm").submit();
-		}
-		
-	});
-})
-</script>
 </head>
 <body>
                         <jsp:include page="Header.jsp"></jsp:include>
@@ -42,16 +29,50 @@ $(document).ready(function() {
   </ul>
         </div>
         <div class="col-sm-3">
-                        <jsp:include page="SideNav.jsp"></jsp:include>
+      <jsp:include page="SideNav.jsp"></jsp:include>
         </div>
         <div class="col-sm-9">
-<form action="RequestWrite" method="post" id="writeForm">
-제목<br>
-<input type="text" id="title_input" name="title"><br>
-내용<br>
-<textarea name="content" rows="10" cols="50"></textarea>
-</form>
-<button id="writebtn">작성완료</button>
+				<table class="table table-striped table-bordered">
+				<thead>
+				<tr>
+				<th>
+				글 번호
+				</th>
+				<th>
+				글 제목
+				</th>
+				<th>
+				파일 이름
+				</th>
+				<th>
+				소모 비용
+				</th>
+				<th>
+				다운로드 날짜
+				</th>
+				</tr>
+				</thead>
+				<c:forEach var="down" items="${down}">
+				<tr>
+				<td>
+				${down.bno}
+				</td>
+								<td>
+				${down.title}
+				</td>
+								<td>
+				${down.bfile}
+				</td>
+								<td>
+				${down.price}
+				</td>
+								<td>
+				${down.writedate}
+				</td>
+				</tr>
+				</c:forEach>
+				
+				</table>
         </div>
     </div>
 </div>

@@ -370,4 +370,79 @@ public class BoardDAO {
 		}
 		return id;
 	}
+	public List<BoardDTO> likeTopList() {
+		String sql="select  ROW_NUMBER() over (ORDER BY count(ROWNUM) desc) as rank,count(*) as likes,b.bno,category,title,b.id,b.writedate from board b,likes l where b.bno=l.bno group by b.bno,title,b.id,b.writedate,category";
+		List<BoardDTO> LikeList = new ArrayList<BoardDTO>();
+		try {
+			pstmt=con.prepareStatement(sql);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				BoardDTO board = new BoardDTO();
+				board.setLikes(rs.getString("likes"));
+				board.setBno(rs.getString("bno"));
+				board.setCategory(rs.getString("category"));
+				board.setTitle(rs.getString("title"));
+				board.setId(rs.getString("id"));
+				board.setWritedate(rs.getString("writedate"));
+				LikeList.add(board);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+			close(rs);
+		}
+		return LikeList;
+	}
+	public List<BoardDTO> viewTopList() {
+		String sql="select ROW_NUMBER() OVER (ORDER BY bview desc) as rank,b.bview,b.bno,b.category,b.title,b.id,b.writedate from board b";
+		List<BoardDTO> viewList = new ArrayList<BoardDTO>();
+		try {
+			pstmt=con.prepareStatement(sql);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				BoardDTO board = new BoardDTO();
+				board.setBview(rs.getString("bview"));
+				board.setBno(rs.getString("bno"));
+				board.setCategory(rs.getString("category"));
+				board.setTitle(rs.getString("title"));
+				board.setId(rs.getString("id"));
+				board.setWritedate(rs.getString("writedate"));
+				viewList.add(board);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+			close(rs);
+		}
+		return viewList;
+	}
+	public List<BoardDTO> latestTopList() {
+		String sql="select ROW_NUMBER() OVER (ORDER BY writedate desc) as rank,b.bview,b.bno,b.category,b.title,b.id,b.writedate from board b";
+		List<BoardDTO> latestList = new ArrayList<BoardDTO>();
+		try {
+			pstmt=con.prepareStatement(sql);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				BoardDTO board = new BoardDTO();
+				board.setBno(rs.getString("bno"));
+				board.setCategory(rs.getString("category"));
+				board.setTitle(rs.getString("title"));
+				board.setId(rs.getString("id"));
+				board.setWritedate(rs.getString("writedate"));
+				board.setBview(rs.getString("bview"));
+				latestList.add(board);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+			close(rs);
+		}
+		return latestList;
+	}
 }

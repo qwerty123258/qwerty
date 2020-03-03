@@ -185,4 +185,31 @@ public class BoardService {
 		close(con);
 	}
 
+	public List<BoardDTO> likeTopList() {
+		BoardDAO dao=BoardDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		List<BoardDTO> likeList = dao.likeTopList();
+		close(con);
+		return likeList;
+	}
+
+	public List<BoardDTO> viewTopList() {
+		BoardDAO dao=BoardDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		List<BoardDTO> viewList = dao.viewTopList();
+		close(con);
+		return viewList;
+	}
+
+	public List<BoardDTO> latestTopList() {
+		BoardDAO dao=BoardDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		List<BoardDTO> latestList = dao.latestTopList();
+		close(con);
+		return latestList;
+	}
+
 }

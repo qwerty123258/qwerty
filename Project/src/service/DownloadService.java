@@ -3,8 +3,11 @@ package service;
 import static db.JdbcUtil.*;
 
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
 
 import dao.DownloadDAO;
+import dto.DownloadDTO;
 
 public class DownloadService {
 
@@ -38,6 +41,15 @@ public class DownloadService {
 			return false;
 		}
 		
+	}
+
+	public List<DownloadDTO> downloadList(String id) {
+		DownloadDAO dao=DownloadDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		List<DownloadDTO> downloadList=new ArrayList<DownloadDTO>();
+		downloadList=dao.downloadList(id);
+		return downloadList;
 	}
 
 }

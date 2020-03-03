@@ -66,4 +66,21 @@ public class CommentService {
 		}
 	}
 
+	public boolean updateComment(String cno, String content) {
+		CommentDAO dao=CommentDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		int result=dao.updateComment(cno,content);
+		if(result>0) {
+			commit(con);
+			close(con);
+			return true;
+		}
+		else {
+			rollback(con);
+			close(con);
+			return false;
+		}
+	}
+
 }

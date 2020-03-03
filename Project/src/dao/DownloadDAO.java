@@ -6,6 +6,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import dto.DownloadDTO;
 
 public class DownloadDAO {
 	private static DownloadDAO dao;
@@ -58,5 +62,30 @@ public class DownloadDAO {
 			close(rs);
 		}
 		return false;
+	}
+	public List<DownloadDTO> downloadList(String id) {
+		List<DownloadDTO> downloadList= new ArrayList<DownloadDTO>();
+		String sql="select d.bno,d.bfile,f.price,b.title,d.writedate from downloads d,board b,bfiles f where d.id=? and d.bno=b.bno and f.bno=d.bno";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				DownloadDTO down = new DownloadDTO();
+				down.setBno(rs.getString("bno"));
+				down.setBfile(rs.getString("bfile"));
+				down.setPrice(rs.getString("price"));
+				down.setTitle(rs.getString("title"));
+				down.setWritedate(rs.getString("writedate"));
+				downloadList.add(down);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+			close(rs);
+		}
+		return downloadList;
 	}
 }

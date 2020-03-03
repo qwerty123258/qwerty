@@ -108,4 +108,20 @@ public class CommentDAO {
 		}
 		return result;
 	}
+	public int updateComment(String cno, String content) {
+		int result=0;
+		String sql ="update comments set ccontent=? where cno=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, content);
+			pstmt.setString(2, cno);
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+		}
+		return result;
+	}
 }

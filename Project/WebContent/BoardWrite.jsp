@@ -168,11 +168,9 @@ function imgFileCheck(){
 </script>
 </head>
 <body>
+                        <jsp:include page="Header.jsp"></jsp:include>
 <div class="container">
     <div class="row">
-        <div class="col-sm-12">
-                        <jsp:include page="Header.jsp"></jsp:include>
-        </div>
         <div class="col-sm-12">
   <ul class="nav nav-pills nav-justified">
     <li class="active"><a href="Main.jsp">Home</a></li>
