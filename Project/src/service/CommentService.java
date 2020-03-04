@@ -83,4 +83,13 @@ public class CommentService {
 		}
 	}
 
+	public int countUserComment(String id) {
+		CommentDAO dao=CommentDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		int count=dao.countUserComment(id);
+		close(con);
+		return count;
+	}
+
 }

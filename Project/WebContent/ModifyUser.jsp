@@ -72,7 +72,6 @@ $(document).ready(function(){
 </head>
 <body>
                         <jsp:include page="Header.jsp"></jsp:include>
-<div class="container">
     <div class="row">
         <div class="col-sm-12">
   <ul class="nav nav-pills nav-justified">
@@ -141,6 +140,5 @@ ${sessionScope.id}
 <button id="update">수정하기</button>
         </div>
     </div>
-</div>
 </body>
 </html>

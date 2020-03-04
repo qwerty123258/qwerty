@@ -33,7 +33,7 @@ public class BoardUpdate extends HttpServlet {
 				);
 		String title=multi.getParameter("title");
 		String category=multi.getParameter("category");
-		String content=multi.getParameter("content");
+		String content=multi.getParameter("ir1");
 		String bimgfile=multi.getFilesystemName("bimgfile");
 		String beforeimg=multi.getParameter("beforeimg");
 		String bno=multi.getParameter("bno");

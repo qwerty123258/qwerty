@@ -218,9 +218,7 @@ public class BoardDAO {
 	public List<BoardDTO> titleSearch(String keyword, Paging paging) {
 	    int startNum = paging.getStartNum();
 	    int endNum = paging.getEndNum(); 
-        String sql = "SELECT b.*,to_char(writedate,'YYYY-MM-DD HH:MM') as bdate "
-        		+ "FROM (select ROWNUM row_num,board.* "
-        		+ "from (select * from board where title like ?) board"
+        String sql = "SELECT b.*,to_char(writedate,'YYYY-MM-DD HH:MM') as bdate FROM (select ROWNUM row_num,board.* from (select * from board where title like ?) board"
         		+ ") b  WHERE row_num >= ? and row_num <= ?";
         List<BoardDTO> boardList = new ArrayList<BoardDTO>();
     	try {

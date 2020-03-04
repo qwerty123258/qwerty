@@ -37,6 +37,7 @@ $(document).ready(function() {
 		                getCommentList(Math.ceil($("#cCnt").text()/5));
 	            	}
 	                $("#comment").val("");
+	                grade();
 	            }
 	            else if(data=="Fail"){
 	            	alert('댓글 등록 실패');
@@ -51,8 +52,6 @@ $(document).ready(function() {
 	
     getCommentList(1);
 	fileView();
-	getLikeCount();
-	getReportCount();
     
     function fileView(){
         $.ajax({
@@ -79,6 +78,7 @@ $(document).ready(function() {
                 }
                 $("#file").html(file);
                 $("#fileList").html(html);
+            	getLikeCount();
                 
             },
             error:function(request,status,error){
@@ -88,6 +88,32 @@ $(document).ready(function() {
         });
     }
 })
+</script>
+<script>
+function  grade(){
+    $.ajax({
+        type : "POST",
+          url : "GradeUp",
+          dataType : "text",
+        success : function(data, textStatus, xhr) {
+						if(data=='SILVER'){
+							alert("실버 등급으로 승격하셨습니다.");
+							location.reload();
+						}
+						if(data=="GOLD"){
+							alert("골드 등급으로 승격하셨습니다.");
+							location.reload();
+						}
+						if(data=="DIAMOND"){
+							alert("다이아 등급으로 승격하셨습니다.");
+							location.reload();
+						}
+        },
+error : function(request, status, error) {
+alert("code:" + request.status + "\n" + "error:" + error);
+}
+})
+}
 </script>
 <script>
     function getCommentList(page){
@@ -330,6 +356,7 @@ $(document).ready(function() {
   	         dataType : "text",
   	       success : function(data, textStatus, xhr) {
 					$("#likeCount").html("좋아요 수 : "+ data);
+					getReportCount();
   	       },
   	error : function(request, status, error) {
   	alert("code:" + request.status + "\n" + "error:" + error);
@@ -420,7 +447,6 @@ $(document).ready(function() {
 </head>
 <body>
                         <jsp:include page="Header.jsp"></jsp:include>
-<div class="container">
     <div class="row">
         <div class="col-sm-12">
           <ul class="nav nav-pills nav-justified">
@@ -659,8 +685,6 @@ ${requestScope.content}
         
         </div>
     </div>
-
-</div>
       <jsp:include page="Footer.jsp"></jsp:include>
 </body>
 </html>

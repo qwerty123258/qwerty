@@ -33,7 +33,7 @@ public class BoardWrite extends HttpServlet {
 		String id=(String) session.getAttribute("id");
 		String title=multi.getParameter("title");
 		String category=multi.getParameter("category");
-		String content=multi.getParameter("content");
+		String content=multi.getParameter("ir1");
 		String bimgfile=multi.getFilesystemName("bimgfile");
 		String price[]=multi.getParameterValues("price");
 		BoardService boardservice = new BoardService();

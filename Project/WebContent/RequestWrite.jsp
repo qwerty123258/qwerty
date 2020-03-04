@@ -13,6 +13,7 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="se2/js/service/HuskyEZCreator.js" charset="utf-8"></script>
 <script>
 $(document).ready(function() {
 	$('#writebtn').click(function(){
@@ -27,10 +28,19 @@ $(document).ready(function() {
 	});
 })
 </script>
+<style>
+#writebtn{
+padding:10px;
+border:none;
+outline:none;
+margin-left:45%;
+margin-right:45%;
+}
+
+</style>
 </head>
 <body>
                         <jsp:include page="Header.jsp"></jsp:include>
-<div class="container">
     <div class="row">
         <div class="col-sm-12">
   <ul class="nav nav-pills nav-justified">
@@ -49,12 +59,20 @@ $(document).ready(function() {
 제목<br>
 <input type="text" id="title_input" name="title"><br>
 내용<br>
-<textarea name="content" rows="10" cols="50"></textarea>
+<textarea name="ir1" id="ir1" rows="10" cols="100"></textarea>
 </form>
 <button id="writebtn">작성완료</button>
         </div>
     </div>
-</div>
   <jsp:include page="Footer.jsp"></jsp:include>
 </body>
+<script type="text/javascript">
+var oEditors = [];
+nhn.husky.EZCreator.createInIFrame({
+ oAppRef: oEditors,
+ elPlaceHolder: "ir1",
+ sSkinURI: "se2/SmartEditor2Skin.html",
+ fCreator: "createSEditor2"
+});
+</script>
 </html>

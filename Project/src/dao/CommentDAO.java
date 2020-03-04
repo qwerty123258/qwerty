@@ -124,4 +124,23 @@ public class CommentDAO {
 		}
 		return result;
 	}
+	public int countUserComment(String id) {
+		String sql="select count(*) as count from comments where id=?";
+		int count=0;
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				count=rs.getInt("count");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+			close(rs);
+		}
+		return count;
+	}
 }

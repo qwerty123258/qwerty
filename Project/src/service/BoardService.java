@@ -4,6 +4,7 @@ import static db.JdbcUtil.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import dao.BoardDAO;
@@ -211,5 +212,35 @@ public class BoardService {
 		close(con);
 		return latestList;
 	}
+
+	public int countUserBoard(String id) {
+		BoardDAO dao=BoardDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		int count=dao.countUserBoard(id);
+		close(con);
+		return count;
+	}
+
+	public int searchCount(String keyword) {
+		BoardDAO dao=BoardDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		int count=dao.searchCount(keyword);
+		close(con);
+		return count;
+	}
+
+	public List<BoardDTO> searchList(String keyword, Paging paging) {
+		BoardDAO dao=BoardDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		List<BoardDTO> searchList=new ArrayList<BoardDTO>();
+		searchList=dao.searchList(keyword,paging);
+		close(con);
+		return searchList;
+	}
+
+
 
 }

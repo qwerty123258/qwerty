@@ -499,4 +499,39 @@ public class UserDAO {
 		}
 		return result;
 	}
+	public String getGrade(String id) {
+		String sql="select * from users where id=?";
+		String grade=null;
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+			grade=rs.getString("grade");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+			close(rs);
+		}
+		return grade;
+	}
+	public int setGrade(String id,String grade) {
+		String sql="update users set grade=? where id=?";
+		int result=0;
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, grade);
+			pstmt.setString(2, id);
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+		}
+		return result;
+	}
 	}

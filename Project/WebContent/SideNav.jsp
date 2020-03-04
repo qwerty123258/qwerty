@@ -22,8 +22,10 @@ function boardList(){
 </script>
 <script>
 $(document).ready(function() {
-	  getPoint();
-	
+	var id='${sessionScope.id}';
+	if(id!= ''){
+		getPoint();
+	}
 	$('#loginbtn').click(function() {
         var id = $('#id_input').val();
         var password = $('#pw_input').val();
@@ -122,6 +124,22 @@ alert("code:" + request.status + "\n" + "error:" + error);
  					var html="";
  					html+="<p> 포인트 : "+data+"</p>";
  					$("#savePoint").html(html);
+ 					getGrade();
+            },
+ error : function(request, status, error) {
+ alert("code:" + request.status + "\n" + "error:" + error);
+ }
+ })
+    }
+    function  getGrade(){
+        $.ajax({
+            type : "POST",
+              url : "CheckGrade",
+              dataType : "text",
+            success : function(data, textStatus, xhr) {
+ 					var html="";
+ 					html+="<p> 등급 : "+data+"</p>";
+ 					$("#grade").html(html);
             },
  error : function(request, status, error) {
  alert("code:" + request.status + "\n" + "error:" + error);
@@ -129,11 +147,20 @@ alert("code:" + request.status + "\n" + "error:" + error);
  })
     }
    </script>
+   <style>
+   .sidenav{
+   margin-left:5%;
+   }
+   #loginbtn{
+   padding:10px;
+   width:150px;
+   }
+   </style>
 </head>
 <body>
+<div class="container" style=height:800px>
 <div class="sidenav">
 <c:if test="${sessionScope.id eq NULL}">
-<div class="loginar" style=display:flex>
 <div>
 <p>
 아이디
@@ -142,19 +169,18 @@ alert("code:" + request.status + "\n" + "error:" + error);
 <p>비밀번호</p>
 <input type="password" onkeyup="enterkey()" style=width:150px; id="pw_input">
 </div>
-<button id="loginbtn" style=padding:10px;>로그인 하기</button>
-</div>
+<br>
+<button id="loginbtn">로그인 하기</button>
 <p><a href="#" onclick="add()">회원 가입하기</a></p>
 <p><a href="#" onclick="searchUserID()">아이디 찾기</a></p>
 <p><a href="#" onclick="searchUserPw()">비밀번호 찾기</a></p>
 </c:if>
 <c:if test="${sessionScope.id  ne NULL}">
 <br><br>
-<div class="loginar">
 <div id="idar" style=padding:3px>${sessionScope.id}님</div>
 <br>
+<div id="grade" style=padding:3px></div>
 <div id="savePoint" style=padding:3px></div>
-</div>
 <c:if test="${sessionScope.id  eq 'qwerty123258'}">
 <p><a href="#" id="alluser">회원 전체조회</a></p>
 <p><a href="#" id="request">컨텐츠 등록 자격 요청확인</a></p>
@@ -169,6 +195,7 @@ alert("code:" + request.status + "\n" + "error:" + error);
 <p><a href="#" id="delete">회원탈퇴</a></p>
 <p><a href="#" id="logout">로그아웃</a></p>
 </c:if>
+</div>
 </div>
 </body>
 </html>

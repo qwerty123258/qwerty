@@ -105,6 +105,10 @@ $(document).ready(function() {
                     	html +="</table>";
                 	}
                 $("#latestTop").html(html);
+            	var id='${sessionScope.id}';
+            	if(id!= ''){
+            		  grade();
+            	}
                 
             }
             },
@@ -117,12 +121,37 @@ $(document).ready(function() {
 	}
 })
 </script>
+<script>
+function  grade(){
+    $.ajax({
+        type : "POST",
+          url : "GradeUp",
+          dataType : "text",
+        success : function(data, textStatus, xhr) {
+						if(data=='SILVER'){
+							alert("실버 등급으로 승격하셨습니다.");
+							location.reload();
+						}
+						if(data=="GOLD"){
+							alert("골드 등급으로 승격하셨습니다.");
+							location.reload();
+						}
+						if(data=="DIAMOND"){
+							alert("다이아 등급으로 승격하셨습니다.");
+							location.reload();
+						}
+        },
+error : function(request, status, error) {
+alert("code:" + request.status + "\n" + "error:" + error);
+}
+})
+}
+</script>
 <style>
 </style>
 </head>
 <body>
 <jsp:include page="Header.jsp"></jsp:include>
-<div class="container">
     <div class="row">
         <div class="col-sm-12">
   <ul class="nav nav-pills nav-justified">
@@ -151,7 +180,6 @@ $(document).ready(function() {
         				</div>
         			     </div>
     </div>
-</div>
   <jsp:include page="Footer.jsp"></jsp:include>
 </body>
 </html>

@@ -47,9 +47,24 @@ public class DownloadFile extends HttpServlet {
 				}
 				else {
 					if(point>=price) {
-						userservice.payPoint(id,price);
-						userservice.receivePoint(uploder,price);
+						String grade=userservice.getGrade(id);
 						down.addHistory(id,bfno,bfile,bno);
+						userservice.receivePoint(uploder,price);
+						if(grade.equals("BRONZE")) {
+							userservice.payPoint(id,price);
+						}
+						if(grade.equals("SILVER")) {
+							price=(int) (price*0.95);
+							userservice.payPoint(id,price);
+						}
+						if(grade.equals("GOLD")) {
+							price=(int) (price*0.9);
+							userservice.payPoint(id,price);
+						}
+						if(grade.equals("DIAMOND")) {
+							price=(int) (price*0.8);
+							userservice.payPoint(id,price);
+						}
 				        RequestDispatcher dispatcher = request.getRequestDispatcher("Download?bfile="+bfile);
 				        dispatcher.forward(request, response);
 					}

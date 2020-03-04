@@ -96,7 +96,6 @@ function removeBlack(id){
 </head>
 <body>
                         <jsp:include page="Header.jsp"></jsp:include>
-<div class="container">
     <div class="row">
         <div class="col-sm-12">
   <ul class="nav nav-pills nav-justified">
@@ -234,7 +233,6 @@ ${user.blacklist}
 </div>
         </div>
     </div>
-</div>
   <jsp:include page="Footer.jsp"></jsp:include>
 </body>
 </html>

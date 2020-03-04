@@ -96,7 +96,6 @@ function removeBlack(id){
 </head>
 <body>
                         <jsp:include page="Header.jsp"></jsp:include>
-<div class="container">
     <div class="row">
         <div class="col-sm-12">
   <ul class="nav nav-pills nav-justified">
@@ -114,7 +113,7 @@ function removeBlack(id){
         	            <table class='table table-striped table-bordered table-hover'>
 	            <thead>
 	            <tr>
-	            <th>카테고리</th>
+	            <th>글 번호</th>
 	            <th>글 제목</th>
 	            <th>작성자</th>
 	            <th>조회수</th>
@@ -124,7 +123,7 @@ function removeBlack(id){
 	                    <tbody>
 	                    <c:forEach var="board" items="${boardList}">
 	                    <tr>
-	                    <td>${board.category}</td>
+	                    <td>${board.bno}</td>
 	                    <td><a href="BoardDetail?bno=${board.bno}&page=${paging.page}&category=${board.category}">${board.title}</a></td>
 	                    <td>
 	                    <div class='dropdown'>
@@ -199,7 +198,6 @@ function removeBlack(id){
 </ul>
         </div>
     </div>
-</div>
 </div>
   <jsp:include page="Footer.jsp"></jsp:include>
 </body>

@@ -366,4 +366,29 @@ public class UserService {
 			return false;
 		}
 	}
+
+	public String getGrade(String id) {
+		UserDAO dao=UserDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		String grade=dao.getGrade(id);
+		close(con);
+		return grade;
+	}
+
+	public void setGrade(String id,String grade) {
+		UserDAO dao=UserDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		int result=dao.setGrade(id,grade);
+		if(result>0) {
+			commit(con);
+			close(con);
+		}
+		else {
+			rollback(con);
+			close(con);
+		}
+		
+	}
 }

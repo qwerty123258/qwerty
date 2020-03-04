@@ -41,7 +41,6 @@ alert("code:" + request.status + "\n" + "error:" + error);
 </script>
 </head>
 <body>
-<div class="container">
     <div class="row">
         <div class="col-sm-12">
                         <jsp:include page="Header.jsp"></jsp:include>
@@ -63,7 +62,6 @@ alert("code:" + request.status + "\n" + "error:" + error);
 <input type="text" id="addPoint"><button id="pointbtn">충전하기</button>
         </div>
     </div>
-</div>
   <jsp:include page="Footer.jsp"></jsp:include>
 </body>
 </html>

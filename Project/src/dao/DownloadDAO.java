@@ -65,7 +65,7 @@ public class DownloadDAO {
 	}
 	public List<DownloadDTO> downloadList(String id) {
 		List<DownloadDTO> downloadList= new ArrayList<DownloadDTO>();
-		String sql="select d.bno,d.bfile,f.price,b.title,d.writedate from downloads d,board b,bfiles f where d.id=? and d.bno=b.bno and f.bno=d.bno";
+		String sql="select d.bno,d.bfile,f.price,b.title,d.writedate from downloads d,board b,bfiles f where d.id=? and d.bno=b.bno and f.bno=d.bno order by d.writedate";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);

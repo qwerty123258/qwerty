@@ -21,7 +21,7 @@ public class RequestWrite extends HttpServlet {
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		String title=request.getParameter("title");
-		String content=request.getParameter("content");
+		String content=request.getParameter("ir1");
 		HttpSession session =request.getSession();
 		String id=(String) session.getAttribute("id");
 		RequestService service = new RequestService();

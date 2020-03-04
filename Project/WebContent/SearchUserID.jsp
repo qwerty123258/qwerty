@@ -64,7 +64,6 @@ function IDpnreg(){
 </head>
 <body>
                         <jsp:include page="Header.jsp"></jsp:include>
-<div class="container">
     <div class="row">
         <div class="col-sm-12">
   <ul class="nav nav-pills nav-justified">
@@ -89,7 +88,6 @@ function IDpnreg(){
 <button id="IDcheck">확인</button>
         </div>
     </div>
-</div>
   <jsp:include page="Footer.jsp"></jsp:include>
 </body>
 </html>

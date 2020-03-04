@@ -176,7 +176,6 @@ $(document).ready(function(){
 </head>
 <body>
                         <jsp:include page="Header.jsp"></jsp:include>
-<div class="container">
     <div class="row">
         <div class="col-sm-12">
   <ul class="nav nav-pills nav-justified">
@@ -192,6 +191,7 @@ $(document).ready(function(){
         </div>
         <div class="col-sm-9">
 <table>
+<caption><h2>회원가입</h2></caption>
 <tr>
 <td>
 아이디 <button id="checkid" >아이디 중복확인</button>
@@ -274,7 +274,7 @@ $(document).ready(function(){
 </table>
         </div>
     </div>
-</div>
+
   <jsp:include page="Footer.jsp"></jsp:include>
 </body>
 </html>

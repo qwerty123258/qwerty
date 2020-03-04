@@ -47,7 +47,6 @@ alert("code:" + request.status + "\n" + "error:" + error);
 </head>
 <body>
                         <jsp:include page="Header.jsp"></jsp:include>
-<div class="container">
     <div class="row">
         <div class="col-sm-12">
   <ul class="nav nav-pills nav-justified">
@@ -68,7 +67,6 @@ alert("code:" + request.status + "\n" + "error:" + error);
 		<button id="checkbtn">확인!</button>
         </div>
     </div>
-</div>
   <jsp:include page="Footer.jsp"></jsp:include>
 </body>
 </html>
