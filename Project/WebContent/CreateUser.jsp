@@ -20,6 +20,9 @@
 #createbtn{
 width:100%;
 }
+#checkid{
+float:right;
+}
 </style>
 <script>
 function domainselect(){
@@ -191,10 +194,10 @@ $(document).ready(function(){
         </div>
         <div class="col-sm-9">
 <table>
-<caption><h2>회원가입</h2></caption>
+<caption><h2>파일 천국 회원가입</h2></caption>
 <tr>
 <td>
-아이디 <button id="checkid" >아이디 중복확인</button>
+아이디 <button id="checkid" >중복확인</button>
 </td>
 </tr>
 <tr>
@@ -264,6 +267,8 @@ $(document).ready(function(){
   <option value="hanmail.net">한메일</option>
   <option value="gmail.com">구글</option>
 </select>
+<pre>회원가입 후 이메일 주소로 인증링크가 전송 됩니다.
+인증을 하지 않을시 회원가입이 더 이상 진행되지 않습니다!!</pre>
 </td>
 </tr>
 <tr>

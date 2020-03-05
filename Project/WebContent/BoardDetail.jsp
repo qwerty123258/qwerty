@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+       <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
@@ -267,8 +268,7 @@ alert("code:" + request.status + "\n" + "error:" + error);
 	        	  $("#like").children().remove();
 	   	        	getLikeCount();
 	        	  var html="";
-	        	  html+="<p>해당 게시물을 이미 좋아요하셨습니다.</p>";
-	        	  html+="<a href='javascript:LikeCancel()'>좋아요 취소!</a>";
+	        	  html+="<a href='javascript:LikeCancel()'><i class='fas fa-thumbs-up fa-5x'></i></a>";
 	        	  $("#like").html(html);
 	}
 	       },
@@ -291,8 +291,7 @@ alert("code:" + request.status + "\n" + "error:" + error);
    	        	  $("#like").children().remove();
      	        	getLikeCount();
    	        	  var html="";
-   	        	  html+="<p>이 게시글이 좋다면 좋아요를 눌러주세요!</p>";
-   	        	  html+="<a href='javascript:Like()'>좋아요!</a>";
+   	        	  html+="<a href='javascript:Like()'><i class='far fa-thumbs-up fa-5x'></i></a>";
    	        	  $("#like").html(html);
    	}
    	       },
@@ -315,8 +314,7 @@ alert("code:" + request.status + "\n" + "error:" + error);
   	        	  $("#report").children().remove();
   	   	        	getReportCount();
   	        	  var html="";
-  	        	  html+="<p>해당 게시물을 이미 신고하셨습니다.</p>";
-  	        	  html+="<a href='javascript:ReportCancel()'>신고 취소</a>";
+  	        	  html+="<a href='javascript:ReportCancel()'><i class='fas fa-thumbs-down fa-5x'></i></a>";
   	        	  $("#report").html(html);
   	}
   	       },
@@ -340,7 +338,7 @@ alert("code:" + request.status + "\n" + "error:" + error);
        	        	getReportCount();
      	        	  var html="";
      	        	  html+="<p>불량한 게시물은 신고하기를 눌러주세요!</p>";
-     	        	  html+="<a href='javascript:Report()'>신고하기</a>";
+     	        	  html+="<a href='javascript:Report()'><i class='far fa-thumbs-down fa-5x'></i></a>";
      	        	  $("#report").html(html);
      	}
      	       },
@@ -379,28 +377,33 @@ alert("code:" + request.status + "\n" + "error:" + error);
     }
     function deleteComment(cno){
     	var cno=cno;
-  	  $.ajax({
-	       type : "POST",
-	         url : "DeleteComment",
-	         data : "cno=" + cno,
-	         dataType : "text",
-	       success : function(data, textStatus, xhr) {
-							if(data=='Success'){
-								if($("#cCnt").text()%5<=1){
-									getCommentList(1);
-								}
-								else{
-									getCommentList(Math.ceil($("#cCnt").text()/5));
-								}
-							}
-							else if(data=='Fail'){
-								alert('삭제 실패');
-							}
-	       },
-	error : function(request, status, error) {
-	alert("code:" + request.status + "\n" + "error:" + error);
-	}
-	})
+    	if(confirm("삭제하시겠습니까?")){
+    	  	  $.ajax({
+    		       type : "POST",
+    		         url : "DeleteComment",
+    		         data : "cno=" + cno,
+    		         dataType : "text",
+    		       success : function(data, textStatus, xhr) {
+    								if(data=='Success'){
+    									if($("#cCnt").text()%5<=1){
+    										getCommentList(1);
+    									}
+    									else{
+    										getCommentList(Math.ceil($("#cCnt").text()/5));
+    									}
+    								}
+    								else if(data=='Fail'){
+    									alert('삭제 실패');
+    								}
+    		       },
+    		error : function(request, status, error) {
+    		alert("code:" + request.status + "\n" + "error:" + error);
+    		}
+    		})
+    	}
+    	else{
+    		
+    	}
 	
     }
     function modifyComment(content,cno){
@@ -452,7 +455,7 @@ alert("code:" + request.status + "\n" + "error:" + error);
           <ul class="nav nav-pills nav-justified">
       		<li><a href="Main.jsp">Home</a></li>
     <c:choose>
-        <c:when test="${requestScope.category eq 'movie'}">
+        <c:when test="${requestScope.category eq '영화'}">
     		<li class="active"><a href="MovieList">영화</a></li>
         </c:when>
         <c:otherwise>
@@ -460,7 +463,7 @@ alert("code:" + request.status + "\n" + "error:" + error);
         </c:otherwise>
     </c:choose>
         <c:choose>
-        <c:when test="${requestScope.category eq 'drama'}">
+        <c:when test="${requestScope.category eq '드라마'}">
  	<li class="active"><a href="DramaList">드라마</a></li>
         </c:when>
         <c:otherwise>
@@ -468,7 +471,7 @@ alert("code:" + request.status + "\n" + "error:" + error);
         </c:otherwise>
     </c:choose>
         <c:choose>
-        <c:when test="${requestScope.category eq 'util'}">
+        <c:when test="${requestScope.category eq '유틸'}">
     <li class="active"><a href="UtilList">유틸</a></li>
         </c:when>
         <c:otherwise>
@@ -476,7 +479,7 @@ alert("code:" + request.status + "\n" + "error:" + error);
         </c:otherwise>
     </c:choose>
         <c:choose>
-        <c:when test="${requestScope.category eq 'other'}">
+        <c:when test="${requestScope.category eq '기타'}">
     <li class="active"><a href="OtherList">기타</a></li>
         </c:when>
         <c:otherwise>
@@ -521,34 +524,31 @@ ${requestScope.content}
 <div class="col-sm-6">
 <span id="reportCount"></span>
 </div>
-        <c:if test="${sessionScope.id ne null}">
+<c:if test="${sessionScope.id ne null}">
 <div id="like" class="col-sm-6">
           <c:choose>
 <c:when test="${sessionScope.id eq requestScope.likeuser}">
-        <p>해당 게시물을 이미 좋아요하셨습니다.</p>
-<a href='javascript:LikeCancel()'>좋아요 취소!</a>
+<a href='javascript:LikeCancel()'><i class="fas fa-thumbs-up fa-5x"></i></a>
         </c:when>
         <c:otherwise>
-                <p>이 게시글이 좋다면 좋아요를 눌러주세요!</p>
-<a href="javascript:Like()">좋아요!</a>
+<a href="javascript:Like()"><i class="far fa-thumbs-up fa-5x"></i></a>
         </c:otherwise>
     </c:choose>
 </div>
 <div id="report" class="col-sm-6">
           <c:choose>
         <c:when test="${sessionScope.id eq requestScope.reportuser}">
-        <p>해당 게시물을 이미 신고하셨습니다.</p>
-<a href='javascript:ReportCancel()'>신고 취소!</a>
+<a href='javascript:ReportCancel()'><i class="fas fa-thumbs-down fa-5x"></i></a>
         </c:when>
         <c:otherwise>
-                <p>불량한 게시물은 신고하기를 눌러주세요!</p>
-<a href="javascript:Report()">신고하기!</a>
+<a href="javascript:Report()"><i class="far fa-thumbs-down fa-5x"></i></a>
         </c:otherwise>
     </c:choose>
 </div>
 </c:if>
     <form id="commentForm" name="commentForm" method="post">
         <div class="col-sm-12">
+            <br><br>
             <div>
                 <span><strong>Comments</strong></span> <span id="cCnt"></span>
             </div>
@@ -603,7 +603,18 @@ ${requestScope.content}
 	                    <c:forEach var="board" items="${boardList}">
 	                    <tr>
 	                    <td>${board.category}</td>
+	                     <c:if test="${requestScope.keyword ne null}">
 	                    <c:choose>
+	                    <c:when test="${board.bno eq requestScope.bno}">
+	                    	<td><a href="BoardDetail?bno=${board.bno}&page=${paging.page}&category=${requestScope.category}&keyword=${requestScope.keyword}" style=color:red>${board.title}</a></td>
+	                    </c:when>
+	                    <c:otherwise>
+	                    	<td><a href="BoardDetail?bno=${board.bno}&page=${paging.page}&category=${requestScope.category}&keyword=${requestScope.keyword}">${board.title}</a></td>
+	                    </c:otherwise>
+	                    </c:choose>
+	                    </c:if>
+	               		<c:if test="${requestScope.keyword eq null}">
+	               			                    <c:choose>
 	                    <c:when test="${board.bno eq requestScope.bno}">
 	                    	<td><a href="BoardDetail?bno=${board.bno}&page=${paging.page}&category=${requestScope.category}" style=color:red>${board.title}</a></td>
 	                    </c:when>
@@ -611,23 +622,9 @@ ${requestScope.content}
 	                    	<td><a href="BoardDetail?bno=${board.bno}&page=${paging.page}&category=${requestScope.category}">${board.title}</a></td>
 	                    </c:otherwise>
 	                    </c:choose>
+	               		</c:if>
 	                    <td>
-	                    <div class="dropdown">
-	                    <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">${board.id}</button>
-	                    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-	                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="window.open('SelectDetailUser?id=${board.id}','상세보기','width=430,height=500,location=no,status=no,scrollbars=yes')";>상세보기</a></li>
-	                    <c:if test="${sessionScope.id eq 'qwerty123258'}"><li role='presentation'><a role='menuitem' tabindex='-1' href='#' onclick="deleteUser('${board.id}')">탈퇴시키기</a></li>
-	                                        	                              <c:choose>
-        <c:when test="${board.blacklist eq 'N'}">
-      <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="addBlack('${board.id}')">블랙리스트 추가</a></li>
-        </c:when>
-        <c:otherwise>
-      <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="removeBlack('${board.id}')">블랙리스트 해제</a></li>
-        </c:otherwise>
-    </c:choose>
-	                    
-	                    </c:if></ul>
-	                    </div>
+	                    ${board.id}
 	                  </td>
 	                  <td>${board.bview}</td>
 	                  <td>${board.writedate}</td>
@@ -635,6 +632,56 @@ ${requestScope.content}
 	                    </c:forEach>
                     </tbody>
                     </table>
+<c:if test="${requestScope.keyword ne null}">
+                    <c:url var="action" value="BoardDetail"/>
+<div class="text-center">
+    <ul class="pagination pagination-sm pager">
+                <c:choose>
+        <c:when test="${paging.page==paging.beginPage}">
+ <li class="disabled"><a>처음으로</a></li>
+        </c:when>
+        <c:otherwise>
+ <li><a href="${action}?page=1&category=${requestScope.category}&keyword=${requestScope.keyword}">처음으로</a></li>
+        </c:otherwise>
+    </c:choose>
+     <c:choose>
+      <c:when test="${paging.beginPage==1}">
+            <li class="disabled" ><a>이전</a></li>
+        </c:when>
+        <c:otherwise>
+   			 <li><a href="${action}?page=${paging.beginPage-1}&category=${requestScope.category}&keyword=${requestScope.keyword}">이전</a></li>
+        </c:otherwise>
+    </c:choose>
+    <c:forEach begin="${paging.beginPage}" end="${paging.endPage}" step="1" var="page">
+    <c:choose>
+        <c:when test="${paging.page==page}">
+           <li class="active"><a>${page}</a></li>
+        </c:when>
+        <c:otherwise>
+            <li><a href="${action}?page=${page}&category=${requestScope.category}&keyword=${requestScope.keyword}">${page}</a></li>
+        </c:otherwise>
+    </c:choose>
+    </c:forEach>
+          <c:choose>
+        <c:when test="${paging.endPage==paging.totalPage}">
+            <li class="disabled"><a>다음</a></li>
+        </c:when>
+        <c:otherwise>
+   			 <li><a href="${action}?page=${paging.endPage+1}&category=${requestScope.category}&keyword=${requestScope.keyword}">다음</a></li>
+        </c:otherwise>
+    </c:choose>
+                <c:choose>
+        <c:when test="${paging.page==paging.totalPage || paging.totalPage eq 0}">
+ <li class="disabled"><a>끝으로</a></li>
+        </c:when>
+        <c:otherwise>
+ <li><a href="${action}?page=${paging.totalPage}&category=${requestScope.category}&keyword=${requestScope.keyword}">끝으로</a></li>
+        </c:otherwise>
+    </c:choose>
+</ul>
+</div>
+</c:if>
+<c:if test="${requestScope.keyword eq null}">
                     <c:url var="action" value="BoardDetail"/>
 <div class="text-center">
     <ul class="pagination pagination-sm pager">
@@ -682,6 +729,7 @@ ${requestScope.content}
     </c:choose>
 </ul>
 </div>
+</c:if>
         
         </div>
     </div>

@@ -5,11 +5,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-    <script
-src="https://code.jquery.com/jquery-3.4.1.js"
-integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-crossorigin="anonymous">
-    </script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script>
 $(document).ready(function() {
 	$('#permisson').click(function(){
@@ -19,9 +22,45 @@ $(document).ready(function() {
               dataType : "text",
             success : function(data, textStatus, xhr) {
                  if (data == 'no') {
-                      alert('알수 없는 오류로 승인 실패');
+                      alert('승인 실패');
                  }
                else if(data=='yes') {
+                   $.ajax({
+                       type : "POST",
+                         url : "Deny?rno=${requestScope.rno}",
+                         dataType : "text",
+                       success : function(data, textStatus, xhr) {
+                            if (data == 'no') {
+                                 alert('요청 글 삭제 실패');
+                            }
+                          else if(data=='yes') {
+                        	  opener.location.reload();
+                              window.close();
+            	}
+                       },
+           error : function(request, status, error) {
+           alert("code:" + request.status + "\n" + "error:" + error);
+           }
+            })	
+ 	}
+            },
+error : function(request, status, error) {
+alert("code:" + request.status + "\n" + "error:" + error);
+}
+ })	
+	});
+	
+	$('#deny').click(function(){
+        $.ajax({
+            type : "POST",
+              url : "Deny?rno=${requestScope.rno}",
+              dataType : "text",
+            success : function(data, textStatus, xhr) {
+                 if (data == 'no') {
+                      alert('거절 실패');
+                 }
+               else if(data=='yes') {
+            	   opener.location.reload();
                    window.close();
  	}
             },
@@ -41,6 +80,6 @@ ${requestScope.id}<br><br>
 <pre>
 ${requestScope.rcontent}
 </pre>
-<button id="permisson">승인하기</button>
+<button id="permisson">승인하기</button> <button id="deny">거절하기</button>
 </body>
 </html>

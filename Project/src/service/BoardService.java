@@ -241,6 +241,16 @@ public class BoardService {
 		return searchList;
 	}
 
+	public List<BoardDTO> reportList() {
+		BoardDAO dao=BoardDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		List<BoardDTO> reportList=new ArrayList<BoardDTO>();
+		reportList=dao.reportList();
+		close(con);
+		return reportList;
+	}
+
 
 
 }

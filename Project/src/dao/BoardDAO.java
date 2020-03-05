@@ -47,7 +47,7 @@ public class BoardDAO {
 		return result;
 	}
 	public int countMovieBoard() {
-		String sql="select count(*) as count from board where category='movie'";
+		String sql="select count(*) as count from board where category='영화'";
 		int result=0;
 		try {
 			pstmt = con.prepareStatement(sql);
@@ -68,7 +68,7 @@ public class BoardDAO {
 	    int startNum = paging.getStartNum();
 	    int endNum = paging.getEndNum();
 	    List<BoardDTO> boardList=new ArrayList<BoardDTO>();
-        String sql = "SELECT b.*,to_char(writedate,'YYYY-MM-DD HH:MM') as bdate FROM  (select ROWNUM row_num,a.*,u.blacklist from Board a,Users u where category='movie' and u.id=a.id order by a.writedate desc) b  WHERE row_num >= ? and row_num <= ?";
+        String sql = "SELECT b.*,to_char(writedate,'YYYY-MM-DD HH:MM') as bdate FROM  (select ROWNUM row_num,writedate,bno,bview,category,title,blacklist,a.id from (select b.*,u.blacklist from board b,users u where u.id=b.id and category='영화' order by writedate desc) a) b  WHERE row_num >= ? and row_num <= ?";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, startNum);
@@ -96,7 +96,7 @@ public class BoardDAO {
 	}
 	
 	public int countDramaBoard() {
-		String sql="select count(*) as count from board where category='drama'";
+		String sql="select count(*) as count from board where category='드라마'";
 		int result=0;
 		try {
 			pstmt = con.prepareStatement(sql);
@@ -117,7 +117,7 @@ public class BoardDAO {
 	    int startNum = paging.getStartNum();
 	    int endNum = paging.getEndNum();
 	    List<BoardDTO> boardList=new ArrayList<BoardDTO>();
-        String sql = "SELECT b.*,to_char(writedate,'YYYY-MM-DD HH:MM') as bdate FROM  (select ROWNUM row_num,a.*,u.blacklist from Board a,Users u where category='drama' and u.id=a.id order by a.writedate desc) b  WHERE row_num >= ? and row_num <= ?";
+        String sql = "SELECT b.*,to_char(writedate,'YYYY-MM-DD HH:MM') as bdate FROM  (select ROWNUM row_num,writedate,bno,bview,category,title,blacklist,a.id from (select b.*,u.blacklist from board b,users u where u.id=b.id and category='드라마' order by writedate desc) a) b  WHERE row_num >= ? and row_num <= ?";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, startNum);
@@ -144,7 +144,7 @@ public class BoardDAO {
 		return boardList;
 	}
 	public int countUtilBoard() {
-		String sql="select count(*) as count from board where category='util'";
+		String sql="select count(*) as count from board where category='유틸'";
 		int result=0;
 		try {
 			pstmt = con.prepareStatement(sql);
@@ -165,7 +165,7 @@ public class BoardDAO {
 	    int startNum = paging.getStartNum();
 	    int endNum = paging.getEndNum();
 	    List<BoardDTO> boardList=new ArrayList<BoardDTO>();
-        String sql = "SELECT b.*,to_char(writedate,'YYYY-MM-DD HH:MM') as bdate FROM  (select ROWNUM row_num,a.*,u.blacklist from Board a,Users u where category='util' and u.id=a.id order by a.writedate desc) b  WHERE row_num >= ? and row_num <= ?";
+        String sql = "SELECT b.*,to_char(writedate,'YYYY-MM-DD HH:MM') as bdate FROM  (select ROWNUM row_num,writedate,bno,bview,category,title,blacklist,a.id from (select b.*,u.blacklist from board b,users u where u.id=b.id and category='유틸' order by writedate desc) a) b  WHERE row_num >= ? and row_num <= ?";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, startNum);
@@ -192,7 +192,7 @@ public class BoardDAO {
 		return boardList;
 	}
 	public int countOtherBoard() {
-		String sql="select count(*) as count from board where category='other'";
+		String sql="select count(*) as count from board where category='기타'";
 		int result=0;
 		try {
 			pstmt = con.prepareStatement(sql);
@@ -213,7 +213,7 @@ public class BoardDAO {
 	    int startNum = paging.getStartNum();
 	    int endNum = paging.getEndNum();
 	    List<BoardDTO> boardList=new ArrayList<BoardDTO>();
-        String sql = "SELECT b.*,to_char(writedate,'YYYY-MM-DD HH:MM') as bdate FROM  (select ROWNUM row_num,a.*,u.blacklist from Board a,Users u where category='other' and u.id=a.id order by a.writedate desc) b  WHERE row_num >= ? and row_num <= ?";
+        String sql = "SELECT b.*,to_char(writedate,'YYYY-MM-DD HH:MM') as bdate FROM  (select ROWNUM row_num,writedate,bno,bview,category,title,blacklist,a.id from (select b.*,u.blacklist from board b,users u where u.id=b.id and category='기타' order by writedate desc) a) b  WHERE row_num >= ? and row_num <= ?";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, startNum);
@@ -512,5 +512,30 @@ public class BoardDAO {
 			close(rs);
 		}
 		return searchList;
+	}
+	public List<BoardDTO> reportList() {
+		List<BoardDTO> reportList = new ArrayList<BoardDTO>();
+		String sql="select  ROW_NUMBER() over (ORDER BY count(ROWNUM) desc) as rank,count(*) as report,b.bno,category,title,b.id,b.writedate from board b,reports r where b.bno=r.bno group by b.bno,title,b.id,b.writedate,category";
+		try {
+			pstmt = con.prepareStatement(sql);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				BoardDTO board = new BoardDTO();
+				board.setReport(rs.getString("report"));
+				board.setBno(rs.getString("bno"));
+				board.setCategory(rs.getString("category"));
+				board.setTitle(rs.getString("title"));
+				board.setId(rs.getString("id"));
+				board.setWritedate(rs.getString("writedate"));
+				reportList.add(board);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+			close(rs);
+		}
+		return reportList;
 	}
 }

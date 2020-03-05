@@ -104,10 +104,10 @@ margin-right:45%;
 <div class="col-sm-2">
 <select name="category" id="category_id">
 <option value="">선택</option>>
-  <option value="movie">영화</option>
-  <option value="drama">드라마</option>
-  <option value="util">유틸</option>
-   <option value="other">기타</option>
+  <option value=영화>영화</option>
+  <option value="드라마">드라마</option>
+  <option value="유틸">유틸</option>
+   <option value="기타">기타</option>
 </select>
 </div>
 <div class="col-sm-9">

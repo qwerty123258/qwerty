@@ -101,10 +101,10 @@ margin-right:45%;
         <form action="BoardUpdate?beforeimg=${requestScope.bimgfile}&bno=${requestScope.bno}" method="post" id="writeForm" enctype="multipart/form-data">
 <select name="category" id="category_id">
 <option value="">선택</option>>
-  <option value="movie" <c:if test="${requestScope.category eq 'movie'}"> selected </c:if> >영화</option>
-  <option <c:if test="${requestScope.category eq 'drama'}"> selected </c:if>value="drama">드라마</option>
-  <option <c:if test="${requestScope.category eq 'util'}"> selected </c:if>value="util">유틸</option>
-   <option <c:if test="${requestScope.category eq 'other'}"> selected </c:if> value="other">기타</option>
+  <option value="영화" <c:if test="${requestScope.category eq '영화'}"> selected </c:if> >영화</option>
+  <option <c:if test="${requestScope.category eq '드라마'}"> selected </c:if>value="드라마">드라마</option>
+  <option <c:if test="${requestScope.category eq '유틸'}"> selected </c:if>value="유틸">유틸</option>
+   <option <c:if test="${requestScope.category eq '기타'}"> selected </c:if> value="기타">기타</option>
 </select>
 제목 <input type="text" name="title" value="${requestScope.title}" id="title_id"><br><br>
 첨부 파일 수정<br>

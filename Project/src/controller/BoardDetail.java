@@ -43,9 +43,10 @@ public class BoardDetail extends HttpServlet {
 		request.setAttribute("content", board.getContent());
 		request.setAttribute("likeuser", board.getLikeuser());
 		request.setAttribute("reportuser", board.getReportuser());
-		if(category.equals("movie")) {
+		if(request.getParameter("keyword")!=null) {
+			String keyword=request.getParameter("keyword");
 			Paging paging = new Paging();
-			int count=service.countMovieBoard();
+			int count=service.searchCount(keyword);
 	    	int page = 1;
 	        if(request.getParameter("page")!=null){
 	            page = Integer.parseInt(request.getParameter("page"));
@@ -53,63 +54,83 @@ public class BoardDetail extends HttpServlet {
 	        paging.setPage(page);
 	        paging.setTotalCount(count);
 	        List<BoardDTO> boardList=new ArrayList<BoardDTO>();
-	        boardList=service.movieList(paging);
+	        boardList=service.searchList(keyword,paging);
 	        request.setAttribute("boardList", boardList);
 	        request.setAttribute("paging", paging);
 	        request.setAttribute("category", category);
+	        request.setAttribute("keyword", keyword);
 	        RequestDispatcher dispatcher = request.getRequestDispatcher("BoardDetail.jsp");
 	        dispatcher.forward(request, response);
 		}
-		if(category.equals("drama")) {
-			Paging paging = new Paging();
-			int count=service.countDramaBoard();
-	    	int page = 1;
-	        if(request.getParameter("page")!=null){
-	            page = Integer.parseInt(request.getParameter("page"));
-	        }
-	        paging.setPage(page);
-	        paging.setTotalCount(count);
-	        List<BoardDTO> boardList=new ArrayList<BoardDTO>();
-	        boardList=service.dramaList(paging);
-	        request.setAttribute("boardList", boardList);
-	        request.setAttribute("paging", paging);
-	        request.setAttribute("category", category);
-	        RequestDispatcher dispatcher = request.getRequestDispatcher("BoardDetail.jsp");
-	        dispatcher.forward(request, response);
-		}
-		if(category.equals("util")) {
-			Paging paging = new Paging();
-			int count=service.countUtilBoard();
-	    	int page = 1;
-	        if(request.getParameter("page")!=null){
-	            page = Integer.parseInt(request.getParameter("page"));
-	        }
-	        paging.setPage(page);
-	        paging.setTotalCount(count);
-	        List<BoardDTO> boardList=new ArrayList<BoardDTO>();
-	        boardList=service.utilList(paging);
-	        request.setAttribute("boardList", boardList);
-	        request.setAttribute("paging", paging);
-	        request.setAttribute("category", category);
-	        RequestDispatcher dispatcher = request.getRequestDispatcher("BoardDetail.jsp");
-	        dispatcher.forward(request, response);
-		}
-		if(category.equals("other")) {
-			Paging paging = new Paging();
-			int count=service.countOtherBoard();
-	    	int page = 1;
-	        if(request.getParameter("page")!=null){
-	            page = Integer.parseInt(request.getParameter("page"));
-	        }
-	        paging.setPage(page);
-	        paging.setTotalCount(count);
-	        List<BoardDTO> boardList=new ArrayList<BoardDTO>();
-	        boardList=service.otherList(paging);
-	        request.setAttribute("boardList", boardList);
-	        request.setAttribute("paging", paging);
-	        request.setAttribute("category", category);
-	        RequestDispatcher dispatcher = request.getRequestDispatcher("BoardDetail.jsp");
-	        dispatcher.forward(request, response);
+		else {
+			if(category.equals("영화")) {
+				Paging paging = new Paging();
+				int count=service.countMovieBoard();
+		    	int page = 1;
+		        if(request.getParameter("page")!=null){
+		            page = Integer.parseInt(request.getParameter("page"));
+		        }
+		        paging.setPage(page);
+		        paging.setTotalCount(count);
+		        List<BoardDTO> boardList=new ArrayList<BoardDTO>();
+		        boardList=service.movieList(paging);
+		        request.setAttribute("boardList", boardList);
+		        request.setAttribute("paging", paging);
+		        request.setAttribute("category", category);
+		        RequestDispatcher dispatcher = request.getRequestDispatcher("BoardDetail.jsp");
+		        dispatcher.forward(request, response);
+			}
+			if(category.equals("드라마")) {
+				Paging paging = new Paging();
+				int count=service.countDramaBoard();
+		    	int page = 1;
+		        if(request.getParameter("page")!=null){
+		            page = Integer.parseInt(request.getParameter("page"));
+		        }
+		        paging.setPage(page);
+		        paging.setTotalCount(count);
+		        List<BoardDTO> boardList=new ArrayList<BoardDTO>();
+		        boardList=service.dramaList(paging);
+		        request.setAttribute("boardList", boardList);
+		        request.setAttribute("paging", paging);
+		        request.setAttribute("category", category);
+		        RequestDispatcher dispatcher = request.getRequestDispatcher("BoardDetail.jsp");
+		        dispatcher.forward(request, response);
+			}
+			if(category.equals("유틸")) {
+				Paging paging = new Paging();
+				int count=service.countUtilBoard();
+		    	int page = 1;
+		        if(request.getParameter("page")!=null){
+		            page = Integer.parseInt(request.getParameter("page"));
+		        }
+		        paging.setPage(page);
+		        paging.setTotalCount(count);
+		        List<BoardDTO> boardList=new ArrayList<BoardDTO>();
+		        boardList=service.utilList(paging);
+		        request.setAttribute("boardList", boardList);
+		        request.setAttribute("paging", paging);
+		        request.setAttribute("category", category);
+		        RequestDispatcher dispatcher = request.getRequestDispatcher("BoardDetail.jsp");
+		        dispatcher.forward(request, response);
+			}
+			if(category.equals("기타")) {
+				Paging paging = new Paging();
+				int count=service.countOtherBoard();
+		    	int page = 1;
+		        if(request.getParameter("page")!=null){
+		            page = Integer.parseInt(request.getParameter("page"));
+		        }
+		        paging.setPage(page);
+		        paging.setTotalCount(count);
+		        List<BoardDTO> boardList=new ArrayList<BoardDTO>();
+		        boardList=service.otherList(paging);
+		        request.setAttribute("boardList", boardList);
+		        request.setAttribute("paging", paging);
+		        request.setAttribute("category", category);
+		        RequestDispatcher dispatcher = request.getRequestDispatcher("BoardDetail.jsp");
+		        dispatcher.forward(request, response);
+			}
 		}
 	}
 

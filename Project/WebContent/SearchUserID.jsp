@@ -78,6 +78,7 @@ function IDpnreg(){
                         <jsp:include page="SideNav.jsp"></jsp:include>
         </div>
         <div class="col-sm-9">
+        <h4><strong>본인인증을 위하여 이름과 주민등록번호를 입력하여 주세요.</strong></h4>
 이름<br>
 <input type="text" id="IDname_input"><br>
 주민등록번호<br>

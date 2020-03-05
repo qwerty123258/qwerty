@@ -24,17 +24,29 @@ border-bottom:black solid 1px;
 <script>
 $(document).ready(function (){
 	var keyword="${requestScope.keyword}";
-    $(".title:contains('"+keyword+"')").each(function () {
-    	//타이틀 클래스에서 키워드를 포함하고 있으면 반복
-        var regex = new RegExp(keyword,'gi');
-    	//키워드를 검색함.
-        //gi 수정자는 문자열에서 모든 정규 표현식을 대소 문자를 구분하지 않고 검색하는 데 사용된다.
-        $(this).html( $(this).text().replace(regex, "<span class='highlight'>"+keyword+"</span>") );
-        // 키워드 결과를 html()로 붙여넣기하는데 키워드가 포함된 부분은 span 태그로 감싸서 붙여넣기한다.
-    });
+	var result=$(".title:contains('"+keyword+"')");
+	console.log(result.length);
+	if(result.length>0){
+		$(".title:contains('"+keyword+"')").each(function (){
+			//타이틀 클래스에서 키워드를 포함하고 있으면 반복
+		    var regex = new RegExp(keyword,'gi');
+			//키워드를 검색함.
+		    //gi 수정자는 문자열에서 모든 정규 표현식을 대소 문자를 구분하지 않고 검색하는 데 사용된다.
+		    $(this).html( $(this).text().replace(regex, "<span class='highlight'>"+keyword+"</span>") )
+		})
+	}
+		else{
+			var html="<table><tr><td>검색결과가 없습니다.</td></tr></table>";
+			$("#searchTable").html(html);
+		}
 });
+function goBoard(bno,category){
+	var bno=bno;
+	var category=category
+	location.href="BoardDetail?bno="+bno+"&category="+category+"&keyword=${requestScope.keyword}";
+	
+}
 </script>
-
 </head>
 <body>
 <jsp:include page="Header.jsp"></jsp:include>
@@ -52,7 +64,8 @@ $(document).ready(function (){
                         <jsp:include page="SideNav.jsp"></jsp:include>
         </div>
         <div class="col-sm-9">
-        <table class="table table-striped table-bordered table-hover">
+        <div id="searchTable">
+                <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
         <th>
@@ -76,8 +89,8 @@ $(document).ready(function (){
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="board" items="${boardList}">
-                <tr>
+                <c:forEach var="board" items="${boardList}">
+                <tr onclick="goBoard(${board.bno},'${board.category}')">
         <td>
         ${board.bno}
         </td>
@@ -99,8 +112,8 @@ $(document).ready(function (){
         </tr>
         </c:forEach>
         </tbody>
-        
         </table>
+        </div>
 				<c:url var="action" value="SearchList"/>
 <div class="text-center">
     <ul class="pagination pagination-sm pager">

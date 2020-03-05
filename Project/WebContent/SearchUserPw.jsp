@@ -64,6 +64,7 @@ $(document).ready(function(){
                         <jsp:include page="SideNav.jsp"></jsp:include>
         </div>
         <div class="col-sm-9">
+       <h4><strong>비밀번호를 찾으실 아이디와 비밀번호를 전송 받으실 이메일 주소를 입력해주세요.</strong></h4>
 아이디<br>
 <input type="text" id="Pwid_input"><br>
 이메일 주소<br>

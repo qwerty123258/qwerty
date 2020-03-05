@@ -106,6 +106,9 @@ alert("code:" + request.status + "\n" + "error:" + error);
 	$('#download').click(function() {
         location.href="DownLoadList";
 });
+	$('#report').click(function() {
+        location.href="ReportList";
+});
 })
 </script>
 <script>
@@ -183,7 +186,8 @@ alert("code:" + request.status + "\n" + "error:" + error);
 <div id="savePoint" style=padding:3px></div>
 <c:if test="${sessionScope.id  eq 'qwerty123258'}">
 <p><a href="#" id="alluser">회원 전체조회</a></p>
-<p><a href="#" id="request">컨텐츠 등록 자격 요청확인</a></p>
+<p><a href="#" id="request">요청확인</a></p>
+<p><a href="#" id="report">신고글 보기</a></p>
 </c:if>
 <p><a href="#" id="download">내가 받은 자료</a></p>
 <p><a href="#" id="point">포인트 충전</a></p>

@@ -58,4 +58,21 @@ public class RequestService {
 		close(con);
 		
 	}
+
+	public boolean deletereq(String rno) {
+		RequestDAO dao=RequestDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		int result=dao.deletereq(rno);
+		if(result>0) {
+			commit(con);
+			close(con);
+			return true;
+		}
+		else {
+			rollback(con);
+			close(con);
+			return false;
+		}
+	}
 }

@@ -111,4 +111,19 @@ public class RequestDAO {
 		}
 		
 	}
+	public int deletereq(String rno) {
+		int result=0;
+		String sql = "delete requests where rno=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, rno);
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+		}
+		return result;
+	}
 }

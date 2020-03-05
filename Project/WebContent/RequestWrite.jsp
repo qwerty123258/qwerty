@@ -22,6 +22,7 @@ $(document).ready(function() {
 			alert('제목이 비어있습니다.');
 		}
 		else{
+	    	 oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
         	document.getElementById("writeForm").submit();
 		}
 		
