@@ -6,28 +6,32 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import service.CommentService;
+import service.HistoryService;
+import service.UserService;
 
-@WebServlet("/UpdateComment")
-public class UpdateComment extends HttpServlet {
+
+@WebServlet("/Attendance")
+public class Attendance extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    public UpdateComment() {
+
+    public Attendance() {
         super();
     }
     
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		String cno=request.getParameter("cno");
-		String content=request.getParameter("content");
-		CommentService service = new CommentService();
-		boolean result=service.updateComment(cno,content);
+		HttpSession session =request.getSession();
+		String id=(String) session.getAttribute("id");
+		HistoryService history=new HistoryService();
+		String action="출석체크";
+		boolean result=history.addHistory(id, action);
 		if(result) {
-			response.getWriter().write("Success");
-		}
-		else {
-			response.getWriter().write("Fail");
+			UserService user = new UserService();
+			int point=30+(int)((Math.random() * 10) +1);
+			user.randomPoint(id, point);
+			response.getWriter().print(point);
 		}
 	}
 

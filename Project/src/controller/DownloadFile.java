@@ -26,6 +26,7 @@ public class DownloadFile extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		String bfile=request.getParameter("bfile");
 		int price= Integer.parseInt(request.getParameter("price"));
+		String boriginfile=request.getParameter("boriginfile");
 		String bno=request.getParameter("bno");
 		HttpSession session =request.getSession();
 		String id=(String) session.getAttribute("id");
@@ -42,13 +43,14 @@ public class DownloadFile extends HttpServlet {
 			}
 			else {
 				if(result) {
+					down.updateHistory(id, bfno, boriginfile);
 			        RequestDispatcher dispatcher = request.getRequestDispatcher("Download?bfile="+bfile);
 			        dispatcher.forward(request, response);
 				}
 				else {
 					if(point>=price) {
 						String grade=userservice.getGrade(id);
-						down.addHistory(id,bfno,bfile,bno);
+						down.addHistory(id,bfno,boriginfile,bno);
 						userservice.receivePoint(uploder,price);
 						if(grade.equals("BRONZE")) {
 							userservice.payPoint(id,price);

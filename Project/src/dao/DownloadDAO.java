@@ -26,14 +26,14 @@ public class DownloadDAO {
 	public void setConnection(Connection con) {
 		this.con=con;
 	}
-	public int addHistory(String id, String bfno, String bfile, String bno) {
+	public int addHistory(String id, String bfno, String boriginfile, String bno) {
 		int result=0;
 		String sql="insert into downloads values(?,?,?,?,SYSDATE)";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, bno);
 			pstmt.setString(2, bfno);
-			pstmt.setString(3, bfile);
+			pstmt.setString(3, boriginfile);
 			pstmt.setString(4, id);
 			result=pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -87,5 +87,22 @@ public class DownloadDAO {
 			close(rs);
 		}
 		return downloadList;
+	}
+	public int updateHistory(String id, String bfno, String boriginfile) {
+		String sql ="update downloads set bfile=? where id=? and bfno=?";
+		int result=0;
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, boriginfile);
+			pstmt.setString(2, id);
+			pstmt.setString(3, bfno);
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+		}
+		return result;
 	}
 }

@@ -15,6 +15,7 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/boardwrite.js"></script>
     <script>
     $(document).ready(function() {
         $('#writebtn').click(function(){
@@ -25,24 +26,6 @@
         });
     })
     </script>
-    <script>
-function imgFileCheck(){
-    var imgfile=document.getElementById("imgfile").value;
-	if (imgfile != "") {
-	    var ext = imgfile.slice(imgfile.lastIndexOf(".") + 1).toLowerCase();
-	    if (!(ext == "gif" || ext == "jpg" || ext == "png" || ext == "bmp")) {
-	        alert("이미지파일 (.jpg, .png, .gif,.bmp ) 만 업로드 가능합니다.");
-	        return false;
-	}
-	    else{
-	    	return true;
-	    }
-}
-	else{
-		return true;
-	}
-}
-</script>
 <style>
 #writebtn{
 padding:10px;
@@ -115,7 +98,7 @@ ${file.boriginfile}
 <input type="hidden" name="boriginfile" value="${file.boriginfile}">
 <input type="hidden" name="bfile" value="${file.bfile}">
 <input type=text name=price value=${file.price}>
-다른 파일 변경시 <input type="file" name="bfile[${file.bfno-1}]"><br>
+다른 파일 변경시 <input type="file" name="bfile[${file.bfno}]"><br>
 </c:forEach>
 <br>
 첨부 사진 수정<br>

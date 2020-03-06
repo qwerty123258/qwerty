@@ -44,7 +44,6 @@ function goBoard(bno,category){
 	var bno=bno;
 	var category=category
 	location.href="BoardDetail?bno="+bno+"&category="+category+"&keyword=${requestScope.keyword}";
-	
 }
 </script>
 </head>

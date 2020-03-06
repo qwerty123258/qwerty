@@ -6,30 +6,30 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import service.CommentService;
+import service.UserService;
 
-@WebServlet("/UpdateComment")
-public class UpdateComment extends HttpServlet {
+@WebServlet("/RandomPoint")
+public class RandomPoint extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public UpdateComment() {
+    public RandomPoint() {
         super();
     }
     
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		String cno=request.getParameter("cno");
-		String content=request.getParameter("content");
-		CommentService service = new CommentService();
-		boolean result=service.updateComment(cno,content);
-		if(result) {
-			response.getWriter().write("Success");
+		HttpSession session =request.getSession();
+		String id=(String) session.getAttribute("id");
+		UserService service =  new UserService();
+			int point=20+(int)((Math.random() * 10) +1);
+			boolean result=service.randomPoint(id,point);
+			if(result) {
+				response.getWriter().print(point);
+			}
 		}
-		else {
-			response.getWriter().write("Fail");
-		}
-	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doProcess(request, response);

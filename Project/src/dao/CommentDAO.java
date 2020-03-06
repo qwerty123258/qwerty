@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import dto.BoardDTO;
 import dto.CommentDTO;
 import page.Paging;
 
@@ -49,7 +50,7 @@ public class CommentDAO {
 		List<CommentDTO> commentList = new ArrayList<CommentDTO>();
 	    int startNum = paging.getStartNum();
 	    int endNum = paging.getEndNum();
-        String sql = "SELECT c.*,to_char(writedate,'YYYY-MM-DD HH:MM') as cdate FROM  (select ROWNUM row_num,Comments.* from Comments where bno=? order by cno) c  WHERE row_num >= ? and row_num <= ?";
+        String sql = "SELECT c.*,to_char(writedate,'YYYY-MM-DD HH:MM') as cdate FROM  (select ROWNUM row_num,a.* from (select * from Comments where bno=? order by writedate asc) a) c  WHERE row_num >= ? and row_num <= ?";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, bno);

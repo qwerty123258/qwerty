@@ -13,6 +13,7 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/searchuser.js"></script>
 <script>
 $(document).ready(function(){
 	$('#IDcheck').click(function() {
@@ -46,20 +47,6 @@ $(document).ready(function(){
 	    }
 	});
 })
-function IDpnreg(){
-    var reg =  /^(?:[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[1,2][0-9]|3[0,1]))-[1-4][0-9]{6}$/;
-    var personno=$('#IDpersonno_input').val();
-    var personno2=$('#IDpersonno_input2').val();
-    var personno3=personno+"-"+personno2;
-    if(personno3.match(reg)){
-        document.getElementById("IDpntext").style.color="green";
-        document.getElementById("IDpntext").innerHTML="사용가능"
-    }
-    if(!personno3.match(reg)){
-        document.getElementById("IDpntext").style.color="red";
-        document.getElementById("IDpntext").innerHTML="유효하지 않습니다."
-    }
-}
 </script>
 </head>
 <body>
@@ -82,7 +69,7 @@ function IDpnreg(){
 이름<br>
 <input type="text" id="IDname_input"><br>
 주민등록번호<br>
-<input type="text" id="IDpersonno_input" onkeyup="pnreg()">
+<input type="text" id="IDpersonno_input" onkeyup="IDpnreg()">
 -
 <input type="password" id="IDpersonno_input2" onkeyup="IDpnreg()"><br>
 <div id="IDpntext"></div>

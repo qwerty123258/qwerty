@@ -13,6 +13,7 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import service.BoardService;
 import service.FileService;
+import service.HistoryService;
 
 @WebServlet("/BoardWrite")
 public class BoardWrite extends HttpServlet {

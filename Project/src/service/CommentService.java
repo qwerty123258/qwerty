@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dao.CommentDAO;
+import dto.BoardDTO;
 import dto.CommentDTO;
 import page.Paging;
 
@@ -91,5 +92,6 @@ public class CommentService {
 		close(con);
 		return count;
 	}
+
 
 }

@@ -6,150 +6,129 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script>
-function add(){
-	location.href="CreateUser.jsp";
-}
-function searchUserID(){
-	location.href="SearchUserID.jsp";
-}
-function searchUserPw(){
-	location.href="SearchUserPw.jsp";
-}
-function boardList(){
-	location.href="BoardList";
-}
-</script>
+<script type="text/javascript" src="js/sidenav.js"></script>
 <script>
 $(document).ready(function() {
 	var id='${sessionScope.id}';
-	if(id!= ''){
+	if(id!= ""){
 		getPoint();
 	}
-	$('#loginbtn').click(function() {
-        var id = $('#id_input').val();
-        var password = $('#pw_input').val();
-      $.ajax({
-           type : "POST",
-             url : "Login",
-             data : "id=" + id + "&pw=" + password,
-             dataType : "text",
-           success : function(data, textStatus, xhr) {
-                if (data == 'blackList') {
-                     alert('당신은 블랙리스트입니다. 로그인이 불가능합니다.');
-              } else if(data=='certify') {
-            	  alert('이메일인증이 아직 완료되지 않으셨습니다. 로그인이 불가능합니다.');
-          	}
-              else if(data=='loginFail') {
-            	  alert('아이디 또는 비밀번호가 맞지 않습니다.');
-          	}
-              else if(data=='login') {
-            	  location.reload();
+		$('#loginbtn').click(function() {
+	        var id = $('#id_input').val();
+	        var password = $('#pw_input').val();
+	      $.ajax({
+	           type : "POST",
+	             url : "Login",
+	             data : "id=" + id + "&pw=" + password,
+	             dataType : "text",
+	           success : function(data, textStatus, xhr) {
+	                if (data == 'blackList') {
+	                     alert('당신은 블랙리스트입니다. 로그인이 불가능합니다.');
+	              } else if(data=='certify') {
+	            	  alert('이메일인증이 아직 완료되지 않으셨습니다. 로그인이 불가능합니다.');
+	          	}
+	              else if(data=='loginFail') {
+	            	  alert('아이디 또는 비밀번호가 맞지 않습니다.');
+	          	}
+	              else if(data=='login') {
+	            	  location.reload();
+		}
+	           },
+	error : function(request, status, error) {
+	alert("code:" + request.status + "\n" + "error:" + error);
 	}
-           },
-error : function(request, status, error) {
-alert("code:" + request.status + "\n" + "error:" + error);
-}
-})
-});
-	$('#logout').click(function() {
-        $.ajax({
-            type : "POST",
-              url : "Logout",
-            success : function(data, textStatus, xhr) {
-            alert('로그아웃 되셨습니다.');
-            location.href="Main.jsp";
+	})
+	});
+		$('#logout').click(function() {
+	        $.ajax({
+	            type : "POST",
+	              url : "Logout",
+	            success : function(data, textStatus, xhr) {
+	            alert('로그아웃 되셨습니다.');
+	            location.href="Main.jsp";
 
-            },
-error : function(request, status, error) {
-alert("code:" + request.status + "\n" + "error:" + error);
-}
- })
+	            },
+	error : function(request, status, error) {
+	alert("code:" + request.status + "\n" + "error:" + error);
+	}
+	 })
+		});
+		$('#alluser').click(function() {
+			location.href="SelectUser";
+		});
+		$('#modify').click(function() {
+	            location.href="CheckPw.jsp";
+		});
+		$('#delete').click(function() {
+	        location.href="CheckDelPw.jsp";
 	});
-	$('#alluser').click(function() {
-		location.href="SelectUser";
+		$('#write').click(function() {
+	        $.ajax({
+	            type : "POST",
+	              url : "WriteAccessCheck",
+	              dataType : "text",
+	            success : function(data, textStatus, xhr) {
+	                 if (data == 'no') {
+	                      alert('글 작성권한이 없습니다. 먼저 판매자 자격 요청을 하세요.');
+	                      location.href='RequestWrite.jsp';
+	                 }
+	               else if(data=='yes') {
+	                   location.href='BoardWrite.jsp';
+	 	}
+	            },
+	error : function(request, status, error) {
+	alert("code:" + request.status + "\n" + "error:" + error);
+	}
+	 })
 	});
-	$('#modify').click(function() {
-            location.href="CheckPw.jsp";
+		$('#check').click(function() {
+	        $.ajax({
+	            type : "POST",
+	              url : "AttendanceCheck",
+	              dataType : "text",
+	            success : function(data, textStatus, xhr) {
+	                 if (data == 'no') {
+	                     $.ajax({
+	                         type : "POST",
+	                           url : "Attendance",
+	                           dataType : "text",
+	                         success : function(data, textStatus, xhr) {
+										alert("출석체크로 " +data+" 포인트를 적립하셨습니다.");
+										location.reload();
+	                         },
+	             error : function(request, status, error) {
+	             alert("code:" + request.status + "\n" + "error:" + error);
+	             }
+	              });
+	                 }
+	               else if(data=='yes') {
+	                   alert('오늘은 이미 출석체크를 하셨습니다.');
+	 	}
+	            },
+	error : function(request, status, error) {
+	alert("code:" + request.status + "\n" + "error:" + error);
+	}
+	 })
 	});
-	$('#delete').click(function() {
-        location.href="CheckDelPw.jsp";
-});
-	$('#write').click(function() {
-        $.ajax({
-            type : "POST",
-              url : "WriteAccessCheck",
-              dataType : "text",
-            success : function(data, textStatus, xhr) {
-                 if (data == 'no') {
-                      alert('글 작성권한이 없습니다. 먼저 판매자 자격 요청을 하세요.');
-                      location.href='RequestWrite.jsp';
-                 }
-               else if(data=='yes') {
-                   location.href='BoardWrite.jsp';
- 	}
-            },
-error : function(request, status, error) {
-alert("code:" + request.status + "\n" + "error:" + error);
-}
- })
-});
-	$('#requestWrite').click(function() {
-        location.href="RequestWrite.jsp";
-});
-	$('#request').click(function() {
-        location.href="RequestList";
-});
-	$('#point').click(function() {
-        location.href="Point.jsp";
-});
-	$('#download').click(function() {
-        location.href="DownLoadList";
-});
-	$('#report').click(function() {
-        location.href="ReportList";
-});
+		$('#requestWrite').click(function() {
+	        location.href="RequestWrite.jsp";
+	});
+		$('#request').click(function() {
+	        location.href="RequestList";
+	});
+		$('#point').click(function() {
+	        location.href="Point.jsp";
+	});
+		$('#download').click(function() {
+	        location.href="DownLoadList";
+	});
+		$('#report').click(function() {
+	        location.href="ReportList";
+	});	    
 })
 </script>
 <script>
-    function enterkey(){
-    if (window.event.keyCode == 13) { //로그인 버튼 말고 엔터키로 로그인 하는 경우
-    	document.getElementById("loginbtn").click();
-   }
-}
-    
-    function getPoint(){
-        $.ajax({
-            type : "POST",
-              url : "CheckPoint",
-              dataType : "text",
-            success : function(data, textStatus, xhr) {
- 					var html="";
- 					html+="<p> 포인트 : "+data+"</p>";
- 					$("#savePoint").html(html);
- 					getGrade();
-            },
- error : function(request, status, error) {
- alert("code:" + request.status + "\n" + "error:" + error);
- }
- })
-    }
-    function  getGrade(){
-        $.ajax({
-            type : "POST",
-              url : "CheckGrade",
-              dataType : "text",
-            success : function(data, textStatus, xhr) {
- 					var html="";
- 					html+="<p> 등급 : "+data+"</p>";
- 					$("#grade").html(html);
-            },
- error : function(request, status, error) {
- alert("code:" + request.status + "\n" + "error:" + error);
- }
- })
-    }
-   </script>
+</script>
    <style>
    .sidenav{
    margin-left:5%;
@@ -189,6 +168,7 @@ alert("code:" + request.status + "\n" + "error:" + error);
 <p><a href="#" id="request">요청확인</a></p>
 <p><a href="#" id="report">신고글 보기</a></p>
 </c:if>
+<p><a href="#" id="check">출석체크</a></p>
 <p><a href="#" id="download">내가 받은 자료</a></p>
 <p><a href="#" id="point">포인트 충전</a></p>
 <p><a href="#" id="write">컨텐츠 등록</a></p>

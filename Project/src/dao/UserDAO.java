@@ -534,4 +534,20 @@ public class UserDAO {
 		}
 		return result;
 	}
+	public int randomPoint(String id, int point) {
+		String sql="update users set point=point+? where id=?";
+		int result=0;
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, point);
+			pstmt.setString(2, id);
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(pstmt);
+		}
+		return result;
+	}
 	}

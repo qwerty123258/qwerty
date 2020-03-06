@@ -11,11 +11,11 @@ import dto.DownloadDTO;
 
 public class DownloadService {
 
-	public void addHistory(String id, String bfno, String bfile, String bno) {
+	public void addHistory(String id, String bfno, String boriginfile, String bno) {
 		DownloadDAO dao=DownloadDAO.getInstance();
 		Connection con=getConnection();
 		dao.setConnection(con);
-		int result=dao.addHistory(id,bfno,bfile,bno);
+		int result=dao.addHistory(id,bfno,boriginfile,bno);
 		if(result>0) {
 			commit(con);
 			close(con);
@@ -49,7 +49,24 @@ public class DownloadService {
 		dao.setConnection(con);
 		List<DownloadDTO> downloadList=new ArrayList<DownloadDTO>();
 		downloadList=dao.downloadList(id);
+		close(con);
 		return downloadList;
+	}
+
+	public void updateHistory(String id, String bfno, String boriginfile) {
+		DownloadDAO dao=DownloadDAO.getInstance();
+		Connection con=getConnection();
+		dao.setConnection(con);
+		int result=dao.updateHistory(id,bfno,boriginfile);
+		if(result>0) {
+			commit(con);
+			close(con);
+		}
+		else {
+			rollback(con);
+			close(con);
+		}
+		
 	}
 
 }

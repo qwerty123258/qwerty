@@ -11,6 +11,7 @@ import java.util.List;
 
 import dto.BoardDTO;
 import page.Paging;
+import service.CommentService;
 
 public class BoardDAO {
 	private static BoardDAO dao;

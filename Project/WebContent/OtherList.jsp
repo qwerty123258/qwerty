@@ -6,93 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-
-<!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-<!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script>
-function deleteUser(id){
-	var id=id;
-	if(confirm("탈퇴시키겠습니까?")){
-		  $.ajax({
-		       type : "POST",
-		         url : "AdminDeleteUser",
-		         data : "id=" + id,
-		         dataType : "text",
-		       success : function(data, textStatus, xhr) {
-		            if (data == 'deleteFail') {
-		                 alert('회원삭제 실패 \n 또는 가입된 회원이 아닙니다.');
-		          	}
-		            else if(data=='adminDelFail'){
-			        	  alert('관리자는 삭제 하실 수 없습니다.');
-		            }
-		            else if(data=='deleteSuccess') {
-		        	  alert('삭제성공');
-	              location.href = 'BoardList?page=${requestScope.page}';
-		}
-		       },
-		error : function(request, status, error) {
-		alert("code:" + request.status + "\n" + "error:" + error);
-		}
-		})
-	}
-	else{
-		alert("탈퇴 취소");
-	}
-}
-function addBlack(id){
-	var id=id;
-	  $.ajax({
-	       type : "POST",
-	         url : "AddBlackList",
-	         data : "id=" + id,
-	         dataType : "text",
-	       success : function(data, textStatus, xhr) {
-	            if (data == 'addFail') {
-	                 alert('블랙리스트 추가 실패');
-	          	}
-	            else if(data=='adminAddFail'){
-		        	  alert('관리자는 블랙리스트에 추가 하실 수 없습니다.');
-	            }
-	            else if(data=='addSuccess') {
-	        	  alert('블랙리스트에 추가하였습니다.');
-	        	  location.reload();
-	}
-	       },
-	error : function(request, status, error) {
-	alert("code:" + request.status + "\n" + "error:" + error);
-	}
-	})
-}
-function removeBlack(id){
-	var id=id;
-	  $.ajax({
-	       type : "POST",
-	         url : "RemoveBlackList",
-	         data : "id=" + id,
-	         dataType : "text",
-	       success : function(data, textStatus, xhr) {
-	            if (data == 'removeFail') {
-	                 alert('블랙리스트 해제 실패');
-	          	}
-	            else if(data=='adminRemoveFail'){
-		        	  alert('관리자는 해제 하실 수 없습니다.');
-	            }
-	            else if(data=='removeSuccess') {
-	        	  alert('블랙리스트를 해제 하였습니다.');
-	        	  location.reload();
-	}
-	       },
-	error : function(request, status, error) {
-	alert("code:" + request.status + "\n" + "error:" + error);
-	}
-	})
-}
-</script>
+<script type="text/javascript" src="js/boardlist.js"></script>
 </head>
 <body>
                         <jsp:include page="Header.jsp"></jsp:include>
@@ -130,7 +44,7 @@ function removeBlack(id){
 	                    <button class='btn btn-default dropdown-toggle' type='button' id='menu1' data-toggle='dropdown'>${board.id}</button>
 	                    <ul class='dropdown-menu' role='menu' aria-labelledby='menu1'>
 	                    <li role='presentation'><a role='menuitem' tabindex='-1' href='#' onclick="window.open('SelectDetailUser?id=${board.id}','상세보기','width=430,height=500,location=no,status=no,scrollbars=yes')">상세보기</a></li>
-	                    <c:if test="${sessionScope.id eq 'qwerty123258'}"><li role='presentation'><a role='menuitem' tabindex='-1' href='#' onclick="deleteUser('${board.id}')">탈퇴시키기</a></li>
+	                    <c:if test="${sessionScope.id eq 'qwerty123258'}"><li role='presentation'><a role='menuitem' tabindex='-1' href='#' onclick="deleteUser('${board.id}','${requestScope.page}')">탈퇴시키기</a></li>
 	                    	                              <c:choose>
         <c:when test="${board.blacklist eq 'N'}">
       <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="addBlack('${board.id}')">블랙리스트 추가</a></li>

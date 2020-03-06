@@ -5,12 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script>
-function Pwdomainselect(){
-    var email=document.getElementById("Pwdomainvalue").value;
-    document.getElementById("Pwdomain_input").value=email;
-}
-</script>
+<script type="text/javascript" src="js/searchuser.js"></script>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 

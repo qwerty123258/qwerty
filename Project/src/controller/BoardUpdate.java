@@ -48,8 +48,8 @@ public class BoardUpdate extends HttpServlet {
 		String bfno[]=multi.getParameterValues("bfno");
 		String boriginfile[]=multi.getParameterValues("boriginfile");
 		for(int i=0; i<price.length; i++) {
-			String file=multi.getFilesystemName("bfile"+"["+i+"]");
-			String fileoriname=multi.getOriginalFileName("bfile"+"["+i+"]");
+			String file=multi.getFilesystemName("bfile"+"["+bfno[i]+"]");
+			String fileoriname=multi.getOriginalFileName("bfile"+"["+bfno[i]+"]");
 			if(file==null) {
 				file=bfile[i];
 				fileoriname=boriginfile[i];
