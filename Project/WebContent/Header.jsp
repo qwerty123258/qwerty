@@ -30,6 +30,17 @@ margin-right:50%;
 }
 #search{
 width:300px;
+border-radius:10px;
+}
+input:focus {
+
+outline:none;
+
+}
+#gosearch{
+border-radius:10px;
+border:none;
+background-Color:skyblue;
 }
 </style>
 <script>
