@@ -25,11 +25,11 @@ height:250px;
 .searchar{
 text-align:center;
 display:flex;
-margin-left:50%;
-margin-right:50%;
+margin-left:45%;
+margin-right:25%;
 }
 #search{
-
+width:100%;
 border-radius:10px;
 }
 input:focus {
