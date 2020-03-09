@@ -63,8 +63,6 @@ $(document).ready(function() {
 padding:10px;
 border:none;
 outline:none;
-margin-left:45%;
-margin-right:45%;
 }
 </style>
 </head>
@@ -116,7 +114,7 @@ margin-right:45%;
 <input id="addbtn" type="button" value="파일추가">   
 </div>
 </form>
- <button id="writebtn">작성완료</button>
+ <button id="writebtn" class="btn-primary">작성완료</button>
 </div>
 </div>
 </div>

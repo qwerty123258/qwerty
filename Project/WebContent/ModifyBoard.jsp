@@ -31,8 +31,6 @@
 padding:10px;
 border:none;
 outline:none;
-margin-left:45%;
-margin-right:45%;
 }
 
 </style>
@@ -106,7 +104,7 @@ ${requestScope.bimgfile}
 <input type="file" name="bimgfile" id="imgfile"><br>
 <textarea name="ir1" id="ir1" rows="10" cols="100">${requestScope.content}</textarea>
 </form>
-<button id="writebtn">작성 완료</button>
+<button id="writebtn" class="btn-primary">작성 완료</button>
         </div>
     </div>
 </body>

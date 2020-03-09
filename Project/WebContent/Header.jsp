@@ -29,7 +29,7 @@ margin-left:50%;
 margin-right:50%;
 }
 #search{
-width:300px;
+
 border-radius:10px;
 }
 input:focus {
