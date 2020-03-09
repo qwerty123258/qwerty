@@ -124,7 +124,7 @@ $(document).ready(function() {
 	});
 		$('#report').click(function() {
 	        location.href="ReportList";
-	});	    
+	});
 })
 </script>
 <script>
@@ -171,6 +171,7 @@ $(document).ready(function() {
 <p><a href="#" id="report">신고글 보기</a></p>
 </c:if>
 <p><a href="#" id="check">출석체크</a></p>
+<p><a href="#" onclick="window.open('Grade.jsp','등급','width=600,height=500,location=no,status=no,scrollbars=yes');">등급별 혜택</a></p>
 <p><a href="#" id="download">내가 받은 자료</a></p>
 <p><a href="#" id="point">포인트 충전</a></p>
 <p><a href="#" id="write">컨텐츠 등록</a></p>
