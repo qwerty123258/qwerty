@@ -19,7 +19,7 @@
 </style>
 <body>
 <div class="footer">
-	<p>@Copyright.ICIA.Jsj</p>
+	<p>@Copyright.파일천국.com</p>
 </div>
 </body>
 </html>
