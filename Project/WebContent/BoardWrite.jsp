@@ -24,30 +24,34 @@ $(document).ready(function() {
     }
         else{
             $('#writeForm').append(
-                    '<div class="col-sm-2 fileList">새 파일</div><div class="col-sm-10">'+
-                    '   <input id="file['+ $('.fileList').length +']" type="file" name="bfile['+ $('.fileList').length +']" />'+
-                    '	<input placeholder="파일 다운 포인트 지정" id="price['+ $('.fileList').length +']" type="text" name="price">'
+                    '<div class="col-md-2 fileList">새 파일</div><div class="col-md-10">'+
+                    '   <input  class="file" id="file['+ $('.fileList').length +']" type="file" name="bfile['+ $('.fileList').length +']" />'+
+                    '	<input class="price" placeholder="파일 다운 포인트 지정" id="price['+ $('.fileList').length +']" type="text" name="price">'
                     + '</div>');
         }
     });
     $('#writebtn').click(function(){
 	    var category = $('#category_id').val();
 	    var title = $('#title_id').val();
-	    var price = $('#price_id').val();
-	    var file = $('#file_id').val();
+	    var file = $('.file').val();
+		   var price=$(".price").val();
+			var pricereg = /^[0-9]*$/
 	    if(category==''){
 	    	alert('카테고리를 설정하세요');
 	    }
 	    else if(title==''){
 	    	alert('제목이 비어있습니다.');
 	    }
-	    else if(price==''){
-	    	alert('가격은 필수입니다.');
-	    }
 	    else if(file==''){
 	    	alert('첨부파일이 비어있습니다.');
 	    }
-	    else if(imgFileCheck()){
+	    else if(price==''){
+	    	alert('가격은 필수입니다.');
+	    }
+	    else if(!price.match(pricereg)){
+	    	alert('가격은 숫자로 입력하세요');
+	    }
+	    else if(imgFileCheck() && price.match(pricereg)){
 	    	 oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
         	document.getElementById("writeForm").submit();
     	}
@@ -67,7 +71,7 @@ margin-right:45%;
 <body>
                         <jsp:include page="Header.jsp"></jsp:include>
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-md-12">
   <ul class="nav nav-pills nav-justified">
     <li class="active"><a href="Main.jsp">Home</a></li>
     <li><a href="MovieList">영화</a></li>
@@ -76,13 +80,13 @@ margin-right:45%;
     <li><a href="OtherList">기타</a></li>
   </ul>
         </div>
-        <div class="col-sm-3">
+        <div class="col-md-3">
                         <jsp:include page="SideNav.jsp"></jsp:include>
         </div>
-        <div class="col-sm-9">
- <div class="col-sm-12">
+        <div class="col-md-9">
+ <div class="col-md-12">
 <form action="BoardWrite" method="post" id="writeForm" enctype="multipart/form-data">
-<div class="col-sm-2">
+<div class="col-md-2">
 <select name="category" id="category_id">
 <option value="">선택</option>>
   <option value=영화>영화</option>
@@ -91,24 +95,24 @@ margin-right:45%;
    <option value="기타">기타</option>
 </select>
 </div>
-<div class="col-sm-9">
+<div class="col-md-9">
 제목 : <input type="text" name="title" id="title_id">
 </div>
-<div class="col-sm-12">
+<div class="col-md-12">
 <textarea name="ir1" id="ir1" rows="10" cols="100"></textarea>
 </div>
-<div class="col-sm-2">
+<div class="col-md-2">
 사진 첨부
 </div>
-<div class="col-sm-10">
+<div class="col-md-10">
 <input type="file" name="bimgfile" id="imgfile">
 </div>
-<div class="col-sm-2">
+<div class="col-md-2">
 파일 첨부
 </div>
-<div class="col-sm-10 fileList">
-<input type="file" id="file_id" name="bfile[0]">
-<input id="price_id" type="text" name="price" placeholder="파일 다운 포인트 지정">
+<div class="col-md-10 fileList">
+<input class="file" type="file" id="file_id" name="bfile[0]">
+<input class="price" id="price_id" type="text" name="price" placeholder="파일 다운 포인트 지정">
 <input id="addbtn" type="button" value="파일추가">   
 </div>
 </form>

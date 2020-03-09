@@ -138,7 +138,7 @@ $(document).ready(function() {
 <body>
                         <jsp:include page="Header.jsp"></jsp:include>
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-md-12">
           <ul class="nav nav-pills nav-justified">
       		<li><a href="Main.jsp">Home</a></li>
     <c:choose>
@@ -175,10 +175,10 @@ $(document).ready(function() {
     </c:choose>
   </ul>
         </div>
-        <div class="col-sm-3">
+        <div class="col-md-3">
    			<jsp:include page="SideNav.jsp"></jsp:include>
         </div>
-        <div class="col-sm-9">
+        <div class="col-md-9">
         <c:if test="${requestScope.bno ne null}">
 제목 : ${requestScope.title}<br>
 작성자 : ${requestScope.id} 조회수 : ${requestScope.bview}  작성일 : ${requestScope.writedate}<br>
@@ -205,14 +205,14 @@ $(document).ready(function() {
 <pre>
 ${requestScope.content}
 </pre>
-<div class="col-sm-6">
+<div class="col-md-6">
 <span id="likeCount"></span>
 </div>
-<div class="col-sm-6">
+<div class="col-md-6">
 <span id="reportCount"></span>
 </div>
 <c:if test="${sessionScope.id ne null}">
-<div id="like" class="col-sm-6">
+<div id="like" class="col-md-6">
           <c:choose>
 <c:when test="${sessionScope.id eq requestScope.likeuser}">
 <a href="javascript:LikeCancel('${requestScope.bno}')"><i class="fas fa-thumbs-up fa-5x"></i></a>
@@ -222,7 +222,7 @@ ${requestScope.content}
         </c:otherwise>
     </c:choose>
 </div>
-<div id="report" class="col-sm-6">
+<div id="report" class="col-md-6">
           <c:choose>
         <c:when test="${sessionScope.id eq requestScope.reportuser}">
 <a href="javascript:ReportCancel('${requestScope.bno}')"><i class="fas fa-thumbs-down fa-5x"></i></a>
@@ -234,7 +234,7 @@ ${requestScope.content}
 </div>
 </c:if>
     <form id="commentForm" name="commentForm" method="post">
-        <div class="col-sm-12">
+        <div class="col-md-12">
             <br><br>
             <div>
                 <span><strong>Comments</strong></span> <span id="cCnt"></span>

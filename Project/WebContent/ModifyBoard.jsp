@@ -40,7 +40,7 @@ margin-right:45%;
 <body>
                         <jsp:include page="Header.jsp"></jsp:include>
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-md-12">
                   <ul class="nav nav-pills nav-justified">
       		<li><a href="Main.jsp">Home</a></li>
     <c:choose>
@@ -77,10 +77,10 @@ margin-right:45%;
     </c:choose>
   </ul>
         </div>
-        <div class="col-sm-3">
+        <div class="col-md-3">
                                 <jsp:include page="SideNav.jsp"></jsp:include>
         </div>
-        <div class="col-sm-9">
+        <div class="col-md-9">
         <form action="BoardUpdate?beforeimg=${requestScope.bimgfile}&bno=${requestScope.bno}" method="post" id="writeForm" enctype="multipart/form-data">
 <select name="category" id="category_id">
 <option value="">선택</option>>

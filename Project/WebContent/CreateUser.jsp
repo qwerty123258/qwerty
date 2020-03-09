@@ -27,7 +27,7 @@ float:right;
 </style>
 <script>
 $(document).ready(function(){
-	$('#createbtn').click(function create() {
+	$('#createbtn').click(function checkForm() {
 			var idreg = /^(?=.*[a-z])(?=.*\d)[A-Za-z\d]{6,20}$/;
 			var pwreg = /^(?=.*[a-z])(?=.*\d)[a-zA-Z\d$@$!%*#?&]{8,16}$/;
 		     var personnoreg= /^(?:[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[1,2][0-9]|3[0,1]))-[1-4][0-9]{6}$/;
@@ -137,7 +137,7 @@ $(document).ready(function(){
 <body>
                         <jsp:include page="Header.jsp"></jsp:include>
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-md-12">
   <ul class="nav nav-pills nav-justified">
     <li class="active"><a href="Main.jsp">Home</a></li>
     <li><a href="MovieList">영화</a></li>
@@ -146,10 +146,10 @@ $(document).ready(function(){
     <li><a href="OtherList">기타</a></li>
   </ul>
         </div>
-        <div class="col-sm-3">
+        <div class="col-md-3">
                         <jsp:include page="SideNav.jsp"></jsp:include>
         </div>
-        <div class="col-sm-9">
+        <div class="col-md-9">
 <table>
 <caption><h2>파일 천국 회원가입</h2></caption>
 <tr>

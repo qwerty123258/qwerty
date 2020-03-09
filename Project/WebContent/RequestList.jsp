@@ -18,7 +18,7 @@
 <body>
                         <jsp:include page="Header.jsp"></jsp:include>
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-md-12">
   <ul class="nav nav-pills nav-justified">
     <li class="active"><a href="Main.jsp">Home</a></li>
     <li><a href="MovieList">영화</a></li>
@@ -27,10 +27,10 @@
     <li><a href="OtherList">기타</a></li>
   </ul>
         </div>
-        <div class="col-sm-3">
+        <div class="col-md-3">
                         <jsp:include page="SideNav.jsp"></jsp:include>
         </div>
-        <div class="col-sm-9">
+        <div class="col-md-9">
 <table class="table table-striped table-bordered table-hover">
 <thead>
 <tr>
