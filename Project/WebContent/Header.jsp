@@ -40,7 +40,8 @@ outline:none;
 #gosearch{
 border-radius:10px;
 border:none;
-background-Color:skyblue;
+background-Color:#129ce0;
+color:white;
 }
 </style>
 <script>
