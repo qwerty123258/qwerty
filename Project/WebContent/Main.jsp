@@ -17,17 +17,9 @@
 <script type="text/javascript" src="js/main.js"></script>
 <script>
 $(document).ready(function() {
-	var id='${sessionScope.id}';
-	if(id!= ''){
-		  grade();
-	}
-	else{
 		getLikeTopList();
-	}
 })
 </script>
-<style>
-</style>
 </head>
 <body>
 <jsp:include page="Header.jsp"></jsp:include>

@@ -27,7 +27,7 @@
                 	}
                 }
                 $("#likeTop").html(html);
-            	getViewTopList();
+        		getViewTopList();
             },
             error:function(request,status,error){
                 
@@ -66,7 +66,7 @@
                     	
                     }
                 $("#viewTop").html(html);
-            	getLatestTopList();
+        		getLatestTopList();
                 
             },
             error:function(request,status,error){
@@ -114,31 +114,6 @@
             
         });
 		
-	}
-	function  grade(){
-	    $.ajax({
-	        type : "POST",
-	          url : "GradeUp",
-	          dataType : "text",
-	        success : function(data, textStatus, xhr) {
-							if(data=='SILVER'){
-								alert("실버 등급으로 승격하셨습니다.");
-								location.reload();
-							}
-							if(data=="GOLD"){
-								alert("골드 등급으로 승격하셨습니다.");
-								location.reload();
-							}
-							if(data=="DIAMOND"){
-								alert("다이아 등급으로 승격하셨습니다.");
-								location.reload();
-							}
-							getLikeTopList();
-	        },
-	error : function(request, status, error) {
-	alert("code:" + request.status + "\n" + "error:" + error);
-	}
-	})
 	}
 	function goBoard(bno,category){
 		var bno=bno;

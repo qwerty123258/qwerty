@@ -32,21 +32,21 @@ public class GradeUp extends HttpServlet {
 		String grade=user.getGrade(id);
 		if(!id.equals("qwerty123258")) {
 			if(grade.equals("BRONZE")) {
-				if(commentCount>=5) {
+				if(commentCount>4) {
 					grade="SILVER";
 					user.setGrade(id,grade);
 					response.getWriter().write("SILVER");
 				}
 		     }
 			if(grade.equals("SILVER")) {
-				if(commentCount>=5 && boardCount>=5) {
+				if(commentCount>4 && boardCount>4) {
 					grade="GOLD";
 					user.setGrade(id,grade);
 					response.getWriter().write("GOLD");
 				}
 		     }
 			if(grade.equals("GOLD")) {
-				if(commentCount>=100 && boardCount>=30) {
+				if(commentCount>99 && boardCount>29) {
 					grade="DIAMOND";
 					user.setGrade(id,grade);
 					response.getWriter().write("DIAMOND");

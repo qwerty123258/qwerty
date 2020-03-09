@@ -31,6 +31,31 @@ function  getGrade(){
 					var html="";
 					html+="<p> 등급 : "+data+"</p>";
 					$("#grade").html(html);
+					  grade();
+        },
+error : function(request, status, error) {
+alert("code:" + request.status + "\n" + "error:" + error);
+}
+})
+}
+function  grade(){
+    $.ajax({
+        type : "POST",
+          url : "GradeUp",
+          dataType : "text",
+        success : function(data, textStatus, xhr) {
+						if(data=='SILVER'){
+							alert("실버 등급으로 승격하셨습니다.");
+							location.reload();
+						}
+						if(data=="GOLD"){
+							alert("골드 등급으로 승격하셨습니다.");
+							location.reload();
+						}
+						if(data=="DIAMOND"){
+							alert("다이아 등급으로 승격하셨습니다.");
+							location.reload();
+						}
         },
 error : function(request, status, error) {
 alert("code:" + request.status + "\n" + "error:" + error);

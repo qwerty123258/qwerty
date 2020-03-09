@@ -19,7 +19,7 @@
 $(document).ready(function() {
     $('#addbtn').click(
    function fileadd() {
-    if($('.fileList').length>1){
+    if($('.fileList').length>2){
     	alert("파일을 3개 이상 첨부 하실 수 없습니다.");
     }
         else{
