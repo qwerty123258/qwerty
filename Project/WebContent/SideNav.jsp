@@ -136,6 +136,8 @@ $(document).ready(function() {
    #loginbtn{
    padding:10px;
    width:150px;
+   outline:none;
+   border:none;
    }
    </style>
 </head>
@@ -152,7 +154,7 @@ $(document).ready(function() {
 <input type="password" onkeyup="enterkey()" style=width:150px; id="pw_input">
 </div>
 <br>
-<button id="loginbtn">로그인 하기</button>
+<button id="loginbtn" class="btn-primary">로그인 하기</button>
 <p><a href="#" onclick="add()">회원 가입하기</a></p>
 <p><a href="#" onclick="searchUserID()">아이디 찾기</a></p>
 <p><a href="#" onclick="searchUserPw()">비밀번호 찾기</a></p>

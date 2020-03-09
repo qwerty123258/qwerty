@@ -40,7 +40,6 @@ outline:none;
 #gosearch{
 border-radius:10px;
 border:none;
-background-Color:#129ce0;
 color:white;
 }
 </style>
@@ -73,7 +72,7 @@ function enterkey2(){
 </a>
 <div class="searchar">
 <input type="text" id="search" placeholder="파일을 검색하세요" onkeyup="enterkey2()">
-<button id="gosearch">검색</button>
+<button id="gosearch" class="btn-primary">검색</button>
 </div>
 
 </body>
