@@ -1,0 +1,11 @@
+@charset "UTF-8";
+#member th{
+	background-Color:skyblue;
+	color:white;
+}
+#member{
+	text-align:center;
+}
+#member tbody tr:hover{
+		background-Color:skyblue;
+}
