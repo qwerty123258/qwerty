@@ -1,8 +1,8 @@
 package com.icia.member.controller;
 
-
 import javax.servlet.http.HttpSession;
 
+import org.codehaus.jackson.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +11,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.icia.member.api.KakaoJoinApi;
+import com.icia.member.api.KakaoLoginApi;
 import com.icia.member.dto.MemberDTO;
+import com.icia.member.service.KakaoService;
 import com.icia.member.service.MemberService;
 
 @Controller
@@ -21,6 +25,9 @@ public class HomeController {
 	//서비스 호출시
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private KakaoService kakaoService;
 	
 	@Autowired
 	private HttpSession session;
@@ -34,11 +41,70 @@ public class HomeController {
 	public String home() {
 		return "Welcome";
 	}
+	
+	@RequestMapping(value = "/Welcome", method = RequestMethod.GET)
+	public String welcome() {
+		return "Welcome";
+	}
 	@RequestMapping(value = "/CreateMembers", method = RequestMethod.GET)
 	public String create() {
 		
 		return 	"CreateMember";
 	}
+	@RequestMapping(value = "/jsjkakaoLogin", method = RequestMethod.GET)
+	public ModelAndView kakaoLogin(@RequestParam("code") String code,HttpSession session) {
+		mav=new ModelAndView();
+		JsonNode token = KakaoLoginApi.getAccessToken(code);
+		JsonNode profile =KakaoLoginApi.getKakaoUserInfo(token.path("access_token"));
+		mav=kakaoService.kakaoLogin(profile);
+		return mav;
+	}
+	
+	@RequestMapping(value = "/jsjkakaoJoin", method = RequestMethod.GET)
+	public ModelAndView kakaoJoin(@RequestParam("code") String code,HttpSession session) {
+		mav=new ModelAndView();
+		JsonNode token = KakaoJoinApi.getAccessToken(code);
+		JsonNode profile =KakaoJoinApi.getKakaoUserInfo(token.path("access_token"));
+		mav=kakaoService.kakaoJoin(profile);
+		return mav;
+	}
+	
+	@RequestMapping(value = "/KakaoLogin", method = RequestMethod.GET)
+	public ModelAndView kakaoLogin() {
+		String kakaoUrl=KakaoLoginApi.getAuthorizationUrl(session);
+		mav=new ModelAndView();
+		mav.addObject("kakaourl",kakaoUrl);
+		mav.setViewName("KakaoCreate");
+		return 	mav;
+	}
+	
+	@RequestMapping(value = "/KakaoCreate", method = RequestMethod.GET)
+	public ModelAndView kakao() {
+		String kakaoUrl=KakaoJoinApi.getAuthorizationUrl(session);
+		mav=new ModelAndView();
+		mav.addObject("kakaourl",kakaoUrl);
+		mav.setViewName("KakaoCreate");
+		return 	mav;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/ShowDetailAjax", method = RequestMethod.POST)
+	public MemberDTO showDetailAjax(@RequestParam("id") String id) {
+		MemberDTO member=memberService.showDetailAjax(id);
+		return member;
+}
+	
+	@ResponseBody
+	@RequestMapping(value = "/CheckUser", method = RequestMethod.POST)
+	public String checkUser(@RequestParam("id") String id) {
+		boolean result=memberService.checkUser(id);
+		if(result) {
+			return "idOverlap";
+		}
+		else {
+			return "idNotOverlap";
+		}
+}
 	
 	@RequestMapping(value = "/goAdminDelete", method = RequestMethod.GET)
 	public ModelAndView adminDeleteMember(@RequestParam("id") String id) {
@@ -71,7 +137,7 @@ public class HomeController {
 	@RequestMapping(value = "/goLogout", method = RequestMethod.GET)
 	public String logout() {
 		session.invalidate();
-		return "Welcome";
+		return "redirect:/Welcome";
 	}
 	
 	@RequestMapping(value = "/ShowDetail", method = RequestMethod.GET)
@@ -89,17 +155,27 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/Login", method = RequestMethod.POST)
-		public ModelAndView loginMember(@ModelAttribute MemberDTO member) {
-		mav= new ModelAndView();
-		mav=memberService.loginMember(member);
-		return mav;
+		public String loginMember(@ModelAttribute MemberDTO member) {
+		boolean result=memberService.loginMember(member);
+		if(result) {
+			return "redirect:/Welcome";
+		}
+		else {
+			
+			return "Fail";
+		}
 	}
 	
 	@RequestMapping(value="/CreateMember",method=RequestMethod.POST)
-	public ModelAndView createUser(@ModelAttribute MemberDTO member) {
-		mav= new ModelAndView();
-		mav=memberService.createMember(member);
-		return mav;
+	public String createUser(@ModelAttribute MemberDTO member) {
+		boolean result=memberService.createMember(member);
+		System.out.println(member.toString());
+		if(result) {
+			return "redirect:/Welcome";
+		}
+		else {
+			return "Fail";
+		}
 	}
 	
 }

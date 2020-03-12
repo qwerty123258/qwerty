@@ -18,7 +18,15 @@ public class MemberDAO {
 	private SqlSessionTemplate sql;
 
 	public int createMember(MemberDTO member) {
-		return sql.insert("Member.createMember", member);
+		if(member.getKakaoid()!=null) {
+			return sql.insert("Member.createKakao", member);
+		}
+		else if(member.getNaverid()!=null) {
+			return sql.insert("Member.createNaver", member);
+		}
+		else {
+			return sql.insert("Member.createMember", member);
+		}
 	}
 
 	public boolean loginMember(MemberDTO member) {
@@ -44,6 +52,20 @@ public class MemberDAO {
 
 	public int updateMember(MemberDTO member) {
 		return sql.update("Member.update", member);
+	}
+
+	public boolean checkUser(String id) {
+		String result=sql.selectOne("Member.checkUser", id);
+		return (result==null) ? false:true;
+	}
+
+	public MemberDTO showDetailAjax(String id) {
+		MemberDTO member=sql.selectOne("Member.detail",id);
+		return member;
+	}
+
+	public MemberDTO kakaoLogin(String id) {
+		return sql.selectOne("Member.kakaoLogin", id);
 	}
 	
 

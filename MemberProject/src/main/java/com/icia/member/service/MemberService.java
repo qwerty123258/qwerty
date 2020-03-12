@@ -21,29 +21,25 @@ public class MemberService {
 	
 	private ModelAndView mav;
 
-	public ModelAndView createMember(MemberDTO member) {
-		mav=new ModelAndView();
+	public boolean createMember(MemberDTO member) {
 		int result=dao.createMember(member);
 		if(result>0) {
-			mav.setViewName("Welcome");
+			return true;
 		}
 		else {
-			mav.setViewName("Fail");
+			return false;
 		}
-		return mav;
 	}
 
-	public ModelAndView loginMember(MemberDTO member) {
-		mav=new ModelAndView();
+	public boolean loginMember(MemberDTO member) {
 		boolean result=dao.loginMember(member);
 		if(result) {
 			session.setAttribute("id", member.getId());
-			mav.setViewName("Welcome");
+			return true;
 		}
 		else {
-			mav.setViewName("Fail");
+			return false;
 		}
-		return mav;
 	}
 
 	public ModelAndView selectMember() {
@@ -105,6 +101,21 @@ public class MemberService {
 			mav.setViewName("redirect:/goSelect");
 		}
 		return mav;
+	}
+
+	public boolean checkUser(String id) {
+		boolean result=dao.checkUser(id);
+		if(result) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	public MemberDTO showDetailAjax(String id) {
+		MemberDTO member=dao.showDetailAjax(id);
+		return member;
 	}
 
 }

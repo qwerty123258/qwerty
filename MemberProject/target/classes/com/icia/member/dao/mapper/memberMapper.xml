@@ -4,8 +4,20 @@
  
  <mapper namespace="Member"> 
  	<insert id="createMember" parameterType="member">
- 	 insert into membertable(id,pw,name,gender) values(#{id},#{pw},#{name},#{gender})
+ 	 insert into membertable(id,pw,name,gender,kakaoid,naverid) values(#{id},#{pw},#{name},#{gender},'','')
  	</insert>
+ 	 <insert id="createKakao" parameterType="member">
+ 	 insert into membertable(id,pw,name,gender,kakaoid,naverid) values(#{id},'',#{name},#{gender},#{kakaoid},'')
+ 	</insert>
+ 	 <insert id="createNaver" parameterType="member">
+ 	 insert into membertable(id,pw,name,gender,kakaoid,naverid) values(#{id},'',#{name},#{gender},'',#{naverid})
+ 	</insert>
+ 	<select id="kakaoLogin" parameterType="String" resultType="member">
+ 	select id from membertable where kakaoid=#{kakaoid}
+ 	</select>
+ 	 <select id="naverLogin" parameterType="String" resultType="member">
+ 	select id from membertable where naverid=#{naverid}
+ 	</select>
  	<select id="loginCheck" parameterType="member" resultType="String">
  	select id from membertable where id=#{id} and pw=#{pw}
  	</select>
@@ -21,6 +33,9 @@
  	<update id="update" parameterType="member">
  	update membertable set name=#{name} where id=#{id}
  	</update>
+ 	<select id="checkUser" parameterType="String" resultType="String">
+ 	select id from membertable where id=#{id}
+ 	</select>
  </mapper>
  
  

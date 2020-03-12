@@ -9,3 +9,13 @@
 #member tbody tr:hover{
 		background-Color:skyblue;
 }
+#detailInfo th{
+	background-Color:skyblue;
+	color:white;
+}
+#detailInfo{
+	text-align:center;
+}
+#detailInfo tbody tr:hover{
+		background-Color:skyblue;
+}
