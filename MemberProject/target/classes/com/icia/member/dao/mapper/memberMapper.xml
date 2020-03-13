@@ -12,6 +12,12 @@
  	 <insert id="createNaver" parameterType="member">
  	 insert into membertable(id,pw,name,gender,kakaoid,naverid) values(#{id},'',#{name},#{gender},'',#{naverid})
  	</insert>
+ 	 <select id="naverCheck" parameterType="String" resultType="int">
+ 	select count(id) from membertable where naverid=#{naverid}
+ 	</select>
+ 	<select id="kakaoCheck" parameterType="String" resultType="int">
+ 	select count(id) from membertable where kakaoid=#{kakaoid}
+ 	</select>
  	<select id="kakaoLogin" parameterType="String" resultType="member">
  	select id from membertable where kakaoid=#{kakaoid}
  	</select>

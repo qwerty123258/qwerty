@@ -24,8 +24,9 @@ public class KakaoService {
 	public ModelAndView kakaoJoin(JsonNode profile) {
 		mav = new ModelAndView();
 		String id=profile.get("id").asText();
-		MemberDTO member=dao.kakaoLogin(id);
-		if(member.getId()!=null) {
+		int result=dao.kakaoCheck(id);
+		if(result>0) {
+			MemberDTO member = dao.kakaoLogin(id);
 			session.setAttribute("id", member.getId());
 			mav.setViewName("redirect:/Welcome");
 			return mav;

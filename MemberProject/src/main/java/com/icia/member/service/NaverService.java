@@ -30,13 +30,14 @@ public class NaverService {
 		JSONObject naverUser = (JSONObject) obj;
 		JSONObject userInfo = (JSONObject) naverUser.get("response");
 		String naverid=(String) userInfo.get("id");
-		MemberDTO member = dao.naverLogin(naverid);
-		if(member.getId()==null) {
+		int result=dao.naverCheck(naverid);
+		if(result<1) {
 			mav.addObject("naverid",naverid);
 			mav.setViewName("CreateMember");
 			return mav;
 		}
 		else {
+			MemberDTO member = dao.naverLogin(naverid);
 			session.setAttribute("id", member.getId());
 			mav.setViewName("redirect:/Welcome");
 			return mav;

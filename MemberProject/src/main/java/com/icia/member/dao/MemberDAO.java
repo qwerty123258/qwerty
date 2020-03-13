@@ -71,6 +71,14 @@ public class MemberDAO {
 	public MemberDTO naverLogin(String naverid) {
 		return sql.selectOne("Member.naverLogin", naverid);
 	}
+
+	public int kakaoCheck(String id) {
+		return sql.selectOne("Member.kakaoCheck", id);
+	}
+
+	public int naverCheck(String naverid) {
+		return sql.selectOne("Member.naverCheck", naverid);
+	}
 	
 
 }
