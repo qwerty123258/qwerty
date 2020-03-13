@@ -24,22 +24,17 @@ public class KakaoService {
 	public ModelAndView kakaoJoin(JsonNode profile) {
 		mav = new ModelAndView();
 		String id=profile.get("id").asText();
-		mav.addObject("kakaoid",id);
-		mav.setViewName("CreateMember");
-		return mav;
-	}
-
-	public ModelAndView kakaoLogin(JsonNode profile) {
-		mav = new ModelAndView();
-		String id=profile.get("id").asText();
-		JsonNode kakaoaccount = profile.get("kakao_account");		
-		JsonNode kakaoprofile= kakaoaccount.get("profile");
-		String profileimg =kakaoprofile.path("thumbnail_image_url").asText();
 		MemberDTO member=dao.kakaoLogin(id);
-		session.setAttribute("id", member.getId());
-		session.setAttribute("profileimg", profileimg);
-		mav.setViewName("redirect:/Welcome");
-		return mav;
+		if(member.getId()!=null) {
+			session.setAttribute("id", member.getId());
+			mav.setViewName("redirect:/Welcome");
+			return mav;
+		}
+		else {
+			mav.addObject("kakaoid",id);
+			mav.setViewName("CreateMember");
+			return mav;
+		}
 	}
 	
 }

@@ -149,7 +149,7 @@
 						<td>이름</td>
 					</tr>
 					<tr>
-						<td><input type="text" id="name_input" name="name autocomplete="off"></td>
+						<td><input type="text" id="name_input" name="name" autocomplete="off"></td>
 					</tr>
 					<tr>
 						<td>성별</td>

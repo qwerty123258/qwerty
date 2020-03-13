@@ -29,7 +29,8 @@
 		<beans:property name="maxUploadSize" value="10000000" /><!--	10MB -->
 		<beans:property name="maxInMemorySize" value="10000000" /><!--	10MB -->
 	</beans:bean>
-	
+	<beans:bean id="naverJoinApi" class="com.icia.member.api.NaverJoinApi"></beans:bean>
+		<beans:bean id="naverLoginApi" class="com.icia.member.api.NaverLoginApi"></beans:bean>
 	
 	
 </beans:beans>

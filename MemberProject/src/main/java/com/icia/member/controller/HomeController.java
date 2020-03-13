@@ -1,8 +1,13 @@
 package com.icia.member.controller;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpSession;
 
 import org.codehaus.jackson.JsonNode;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +19,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.icia.member.api.KakaoJoinApi;
 import com.icia.member.api.KakaoLoginApi;
+import com.icia.member.api.NaverJoinApi;
+import com.icia.member.api.NaverLoginApi;
 import com.icia.member.dto.MemberDTO;
 import com.icia.member.service.KakaoService;
 import com.icia.member.service.MemberService;
+import com.icia.member.service.NaverService;
 
 @Controller
 public class HomeController {
@@ -28,6 +37,15 @@ public class HomeController {
 	
 	@Autowired
 	private KakaoService kakaoService;
+	
+	@Autowired
+	private NaverService naverService;
+	
+	@Autowired
+	private NaverJoinApi naverJoinApi;
+	
+	@Autowired
+	private NaverLoginApi naverLoginApi;
 	
 	@Autowired
 	private HttpSession session;
@@ -51,13 +69,34 @@ public class HomeController {
 		
 		return 	"CreateMember";
 	}
-	@RequestMapping(value = "/jsjkakaoLogin", method = RequestMethod.GET)
-	public ModelAndView kakaoLogin(@RequestParam("code") String code,HttpSession session) {
+	
+	@RequestMapping(value = "/NaverLogin", method = RequestMethod.GET)
+	public ModelAndView NaverLogin(HttpSession session) {
+		String naverUrl=naverLoginApi.getAuthorizationUrl(session);
 		mav=new ModelAndView();
-		JsonNode token = KakaoLoginApi.getAccessToken(code);
-		JsonNode profile =KakaoLoginApi.getKakaoUserInfo(token.path("access_token"));
-		mav=kakaoService.kakaoLogin(profile);
-		return mav;
+		mav.addObject("naverUrl",naverUrl);
+		mav.setViewName("NaverCreate");
+		return 	mav;
+	}
+	
+	@RequestMapping(value = "/jsjNaverJoin", method = RequestMethod.GET)
+	public ModelAndView NaverJoin(@RequestParam("code") String code,@RequestParam("state") String state,HttpSession session) throws IOException, ParseException {
+		mav =new ModelAndView();
+			OAuth2AccessToken oauthToken =naverJoinApi.getAccessToken(session, code, state);
+			String profile = naverJoinApi.getUserProfile(oauthToken);
+			mav=naverService.naverJoin(profile);
+		    return mav;
+		
+	}
+	
+	
+	@RequestMapping(value = "/NaverCreate", method = RequestMethod.GET)
+	public ModelAndView Naver(HttpSession session) {
+		String naverUrl=naverJoinApi.getAuthorizationUrl(session);
+		mav=new ModelAndView();
+		mav.addObject("naverUrl",naverUrl);
+		mav.setViewName("NaverCreate");
+		return 	mav;
 	}
 	
 	@RequestMapping(value = "/jsjkakaoJoin", method = RequestMethod.GET)
@@ -67,15 +106,6 @@ public class HomeController {
 		JsonNode profile =KakaoJoinApi.getKakaoUserInfo(token.path("access_token"));
 		mav=kakaoService.kakaoJoin(profile);
 		return mav;
-	}
-	
-	@RequestMapping(value = "/KakaoLogin", method = RequestMethod.GET)
-	public ModelAndView kakaoLogin() {
-		String kakaoUrl=KakaoLoginApi.getAuthorizationUrl(session);
-		mav=new ModelAndView();
-		mav.addObject("kakaourl",kakaoUrl);
-		mav.setViewName("KakaoCreate");
-		return 	mav;
 	}
 	
 	@RequestMapping(value = "/KakaoCreate", method = RequestMethod.GET)
@@ -169,7 +199,6 @@ public class HomeController {
 	@RequestMapping(value="/CreateMember",method=RequestMethod.POST)
 	public String createUser(@ModelAttribute MemberDTO member) {
 		boolean result=memberService.createMember(member);
-		System.out.println(member.toString());
 		if(result) {
 			return "redirect:/Welcome";
 		}
