@@ -21,9 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.icia.member.api.KakaoJoinApi;
-import com.icia.member.api.KakaoLoginApi;
 import com.icia.member.api.NaverJoinApi;
-import com.icia.member.api.NaverLoginApi;
 import com.icia.member.dto.MemberDTO;
 import com.icia.member.service.KakaoService;
 import com.icia.member.service.MemberService;
@@ -43,9 +41,6 @@ public class HomeController {
 	
 	@Autowired
 	private NaverJoinApi naverJoinApi;
-	
-	@Autowired
-	private NaverLoginApi naverLoginApi;
 	
 	@Autowired
 	private HttpSession session;
@@ -68,15 +63,6 @@ public class HomeController {
 	public String create() {
 		
 		return 	"CreateMember";
-	}
-	
-	@RequestMapping(value = "/NaverLogin", method = RequestMethod.GET)
-	public ModelAndView NaverLogin(HttpSession session) {
-		String naverUrl=naverLoginApi.getAuthorizationUrl(session);
-		mav=new ModelAndView();
-		mav.addObject("naverUrl",naverUrl);
-		mav.setViewName("NaverCreate");
-		return 	mav;
 	}
 	
 	@RequestMapping(value = "/jsjNaverJoin", method = RequestMethod.GET)

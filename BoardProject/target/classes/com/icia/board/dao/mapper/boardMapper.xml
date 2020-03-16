@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="Board"> 
+ 	<insert id="write" parameterType="board">
+ 	insert into board values(board_seq.nextval,#{title},#{id},#{contents},sysdate,0)
+ 	</insert>
+ 	<select id="list" parameterType="paging" resultType="board">
+ 	<![CDATA[select c.bno,c.title,c.id,c.bview,to_char(writedate,'YYYY-MM-DD') as writedate from (select ROWNUM row_num,board.* from  board) c where row_num >= #{startNum} and row_num <= #{endNum}]]>
+ 	</select>
+ 	 <select id="count" resultType="int">
+ 	select count(*) as count from board
+ 	</select>
+ 	<update id="bview" parameterType="String">
+ 	update board set bview=bview+1 where bno=#{bno}
+ 	</update>
+ 	 <select id="detail" parameterType="String" resultType="board">
+ 	select bno,title,id,bview,to_char(writedate,'YYYY-MM-DD HH:MI') as writedate,contents from board where bno=#{bno}
+ 	</select>
+ 	<delete id="delete" parameterType="String">
+ 	delete board where bno=#{bno}
+ 	</delete>
+ 	<update id="update" parameterType="board">
+ 	update board set title=#{title},contents=#{contents} where bno=#{bno}
+ 	</update>
+ </mapper>
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
