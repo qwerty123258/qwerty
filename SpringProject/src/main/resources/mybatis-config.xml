@@ -6,7 +6,6 @@
 		<typeAlias alias="member" type="com.icia.myproject.dto.MemberDTO"/>
 		<typeAlias alias="board" type="com.icia.myproject.dto.BoardDTO"/>
 		<typeAlias alias="comment" type="com.icia.myproject.dto.CommentDTO"/>
-		<typeAlias alias="file" type="com.icia.myproject.dto.FileDTO"/>
 		<typeAlias alias="paging" type="com.icia.myproject.page.Paging"/>
 	</typeAliases>
 </configuration>

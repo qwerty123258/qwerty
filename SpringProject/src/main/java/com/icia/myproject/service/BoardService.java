@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.icia.myproject.dao.BoardDAO;
 import com.icia.myproject.dao.FileDAO;
 import com.icia.myproject.dto.BoardDTO;
-import com.icia.myproject.dto.FileDTO;
 
 @Service
 public class BoardService {
@@ -39,14 +38,13 @@ public class BoardService {
 		board.setId(id);
 		int writeresult=bdao.write(board);
 		if(writeresult>0) {
-	        List<MultipartFile> fileList = mtfRequest.getFiles("bfile");
+			List<MultipartFile> fileList = mtfRequest.getFiles("bfile");
 	        for(int i=0; i<fileList.size(); i++) {
 	        	String borifile=fileList.get(i).getOriginalFilename();
-	        	String bfile=upload(borifile,fileList.get(i).getBytes());
-	        	FileDTO bfiles=new FileDTO();
-	        	bfiles.setBfile(bfile);
-	        	bfiles.setBfileoriname(borifile);
-	        	fdao.fileUpload(bfiles);
+	        	String bfilename=upload(borifile,fileList.get(i).getBytes());
+	        	board.setBfilename(bfilename);
+	        	board.setBfileoriname(borifile);
+	        	fdao.fileUpload(board);
 	        }
 	        mav.setViewName("redirect:/home");
 		}

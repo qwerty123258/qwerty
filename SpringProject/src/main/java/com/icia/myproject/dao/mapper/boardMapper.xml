@@ -6,6 +6,9 @@
 	<insert id="write" parameterType="board">
 	insert into board values(board_seq.nextval,#{title},#{id},#{contents},sysdate,0)
 	</insert>
+	<insert id="upload" parameterType="board">
+	insert into bfiles values(bfile_seq.nextval,#{bfilename},#{bfileoriname},sysdate,#{bno})
+	</insert>
  </mapper>
  
  

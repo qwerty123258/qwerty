@@ -4,7 +4,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.icia.myproject.dto.FileDTO;
+import com.icia.myproject.dto.BoardDTO;
 
 @Repository
 public class FileDAO {
@@ -13,10 +13,13 @@ public class FileDAO {
 	@Autowired
 	private SqlSessionTemplate sql;
 
-
-
-	public void fileUpload(FileDTO bfiles) {
-		sql.insert("Board.upload", bfiles);
+	public void fileUpload(BoardDTO board) {
+		sql.insert("Board.upload", board);
+		
 	}
+
+
+
+
 
 }

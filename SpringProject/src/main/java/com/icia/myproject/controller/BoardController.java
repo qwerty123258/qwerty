@@ -21,7 +21,7 @@ public class BoardController {
 	private BoardService boardService;
 	
 	@RequestMapping(value = "/Write", method = RequestMethod.POST)
-	public ModelAndView write(MultipartHttpServletRequest mtfRequest,@ModelAttribute BoardDTO board) throws IllegalStateException, IOException {
+	public ModelAndView write(@ModelAttribute BoardDTO board,MultipartHttpServletRequest mtfRequest) throws IllegalStateException, IOException {
 		mav=new ModelAndView();
 		mav=boardService.write(board,mtfRequest);
 		return mav;
