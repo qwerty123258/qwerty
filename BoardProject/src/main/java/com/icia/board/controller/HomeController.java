@@ -1,5 +1,6 @@
 package com.icia.board.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -66,7 +67,7 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/Write", method = RequestMethod.POST)
-	public ModelAndView write(@ModelAttribute BoardDTO board) {
+	public ModelAndView write(@ModelAttribute BoardDTO board) throws IllegalStateException, IOException {
 		mav=new ModelAndView();
 		mav=boardService.write(board);
 		return mav;

@@ -24,6 +24,9 @@
  	<update id="update" parameterType="board">
  	update board set title=#{title},contents=#{contents} where bno=#{bno}
  	</update>
+ 	<insert id="file" parameterType="board">
+ 	insert into bfiles values(board_seq.nextval,#{bfileoriname})
+ 	</insert>
  </mapper>
 
  

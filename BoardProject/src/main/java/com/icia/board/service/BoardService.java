@@ -1,11 +1,15 @@
 package com.icia.board.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.icia.board.dao.BfileDAO;
 import com.icia.board.dao.BoardDAO;
 import com.icia.board.dto.BoardDTO;
 import com.icia.board.page.Paging;
@@ -16,12 +20,25 @@ public class BoardService {
 	
 	@Autowired
 	private BoardDAO dao;
+	
+	@Autowired
+	private BfileDAO fdao;
 
-	public ModelAndView write(BoardDTO board) {
+	public ModelAndView write(BoardDTO board) throws IllegalStateException, IOException {
 		mav=new ModelAndView();
 		int result=dao.write(board);
 		if(result>0) {
-			mav.setViewName("redirect:/Welcome");
+			MultipartFile bfile = board.getBfile();
+			String bfileoriname=bfile.getOriginalFilename();
+			String savePath="C:\\Users\\5\\git\\qwerty\\BoardProject\\src\\main\\webapp\\resources\\fileUpload\\"+bfileoriname;
+			if(!bfile.isEmpty()) {
+				bfile.transferTo(new File(savePath));
+			}
+			board.setBfileoriname(bfileoriname);
+			int bfileresult=fdao.fileUpload(board);
+			if(bfileresult>0) {
+				mav.setViewName("redirect:/Welcome");
+			}
 		}
 		else {
 			mav.setViewName("redirect:/Fail");

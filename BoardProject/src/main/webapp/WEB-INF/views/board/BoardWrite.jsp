@@ -17,9 +17,10 @@
 </script>
 </head>
 <body>
-	<form action="Write" method="post" id="writeForm">
-		제목 <input type="text" name="title"><br> 작성자 <input
-			type="text" name="id"><br> 글 내용<br>
+	<form action="Write" method="post" id="writeForm" enctype="multipart/form-data">
+		제목 <input type="text" name="title"><br> 
+		작성자 <input type="text" name="id"><br> 글 내용<br>
+		파일 <input type="file" name="bfile">
 		<textarea name="contents" id="ir1" rows="10" cols="100"></textarea>
 	</form>
 	<button id="writebtn">글쓰기</button>
