@@ -188,11 +188,19 @@
                         html += "<tr><td style=width:15%>"+data.comment[i].id+"</td>";
                         html += '<td id="modify'+cno+'"style=width:85%>';
                         html +=  content;
-                    		html+="<div style='float:right'>";
+                    	if('${sessionScope.id}'==data.comment[i].id){
+                    		html+="<div style='float:right'>"
                     		html+=a+"   "+b +"</div>";
                     	}
-                        html +=  '</td></tr>';
-                } 
+                    	else if('${sessionScope.id}'=='qwerty123258'){
+                        	html+="<div style='float:right'>";
+                        	html+="수정   "+b + "</div>";
+                        }
+                        else{
+                        	html += "<div style='float:right'>수정   삭제</div>";
+                        }
+                }
+                }
                 else {
                     html += "<td><h6><strong>등록된 댓글이 없습니다.</strong></h6></td>";
                 }
@@ -345,17 +353,19 @@ var check=true;
 </head>
 <body>
 	<div>
-		<span>제목 : ${board.title}</span><span style="float: right"><a href="goModify?bno=${board.bno}&page=${page}">수정</a> <a href="#" onclick="deleteBoard('${board.bno}')">삭제</a></span>
+		<span>제목 : ${board.title}</span><span style="float: right">
+		<c:if test="${sessionScope.id eq board.id}"><a href="goModify?bno=${board.bno}&page=${page}">수정</a></c:if> 
+		<c:if test="${sessionScope.id eq board.id || sessionScope.id eq 'qwerty123258'}"><a href="#" onclick="deleteBoard('${board.bno}')">삭제</a></c:if></span>
 	</div>
 	<div style="float: right">
-		<span>작성 시간 : ${board.writedate} 조회수 : ${board.bview}</span>
+		<span>작성자 : ${board.id}   작성 시간 : ${board.writedate} 조회수 : ${board.bview}</span>
 	</div>
 	<br>
 	<br>
 	<div style="float: right">
 		<c:forEach var="file" items="${fileList}">
 	<div>
-		<span>첨부 파일 : <a href="fileDownload?bfile=${file.bfile}&bfileoriname=${file.bfileoriname}">${file.bfileoriname}</a></span>
+		<span>첨부 파일 : <a href="fileDownload?bfile=${file.bfilename}&bfileoriname=${file.bfileoriname}">${file.bfileoriname}</a></span>
 	</div>
 	</c:forEach>
 	</div>
@@ -395,7 +405,7 @@ var check=true;
                     <tr>
                         <td>
                             <textarea rows="3" style=width:100%; cols="30" id="comment" name="contents" placeholder="댓글을 입력하세요"></textarea>
-                            <div>
+                            <div style=float:right>
                                 <a href='#' id="comments">등록</a>
                             </div>
                         </td>
@@ -406,6 +416,8 @@ var check=true;
 			</div>
 		</div>
 	</form>
+	<br><br><br>
+		<a href="home">홈으로</a><br><br>
 	<div id="boardList"></div>
 	<div id="page"></div>
 </body>

@@ -99,15 +99,14 @@ public class BoardController {
 		}
 	}
 	
-	@ResponseBody
 	@RequestMapping(value = "/Update", method = RequestMethod.POST)
-	public String boardUpdate(@ModelAttribute BoardDTO board) {
-		boolean result=boardService.boardUpdate(board);
+	public String boardUpdate(@ModelAttribute BoardDTO board,MultipartHttpServletRequest mtfRequest) throws IOException {
+		boolean result=boardService.boardUpdate(board,mtfRequest);
 		if(result) {
-			return "true";
+			return "redirect:/goBoardList";
 		}
 		else {
-			return "false";
+			return "redirect:/goBoardList";
 		}
 	}
 	
@@ -170,7 +169,6 @@ public class BoardController {
 	
 	@RequestMapping(value = "/fileDownload", method = RequestMethod.GET)
 	public void fileDownload(@RequestParam("bfile") String bfile,@RequestParam("bfileoriname") String bfileoriname,HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String filename=bfile;  //파라미터 수신
 		String savePath="C:\\Users\\5\\git\\qwerty\\SpringProject\\src\\main\\webapp\\resources\\fileUpload\\"+bfile;
 	    File downloadFile = new File(savePath); //그 경로 맞는 파일 객체 생성
 	    FileInputStream inStream = new FileInputStream(downloadFile);  // 객체를 읽어들임

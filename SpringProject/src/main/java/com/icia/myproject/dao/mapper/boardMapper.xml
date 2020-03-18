@@ -11,7 +11,7 @@
 	<selectKey resultType="string" keyProperty="currentBno" order="BEFORE">
         SELECT MAX(bno) FROM board        
     </selectKey>    
-	insert into bfiles values(bfile_seq.nextval,#{bfile},#{bfileoriname},sysdate,#{currentBno})
+	insert into bfiles values(bfile_seq.nextval,#{bfilename},#{bfileoriname},sysdate,#{currentBno})
 	</insert>
 	 <select id="list" parameterType="paging" resultType="board">
  	<![CDATA[select c.bno,c.title,c.id,c.bview,to_char(writedate,'YYYY-MM-DD') as writedate from (select ROWNUM row_num,board.* from  board) c where row_num >= #{startNum} and row_num <= #{endNum}]]>
@@ -34,6 +34,15 @@
  	<select id="fileList" parameterType="String" resultType="board">
  	select * from bfiles where bno=#{bno}
  	</select>
+ 	<delete id="allfileDelete" parameterType="board">
+ 	delete bfiles where bno=#{bno}
+ 	</delete>
+ 	 <insert id="allfileUpdate" parameterType="board">
+ 		insert into bfiles values(bfile_seq.nextval,#{bfilename},#{bfileoriname},sysdate,#{bno})
+ 	</insert>
+ 	<delete id="fileDelete" parameterType="String">
+ 	delete bfiles where bfilename=#{delfilename}
+ 	</delete>
  </mapper>
  
  

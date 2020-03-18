@@ -12,8 +12,10 @@ public class BoardDTO {
 	private String writedate;
 	private String bview;
 	private String bfno;
-	private String bfile;
+	private String bfilename;
 	private String bfileoriname;
 	private String currentBno;
-	
+	private String beforeFilename;
+	private String beforeOriname;
+	private String delfilename;
 }

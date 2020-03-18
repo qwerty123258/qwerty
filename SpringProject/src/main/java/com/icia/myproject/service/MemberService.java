@@ -73,4 +73,56 @@ public class MemberService {
 		}
 	}
 
+	public MemberDTO myProfile(String id) {
+		MemberDTO myProfile=mdao.myProfile(id);
+		return myProfile;
+		
+	}
+
+	public boolean deleteProfile(MemberDTO member) {
+		String beforeimg=member.getBfprofileimg();
+		System.out.println(beforeimg);
+		String savePath="C:\\Users\\5\\git\\qwerty\\SpringProject\\src\\main\\webapp\\resources\\fileUpload\\"+beforeimg;
+		File f = new File(savePath);
+		 if(f.exists()){
+		 f.delete(); 
+		}
+		int result=mdao.deleteProfile(member);
+		if(result>0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	public boolean updateProfile(MemberDTO member) throws IOException {
+		MultipartFile mfile = member.getMfile();
+		if(mfile.isEmpty()) {
+			String beforeimg=member.getBfprofileimg();
+			String beforeoriimg=member.getBforiprofileimg();
+			member.setProfileimg(beforeimg);
+			member.setOriprofileimg(beforeoriimg);
+		}
+		else if(!mfile.isEmpty()) {
+			String fileoriname=mfile.getOriginalFilename();
+			member.setOriprofileimg(fileoriname);
+			String savefilename=upload(fileoriname,mfile.getBytes());
+			member.setProfileimg(savefilename);
+			String beforeimg=member.getBfprofileimg();
+			String savePath="C:\\Users\\5\\git\\qwerty\\SpringProject\\src\\main\\webapp\\resources\\fileUpload\\"+beforeimg;
+			File f = new File(savePath);
+			 if(f.exists()){
+			 f.delete(); 
+			}
+		}
+		int result=mdao.updateProfile(member);
+		if(result>0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
 }

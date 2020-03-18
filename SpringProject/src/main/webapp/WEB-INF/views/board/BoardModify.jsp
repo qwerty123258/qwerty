@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+		<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,36 +12,42 @@
 	$(document).ready(function() {
 		$('#writebtn').click(function() {
 			oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
-			var params = $("#writeForm").serialize();
-			$.ajax({
-				type : "POST",
-				url : "Update",
-				data : params,
-				dataType : "text",
-				success : function(result) {
-					if (result == "true") {
-						location.href = "BoardDetail?bno=" + ${board.bno}+"&page=" + ${page};
-					} else if (result == "false") {
-						alert('수정 실패');
-					}
-				},
-				error : function() {
-					alert("실패");
-				}
-
-			});
+			$("#writeForm").submit();
 		});
 		$('#cancelbtn').click(function() {
 			location.href = "BoardDetail?bno=" + ${board.bno}+"&page=" + ${page};
 		});
 	})
 </script>
+<script>
+function fileDelete(bfno,bfile){
+	var bfno=bfno;
+	var bfile=bfile;
+	$("#"+bfno).remove();
+	var html="<input type='hidden' name='delfilename' value='"+bfile+"'>";
+	$("#del").append(html);
+}
+</script>
 </head>
 <body>
-	<form action="Update" method="post" id="writeForm">
+	<form action="Update" method="post" id="writeForm" enctype="multipart/form-data">
 		<input type="hidden" name="bno" value="${board.bno}"> 
 		<input type="hidden" name="page" value="${page}"> 
-		제목 <input type="text" name="title" value="${board.title}">
+		제목 <input type="text" name="title" value="${board.title}"><br><br>
+		첨부파일 리스트<br><br>
+				<c:forEach var="file" items="${fileList}">
+					<input type="hidden" name="bfno" value="${file.bfno}">
+					<input type="hidden" name="beforeFilename" value="${file.bfilename}">
+				<div id="${file.bfno}">
+					파일 이름 : ${file.bfileoriname} <a href="#" onclick="fileDelete(${file.bfno},'${file.bfilename}')">삭제</a>
+				</div>
+				<div id="del">
+				
+				</div>
+		</c:forEach>
+		<br><br>
+		파일 추가 또는 수정시<br><br>
+		<input type="file" multiple="multiple" name="bfile"><br>
 			<br> 글내용<br>
 		<textarea name="contents" id="ir1" rows="10" cols="100">${board.contents}</textarea>
 	</form>

@@ -18,5 +18,7 @@ public class MemberDTO {
 	private MultipartFile mfile;
 	private String profileimg;
 	private String oriprofileimg;
+	private String bfprofileimg;
+	private String bforiprofileimg;
 
 }

@@ -6,6 +6,28 @@
 	<title>메인 페이지</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script>
+	 $(document).ready(function() {
+	var id='${sessionScope.id}';
+	var html="";
+	if(id!=""){
+		$.ajax({
+			type : "POST",
+			url : "MyProfile",
+			dataType : "json",
+			success : function(result) {
+					var profileimg=result.profileimg;
+					var src="${pageContext.request.contextPath}/resources/fileUpload/"+profileimg;
+					html+="<img style='width:100px; height:100px' src='"+src+"'>";
+					$("#profile").html(html);
+			},
+			error : function() {
+				alert("실패");
+			}
+	})	
+	}
+	 });
+	</script>
+	<script>
 	function login(){
 		var id=$("#id_input").val();
 		var pw=$("#pw_input").val();
@@ -36,6 +58,9 @@
 	function goBoardList(){
 		location.href="goBoardList";
 	}
+	function changeProfile(){
+		location.href="goChangeProfile";
+	}
 	</script>
 </head>
 <body>
@@ -59,7 +84,12 @@
 </a>
 </c:if>
 <c:if test="${sessionScope.id ne null}">
-${sessionScope.id} 님 어서 오세요?
+<div id="profile">
+</div>
+${sessionScope.id} 님 어서 오세요?<br>
+<button onclick="changeProfile()">
+프로필 사진 변경
+</button>
 <button onclick="writeArticle()">
 글쓰기
 </button>

@@ -39,7 +39,7 @@ public class BoardService {
 	        for(int i=0; i<fileList.size(); i++) {
 	        	String borifile=fileList.get(i).getOriginalFilename();
 	        	String bfilename=upload(borifile,fileList.get(i).getBytes());
-	        	board.setBfile(bfilename);
+	        	board.setBfilename(bfilename);
 	        	board.setBfileoriname(borifile);
 	        	bdao.fileUpload(board);
 	        }
@@ -73,7 +73,6 @@ public class BoardService {
 		mav.addObject("board", board);
 		mav.addObject("page", page);
 		mav.addObject("fileList", fileList);
-		System.out.println(fileList.toString());
 		mav.setViewName("board/BoardDetail");
 		return mav;
 	}
@@ -90,14 +89,48 @@ public class BoardService {
 
 	public ModelAndView boardModify(String bno, int page) {
 		BoardDTO board=bdao.boardModfiy(bno);
+		List<BoardDTO> fileList=bdao.fileList(bno);
 		mav=new ModelAndView();
 		mav.addObject("board", board);
 		mav.addObject("page", page);
+		mav.addObject("fileList", fileList);
 		mav.setViewName("board/BoardModify");
 		return mav;
 	}
 
-	public boolean boardUpdate(BoardDTO board) {
+	public boolean boardUpdate(BoardDTO board, MultipartHttpServletRequest mtfRequest) throws IOException {
+		String beforefilename[]=mtfRequest.getParameterValues("beforeFilename");
+		String bfno[]=mtfRequest.getParameterValues("bfno");
+		String delfilename[]=mtfRequest.getParameterValues("delfilename");
+		if(mtfRequest.getFiles("bfile").get(0).getSize() != 0){
+			List<MultipartFile> fileList = mtfRequest.getFiles("bfile");
+	        for(int i=0; i<fileList.size(); i++) {
+	        	String borifile=fileList.get(i).getOriginalFilename();
+	        	String bfilename=upload(borifile,fileList.get(i).getBytes());
+	        	board.setBfilename(bfilename);
+	        	board.setBfileoriname(borifile);
+	        	bdao.fileUpdate(board);
+	        }
+	        for(int i=0; i<bfno.length; i++) {
+	    		String savePath="C:\\Users\\5\\git\\qwerty\\SpringProject\\src\\main\\webapp\\resources\\fileUpload\\"+beforefilename[i];
+	    		File f = new File(savePath);
+	    		 if(f.exists()){
+	    		 f.delete(); 
+	    		}
+	        }
+		}
+		else {
+			if(mtfRequest.getParameterValues("delfilename")!=null) {
+				for(int i=0; i<delfilename.length; i++) {
+					bdao.fileDelete(delfilename[i]);
+		    		String savePath="C:\\Users\\5\\git\\qwerty\\SpringProject\\src\\main\\webapp\\resources\\fileUpload\\"+delfilename[i];
+		    		File f = new File(savePath);
+		    		 if(f.exists()){
+		    		 f.delete(); 
+		    		}
+				}	
+			}
+		}
 		int result=bdao.boardUpdate(board);
 		if(result>0) {
 			return true;

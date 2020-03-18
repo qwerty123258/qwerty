@@ -143,4 +143,43 @@ public class MainController {
 	public String goWrite() {
 		return "board/BoardWrite";
 	}
+	
+	@RequestMapping(value = "/goChangeProfile", method = RequestMethod.GET)
+	public String goChangeProfile() {
+		return "member/ChangeProfile";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/MyProfile", method = RequestMethod.POST)
+	public MemberDTO myProfile() {
+		String id= (String) session.getAttribute("id");
+		MemberDTO myProfile=memberService.myProfile(id);
+		return myProfile;
+	}
+	
+	@RequestMapping(value = "/DeleteProfile", method = RequestMethod.GET)
+	public String deleteProfile(@ModelAttribute MemberDTO member) {
+		String id= (String) session.getAttribute("id");
+		member.setId(id);
+		boolean result=memberService.deleteProfile(member);
+		if(result) {
+			return "redirect:/home";
+		}
+		else {
+			return "redirect:/home";
+		}
+	}
+	
+	@RequestMapping(value = "/ProfileUpdate", method = RequestMethod.POST)
+	public String profileUpdate(@ModelAttribute MemberDTO member) throws IOException {
+		String id= (String) session.getAttribute("id");
+		member.setId(id);
+		boolean result=memberService.updateProfile(member);
+		if(result) {
+			return "redirect:/home";
+		}
+		else {
+			return "redirect:/home";
+		}
+	}
 }

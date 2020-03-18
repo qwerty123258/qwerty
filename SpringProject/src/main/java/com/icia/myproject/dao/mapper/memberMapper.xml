@@ -30,6 +30,15 @@
  	 <select id="naverLogin" parameterType="String" resultType="member">
  	select id from member where naverid=#{naverid}
  	</select>
+ 	<select id="myProfile" parameterType="String" resultType="member">
+ 	select * from member where id=#{id}
+ 	</select>
+ 	<update id="deleteProfile" parameterType="String">
+ 		update member set profileimg='',oriprofileimg='' where id=#{id}
+ 	</update>
+ 	<update id="updateProfile" parameterType="member">
+ 	 	update member set profileimg=#{profileimg},oriprofileimg=#{oriprofileimg} where id=#{id}
+ 	</update>
  </mapper>
  
  

@@ -54,4 +54,16 @@ public class MemberDAO {
 		return sql.selectOne("Member.naverCheck", naverid);
 	}
 
+	public MemberDTO myProfile(String id) {
+		return sql.selectOne("Member.myProfile", id);
+	}
+
+	public int deleteProfile(MemberDTO member) {
+		return sql.update("Member.deleteProfile", member);
+	}
+
+	public int updateProfile(MemberDTO member) {
+		return sql.update("Member.updateProfile", member);
+	}
+
 }

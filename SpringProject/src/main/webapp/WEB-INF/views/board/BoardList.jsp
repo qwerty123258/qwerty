@@ -108,5 +108,6 @@
 </div>
 <div id="page">
 </div>
+	<a href="home">홈으로</a>
 </body>
 </html>

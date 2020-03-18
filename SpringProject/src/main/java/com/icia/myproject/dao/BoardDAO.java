@@ -57,4 +57,14 @@ public class BoardDAO {
 		return sql.selectList("Board.fileList", bno);
 	}
 
+	public void fileUpdate(BoardDTO board) {
+		sql.delete("Board.allfileDelete", board);
+		sql.insert("Board.allfileUpdate", board);
+		
+	}
+	public void fileDelete(String string) {
+		sql.delete("Board.fileDelete", string);
+		
+	}
+
 }
