@@ -4,7 +4,7 @@
 <configuration>
 	<typeAliases> 
 		<typeAlias alias="board" type="com.icia.board.dto.BoardDTO"/>
-				<typeAlias alias="comment" type="com.icia.board.dto.CommentDTO"/>
+		<typeAlias alias="comment" type="com.icia.board.dto.CommentDTO"/>
 		<typeAlias alias="paging" type="com.icia.board.page.Paging"/>
 	</typeAliases>
 </configuration>
