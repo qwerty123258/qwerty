@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+   <mapper namespace="Comment">
+  <select id="count" parameterType="String" resultType="int">
+  select count(*) from comments where bno=#{bno}
+  </select>
+  <select id="list" parameterType="map" resultType="comment">
+   	<![CDATA[select c.bno,c.id,c.cno,c.contents from (select ROWNUM row_num,comments.* from  comments where bno=#{bno}) c where row_num >= #{paging.startNum} and row_num <= #{paging.endNum}]]>
+  </select>
+  <insert id="add" parameterType="comment">
+  insert into comments values(#{bno},comment_seq.nextval,#{id},#{contents},sysdate)
+  </insert>
+  <delete id="delete" parameterType="String">
+  delete comments where cno=#{cno}
+  </delete>
+  <update id="update" parameterType="comment">
+  update comments set contents=#{contents} where cno=#{cno}
+  </update>
+  </mapper>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

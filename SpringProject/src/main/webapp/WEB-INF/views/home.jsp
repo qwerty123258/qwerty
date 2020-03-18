@@ -31,8 +31,10 @@
 		location.href="Logout";
 	}
 	function writeArticle(){
-		console.log("???");
 		location.href="goWrite";
+	}
+	function goBoardList(){
+		location.href="goBoardList";
 	}
 	</script>
 </head>
@@ -60,6 +62,9 @@
 ${sessionScope.id} 님 어서 오세요?
 <button onclick="writeArticle()">
 글쓰기
+</button>
+<button onclick="goBoardList()">
+글보기
 </button>
 <button onclick="logout()">
 로그아웃

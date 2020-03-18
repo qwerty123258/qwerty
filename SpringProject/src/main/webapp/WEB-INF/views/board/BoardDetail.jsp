@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -351,33 +352,57 @@ var check=true;
 	</div>
 	<br>
 	<br>
+	<div style="float: right">
+		<c:forEach var="file" items="${fileList}">
+	<div>
+		<span>첨부 파일 : <a href="fileDownload?bfile=${file.bfile}&bfileoriname=${file.bfileoriname}">${file.bfileoriname}</a></span>
+	</div>
+	</c:forEach>
+	</div>
 	<br>
+		<br>
+			<br>
+				<br>
 	<div>
 		<pre>${board.contents}</pre>
 	</div>
 	<form id="commentForm" name="commentForm" method="post">
-		<div class="col-md-12">
+		<div>
 			<br>
 			<br>
 			<div>
 				<span><strong>Comments</strong></span> <span id="cCnt"></span>
 			</div>
 			<div>
-				<table class="table table-striped table-bordered" id="comment_table">
+				<table id="comment_table">
 					<tbody id="reply_list">
 
 					</tbody>
 				</table>
 				<div id="commentPage" class="text-center"></div>
-				<table class="table">
-					<tr>
-						<td><textarea rows="3" style="width: 100%;" cols="30" id="comment" name="contents" placeholder="댓글을 입력하세요"></textarea>
-							<div>
-								<a href='#' id="comments">등록</a>
-							</div>
-						</td>
-					</tr>
-				</table>
+                        <c:choose>
+        <c:when test="${sessionScope.id eq null}">
+                <table>                    
+                    <tr>
+                        <td>
+                            <textarea style=width:100%; rows="3" cols="30" id="comment" name="contents" readonly="true">댓글을 작성하시려면 로그인 하세요.</textarea>
+                        </td>
+                    </tr>
+                </table>
+        </c:when>
+        <c:otherwise>
+                <table>                    
+                    <tr>
+                        <td>
+                            <textarea rows="3" style=width:100%; cols="30" id="comment" name="contents" placeholder="댓글을 입력하세요"></textarea>
+                            <div>
+                                <a href='#' id="comments">등록</a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+        </c:otherwise>
+    </c:choose>
 			</div>
 		</div>
 	</form>
