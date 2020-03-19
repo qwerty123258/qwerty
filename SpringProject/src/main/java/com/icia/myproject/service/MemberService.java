@@ -2,6 +2,7 @@ package com.icia.myproject.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,6 +118,32 @@ public class MemberService {
 			}
 		}
 		int result=mdao.updateProfile(member);
+		if(result>0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	public ModelAndView selectMember() {
+		mav=new ModelAndView();
+		List<MemberDTO> memberList=mdao.selectMember();
+		mav.addObject("memberList",memberList);
+		mav.setViewName("member/Select");
+		return mav;
+	}
+
+	public ModelAndView showDetail(String id) {
+		mav=new ModelAndView();
+		List<MemberDTO> memberList=mdao.showDetail(id);
+		mav.addObject("memberList",memberList);
+		mav.setViewName("member/ShowDetail");
+		return mav;
+	}
+
+	public boolean adminDeleteMember(String id) {
+		int result=mdao.adminDelete(id);
 		if(result>0) {
 			return true;
 		}

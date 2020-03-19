@@ -1,6 +1,8 @@
 package com.icia.myproject.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,13 +60,54 @@ public class BoardDAO {
 	}
 
 	public void fileUpdate(BoardDTO board) {
-		sql.delete("Board.allfileDelete", board);
 		sql.insert("Board.allfileUpdate", board);
 		
 	}
 	public void fileDelete(String string) {
 		sql.delete("Board.fileDelete", string);
 		
+	}
+
+	public void allFileDelete(BoardDTO board) {
+		sql.delete("Board.allfileDelete", board);
+		
+	}
+
+	public List<BoardDTO> boardListOrder(Paging paging) {
+		return sql.selectList("Board.listOrder",paging);
+	}
+
+	public int countTitleBoard(BoardDTO board) {
+		return sql.selectOne("Board.searchTitleCount", board);
+	}
+
+	public int countWriterBoard(BoardDTO board) {
+		return sql.selectOne("Board.searchWriterCount", board);
+	}
+
+	public int countTitleContentsBoard(BoardDTO board) {
+		return sql.selectOne("Board.searchTitleContentsCount", board);
+	}
+
+	public List<BoardDTO> searchTitleList(BoardDTO board, Paging paging) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("paging", paging);
+		map.put("board", board);
+		return sql.selectList("Board.searchTitleList", map);
+	}
+
+	public List<BoardDTO> searchWriterList(BoardDTO board, Paging paging) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("paging", paging);
+		map.put("board", board);
+		return sql.selectList("Board.searchWriterList", map);
+	}
+
+	public List<BoardDTO> searchTitleContentsList(BoardDTO board, Paging paging) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("paging", paging);
+		map.put("board", board);
+		return sql.selectList("Board.searchTitleContentsList", map);
 	}
 
 }

@@ -73,6 +73,65 @@ public class BoardController {
 		map.put("paging", paging);
 		return map;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/SearchList", method = RequestMethod.GET)
+	public Map<String, Object> searchList(@RequestParam("page") int page,@RequestParam("searchOpt") String searchOpt,@RequestParam("keyword") String keyword,@ModelAttribute BoardDTO board) {
+		Paging paging = new Paging();
+		board.setKeyword(keyword);
+		board.setSearchOpt(searchOpt);
+		System.out.println(searchOpt);
+		List<BoardDTO> boardList = null;
+		if(board.getSearchOpt().equals("title")) {
+			int count=boardService.countTitleBoard(board);
+			if(page<0) {
+				page=1;
+			}
+	        paging.setPage(page);
+	        paging.setTotalCount(count);
+			boardList = boardService.searchTitleList(board,paging);
+		}
+		if(board.getSearchOpt().equals("writer")) {
+			int count=boardService.countWriterBoard(board);
+			if(page<0) {
+				page=1;
+			}
+	        paging.setPage(page);
+	        paging.setTotalCount(count);
+			boardList = boardService.searchWriterList(board,paging);
+		}
+		if(board.getSearchOpt().equals("titlecontents")) {
+			int count=boardService.countTitleContentsBoard(board);
+			if(page<0) {
+				page=1;
+			}
+	        paging.setPage(page);
+	        paging.setTotalCount(count);
+			boardList = boardService.searchTitleContentsList(board,paging);
+		}
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("list", boardList);
+		map.put("paging", paging);
+		return map;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/BoardListOrder", method = RequestMethod.GET)
+	public Map<String, Object> boardListOrder(@RequestParam("page") int page) {
+		Paging paging = new Paging();
+		int count=boardService.countBoard();
+		if(page<0) {
+			page=1;
+		}
+        paging.setPage(page);
+        paging.setTotalCount(count);
+		List<BoardDTO> boardListOrder = boardService.boardListOrder(paging);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("list", boardListOrder);
+		map.put("paging", paging);
+		return map;
+	}
+	
 	@RequestMapping(value = "/BoardDetail", method = RequestMethod.GET)
 	public ModelAndView boardDetail(@RequestParam("bno") String bno,@RequestParam("page") int page) {
 		mav=new ModelAndView();	
@@ -100,13 +159,20 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/Update", method = RequestMethod.POST)
-	public String boardUpdate(@ModelAttribute BoardDTO board,MultipartHttpServletRequest mtfRequest) throws IOException {
+	public ModelAndView boardUpdate(@ModelAttribute BoardDTO board,MultipartHttpServletRequest mtfRequest,@RequestParam("page") int page) throws IOException {
 		boolean result=boardService.boardUpdate(board,mtfRequest);
+		mav=new ModelAndView();	
 		if(result) {
-			return "redirect:/goBoardList";
+			mav.addObject("page",page);
+			mav.addObject("bno", board.getBno());
+			mav.setViewName("redirect:/BoardDetail");
+			return mav;
 		}
 		else {
-			return "redirect:/goBoardList";
+			mav.addObject("page",page);
+			mav.addObject("bno", board.getBno());
+			mav.setViewName("redirect:/BoardDetail");
+			return mav;
 		}
 	}
 	

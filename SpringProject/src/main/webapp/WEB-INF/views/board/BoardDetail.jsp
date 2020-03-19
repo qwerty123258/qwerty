@@ -57,15 +57,15 @@
 		    	   		var html="";
 		    	   		if(length>0){
 		    	   			html+="<table class='boardTable'>";
-							html+="<thead><tr><td>글 번호</td><td>타이틀</td><td>작성자</td><td>작성일</td><td>조회수</td></tr></thead>";
+							html+="<thead><tr><td>글 번호</td><td>타이틀</td><td>작성자</td><td>작성일</td><td><a href='#' onclick='viewOrder(1)'>조회수</a></td></tr></thead>";
 							for(var i=0; i<length; i++){
-								html+="<tr onclick='goBoard("+result.list[i].bno+","+result.paging.page+")'>";
+								html+="<tr>";
 								html+="<td>"+result.list[i].bno+"</td>";
 								if(${board.bno}==result.list[i].bno){
 									html+="<td><span style='color:red'> 열람중! </span></td>";
 								}
 								else{
-									html+="<td>"+result.list[i].title+"</td>";
+									html+="<td onclick='goBoard("+result.list[i].bno+","+result.paging.page+")'>"+result.list[i].title+"</td>";
 								}
 								html+="<td>"+result.list[i].id+"</td><td>"+result.list[i].writedate+"</td><td>"+result.list[i].bview+"</td></tr>";
 							}
@@ -126,6 +126,84 @@
 	}
 	</script>
 <script>
+function viewOrder(page){
+	var page=page;
+	  $.ajax({
+	       type : "GET",
+	         url : "BoardListOrder",
+	         data: "page=" + page,
+	         dataType : "json",
+	       success : function(result) {
+	    	   		var length=result.list.length;
+	    	   		var html="";
+	    	   		if(length>0){
+	    	   			html+="<table class='boardTable'>";
+						html+="<thead><tr><td>글 번호</td><td>타이틀</td><td>작성자</td><td>작성일</td><td><a href='#' onclick='getBoardList(1)'>조회수</a></td></tr></thead>";
+						for(var i=0; i<length; i++){
+							html+="<tr><td>"+result.list[i].bno+"</td>";
+							if(${board.bno}==result.list[i].bno){
+								html+="<td><span style='color:red'> 열람중! </span></td>";
+							}
+							else{
+								html+="<td onclick='goBoard("+result.list[i].bno+","+result.paging.page+")'>"+result.list[i].title+"</td>";
+							}
+							html +="<td>"+result.list[i].id+"</td><td>"+result.list[i].writedate+"</td><td>"+result.list[i].bview+"</td></tr>";
+						}
+						html+="</table>";
+		        		var page="<ul class='pagination'>";
+		        		var prevPage=result.paging.beginPage-1;
+		        		var nextPage=result.paging.endPage+1;
+		        		if(result.paging.page!=1){
+		        			page += "<li><a href='javascript:viewOrder("+1+")'>처음</a></li>";
+		        		}
+		        		else{
+		        			page += "<li class='disable'><a>처음</a></li>";
+		        		}
+		        		if(result.paging.beginPage!=1){
+		        			page +="<li><a href='javascript:viewOrder("+prevPage+")'>이전</a></li>";
+		        		}
+		        		else{
+		        			page +="<li class='disable'><a>이전</a></li>";
+		        			
+		        		}
+		        		for(var i=result.paging.beginPage; i<=result.paging.endPage; i++){
+		        			if(i==result.paging.page){
+		        				page+="<li><a style='color:red'><span>"+i+"</span></a></li>";
+		        			}
+		        			else{
+		        				page+="<li><a href='javascript:viewOrder("+i+")'>"+i+"</a></li>";
+		        				
+		        			}
+		        		}
+		        		
+		        		if(result.paging.endPage!=result.paging.totalPage){
+		        			page += "<li><a href='javascript:viewOrder("+nextPage+")'>다음</a></li>";
+		        		}
+		        		else{
+		        			page += "<li class='disable'><a>다음</a></li>";
+		        		}
+		        		if(result.paging.page<result.paging.totalPage){
+		        			page +="<li><a href='javascript:viewOrder("+result.paging.totalPage+")'>끝</a></li>";
+		        		}
+		        		else{
+		        			page +="<li class='disable'><a>끝</a></li>";
+		        		}
+						$("#boardList").html(html);
+						$("#page").html(page);
+	    	   		}
+	    	   		else if(length<0){
+	    	   			html+="<table class='boardTable'>";
+	    	   			html+="<caption>작성된 글이 없습니다.</caption>";
+						html+="</table>";
+						$("#boardList").html(html);
+	    	   		}
+	    	   
+	       },
+	error : function() {
+	alert("실패");
+	}
+	});
+}
     function getCommentList(page){
     	var page=page;
     	var bno=${board.bno};
@@ -214,8 +292,7 @@
             
         });
     }
-	
-	</script>
+</script>
 <script>
 var check=true;
     function deleteComment(cno){

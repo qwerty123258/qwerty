@@ -36,6 +36,7 @@ public class BoardService {
 		int writeresult=bdao.write(board);
 		if(writeresult>0) {
 			List<MultipartFile> fileList = mtfRequest.getFiles("bfile");
+			if(fileList.get(0).getSize()!= 0){
 	        for(int i=0; i<fileList.size(); i++) {
 	        	String borifile=fileList.get(i).getOriginalFilename();
 	        	String bfilename=upload(borifile,fileList.get(i).getBytes());
@@ -43,6 +44,7 @@ public class BoardService {
 	        	board.setBfileoriname(borifile);
 	        	bdao.fileUpload(board);
 	        }
+			}
 	        mav.setViewName("redirect:/home");
 		}
 		else {
@@ -102,8 +104,10 @@ public class BoardService {
 		String beforefilename[]=mtfRequest.getParameterValues("beforeFilename");
 		String bfno[]=mtfRequest.getParameterValues("bfno");
 		String delfilename[]=mtfRequest.getParameterValues("delfilename");
-		if(mtfRequest.getFiles("bfile").get(0).getSize() != 0){
 			List<MultipartFile> fileList = mtfRequest.getFiles("bfile");
+			if(fileList.get(0).getSize()!= 0){
+				System.out.println("파일 첨부 했음.");
+	        	bdao.allFileDelete(board);
 	        for(int i=0; i<fileList.size(); i++) {
 	        	String borifile=fileList.get(i).getOriginalFilename();
 	        	String bfilename=upload(borifile,fileList.get(i).getBytes());
@@ -111,6 +115,7 @@ public class BoardService {
 	        	board.setBfileoriname(borifile);
 	        	bdao.fileUpdate(board);
 	        }
+	        if(mtfRequest.getParameterValues("bfno")!=null) {
 	        for(int i=0; i<bfno.length; i++) {
 	    		String savePath="C:\\Users\\5\\git\\qwerty\\SpringProject\\src\\main\\webapp\\resources\\fileUpload\\"+beforefilename[i];
 	    		File f = new File(savePath);
@@ -118,9 +123,12 @@ public class BoardService {
 	    		 f.delete(); 
 	    		}
 	        }
+	        }
 		}
 		else {
+			System.out.println("파일 첨부 안했음.");
 			if(mtfRequest.getParameterValues("delfilename")!=null) {
+				System.out.println("삭제할 파일 있음");
 				for(int i=0; i<delfilename.length; i++) {
 					bdao.fileDelete(delfilename[i]);
 		    		String savePath="C:\\Users\\5\\git\\qwerty\\SpringProject\\src\\main\\webapp\\resources\\fileUpload\\"+delfilename[i];
@@ -138,6 +146,29 @@ public class BoardService {
 		else {
 			return false;
 		}
+	}
+	public List<BoardDTO> boardListOrder(Paging paging) {
+		List<BoardDTO> boardListOrder = bdao.boardListOrder(paging);
+		return boardListOrder;
+	}
+	
+	public int countTitleBoard(BoardDTO board) {
+		return bdao.countTitleBoard(board);
+	}
+	public int countWriterBoard(BoardDTO board) {
+		return bdao.countWriterBoard(board);
+	}
+	public int countTitleContentsBoard(BoardDTO board) {
+		return bdao.countTitleContentsBoard(board);
+	}
+	public List<BoardDTO> searchTitleList(BoardDTO board, Paging paging) {
+		return bdao.searchTitleList(board,paging);
+	}
+	public List<BoardDTO> searchWriterList(BoardDTO board, Paging paging) {
+		return bdao.searchWriterList(board,paging);
+	}
+	public List<BoardDTO> searchTitleContentsList(BoardDTO board, Paging paging) {
+		return bdao.searchTitleContentsList(board,paging);
 	}
 
 }

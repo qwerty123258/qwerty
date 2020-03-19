@@ -18,4 +18,7 @@ public class BoardDTO {
 	private String beforeFilename;
 	private String beforeOriname;
 	private String delfilename;
+	private String searchOpt;
+	private String keyword;
+	
 }

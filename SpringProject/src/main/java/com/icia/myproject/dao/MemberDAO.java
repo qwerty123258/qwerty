@@ -1,5 +1,8 @@
 package com.icia.myproject.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -64,6 +67,22 @@ public class MemberDAO {
 
 	public int updateProfile(MemberDTO member) {
 		return sql.update("Member.updateProfile", member);
+	}
+
+	public List<MemberDTO> selectMember() {
+		List<MemberDTO> memberList = new ArrayList<MemberDTO>();
+		memberList=sql.selectList("Member.select");
+		return memberList;
+	}
+
+	public List<MemberDTO> showDetail(String id) {
+		List<MemberDTO> memberList = new ArrayList<MemberDTO>();
+		memberList=sql.selectList("Member.detail",id);
+		return memberList;
+	}
+
+	public int adminDelete(String id) {
+		return sql.delete("Member.admin", id);
 	}
 
 }

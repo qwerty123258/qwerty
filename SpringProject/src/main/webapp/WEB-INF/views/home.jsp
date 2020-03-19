@@ -61,6 +61,9 @@
 	function changeProfile(){
 		location.href="goChangeProfile";
 	}
+	function goSelect(){
+		location.href="goSelect";
+	}
 	</script>
 </head>
 <body>
@@ -87,6 +90,11 @@
 <div id="profile">
 </div>
 ${sessionScope.id} 님 어서 오세요?<br>
+<c:if test="${sessionScope.id eq 'qwerty123258'}">
+<button onclick="goSelect()">
+회원 조회
+</button>
+</c:if>
 <button onclick="changeProfile()">
 프로필 사진 변경
 </button>

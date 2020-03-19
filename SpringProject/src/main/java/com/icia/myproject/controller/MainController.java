@@ -182,4 +182,35 @@ public class MainController {
 			return "redirect:/home";
 		}
 	}
+	
+	@RequestMapping(value = "/goSelect", method = RequestMethod.GET)
+	public ModelAndView select() {
+		mav= new ModelAndView();
+		mav=memberService.selectMember();
+		return 	mav;
+	}
+	
+	@RequestMapping(value = "/ShowDetail", method = RequestMethod.GET)
+	public ModelAndView showDetail(@RequestParam("id") String id) {
+	mav= new ModelAndView();
+	mav=memberService.showDetail(id);
+	return mav;
+}
+	@ResponseBody
+	@RequestMapping(value = "/goAdminDelete", method = RequestMethod.POST)
+	public String adminDeleteMember(@RequestParam("id") String id) {
+	if(id.equals("qwerty123258")) {
+		return "Admin";
+	}
+	else {
+		boolean result=memberService.adminDeleteMember(id);
+		if(result) {
+			return "Success";
+		}
+		else {
+			return "Fail";
+		}
+	}
+
+}
 }
