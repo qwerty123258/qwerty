@@ -78,8 +78,30 @@ public class BoardService {
 		mav.setViewName("board/BoardDetail");
 		return mav;
 	}
+	
+	public ModelAndView boardDetail(String bno, int page, String keyword, String searchOpt) {
+		BoardDTO board=bdao.boardDetail(bno);
+		List<BoardDTO> fileList=bdao.fileList(bno);
+		mav=new ModelAndView();
+		mav.addObject("board", board);
+		mav.addObject("page", page);
+		mav.addObject("keyword", keyword);
+		mav.addObject("searchOpt", searchOpt);
+		mav.addObject("fileList", fileList);
+		mav.setViewName("board/BoardDetail");
+		return mav;
+	}
 
 	public boolean boardDelete(String bno) {
+		List<BoardDTO> fileList=bdao.fileList(bno);
+		for(int i=0; i<fileList.size(); i++) {
+			String deleteFiles=fileList.get(i).getBfilename();
+	    		String savePath="C:\\Users\\5\\git\\qwerty\\SpringProject\\src\\main\\webapp\\resources\\fileUpload\\"+deleteFiles;
+	    		File f = new File(savePath);
+	    		 if(f.exists()){
+	    		 f.delete(); 
+	    		}
+		}
 		int result=bdao.boardDelete(bno);
 		if(result>0) {
 			return true;
@@ -89,13 +111,15 @@ public class BoardService {
 		}
 	}
 
-	public ModelAndView boardModify(String bno, int page) {
+	public ModelAndView boardModify(String bno, int page, String keyword, String searchOpt) {
 		BoardDTO board=bdao.boardModfiy(bno);
 		List<BoardDTO> fileList=bdao.fileList(bno);
 		mav=new ModelAndView();
 		mav.addObject("board", board);
 		mav.addObject("page", page);
 		mav.addObject("fileList", fileList);
+		mav.addObject("keyword", keyword);
+		mav.addObject("searchOpt", searchOpt);
 		mav.setViewName("board/BoardModify");
 		return mav;
 	}

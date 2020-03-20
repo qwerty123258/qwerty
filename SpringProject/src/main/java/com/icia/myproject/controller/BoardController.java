@@ -133,16 +133,16 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/BoardDetail", method = RequestMethod.GET)
-	public ModelAndView boardDetail(@RequestParam("bno") String bno,@RequestParam("page") int page) {
+	public ModelAndView boardDetail(@RequestParam("bno") String bno,@RequestParam("page") int page,@RequestParam("keyword") String keyword,@RequestParam("searchOpt") String searchOpt) {
 		mav=new ModelAndView();	
-		mav=boardService.boardDetail(bno,page);
+		mav=boardService.boardDetail(bno,page,keyword,searchOpt);
 		return mav;
 	}
 	
 	@RequestMapping(value = "/goModify", method = RequestMethod.GET)
-	public ModelAndView boardModify(@RequestParam("bno") String bno,@RequestParam("page") int page) {
+	public ModelAndView boardModify(@RequestParam("bno") String bno,@RequestParam("page") int page,@RequestParam("keyword") String keyword,@RequestParam("searchOpt") String searchOpt) {
 		mav=new ModelAndView();	
-		mav=boardService.boardModify(bno,page);
+		mav=boardService.boardModify(bno,page,keyword,searchOpt);
 		return mav;
 	}
 	
@@ -159,18 +159,22 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/Update", method = RequestMethod.POST)
-	public ModelAndView boardUpdate(@ModelAttribute BoardDTO board,MultipartHttpServletRequest mtfRequest,@RequestParam("page") int page) throws IOException {
+	public ModelAndView boardUpdate(@ModelAttribute BoardDTO board,MultipartHttpServletRequest mtfRequest,@RequestParam("page") int page,@RequestParam("keyword") String keyword,@RequestParam("searchOpt") String searchOpt) throws IOException {
 		boolean result=boardService.boardUpdate(board,mtfRequest);
 		mav=new ModelAndView();	
 		if(result) {
 			mav.addObject("page",page);
 			mav.addObject("bno", board.getBno());
+			mav.addObject("keyword", keyword);
+			mav.addObject("searchOpt", searchOpt);
 			mav.setViewName("redirect:/BoardDetail");
 			return mav;
 		}
 		else {
 			mav.addObject("page",page);
 			mav.addObject("bno", board.getBno());
+			mav.addObject("keyword", keyword);
+			mav.addObject("searchOpt", searchOpt);
 			mav.setViewName("redirect:/BoardDetail");
 			return mav;
 		}

@@ -25,7 +25,7 @@
 		    	   			html+="<table class='boardTable'>";
 							html+="<thead><tr><td>글 번호</td><td>타이틀</td><td>작성자</td><td>작성일</td><td><a href='#' onclick='viewOrder(1)'>조회수</a></td></tr></thead>";
 							for(var i=0; i<length; i++){
-								html+="<tr><td>"+result.list[i].bno+"</td><td onclick='goBoard("+result.list[i].bno+","+result.paging.page+")'>"+result.list[i].title+"</td><td>"+result.list[i].id+"</td><td>"+result.list[i].writedate+"</td><td>"+result.list[i].bview+"</td></tr>";
+								html+="<tr><td>"+result.list[i].bno+"</td><td onclick='goBoard("+result.list[i].bno+","+result.paging.page+")'>"+result.list[i].title+"</td><td onclick='showDetail(\""+result.list[i].id+"\")'>"+result.list[i].id+"</td><td>"+result.list[i].writedate+"</td><td>"+result.list[i].bview+"</td></tr>";
 							}
 							html+="</table>";
 			        		var page="<ul class='pagination'>";
@@ -84,10 +84,22 @@
 	}
 	</script>
 	<script>
+	function showDetail(id){
+		var id=id;
+		var url="ShowDetail?id="+id;
+		window.open(url, 'pop01', 'width=500, height=500, status=no, menubar=no, toolbar=no');
+	}
 	function goBoard(bno,page){
 		var bno=bno;
 		var page=page;
 		location.href="BoardDetail?bno="+bno+"&page="+page;
+	}
+	function goBoard(bno,page,keyword,searchOpt){
+		var bno=bno;
+		var page=page;
+		var keyword=keyword;
+		var searchOpt=searchOpt
+		location.href="BoardDetail?bno="+bno+"&page="+page+"&keyword="+keyword+"&searchOpt="+searchOpt;
 	}
 	function viewOrder(page){
 		var page=page;
@@ -103,7 +115,7 @@
 		    	   			html+="<table class='boardTable'>";
 							html+="<thead><tr><td>글 번호</td><td>타이틀</td><td>작성자</td><td>작성일</td><td><a href='#' onclick='getBoardList(1)'>조회수</a></td></tr></thead>";
 							for(var i=0; i<length; i++){
-								html+="<tr><td>"+result.list[i].bno+"</td><td onclick='goBoard("+result.list[i].bno+","+result.paging.page+")'>"+result.list[i].title+"</td><td>"+result.list[i].id+"</td><td>"+result.list[i].writedate+"</td><td>"+result.list[i].bview+"</td></tr>";
+								html+="<tr><td>"+result.list[i].bno+"</td><td onclick='goBoard("+result.list[i].bno+","+result.paging.page+")'>"+result.list[i].title+"</td><td onclick='showDetail(\""+result.list[i].id+"\")'>"+result.list[i].id+"</td><td>"+result.list[i].writedate+"</td><td>"+result.list[i].bview+"</td></tr>";
 							}
 							html+="</table>";
 			        		var page="<ul class='pagination'>";
@@ -177,7 +189,7 @@
 		    	   			html+="<table class='boardTable'>";
 							html+="<thead><tr><td>글 번호</td><td>타이틀</td><td>작성자</td><td>작성일</td><td>조회수</td></tr></thead>";
 							for(var i=0; i<length; i++){
-								html+="<tr><td>"+result.list[i].bno+"</td><td onclick='goBoard("+result.list[i].bno+","+result.paging.page+")'>"+result.list[i].title+"</td><td>"+result.list[i].id+"</td><td>"+result.list[i].writedate+"</td><td>"+result.list[i].bview+"</td></tr>";
+								html+="<tr><td>"+result.list[i].bno+"</td><td onclick='goBoard("+result.list[i].bno+","+result.paging.page+",\""+keyword+"\",\""+searchOpt+"\")'>"+result.list[i].title+"</td><td onclick='showDetail(\""+result.list[i].id+"\")'>"+result.list[i].id+"</td><td>"+result.list[i].writedate+"</td><td>"+result.list[i].bview+"</td></tr>";
 							}
 							html+="</table>";
 			        		var page="<ul class='pagination'>";

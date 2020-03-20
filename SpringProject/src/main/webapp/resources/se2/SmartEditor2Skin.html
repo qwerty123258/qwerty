@@ -1,22 +1,29 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="ko">
 <head>
+
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="Content-Script-Type" content="text/javascript">
 <meta http-equiv="Content-Style-Type" content="text/css">
 <title>네이버 :: Smart Editor 2 &#8482;</title>
-<link href="css/ko_KR/smart_editor2.css" rel="stylesheet" type="text/css">
+<link href="css/smart_editor2.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 	body { margin: 10px; }
 </style>
 <script type="text/javascript" src="./js/lib/jindo2.all.js" charset="utf-8"></script>
 <script type="text/javascript" src="./js/lib/jindo_component.js" charset="utf-8"></script>
-<script type="text/javascript" src="./js/service/SE2M_Configuration.js" charset="utf-8"></script>	<!-- 설정 파일 -->
-<script type="text/javascript" src="./js/service/SE2BasicCreator.js" charset="utf-8"></script>
-<script type="text/javascript" src="./js/smarteditor2.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/SE2M_Configuration.js" charset="utf-8"></script>	<!-- 설정 파일 -->
+<script type="text/javascript" src="./js/SE2BasicCreator.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/smarteditor2.min.js" charset="utf-8"></script>
 
+<!-- 사진첨부샘플  --> 
+<script type="text/javascript" src="./sample/js/plugin/hp_SE2M_AttachQuickPhoto.js" charset="utf-8"></script>
 </head>
 <body>
+
+
+
+<span id="rev">Version: 2.8.2.4259f59 </span>
 
 <!-- SE2 Markup Start -->	
 <div id="smart_editor2">
@@ -528,6 +535,9 @@
 					<!--//@lazyload_html-->
 				</li>
 </ul>
+				<ul class="se2_multy">
+					<li class="se2_mn husky_seditor_ui_photo_attach"><button type="button" class="se2_photo ico_btn"><span class="se2_icon"></span><span class="se2_mntxt">사진<span class="se2_new"></span></span></button></li>
+				</ul>
 			</div>
 			<!-- //704이상 -->
 		</div>
@@ -763,20 +773,7 @@
 		</div>
 		<!-- //입력창조절/ 모드전환 -->
 		<hr>
-		<!-- 얼럿 메세지 공통 -->
-		<div class="se2_alert_wrap" style="display:none">
-			<div class="se2_alert_content">
-				<div class="se2_alert_txts"></div>
-				<p class="se2_alert_btns">
-					<button type="button" class="se2_confirm"><span>확인</span></button><button type="button" class="se2_cancel"><span>취소</span></button>
-				</p>
-				<a href="#" class="btn_close">닫기</a>
-			</div>
-			<!-- 레이어 중앙정렬 -->
-			<span class="va_line"></span>
-			<div class="ie_cover"></div>
-		</div>
-		<!-- //얼럿 메세지 공통 -->
+		
 	</div>
 </div>
 <!-- SE2 Markup End -->

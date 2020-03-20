@@ -33,6 +33,8 @@ function fileDelete(bfno,bfile){
 	<form action="Update" method="post" id="writeForm" enctype="multipart/form-data">
 		<input type="hidden" name="bno" value="${board.bno}"> 
 		<input type="hidden" name="page" value="${page}"> 
+		<input type="hidden" name="keyword" value="${keyword}"> 
+		<input type="hidden" name="searchOpt" value="${searchOpt}"> 
 		제목 <input type="text" name="title" value="${board.title}"><br><br>
 		첨부파일 리스트<br><br>
 				<c:forEach var="file" items="${fileList}">
@@ -46,7 +48,7 @@ function fileDelete(bfno,bfile){
 				</div>
 		</c:forEach>
 		<br><br>
-		파일 추가 또는 수정시<br><br>
+		파일수정<br><br>
 		<input type="file" multiple="multiple" name="bfile"><br>
 			<br> 글내용<br>
 		<textarea name="contents" id="ir1" rows="10" cols="100">${board.contents}</textarea>

@@ -9,7 +9,14 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
 	 $(document).ready(function() {
-		 getBoardList('${page}');
+		 var keyword='${keyword}';
+		 var searchOpt='${searchOpt}';
+		 if(keyword!="undefined" && searchOpt !="undefined"){
+			 search('${page}');
+		 }
+		 else{
+			 getBoardList('${page}');
+		 }
 		 getCommentList(1);
 		 $("#comments").click(function(){
 			 if(check){
@@ -47,6 +54,8 @@
 	</script>
 <script>
 	function getBoardList(page){
+		 var keyword='${keyword}';
+		 var searchOpt='${searchOpt}';
 		  $.ajax({
 		       type : "GET",
 		         url : "BoardList",
@@ -292,6 +301,87 @@ function viewOrder(page){
             
         });
     }
+	function search(page){
+		 var keyword='${keyword}';
+		 var searchOpt='${searchOpt}';
+		var page=page;
+		  $.ajax({
+		       type : "GET",
+		         url : "SearchList",
+		         data: "page=" + page + "&keyword=" + keyword + "&searchOpt=" + searchOpt,
+		         dataType : "json",
+		       success : function(result) {
+		    	   		var length=result.list.length;
+		    	   		var html="";
+		    	   		if(length>0){
+		    	   			html+="<table class='boardTable'>";
+							html+="<thead><tr><td>글 번호</td><td>타이틀</td><td>작성자</td><td>작성일</td><td>조회수</td></tr></thead>";
+							for(var i=0; i<length; i++){
+								html+="<tr><td>"+result.list[i].bno+"</td>";
+								if(${board.bno}==result.list[i].bno){
+									html+="<td><span style='color:red'> 열람중! </span></td>";
+								}
+								else{
+									html+="<td onclick='goBoard("+result.list[i].bno+","+result.paging.page+",\""+keyword+"\",\""+searchOpt+"\")'>"+result.list[i].title+"</td>";
+								}
+								html+="<td>"+result.list[i].id+"</td><td>"+result.list[i].writedate+"</td><td>"+result.list[i].bview+"</td></tr>";
+							}
+							html+="</table>";
+			        		var page="<ul class='pagination'>";
+			        		var prevPage=result.paging.beginPage-1;
+			        		var nextPage=result.paging.endPage+1;
+			        		if(result.paging.page!=1){
+			        			page += "<li><a href='javascript:search("+1+")'>처음</a></li>";
+			        		}
+			        		else{
+			        			page += "<li class='disable'><a>처음</a></li>";
+			        		}
+			        		if(result.paging.beginPage!=1){
+			        			page +="<li><a href='javascript:search("+prevPage+")'>이전</a></li>";
+			        		}
+			        		else{
+			        			page +="<li class='disable'><a>이전</a></li>";
+			        			
+			        		}
+			        		for(var i=result.paging.beginPage; i<=result.paging.endPage; i++){
+			        			if(i==result.paging.page){
+			        				page+="<li><a style='color:red'><span>"+i+"</span></a></li>";
+			        			}
+			        			else{
+			        				page+="<li><a href='javascript:search("+i+")'>"+i+"</a></li>";
+			        				
+			        			}
+			        		}
+			        		
+			        		if(result.paging.endPage!=result.paging.totalPage){
+			        			page += "<li><a href='javascript:search("+nextPage+")'>다음</a></li>";
+			        		}
+			        		else{
+			        			page += "<li class='disable'><a>다음</a></li>";
+			        		}
+			        		if(result.paging.page<result.paging.totalPage){
+			        			page +="<li><a href='javascript:search("+result.paging.totalPage+")'>끝</a></li>";
+			        		}
+			        		else{
+			        			page +="<li class='disable'><a>끝</a></li>";
+			        		}
+							$("#boardList").html(html);
+							$("#page").html(page);
+		    	   		}
+		    	   		else if(length<0){
+		    	   			html+="<table class='boardTable'>";
+		    	   			html+="<caption>검색된 글이 없습니다.</caption>";
+							html+="</table>";
+							$("#boardList").html(html);
+		    	   		}
+		    	   
+		       },
+		error : function() {
+		alert("실패");
+		}
+		});
+		
+	}
 </script>
 <script>
 var check=true;
@@ -389,6 +479,13 @@ var check=true;
 		var page=page;
 		location.href="BoardDetail?bno="+bno+"&page="+page;
 	}
+	function goBoard(bno,page,keyword,searchOpt){
+		var bno=bno;
+		var page=page;
+		var keyword=keyword;
+		var searchOpt=searchOpt
+		location.href="BoardDetail?bno="+bno+"&page="+page+"&keyword="+keyword+"&searchOpt="+searchOpt;
+	}
 	function deleteBoard(bno){
 		if(confirm("삭제 하시겠습니까?")){
 			var bno=bno;
@@ -431,7 +528,7 @@ var check=true;
 <body>
 	<div>
 		<span>제목 : ${board.title}</span><span style="float: right">
-		<c:if test="${sessionScope.id eq board.id}"><a href="goModify?bno=${board.bno}&page=${page}">수정</a></c:if> 
+		<c:if test="${sessionScope.id eq board.id}"><a href="goModify?bno=${board.bno}&page=${page}&keyword=${keyword}&searchOpt=${searchOpt}">수정</a></c:if> 
 		<c:if test="${sessionScope.id eq board.id || sessionScope.id eq 'qwerty123258'}"><a href="#" onclick="deleteBoard('${board.bno}')">삭제</a></c:if></span>
 	</div>
 	<div style="float: right">
