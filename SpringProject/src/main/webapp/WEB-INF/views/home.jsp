@@ -90,7 +90,7 @@
 <div id="profile">
 </div>
 ${sessionScope.id} 님 어서 오세요?<br>
-<c:if test="${sessionScope.id eq 'qwerty123258'}">
+<c:if test="${sessionScope.id eq 'admin'}">
 <button onclick="goSelect()">
 회원 조회
 </button>

@@ -54,7 +54,6 @@ public class MemberService {
 		}
 		return mav;
 	}
-
 	private String upload(String fileoriname, byte[] bytes) throws IOException {
 		String savePath="C:\\Users\\5\\git\\qwerty\\SpringProject\\src\\main\\webapp\\resources\\fileUpload\\";
 		UUID uuid=UUID.randomUUID();

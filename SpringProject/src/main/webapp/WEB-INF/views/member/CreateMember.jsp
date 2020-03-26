@@ -14,7 +14,7 @@ function domainselect(){
 }
 function idOverlap() {
 	var id = $("#id_input").val();
-	var idreg = /^(?=.*[a-z])(?=.*\d)[A-Za-z\d]{6,20}$/;
+	var idreg = /^(?=.*[a-z])[A-Za-z\d]{5,20}$/;
 	$.ajax({
 		type : "POST",
 		url : "CheckMember",
@@ -53,7 +53,7 @@ function goCreate(){
 	var idcheck=$("#idCheck").val();
 	var emailinput=$("#email_input").val();
 	var domaininput=$("#domain_input").val();
-	var idreg = /^(?=.*[a-z])(?=.*\d)[A-Za-z\d]{6,20}$/;
+	var idreg = /^(?=.*[a-z])[A-Za-z\d]{5,20}$/;
 	var pwreg = /^(?=.*[a-z])(?=.*\d)[a-zA-Z\d$@$!%*#?&]{8,16}$/;
 	if(id==""){
 		alert("아이디를 입력하세요");
@@ -109,7 +109,7 @@ function goCreateKakao(){
 	var idcheck=$("#idCheck").val();
 	var emailinput=$("#email_input").val();
 	var domaininput=$("#domain_input").val();
-	var idreg = /^(?=.*[a-z])(?=.*\d)[A-Za-z\d]{6,20}$/;
+	var idreg = /^(?=.*[a-z])[A-Za-z\d]{5,20}$/;
 	if(id==""){
 		alert("아이디를 입력하세요");
 		$("#id_input").focus();
@@ -191,6 +191,7 @@ function imgFileCheck(){
 }
 function pwCheck(){
 	var pw=$("#pw_input").val();
+	var pwcheck=$("#pwcheck_input").val();
 	var pwreg = /^(?=.*[a-z])(?=.*\d)[a-zA-Z\d$@$!%*#?&]{8,16}$/;
 	if(!pw.match(pwreg)){
 		$('#pw_text').css("color", "red");
@@ -199,6 +200,14 @@ function pwCheck(){
 	else{
 		$('#pw_text').css("color", "black");
 		$('#pw_text').html("비밀번호 사용가능");
+		if(pw==pwcheck){
+			$('#pwcheck_text').css("color", "black");
+			$('#pwcheck_text').html("비밀번호 일치");
+		}
+		else{
+			$('#pwcheck_text').css("color", "red");
+			$('#pwcheck_text').html("비밀번호 불일치");
+		}
 	}
 }
 </script>
@@ -229,7 +238,8 @@ function pwCheck(){
 <input type="password" name="pw" id="pw_input" autocomplete="off" onkeyup="pwCheck()">
 <span id="pw_text"></span><br>
 비밀번호 확인<br>
-<input type="password" id="pwcheck_input" autocomplete="off"><br>
+<input type="password" id="pwcheck_input" autocomplete="off" onkeyup="pwCheck()">
+<span id="pwcheck_text"></span><br>
 				</c:otherwise>
 				</c:choose>
 				이름<br>

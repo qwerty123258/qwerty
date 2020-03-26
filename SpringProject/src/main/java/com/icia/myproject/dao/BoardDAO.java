@@ -54,11 +54,7 @@ public class BoardDAO {
 	public int boardUpdate(BoardDTO board) {
 		return sql.update("Board.update", board);
 	}
-
-	public List<BoardDTO> fileList(String bno) {
-		return sql.selectList("Board.fileList", bno);
-	}
-
+	
 	public void fileUpdate(BoardDTO board) {
 		sql.insert("Board.allfileUpdate", board);
 		
@@ -71,6 +67,10 @@ public class BoardDAO {
 	public void allFileDelete(BoardDTO board) {
 		sql.delete("Board.allfileDelete", board);
 		
+	}
+
+	public List<BoardDTO> fileList(String bno) {
+		return sql.selectList("Board.fileList", bno);
 	}
 
 	public List<BoardDTO> boardListOrder(Paging paging) {

@@ -34,9 +34,6 @@
  	<update id="update" parameterType="board">
  	update board set title=#{title},contents=#{contents} where bno=#{bno}
  	</update>
- 	<select id="fileList" parameterType="String" resultType="board">
- 	select * from bfiles where bno=#{bno}
- 	</select>
  	<delete id="allfileDelete" parameterType="board">
  	delete bfiles where bno=#{bno}
  	</delete>

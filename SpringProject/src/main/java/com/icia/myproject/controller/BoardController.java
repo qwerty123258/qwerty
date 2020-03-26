@@ -159,7 +159,8 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/Update", method = RequestMethod.POST)
-	public ModelAndView boardUpdate(@ModelAttribute BoardDTO board,MultipartHttpServletRequest mtfRequest,@RequestParam("page") int page,@RequestParam("keyword") String keyword,@RequestParam("searchOpt") String searchOpt) throws IOException {
+	public ModelAndView boardUpdate(@ModelAttribute BoardDTO board,MultipartHttpServletRequest mtfRequest,
+	@RequestParam("page") int page,@RequestParam("keyword") String keyword,@RequestParam("searchOpt") String searchOpt) throws IOException {
 		boolean result=boardService.boardUpdate(board,mtfRequest);
 		mav=new ModelAndView();	
 		if(result) {

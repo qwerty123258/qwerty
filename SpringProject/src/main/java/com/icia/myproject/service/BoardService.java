@@ -123,14 +123,12 @@ public class BoardService {
 		mav.setViewName("board/BoardModify");
 		return mav;
 	}
-
 	public boolean boardUpdate(BoardDTO board, MultipartHttpServletRequest mtfRequest) throws IOException {
 		String beforefilename[]=mtfRequest.getParameterValues("beforeFilename");
 		String bfno[]=mtfRequest.getParameterValues("bfno");
 		String delfilename[]=mtfRequest.getParameterValues("delfilename");
 			List<MultipartFile> fileList = mtfRequest.getFiles("bfile");
 			if(fileList.get(0).getSize()!= 0){
-				System.out.println("파일 첨부 했음.");
 	        	bdao.allFileDelete(board);
 	        for(int i=0; i<fileList.size(); i++) {
 	        	String borifile=fileList.get(i).getOriginalFilename();
@@ -145,31 +143,19 @@ public class BoardService {
 	    		File f = new File(savePath);
 	    		 if(f.exists()){
 	    		 f.delete(); 
-	    		}
-	        }
-	        }
-		}
+	    		}}}}
 		else {
-			System.out.println("파일 첨부 안했음.");
 			if(mtfRequest.getParameterValues("delfilename")!=null) {
-				System.out.println("삭제할 파일 있음");
 				for(int i=0; i<delfilename.length; i++) {
 					bdao.fileDelete(delfilename[i]);
 		    		String savePath="C:\\Users\\5\\git\\qwerty\\SpringProject\\src\\main\\webapp\\resources\\fileUpload\\"+delfilename[i];
 		    		File f = new File(savePath);
 		    		 if(f.exists()){
 		    		 f.delete(); 
-		    		}
-				}	
-			}
-		}
+		    		}}}}
 		int result=bdao.boardUpdate(board);
-		if(result>0) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		if(result>0) {return true;}
+		else {return false;}
 	}
 	public List<BoardDTO> boardListOrder(Paging paging) {
 		List<BoardDTO> boardListOrder = bdao.boardListOrder(paging);
