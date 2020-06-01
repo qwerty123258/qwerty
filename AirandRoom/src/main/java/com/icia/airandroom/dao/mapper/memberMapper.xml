@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="Member"> 
+	<select id="checkID" parameterType="String" resultType="int">
+	select count(*) from member where id=#{id}
+	</select>
+	<select id="checkEmail" parameterType="String" resultType="int">
+	select count(*) from member where email=#{email}
+	</select>
+	<insert id="createMember" parameterType="member">
+	 insert into member values(#{id},#{pw},#{name},#{email},#{phone},#{imgname},#{imgoriname},'','',#{kind},'','','')
+	</insert>
+	<insert id="createKakaoMember" parameterType="member">
+	 insert into member values(#{id},'',#{name},#{email},#{phone},#{imgname},#{imgoriname},#{kakaoid},'',#{kind},'','','')
+	</insert>
+	<insert id="createGoogleMember" parameterType="member">
+	 insert into member values(#{id},'',#{name},#{email},#{phone},#{imgname},#{imgoriname},'',#{googleid},#{kind},'','','')
+	</insert>
+	<select id="login" parameterType="member" resultType="int">
+	select count(*) from member where id=#{id} and pw=#{pw}
+	</select>
+	<select id="searchID" parameterType="member" resultType="String">
+	select id from member where name=#{name} and email=#{email}
+	</select>
+	<select id="searchPW" parameterType="member" resultType="String">
+	select pw from member where id=#{id} and email=#{email}
+	</select>
+	<select id="searchKind" parameterType="member" resultType="String">
+	select kind from member where id=#{id}
+	</select>
+	<select id="currentPic" parameterType="String" resultType="member">
+	select * from member where id=#{id}
+	</select>
+	<delete id="deleteMember" parameterType="String">
+	delete member where id=#{id}
+	</delete>
+	<select id="modifyMember" parameterType="String" resultType="member">
+	select * from member where id=#{id}
+	</select>
+	<update id="updateMember" parameterType="member">
+	update member set phone=#{phone},imgname=#{imgname},imgoriname=#{imgoriname} where id=#{id}
+	</update>
+	<select id="countMember" resultType="int">
+	select count(*) from member
+	</select>
+	<select id="memberList" parameterType="paging" resultType="member">
+ 	<![CDATA[select c.* from (select ROWNUM row_num,member.* from  member) c where row_num >= #{startNum} and row_num <= #{endNum}]]>
+ 	</select>
+ 	<select id="currentEmail" parameterType="String" resultType="String">
+ 	select email from member where id=#{id}
+ 	</select>
+ 	<update id="emailUpdate" parameterType="member">
+ 	update member set email=#{email} where id=#{id}
+ 	</update>
+ 	<select resultType="String" parameterType="String" id="googleIdCheck"> 
+ 	select id from member where googleid=#{googleid} 
+ 	</select>
+ 	 <select id="kakaoCheck" parameterType="String" resultType="int">
+ 	select count(id) from member where kakaoid=#{kakaoid}
+ 	</select>
+ 	 <select id="kakaoLogin" parameterType="String" resultType="member">
+ 	select id from member where kakaoid=#{kakaoid}
+ 	</select>
+ 	<update id="keepLogin">
+        update member set sessionKey = #{sessionId}, sessionLimit = #{next} where id=#{userId}
+    </update>
+    <select id="checkUserWithSessionKey" resultType="member">
+        select * from member where sessionKey = #{sessionId} and sessionLimit > systimestamp
+    </select>
+    <update id="loginban" parameterType="map">
+    update member set banperiod=#{limit} where id=#{id}
+    </update>
+    <select id="checkperiod" parameterType="member" resultType="int">
+    select count(*) from member where id=#{id} and pw=#{pw} and banperiod > systimestamp
+    </select>
+    <select id="usersEmail" parameterType="String" resultType="String">
+    select email from member where id=#{id}
+    </select>
+ </mapper>

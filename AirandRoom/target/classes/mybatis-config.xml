@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases> 
+<typeAlias type="com.icia.airandroom.dto.MemberDTO" alias="member"/>
+<typeAlias type="com.icia.airandroom.page.Paging" alias="paging"/>
+<typeAlias type="com.icia.airandroom.dto.ReportDTO" alias="report"/>
+<typeAlias type="com.icia.airandroom.dto.RoomDTO" alias="room"/>
+<typeAlias type="com.icia.airandroom.dto.AirlineDTO" alias="airline"/>
+<typeAlias type="com.icia.airandroom.dto.ScheduleDTO" alias="schedule"/>
+<typeAlias type="com.icia.airandroom.dto.RoomrevDTO" alias="roomrev"/>
+<typeAlias type="com.icia.airandroom.dto.MgradeDTO" alias="mgrade"/>
+<typeAlias type="com.icia.airandroom.dto.RoombkDTO" alias="roombk"/>
+<typeAlias type="com.icia.airandroom.dto.AirlinebkDTO" alias="airlinebk"/>
+<typeAlias type="com.icia.airandroom.dto.CommentsDTO" alias="comments"/>
+<typeAlias type="com.icia.airandroom.chat.ChatRoom" alias="chatroom"/>
+<typeAlias type="com.icia.airandroom.chat.ChatMessage" alias="chatmessage"/>
+<typeAlias type="com.icia.airandroom.dto.InquireDTO" alias="inquire"/>
+<typeAlias type="com.icia.airandroom.dto.AirlineGraphDTO" alias="airlinegraph"/>
+<typeAlias type="com.icia.airandroom.dto.RoomGraphDTO" alias="roomgraph"/>		
+	</typeAliases>
+</configuration>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ 
+ <mapper namespace="Community">
+    <insert id="sendInquireForm" parameterType="inquire">
+    insert into inquire VALUES(inquire_seq.nextval,#{contents},#{title},#{id},#{otherid},to_char(sysdate,'YYYY.MM.DD'),'N','N',#{ifile},#{ifileoriname},'','')
+    </insert>
+ 	<select id="selectInquire" parameterType="map" resultType="inquire">
+    <![CDATA[SELECT to_char(c.writedate,'YYYY-MM-DD') as writedate,C.* FROM (SELECT ROWNUM row_num,r.* from (select * from inquire where otherid=#{otherid}) r ) c where row_num >= #{paging.startNum} and row_num <= #{paging.endNum}]]>
+ 	</select>
+ 	<select id="selectInquireByUser" parameterType="map" resultType="inquire">
+    <![CDATA[SELECT to_char(c.writedate,'YYYY-MM-DD') as writedate,C.* FROM (SELECT ROWNUM row_num,r.* from (select * from inquire where id=#{id}) r ) c where row_num >= #{paging.startNum} and row_num <= #{paging.endNum}]]>
+ 	</select>
+ 	<select id="countInquire" parameterType="inquire" resultType="int">
+	<![CDATA[select count(*) from inquire where otherid=#{otherid}]]>
+	</select>
+	 <select id="countMyInquire" parameterType="inquire" resultType="int">
+	select count(*) from inquire where id=#{id}
+	</select>
+	<select id="selectInquirePost" parameterType="inquire" resultType="inquire">
+	select * from inquire where ino=#{ino}
+	</select>
+	<update id="readByAdmin" parameterType="inquire">
+	update inquire set read='Y' where ino=#{ino}
+	</update>
+	<update id="replyInquire" parameterType="inquire">
+	update inquire set repcontent=#{repcontent},repwritedate=to_char(sysdate,'YYYY.MM.DD'),answer = 'Y' where ino=#{ino}
+	</update>	
+	<select id="selectReplyInquire" parameterType="inquire" resultType="inquire">
+	select * from inquire where ino=#{ino}
+	</select>
+	<update id="modifyInquireForm" parameterType="inquire">
+	update inquire set title=#{title},contents=#{contents},ifile=#{ifile},ifileoriname=#{ifileoriname},writedate=to_char(sysdate,'YYYY.MM.DD') where ino=#{ino}
+	</update>
+	<delete id="deleteInquire" parameterType="inquire">
+	delete from inquire where ino=#{ino}
+	</delete>
+	<select id="myInquire" parameterType="inquire" resultType="inquire">
+	select * from inquire where ino=#{ino}
+	</select>
+	
+	
+	<insert id="sendReportForm" parameterType="report">
+	insert into report
+	values (report_seq.nextval,#{contents},#{title},#{id},#{otherid},to_char(sysdate,'YYYY.MM.DD'),'N','N',#{rfile},#{rfileoriname})
+	</insert>
+
+	<select id="selectReport" parameterType="map" resultType="report">
+    <![CDATA[SELECT C.* FROM (SELECT ROWNUM row_num,r.* from (select * from report) r ) c where row_num >= #{paging.startNum} and row_num <= #{paging.endNum}]]>
+ 	</select>
+ 	
+ 	<select id="selectReportByUser" parameterType="map" resultType="report">
+    <![CDATA[SELECT C.* FROM (SELECT ROWNUM row_num,r.* from (select * from report where id=#{id}) r ) c where row_num >= #{paging.startNum} and row_num <= #{paging.endNum}]]>
+ 	</select>
+	
+	 <select id="countReport" parameterType="report" resultType="int">
+	<![CDATA[select count(*) from report]]>
+	</select>
+	
+	<select id="countReportByUser" parameterType="report" resultType="int">
+	<![CDATA[select count(*) from report where id=#{id}]]>
+	</select>
+	<select id="selectReportPost" parameterType="report" resultType="report">
+	select * from report where repno=#{repno} and id=#{id}
+	</select>	
+	<update id="reportRead" parameterType="inquire">
+	update report set read='Y' where repno=#{repno} and id=#{id}
+	</update>	
+	<update id="modifyReportForm" parameterType="report">
+	update report set title=#{title},contents=#{contents},rfile=#{rfile},rfileoriname=#{rfileoriname},writedate=to_char(sysdate,'YYYY.MM.DD'),read='N',acceptreport='N' where repno=#{repno} and id=#{id}
+	</update>
+	<delete id="deleteReport" parameterType="report">
+	delete from report where repno=#{repno} and id=#{id}
+	</delete>	
+    <update id="acceptReportUpdate" parameterType="report">
+    update report set acceptreport = 'Y' where repno=#{repno} and otherid=#{otherid}    
+    </update> 
+    <delete id="reportReset" parameterType="String">
+    delete report where otherid=#{id}
+    </delete>
+ </mapper>

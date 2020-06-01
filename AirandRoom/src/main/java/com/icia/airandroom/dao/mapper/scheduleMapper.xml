@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="Schedule"> 
+	<select id="selectSchedule" parameterType="String" resultType="schedule">
+	select ano,sctime,scno from schedule where ano=#{ano}
+	</select>
+	<insert id="scheduleAdd" parameterType="schedule">
+	insert into schedule values(schedule_seq.nextval,#{ano},#{sctime})
+	</insert>
+	<select id="checkSchedule" parameterType="schedule" resultType="int">
+	select count(*) from schedule where ano=#{ano} and sctime=#{sctime}
+	</select>
+	<select id="timeSetting" parameterType="String" resultType="schedule">
+		<![CDATA[select * from schedule where ano=#{ano} and sctime>to_char(sysdate,'hh24:mi')]]>
+	</select>
+	<delete id="scheduleDelete" parameterType="String">
+	delete schedule where scno=#{scno}
+	</delete>
+	<update id="scheduleUpdate" parameterType="schedule">
+	update schedule set sctime=#{sctime} where scno=#{scno}
+	</update>
+ </mapper>

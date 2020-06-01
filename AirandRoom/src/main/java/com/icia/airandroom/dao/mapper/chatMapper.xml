@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="Chat"> 
+ <select id="chatRoomList" resultType="chatroom">
+ 	select ro.roomid,me.contents,to_char(me.cdate,'YYYY-MM-DD-hh:mi:ss') as cdate,m.imgname,ro.name from chatroom ro,chatmessage me,member m where ro.cno=me.cno and m.id=ro.roomid order by me.cdate desc
+ </select>
+	
+	
+<update id="changeMessage" parameterType="chatroom">
+update chatmessage set contents=#{contents} ,cdate=sysdate where roomid=#{roomId}
+</update>
+	
+	<insert id="chatRoomReg" parameterType="chatroom">
+	insert into chatroom values(CHAT_SEQ.NEXTVAL,#{roomId},#{name})
+	</insert>
+	
+	<insert id="chatMessageReg" parameterType="chatmessage">
+	<selectKey order="BEFORE" keyProperty="mkey" resultType="int">
+ SELECT MAX(cno) FROM chatroom 
+ </selectKey>
+	insert into chatMessage values(#{mkey},#{roomId},#{message},sysdate)
+	</insert>
+	
+	
+	<select id="chatRoomCheck" parameterType="String" resultType="int">
+	select count(*) from chatroom where roomid=#{roomId}
+	</select>
+	
+	<select id="checkMessage" parameterType="chatmessage" resultType="int">
+	
+	select count(*) from chatmessage where roomid=#{roomId}
+	</select>
+	
+	
+	
+ </mapper>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

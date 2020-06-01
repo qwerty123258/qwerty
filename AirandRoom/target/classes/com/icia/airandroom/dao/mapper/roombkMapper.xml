@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="Roombk"> 
+<insert id="booking" parameterType="roombk">
+insert into roombk values(roombk_seq.nextval,#{rno},#{rname},#{id},#{checkindate},#{checkoutdate},#{price},to_char(sysdate,'YYYY-MM-DD'),'N','N')
+</insert>
+	<select parameterType="String" id="checkinSetting" resultType="roombk"> 
+	select to_char(checkindate,'yyyy-mm-dd') as checkindate,to_char(checkoutdate-1,'yyyy-mm-dd') as checkoutdate from roombk where rno=#{rno} 
+	</select>
+	<select parameterType="String" id="checkoutSetting" resultType="roombk"> 
+	select to_char(checkindate+1,'yyyy-mm-dd') as checkindate,to_char(checkoutdate,'yyyy-mm-dd') as checkoutdate from roombk where rno=#{rno} 
+	</select>
+	<select parameterType="String" id="roomsBookingCheckList" resultType="roombk">
+ select * from roombk where rno=#{rno} 
+ </select>
+<delete parameterType="String" id="roomBookingCancel">
+ delete from roombk where rno=#{rno} 
+ </delete>
+ <select parameterType="String" id="countCustomerBooking" resultType="int">
+ select count(*) from roombk where id=#{id} 
+ </select>
+<select parameterType="map" id="customerRoomsBookingList" resultType="roombk">
+<![CDATA[SELECT roombk.price,roombk.rbno,roombk.rno,roombk.rname,roombk.checks,to_char(bookingdate,'YYYY-MM-DD') as bookingdate,to_char(checkindate,'YYYY-MM-DD') as checkindate,to_char(checkoutdate,'YYYY-MM-DD') as checkoutdate FROM (select ROWNUM row_num, rb2.* from (select * from roombk rb where rb.id=#{id} order by rb.rbno desc)rb2) roombk where row_num >= #{paging.startNum} and row_num <= #{paging.endNum}]]>
+</select>
+<select parameterType="String" id="countMyRoombk" resultType="int">
+		select count(*) from roombk rb,room r where r.id=#{id} and r.rno=rb.rno
+ </select>
+<select parameterType="map" id="selectMyRoombk" resultType="roombk">
+<![CDATA[SELECT roombk.rbno,roombk.grade,roombk.rname,roombk.id,roombk.checks,to_char(bookingdate,'YYYY-MM-DD') as bookingdate,to_char(checkindate,'YYYY-MM-DD') as checkindate,to_char(checkoutdate,'YYYY-MM-DD') as checkoutdate FROM (select ROWNUM row_num, rb.* from roombk rb,room r where rb.rno=r.rno and r.id=#{id} order by rb.rbno desc) roombk where row_num >= #{paging.startNum} and row_num <= #{paging.endNum}]]>
+</select>
+<delete parameterType="String" id="roomsBookingDelete">
+ delete from roombk where rbno=#{rbno} 
+ </delete>
+<select parameterType="String" id="roomsBooking" resultType="roombk">
+ select * from roombk where rbno=#{rbno} 
+ </select>
+ <delete parameterType="String" id="bookingDelete">
+  delete from roombk where rbno=#{rbno} 
+  </delete>
+  <select id="countGradeView" parameterType="String" resultType="int">
+  select count(*) from mgrade where id=#{id}
+  </select>
+  
+  <select id="gradeView" parameterType="map" resultType="mgrade">
+ <![CDATA[ select  s.* from(select rownum row_num,c.* from (select  * from mgrade where id=#{id})c)s where row_num >= #{paging.startNum} and row_num <= #{paging.endNum}]]>
+  </select>
+  
+  <select id="gradeAvg" parameterType="String" resultType="String">
+  select round(avg(grade),1) from mgrade where id=#{id}
+  </select>
+  
+  
+  
+ </mapper>

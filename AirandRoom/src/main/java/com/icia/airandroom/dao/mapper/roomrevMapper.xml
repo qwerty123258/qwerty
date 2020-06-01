@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="Roomrev"> 
+<select parameterType="map" id="reviewList" resultType="roomrev">
+<![CDATA[select c.* from (select ROWNUM row_num,r.* from (select m.imgname,r.* from roomrev r,member m where m.id=r.id and r.rno=#{rno} order by revno desc) r ) c where row_num >= 1 and row_num <= 4]]>
+</select>
+
+<select parameterType="String" id="countRev" resultType="int">
+ select count(*) from roomrev where rno=#{rno} 
+ </select>
+
+<insert parameterType="roomrev" id="reviewWrite">
+ insert into roomrev values(ROOMREV_SEQ.NEXTVAL,#{rno},#{id},#{contents},sysdate,'N') 
+ </insert>
+
+
+<insert parameterType="roomrev" id="roomrevPicWrite">
+<selectKey order="BEFORE" keyProperty="mkey" resultType="int">
+ SELECT MAX(REVNO) FROM ROOMREV 
+ </selectKey>
+insert into revpic values(REVPIC_SEQ.NEXTVAL,#{mkey},#{rimgname},#{rimgoriname}) 
+</insert>
+
+<select parameterType="String" id="myReviewListCount" resultType="int"> 
+select count(*) from roomrev where id=#{id} 
+</select>
+
+<select parameterType="map" id="myReviewList" resultType="roomrev">
+<![CDATA[SELECT * FROM (select ROWNUM  row_num, c.* from (select  rev.* from roomrev rev where  rev.id=#{id} order by rev.revno desc)c) where row_num>= 1 and row_num <= #{paging.endNum}]]>
+</select>
+
+<select parameterType="String" id="reviewUpdateForm" resultType="roomrev">
+ SELECT * FROM ROOMREV WHERE REVNO=#{revno} 
+</select>
+
+<select parameterType="String" id="revpicList" resultType="roomrev">
+ SELECT * FROM REVPIC WHERE REVNO=#{revno} 
+ </select>
+
+<update parameterType="roomrev" id="reviewUpdate">
+ update roomrev set contents=#{contents}, where revno=#{revno} 
+ </update>
+
+<insert parameterType="roomrev" id="revpicUpdateWrite"> 
+INSERT INTO REVPIC VALUES(REVPIC_SEQ.NEXTVAL, #{revno}, #{rimgname}, #{rimgoriname}) 
+</insert>
+
+
+<select parameterType="map" id="myReviewPicList" resultType="roomrev">
+<![CDATA[SELECT * FROM (select ROWNUM row_num,revp.rimgname ,rev.* from roomrev rev,revpic revp where rev.revno=revp.revno(+) and rev.id=#{id} order by rev.revno desc)where row_num >= #{paging.startNum} and row_num <= #{paging.endNum}]]>
+
+</select>
+
+<delete parameterType="String" id="revpicDelete"> 
+delete from revpic where rimgname=#{rimgname} 
+</delete>
+
+<delete parameterType="String" id="reviewDelete"> 
+delete from roomrev where revno=#{revno} 
+</delete>
+
+<select parameterType="String" id="reviewPropertySelect" resultType="String"> 
+select rlike from roomrev where revno=#{revno} 
+</select>
+
+<update parameterType="roomrev" id="reviewProperty">
+ update roomrev set rlike=#{rlike} where revno=#{revno} 
+</update>
+<select parameterType="map" id="reviewCommentListPaging" resultType="comments">
+ 	<choose>
+
+<when test="opt != null and opt.equals('최신순') ">
+
+<![CDATA[select * from (select ROWNUM row_num,c.* from (select co.*,me.imgname from comments co,member me  where co.id=me.id and co.revno=#{revno} order by co.replyno desc) c) where row_num >= 1 and row_num <= #{paging.endNum}]]>
+
+</when>
+
+<otherwise>
+
+<![CDATA[select * from (select ROWNUM row_num,c.* from (select co.*,me.imgname from comments co,member me  where co.id=me.id and co.revno=#{revno} order by co.replyno asc) c) where row_num >= 1 and row_num <= #{paging.endNum}]]>
+
+</otherwise>
+
+</choose>
+
+</select>
+<insert parameterType="map" id="writeCommentModal"> 
+insert into comments values(COMMENTS_SEQ.NEXTVAL,#{revno},#{id},sysdate,#{comment}) 
+</insert>
+
+
+<insert parameterType="comments" id="reviewCommentWrite"> 
+insert into comments values(COMMENTS_SEQ.NEXTVAL,#{revno},#{id},sysdate,#{contents}) 
+</insert>
+<delete parameterType="comments" id="reviewCommentDelete"> 
+delete from comments where replyno=#{replyno} 
+</delete>
+<select parameterType="String" id="reviewView" resultType="roomrev">
+select * from roomrev rev,member me where rev.id=me.id  and rev.revno=#{revno} 
+ </select>
+<select parameterType="String" id="countComment" resultType="int"> 
+select count(*) from comments where revno=#{revno} 
+</select>
+
+<select parameterType="String" id="revpicGet" resultType="roomrev">
+select * from revpic where revno=#{revno}
+</select>
+
+<select id="allReviewListCount" parameterType="String" resultType="int" >
+select count(*) from roomrev where rno=#{rno}
+</select>
+
+<select id="allReviewList" parameterType="map" resultType="roomrev">
+<![CDATA[SELECT * FROM (select ROWNUM  row_num, c.* from (select  rev.* from roomrev rev where  rev.rno=#{rno} order by rev.revno desc)c) where row_num>= 1 and row_num <= #{paging.endNum}]]>
+</select>
+
+<insert id="grade" parameterType="roomrev" >
+insert into rgrade values(RGRADE_SEQ.NEXTVAL,#{rno},#{grade})
+</insert>
+
+
+ </mapper>

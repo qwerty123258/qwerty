@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="Airlinebk"> 
+<select id="seatSetting" parameterType="schedule" resultType="airlinebk">
+select s.*,b.bookingdate,(select max(srow)from seat where ano=#{ano}) as maxsrow from seat s,(select * from airlinebk where ano=#{ano} and sctime=#{sctime} and startdate=#{startdate}) b where s.ano=#{ano} and b.ano(+)=s.ano and b.scolumn(+)=s.scolumn and b.srow(+)=s.srow order by s.srow asc,s.scolumn asc
+</select>
+<insert id="booking" parameterType="airlinebk">
+insert into airlinebk values(airlinebk_seq.nextval,#{ano},#{id},#{aname},#{startdate},#{sctime},#{srow},#{scolumn},to_char(sysdate,'YYYY-MM-DD'),#{aprice})
+</insert>
+<select id="countAirlineBooking" parameterType="String" resultType="int">
+select count(*) from airlinebk where id=#{id}
+</select>
+<select id="customerAirlinesBookingList" parameterType="map" resultType="airlinebk">
+ 	<![CDATA[select to_char(c.bookingdate,'YYYY-MM-DD') as bookingdate,to_char(c.startdate,'YYYY-MM-DD') as startdate,c.* from (select ROWNUM row_num,air.* from  (select ab.*,a.aprice from airlinebk ab,airline a where ab.id=#{id} and ab.ano=a.ano order by abno asc)air) c where row_num >= #{paging.startNum} and row_num <= #{paging.endNum}]]>
+</select>
+<select id="bookingCheck" parameterType="String" resultType="int">
+select count(*) from airlinebk where ano=#{ano} 
+</select>
+<select id="usersList" parameterType="String" resultType="member">
+select m.email from airlinebk ab,member m where m.id=ab.id and ano=#{ano} group by ab.id,m.email
+</select>
+ </mapper>

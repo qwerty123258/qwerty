@@ -12,9 +12,6 @@ import com.test.chat.ChatRoomController;
 @RequiredArgsConstructor
 @Controller
 public class ChatController {
-	
-	@Autowired
-	private ChatRoomController crc;
 
     private final SimpMessageSendingOperations messagingTemplate;
 

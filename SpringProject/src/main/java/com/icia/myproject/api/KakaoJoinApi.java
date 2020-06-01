@@ -18,7 +18,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 public class KakaoJoinApi {
 // 카카오 개발자 페이지의 REST API 키 값
-private final static String K_CLIENT_ID = "a5bbadebcde84092c1229b2c480e6524";
+private final static String K_CLIENT_ID = "1ec27332cb739285d288014badb78149";
 // 카카오 개발자 페이지에서 로그인 Redirect URI 에 설정한 값
 private final static String K_REDIRECT_URI = "http://localhost:8090/myproject/jsjkakaoJoin";
 
@@ -36,7 +36,7 @@ public static JsonNode getAccessToken(String autorize_code) {
     postParams.add(new BasicNameValuePair("grant_type", "authorization_code"));
     postParams.add(new BasicNameValuePair("client_id", K_CLIENT_ID)); 
     postParams.add(new BasicNameValuePair("redirect_uri", K_REDIRECT_URI)); 
-
+    System.out.println(autorize_code);
     // 로그인 과정중 얻은 code 값
     postParams.add(new BasicNameValuePair("code", autorize_code));
     final HttpClient client = HttpClientBuilder.create().build();

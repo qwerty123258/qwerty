@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="Airline"> 
+	<select id="countAirline" resultType="int">
+	select count(*) from airline where approval='N'
+	</select>
+	<select id="countMyAirline" parameterType="String" resultType="int">
+		select count(*) from airline where id=#{id}
+	</select>
+	 	<select id="selectMyAirline" parameterType="map" resultType="airline">
+    <![CDATA[SELECT C.* FROM (SELECT ROWNUM row_num,air.* from (select * from airline where id=#{id}) air ) c where row_num >= #{paging.startNum} and row_num <= #{paging.endNum}]]>
+ 	</select>
+ 	<select id="countMyAirlinebk" parameterType="String" resultType="int">
+		select count(*) from airline ab,airline a where a.id=#{id} and a.ano=ab.ano
+	</select>
+	 <select id="selectMyAirlinebk" parameterType="map" resultType="airlinebk">
+<![CDATA[SELECT airlinebk.ano,airlinebk.abno,airlinebk.aname,airlinebk.id,to_char(bookingdate,'YYYY-MM-DD') as bookingdate,airlinebk.sctime,to_char(startdate,'YYYY-MM-DD') as startdate FROM (select ROWNUM row_num, ab.* from airlinebk ab,airline a where ab.ano=a.ano and a.id=#{id} order by ab.abno desc) airlinebk where row_num >= #{paging.startNum} and row_num <= #{paging.endNum}]]>
+ 	</select>
+	<select id="airlineList" parameterType="paging" resultType="airline">
+ 	<![CDATA[select c.* from (select ROWNUM row_num,air.* from  (select * from airline where approval='N' order by ano desc)air) c where row_num >= #{startNum} and row_num <= #{endNum}]]>
+ 	</select>
+ 	<insert id="createAirline" parameterType="airline">
+ 	INSERT INTO AIRLINE(ANO,ANAME,STARTPOINT,ENDPOINT,ID,AIRPORTTYPE, TAKENTIME,APPROVAL,APRICE)
+ 	VALUES (airline_seq.nextval,#{aname},#{startpoint},#{endpoint},#{id},#{airporttype},#{takentime},#{approval},#{aprice})
+</insert> 
+ 	<select id="checkAname" parameterType="String" resultType="String">
+ 	SELECT ANAME FROM AIRLINE WHERE ANAME = #{aName}
+ 	</select>
+ 	<select id="selectStartPoint" parameterType="String" resultType="String">
+ 	SELECT  distinct STARTPOINT FROM AIRLINE WHERE STARTPOINT LIKE '%'||#{param}||'%' and approval='Y'
+ 	</select>
+ 	<select id="selectEndPoint" parameterType="String" resultType="String">
+ 	SELECT distinct ENDPOINT FROM AIRLINE WHERE ENDPOINT LIKE '%'||#{param}||'%' and approval='Y'
+ 	</select>
+ 	<delete id="deleteAirline" parameterType="String">
+ 	DELETE FROM AIRLINE WHERE ANO = #{ano}
+ 	</delete>
+ 	<select id="modifyAirline" parameterType="int" resultType="airline">
+ 	SELECT * FROM AIRLINE WHERE ANO = #{ano}
+ 	</select>
+ 	<update id="updateAirline" parameterType="airline">
+    UPDATE AIRLINE SET ANAME=#{aname}, AIRPORTTYPE=#{airporttype}, TAKENTIME=#{takentime},APRICE=#{aprice}, STARTPOINT=#{startpoint}, ENDPOINT=#{endpoint} WHERE ANO = #{ano}
+ 	</update>
+ 	<select id="searchAirline" parameterType="map" resultType="airline">
+ 	 	 	<choose>
+ 	<when test="opt != null and opt.equals('oneway') ">
+<![CDATA[SELECT C.* FROM (SELECT ROWNUM row_num,r.* from (select * from airline WHERE STARTPOINT LIKE '%'||#{airline.startpoint}||'%' AND ENDPOINT LIKE '%'||#{airline.endpoint}||'%' and approval='Y') r ) c where row_num >= 1 and row_num <= #{paging.endNum}]]>
+</when>
+<otherwise>
+<![CDATA[SELECT C.* FROM (SELECT ROWNUM row_num,r.* from (select * from airline WHERE startPOINT LIKE '%'||#{airline.startpoint}||'%' AND endPOINT LIKE '%'||#{airline.endpoint}||'%' and approval='Y') r ) c where row_num >= 1 and row_num <= #{paging.endNum}]]>
+</otherwise>
+</choose>
+ 	</select>
+ 	 <update id="airlineApproval" parameterType="String">
+ 	update airline set approval='Y' where ano=#{ano}
+ 	</update>
+ 	<delete id="airlineDeny" parameterType="String">
+ 	delete airline where ano=#{ano}
+ 	</delete>
+ 	<select id="currentInfo" parameterType="String" resultType="airline">
+ 	select * from airline where ano=#{ano}
+ 	</select>
+ 	<select resultType="int" id="countAirlineSearch" parameterType="map">
+ 	 	<choose>
+ 	<when test="opt != null and opt.equals('oneway') ">
+ 	 	SELECT COUNT(*) FROM AIRLINE WHERE STARTPOINT LIKE '%'||#{airline.startpoint}||'%' AND ENDPOINT LIKE '%'||#{airline.endpoint}||'%' and approval='Y'
+</when>
+<otherwise>
+ 	 	SELECT COUNT(*) FROM AIRLINE WHERE startPOINT LIKE '%'||#{airline.startpoint}||'%' AND endPOINT LIKE '%'||#{airline.endpoint}||'%' and approval='Y'
+</otherwise>
+</choose>
+ 	</select>
+<insert id="createSeat" parameterType="int">
+<selectKey resultType="int" order="BEFORE" keyProperty="maxano">
+ SELECT MAX(ANO) FROM AIRLINE 
+ </selectKey>
+INSERT INTO SEAT VALUES(seat_seq.nextval,#{srow},#{scolumn}, #{maxano}) 
+</insert>
+
+ 	<select id="selectAirlinebk" parameterType="paging" resultType="airlinebk">
+<![CDATA[SELECT C.* FROM (SELECT ROWNUM row_num,air.* from (select b.email ,a.abno,a.aname,to_char(a.bookingdate,'YYYY-MM-DD') as bookingdate,a.id from airlinebk a,member b where a.id=b.id) air ) c where row_num >= #{startNum} and row_num <= #{endNum}]]>
+ 	</select>
+ 	<delete id="deleteAirlinebk" parameterType="int">
+delete from airlinebk where abno=#{abno}
+</delete>
+
+<select id="getYear" resultType="int" parameterType="map">
+select distinct to_char(bookingdate,'YYYY') from airlinebk ab,airline a where a.id=#{id} and a.ano=ab.ano
+</select>
+
+<select resultType="String" id="getMonths"> 
+select distinct to_char(bookingdate,'MM') from airlinebk order by to_char(bookingdate,'MM') asc 
+</select>
+
+<select id="dayList" parameterType="map" resultType="String">
+ select distinct to_char(bookingdate,'DD') from airlinebk ab,airline a where to_char(bookingdate,'MM') like '%'||#{month} and a.ano=ab.ano and a.id=#{id} group by bookingdate order by to_char(bookingdate,'DD') asc 
+</select>
+
+<select resultType="String" id="priceList" parameterType="map"> 
+select sum(ab.price) as sprice from airlinebk ab,airline a where to_char(bookingdate,'MM') like '%'||#{month} and a.ano=ab.ano and a.id=#{id} group by bookingdate order by to_char(bookingdate,'DD') asc 
+</select>
+
+<select id="yearMonth" resultType="String" parameterType="map">
+select distinct to_char(bookingdate,'MM') as month from airlinebk ab,airline a where to_char(bookingdate,'YYYY') = #{year} and ab.ano=a.ano and a.id=#{id}
+</select>
+
+<select resultType="airlinegraph" id="perDayList" parameterType="map">
+  select count(ab.aname) as caname,ab.aname,sum(ab.price) as sprice from airlinebk ab,airline a where to_char(bookingdate,'DD') like '%'||#{day} and to_char(bookingdate,'MM') like '%'||#{month} and a.ano=ab.ano and a.id=#{id} group by ab.aname,ab.price
+ </select>
+<select resultType="airline" id="sortByAirline" parameterType="map">
+<choose>
+<when test="opt != null and opt.equals('oneway')">
+<![CDATA[SELECT C.* FROM (SELECT ROWNUM row_num,r.* from (select * from airline WHERE STARTPOINT LIKE '%'||#{airline.startpoint}||'%' AND ENDPOINT LIKE '%'||#{airline.endpoint}||'%' and approval='Y' order by to_number(aprice) asc) r ) c where row_num >= 1 and row_num <= #{paging.endNum}]]>
+</when>
+<when test="opt != null and opt.equals('shortestOneway')">
+<![CDATA[SELECT C.* FROM (SELECT ROWNUM row_num,r.* from (select a.*,replace(takentime,'분','') as val from airline a WHERE STARTPOINT LIKE '%'||#{airline.startpoint}||'%' AND ENDPOINT LIKE '%'||#{airline.endpoint}||'%' and approval='Y' order by to_number(val) asc) r ) c where row_num >= 1 and row_num <= #{paging.endNum}]]>
+</when>
+<when test="opt != null and opt.equals('shortestRoundtrip')">
+<![CDATA[SELECT C.* FROM (SELECT ROWNUM row_num,r.* from (select a.*,replace(takentime,'분','') as val from airline a WHERE STARTPOINT LIKE '%'||#{airline.endpoint}||'%' AND ENDPOINT LIKE '%'||#{airline.startpoint}||'%' and approval='Y' order by to_number(val) desc) r ) c where row_num >= 1 and row_num <= #{paging.endNum}]]>
+</when>
+<when test="opt != null and opt.equals('longestOneway')">
+<![CDATA[SELECT C.* FROM (SELECT ROWNUM row_num,r.* from (select a.*,replace(takentime,'분','') as val from airline a WHERE STARTPOINT LIKE '%'||#{airline.endpoint}||'%' AND ENDPOINT LIKE '%'||#{airline.startpoint}||'%' and approval='Y' order by to_number(val) asc) r ) c where row_num >= 1 and row_num <= #{paging.endNum}]]>
+</when>
+<when test="opt != null and opt.equals('longestRoundtrip')">
+<![CDATA[SELECT C.* FROM (SELECT ROWNUM row_num,r.* from (select a.*,replace(takentime,'분','') as val from airline a WHERE STARTPOINT LIKE '%'||#{airline.startpoint}||'%' AND ENDPOINT LIKE '%'||#{airline.endpoint}||'%' and approval='Y' order by to_number(val) desc) r ) c where row_num >= 1 and row_num <= #{paging.endNum}]]>
+</when>
+<otherwise>
+<![CDATA[SELECT C.* FROM (SELECT ROWNUM row_num,r.* from (select * from airline WHERE startPOINT LIKE '%'||#{airline.endpoint}||'%' AND endPOINT LIKE '%'||#{airline.startpoint}||'%' and approval='Y' order by to_number(aprice) asc) r ) c where row_num >= 1 and row_num <= #{paging.endNum}]]>
+</otherwise>
+</choose>
+</select>
+ </mapper>

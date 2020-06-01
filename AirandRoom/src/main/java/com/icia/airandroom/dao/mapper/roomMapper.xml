@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="Room"> 
+ 	<insert id="roomsReg" parameterType="room" >
+ 		INSERT INTO ROOM 
+ 			VALUES(ROOM_SEQ.NEXTVAL,#{rname}, #{address}, #{price}, #{id},'N',#{contents},#{nation},#{region},#{latitude},#{longitude})
+ 	</insert>
+ 	<insert id="roomPicWrite" parameterType="room">
+ 			<selectKey  resultType="int" keyProperty="mkey"
+			order="BEFORE">
+						SELECT MAX(RNO) FROM ROOM 
+		</selectKey>
+ 		INSERT INTO ROOMPIC 
+ 			VALUES(ROOMPIC_SEQ.NEXTVAL, #{mkey}, #{rimgname}, #{rimgoriname})
+ 	</insert>
+ 	<select id="countRoom" resultType="int">
+	select count(*) from room where approval='N'
+	</select>
+	<select id="roomList" parameterType="paging" resultType="room">
+ 	<![CDATA[select c.* from (select ROWNUM row_num,r.* from  (select * from room where approval='N' order by rno desc)r) c where row_num >= #{startNum} and row_num <= #{endNum}]]>
+ 	</select>
+ 	<select id="countMyRoom" parameterType="String" resultType="int">
+	select count(*) from room where id=#{id}
+	</select>
+	<select id="myRoomsList" parameterType="map" resultType="room">
+ 	<![CDATA[select c.* from (select ROWNUM row_num,room.* from  room where id=#{id}) c where row_num >= #{paging.startNum} and row_num <= #{paging.endNum}]]>
+ 	</select>
+ 	<update id="roomApproval" parameterType="String">
+ 	update room set approval='Y' where rno=#{rno}
+ 	</update>
+ 	<delete id="roomDeny" parameterType="String">	
+ 	delete room where rno=#{rno}
+ 	</delete>
+ 	<select id="currentInfo" parameterType="String" resultType="room">
+ 	select * from room where rno=#{rno}
+ 	</select>
+ 	<select id="currentPic" parameterType="String" resultType="room">
+ 	select * from roompic where rno=#{rno}
+ 	</select>
+ 	<select id="selectKeyword" parameterType="map" resultType="room">
+ 	<choose>
+
+<when test="opt != null and opt.equals('nation') ">
+
+         	<![CDATA[select nation,region from room where nation like '%'||#{keyword}||'%' and rownum <=5 and approval='Y']]>
+
+</when>
+
+<otherwise>
+
+         	<![CDATA[select nation,region from room where region like '%'||#{keyword}||'%' and rownum <=5 and approval='Y']]>
+
+</otherwise>
+
+</choose>
+ 	</select>
+ 	 <select id="countSearchRoom" parameterType="String" resultType="int">
+ 	<![CDATA[select count(*) from room where nation like '%'||#{keyword}||'%' and approval='Y']]>
+ 	</select>
+ 	  <select id="countSearchRoom2" parameterType="String" resultType="int">
+ 	<![CDATA[select count(*) from room where region like '%'||#{keyword}||'%' and approval='Y']]>
+ 	</select>
+ 	<select id="countSearchRoom3" parameterType="String" resultType="int">
+ 	select count(*) from room where approval='Y'
+ 	</select>
+ 	 <select id="pagingRoomList" parameterType="map" resultType="room">
+ 	<![CDATA[select c.* from (select ROWNUM row_num,r.* from  (select ro.* from room ro where approval='Y' order by rno asc)r) c where row_num >= #{paging.startNum} and row_num <= #{paging.endNum}]]>
+ 	</select>
+ 	<select id="pagingRoomListNation" parameterType="map" resultType="room">
+ 	<![CDATA[select c.* from (select ROWNUM row_num,r.* from  (select ro.* from room ro where nation like '%'||#{keyword}||'%' and approval='Y' order by rno asc)r) c where row_num >= #{paging.startNum} and row_num <= #{paging.endNum}]]>
+ 	</select>
+ 	<select id="pagingRoomListRegion" parameterType="map" resultType="room">
+ 	<![CDATA[select c.* from (select ROWNUM row_num,r.* from  (select ro.* from room ro where region like '%'||#{keyword}||'%' and approval='Y' order by rno asc)r) c where row_num >= #{paging.startNum} and row_num <= #{paging.endNum}]]>
+ 	</select>
+ 	<select id="searchRoom" parameterType="map" resultType="room">
+ 	<![CDATA[select c.* from (select r.* from  (select ro.*,rp.rimgname from room ro,roompic rp where approval='Y' and rp.rpno=#{rpno} and ro.rno=rp.rno)r) c]]>
+ 	</select>
+ 	 	<select id="searchRoomNation" parameterType="map" resultType="room">
+ 	<![CDATA[select c.* from (select r.* from  (select ro.*,rp.rimgname from room ro,roompic rp where nation like '%'||#{keyword}||'%' and approval='Y' and rp.rpno=#{rpno} and ro.rno=rp.rno)r) c]]>
+ 	</select>
+ 	 	<select id="searchRoomRegion" parameterType="map" resultType="room">
+ 	<![CDATA[select c.* from (select r.* from  (select ro.*,rp.rimgname from room ro,roompic rp where region like '%'||#{keyword}||'%' and approval='Y' and rp.rpno=#{rpno} and ro.rno=rp.rno)r) c]]>
+ 	</select>
+ 	 <select parameterType="String" id="roomPicList" resultType="room">
+ 	  select * from roompic where rno=#{rno} 
+ 	  </select>
+	<delete parameterType="String" id="myRoomsDelete">
+	 DELETE FROM ROOM WHERE RNO=#{rno} 
+	 </delete>
+
+<select parameterType="String" id="roomUpdateForm" resultType="room">
+ select * from room where rno=#{rno} 
+ </select>
+
+<insert parameterType="room" id="roomPicUpdateWrite">
+ INSERT INTO ROOMPIC VALUES(ROOMPIC_SEQ.NEXTVAL, #{rno}, #{rimgname}, #{rimgoriname}) 
+ </insert>
+
+<update parameterType="room" id="roomsUpdate">
+ UPDATE ROOM SET RNAME=#{rname},PRICE=#{price} where rno=#{rno} 
+ </update>
+
+<delete parameterType="String" id="roomPicDelete">
+ DELETE FROM ROOMPIC WHERE RIMGNAME=#{rimgname} 
+ </delete>
+
+<select parameterType="String" id="emailList" resultType="String">
+ select email from member where id=#{id} 
+ </select>
+
+<select parameterType="String" id="email" resultType="String">
+ select email from member where id=#{id} 
+ </select>
+
+<update parameterType="String" id="checkOut">
+ update roombk set checks='Y' where rbno=#{rbno} 
+ </update>
+ 
+ <update parameterType="String" id="guestEvaluation">
+ update roombk set grade='Y' where rbno=#{rbno} 
+ </update>
+
+<insert parameterType="mgrade" id="guestEvaluationGrade">
+ insert into mgrade values(MGRADE_SEQ.NEXTVAL,#{id},#{grade},#{contents}) 
+ </insert>
+ 
+<select id="getRpno" parameterType="String" resultType="String">
+select min(rpno) from roompic where rno=#{rno}
+</select>
+
+<select id="getYear" resultType="int" parameterType="map">
+select distinct to_char(bookingdate,'YYYY') from roombk rb,room r where r.id=#{id} and r.rno=rb.rno
+</select>
+
+<select resultType="String" id="getMonths"> 
+select distinct to_char(bookingdate,'MM') from roombk order by to_char(bookingdate,'MM') asc 
+</select>
+
+<select id="dayList" parameterType="map" resultType="String">
+ select distinct to_char(bookingdate,'DD') from roombk rb,room r where to_char(bookingdate,'MM') like '%'||#{month} and r.rno=rb.rno and r.id=#{id} group by bookingdate order by to_char(bookingdate,'DD') asc 
+</select>
+
+<select resultType="String" id="priceList" parameterType="map"> 
+select sum(rb.price) as sprice from roombk rb,room r where to_char(bookingdate,'MM') like '%'||#{month} and r.rno=rb.rno and r.id=#{id} group by bookingdate order by to_char(bookingdate,'DD') asc 
+</select>
+
+<select resultType="roomgraph" id="perDayList" parameterType="map">
+ select rb.rname,sum(rb.price) as sprice from roombk rb,room r where to_char(bookingdate,'DD') like '%'||#{day} and to_char(bookingdate,'MM') like '%'||#{month} and r.rno=rb.rno and r.id=#{id} group by rb.rname,rb.price 
+ </select>
+ 
+ <select id="yearMonth" resultType="String" parameterType="map">
+select distinct to_char(bookingdate,'MM') as month from roombk rb,room r where to_char(bookingdate,'YYYY') = #{year} and rb.rno=r.rno and r.id=#{id}
+</select>
+<select id="mostRoomList" resultType="room" parameterType="String">
+select r.rno,r.rname,r.price,r.address,count(*) as bkcount from room r,roombk bk where bk.rno=r.rno and to_char(bookingdate,'MM') like '%'||#{convertmonth} group by bk.rno,r.rno,r.rname,r.address,r.price order by bkcount desc
+</select>
+<select id="getPic" resultType="room" parameterType="String">
+select r.rno,r.rname,r.address,r.price,pic.rimgname from room r,roompic pic where r.rno=pic.rno and rpno=#{rpno} group by r.rno,r.rname,r.price,r.address,pic.rimgname
+</select>
+<select id="grade" resultType="String" parameterType="String">
+select avg(grade) from rgrade where rno=#{rno}
+</select>
+
+</mapper>

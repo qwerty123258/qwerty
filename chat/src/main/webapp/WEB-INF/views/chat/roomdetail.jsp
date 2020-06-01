@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <html lang="ko">
   <head>
-    <title>Websocket ChatRoom</title>
+    <title>채팅방</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
