@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>개별 문의글 보는 페이지입니다.</title>
+<title>문의글 상세보기</title>
     <script src="https://code.jquery.com/jquery-3.4.1.js"
     integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
     crossorigin="anonymous">
@@ -19,7 +19,8 @@ function replyInquire(){
 	if(value1 == value2) {
 		alert("이미 답변한 문의글입니다.");
 		self.close();
-	} else {
+	} 
+	else {
 		var id = '${selectInquirePost.id}'; 
 		var ino = ${selectInquirePost.ino};
 		var popUrl = "replyInquireForm?&ino="+ino;	

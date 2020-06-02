@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>신고글 작성</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 
@@ -20,10 +20,16 @@ function sendReportForm(){
 	if(title == "") {
 		alert("제목을 입력해주세요.");
 		$("#title").focus();
-	} else if (contents == "") {
+	}
+	else if (contents == "") {
 		alert("내용을 입력해주세요.");
 		$("#contents").focus();		
-	} else {
+	}
+	else if(contents.length>500){
+		alert("내용은 500자 이하로 입력해주세요.");
+		$("#contents").focus();	
+	}
+	else {
 		var result = confirm("등록하시겠습니까?");
 		if(result){
 			var formData = new FormData(document.getElementById("form"));
@@ -35,15 +41,26 @@ function sendReportForm(){
 				contentType : false,
 		        dataType : "text",
 		                success: function(result){
-		                    alert("성공");
-		        			self.close();
-		                }
+		                    if(result>0){
+		                    	alert("작성 성공");
+			        			self.close();
+		                    }
+		                    else{
+		                    	alert("작성 실패");
+			        			self.close();
+		                    }
+		                },
+		    error : function(){
+		    	alert("신고글 작성중 에러 발생");
+		    }
 		                });
 		        }
 	}	
 }
 
-
+function contentlength(){
+	$("#contentslength").html($("#contents").val().length+"/500");
+}
 </script>
 
 <style>
@@ -115,46 +132,24 @@ font-size:11px;
 font-weight:bold;
 font-family:tahoma;
 }
-
-
-
-
 </style>
-
 </head>
 <body>
-
-
-
 <div id="stylized" class="myform">
-
 <br>
-
 <h3>신고하기</h3>
-
         <form id="form" method="POST" enctype="multipart/form-data">  
-
-
 <br>
-      
 <label class="small">제목 :</label> <input type="text" name="title" id="title" />
-
-<p><textarea cols="50" rows="30" placeholder="내용을 입력해주세요." name="contents" id="contents"></textarea></p>
-
+<p><textarea cols="50" rows="30" onkeyup="contentlength()" placeholder="내용을 입력해주세요." name="contents" id="contents"></textarea></p>
+<div id="contentslength" style="height:20px; text-align:center;">0/500</div>
 <label class="small">첨부파일 :</label> <input type="file" name="reportfile" id="rfile">
-
-
 <div class="spacer"></div>
-
         <input type="hidden" value="${otherId}" name="otherid" id="otherid">		
         <input type="hidden" value="${id}" name="id" id="id"> 
 		<input type="hidden" value="N" name="read" id="read">
         </form>
-        
                     <button onclick="sendReportForm()">전송</button>
-        
 </div>
-
-
 </body>
 </html>

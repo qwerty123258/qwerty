@@ -132,13 +132,18 @@ function createAirline() {
     		       "&startpoint=" + $("#departure").val() +
     		       "&endpoint=" + $("#arrive").val() +
     		       "&approval=" + "N",
-    		success : function(createResult) {
-    			alert("노선 등록이 완료되었습니다.");
-    			location.href="airlineManagement";
+    			success : function(createResult) {
+    			if(createResult>0){
+        			alert("노선 등록이 완료되었습니다.");
+        			location.href="airlineManagement";
+    			}
+    			else{
+    				alert("노선 등록 실패");
+    			}
 
     		},
     		error : function() {
-    			console.log("통신 실패");
+    			console.log("노선 등록 중 에러 발생");
     		}    	    		    		
     	});
 	}		

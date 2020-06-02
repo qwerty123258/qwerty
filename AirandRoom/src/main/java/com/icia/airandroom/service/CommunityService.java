@@ -132,87 +132,53 @@ public class CommunityService {
 		}
 	}
 
-	public int sendReportForm(ReportDTO report,HttpServletRequest request,MultipartHttpServletRequest mtfRequest) throws IllegalStateException, IOException {		
+	public int sendReportForm(ReportDTO report,HttpServletRequest request,MultipartHttpServletRequest mtfRequest) throws IllegalStateException, IOException {
     	String imgoriname=mtfRequest.getFile("reportfile").getOriginalFilename();
     	String imgname=upload(imgoriname,mtfRequest.getFile("reportfile").getBytes(),request);
     	report.setRfileoriname(imgoriname);
-    	report.setRfile(imgname);
+    	report.setRfilename(imgname);
 		int result = cdao.sendReportForm(report);	
 		return result;
 	}
 
 	
-	public ModelAndView selectReport(ReportDTO report,Paging paging,String kind) {
+	public ModelAndView selectReport(Paging paging) {
 		mav = new ModelAndView();
-		if(kind.matches("admin")) {
-			List<ReportDTO> reportList = cdao.selectReport(report,paging);
+			List<ReportDTO> reportList = cdao.selectReport(paging);
 			mav.addObject("reportList",reportList);
 			mav.addObject("paging",paging);
 			mav.setViewName("community/SelectReport");	
-		} else {
-			List<ReportDTO> reportListByUser = cdao.selectReportByUser(report, paging);
-			mav.addObject("reportList",reportListByUser);
-			mav.addObject("paging",paging);
-			mav.setViewName("community/SelectReport");				
-		}		
 		return mav;
 	}
 	
 	
-	public int countReport(ReportDTO report) {
-		int count=cdao.countReport(report);
-		return count;
-	}
-	public int countReportByUser(ReportDTO report) {
-		int count=cdao.countReportByUser(report);
+	public int countReport() {
+		int count=cdao.countReport();
 		return count;
 	}
 
-	public ModelAndView selectReportPost(ReportDTO report,String kind) {
+	public ModelAndView selectReportPost(ReportDTO report) {
 		mav = new ModelAndView();
-		if(kind.matches("admin")) {
 			ReportDTO reportPost = cdao.selectReportPost(report);
-			int result = cdao.reportRead(report);
+			cdao.reportRead(report);
 			mav.addObject("selectReportPost",reportPost);
 			mav.setViewName("community/SelectReportPost");
-		} else {
-			ReportDTO reportPost = cdao.selectReportPost(report);
-			mav.addObject("selectReportPost",reportPost);
-			mav.setViewName("community/SelectReportPost");
-		}
 		return mav;
 	}
-	
-	
-	public int modifyReportForm(ReportDTO report,HttpServletRequest request,MultipartHttpServletRequest mtfRequest) throws IllegalStateException, IOException {
-    	String imgoriname=mtfRequest.getFile("reportfile").getOriginalFilename();
-    	String imgname=upload(imgoriname,mtfRequest.getFile("reportfile").getBytes(),request);
-    	report.setRfileoriname(imgoriname);
-    	report.setRfile(imgname);
-		int result = cdao.modifyReportForm(report);
-		
-		return result;
-	}
 
-	public ModelAndView deleteReport(ReportDTO report,String kind) {
-		mav = new ModelAndView();
-		
+	public boolean deleteReport(ReportDTO report) {
 	     	int result = cdao.deleteReport(report);
 			if (result > 0) {
-				mav.setViewName("community/SelectReport");
-			} else {
-				mav.setViewName("community/SelectReport");
+				return true;
 			}
-		return mav;
+			else {
+				return false;
+			}
 	}
 
 	public int acceptReport(ReportDTO report) {	
 		int result=cdao.acceptReportUpdate(report);
 		return result;
-	}
-
-	public void reportReset(String id) {
-		cdao.reportReset(id);
 	}
 
 	public ModelAndView myInquireList(String id, int page) {

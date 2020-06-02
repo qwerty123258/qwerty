@@ -40,44 +40,26 @@
 	<select id="myInquire" parameterType="inquire" resultType="inquire">
 	select * from inquire where ino=#{ino}
 	</select>
-	
-	
 	<insert id="sendReportForm" parameterType="report">
 	insert into report
 	values (report_seq.nextval,#{contents},#{title},#{id},#{otherid},to_char(sysdate,'YYYY.MM.DD'),'N','N',#{rfile},#{rfileoriname})
 	</insert>
-
-	<select id="selectReport" parameterType="map" resultType="report">
-    <![CDATA[SELECT C.* FROM (SELECT ROWNUM row_num,r.* from (select * from report) r ) c where row_num >= #{paging.startNum} and row_num <= #{paging.endNum}]]>
+	<select id="selectReport" parameterType="paging" resultType="report">
+    <![CDATA[SELECT C.* FROM (SELECT ROWNUM row_num,r.* from (select * from report) r ) c where row_num >= #{startNum} and row_num <= #{endNum}]]>
  	</select>
- 	
- 	<select id="selectReportByUser" parameterType="map" resultType="report">
-    <![CDATA[SELECT C.* FROM (SELECT ROWNUM row_num,r.* from (select * from report where id=#{id}) r ) c where row_num >= #{paging.startNum} and row_num <= #{paging.endNum}]]>
- 	</select>
-	
-	 <select id="countReport" parameterType="report" resultType="int">
-	<![CDATA[select count(*) from report]]>
-	</select>
-	
-	<select id="countReportByUser" parameterType="report" resultType="int">
-	<![CDATA[select count(*) from report where id=#{id}]]>
+	 <select id="countReport" resultType="int">
+	select count(*) from report
 	</select>
 	<select id="selectReportPost" parameterType="report" resultType="report">
-	select * from report where repno=#{repno} and id=#{id}
+	select * from report where repno=#{repno}
 	</select>	
 	<update id="reportRead" parameterType="inquire">
-	update report set read='Y' where repno=#{repno} and id=#{id}
+	update report set read='Y' where repno=#{repno}
 	</update>	
-	<update id="modifyReportForm" parameterType="report">
-	update report set title=#{title},contents=#{contents},rfile=#{rfile},rfileoriname=#{rfileoriname},writedate=to_char(sysdate,'YYYY.MM.DD'),read='N',acceptreport='N' where repno=#{repno} and id=#{id}
-	</update>
 	<delete id="deleteReport" parameterType="report">
-	delete from report where repno=#{repno} and id=#{id}
+	delete from report where repno=#{repno}
 	</delete>	
     <update id="acceptReportUpdate" parameterType="report">
-    update report set acceptreport = 'Y' where repno=#{repno} and otherid=#{otherid}    
+    update report set acceptreport = 'Y' where repno=#{repno} 
     </update> 
-    <delete id="reportReset" parameterType="String">
-    delete report where otherid=#{id}
-    </delete>
  </mapper>

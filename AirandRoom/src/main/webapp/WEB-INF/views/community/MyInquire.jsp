@@ -24,7 +24,8 @@ $(document).ready(function(){
     	var test = '${inquire.read}';
     	if (test == 'Y') {
     		alert("상대가 이미 열람하였으므로 수정이 불가능합니다.");
-    	} else {
+    	} 
+    	else {
     		$("#mandu1").remove();
     	    $("#stylized").append($("#mandu2"));
     	    $("#mandu2").show();
@@ -75,7 +76,12 @@ function modifyInquireForm(){
 	} else if (contents == "") {
 		alert("내용을 입력해주세요.");
 		$("#contents").focus();		
-	} else if (read == 'Y'){
+	}
+	else if(contents.length>500){
+		alert("내용은 500자 이하로 입력해주세요.");
+		$("#contents").focus();	
+	}
+	else if (read == 'Y'){
 		alert("상대가 이미 문의글을 열람하였으므로 수정이 불가능합니다.")
 	}
 		else {
@@ -108,7 +114,9 @@ function modifyInquireForm(){
 			}
 	}	
 }
-
+function contentlength(){
+	$("#contentslength").html($("#contents").val().length+"/500");
+}
 </script>    
     
 <style>
@@ -200,7 +208,8 @@ font-family:tahoma;
    <div id="mandu2">
 <form id="form" method="POST" enctype="multipart/form-data">  
 <label class="small">제목 :</label> <input type="text" name="title" id="title" value="${inquire.title}"/>
-<p><textarea cols="50" rows="30" name="contents" id="contents">${inquire.contents}</textarea></p>
+<p><textarea cols="50" onkeyup="contentlength()" rows="30" name="contents" id="contents">${inquire.contents}</textarea></p>
+<div id="contentslength" style="height:20px; text-align:center;">0/500</div>
 <label class="small">첨부파일 :</label> <input type="file" name="ifile" id="ifile">
 <div class="spacer"></div>
 		<input type="hidden" value="${inquire.ino}" name="ino" id="ino"> 

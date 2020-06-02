@@ -91,24 +91,11 @@ public class CommunityDAO {
 		return sql.insert("Community.sendReportForm", report);
 	}
 	
-	public List<ReportDTO> selectReport(ReportDTO report, Paging paging) {
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("paging", paging);
-		map.put("id", report.getOtherid());
-		return sql.selectList("Community.selectReport",map);
+	public List<ReportDTO> selectReport(Paging paging) {
+		return sql.selectList("Community.selectReport",paging);
 	}
-	public int countReport(ReportDTO report) {
-		return sql.selectOne("Community.countReport",report);
-	}
-	public int countReportByUser(ReportDTO report) {
-		return sql.selectOne("Community.countReportByUser",report);
-	}
-	
-	public List<ReportDTO> selectReportByUser(ReportDTO report,Paging paging) {
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("id",report.getId());
-		map.put("paging",paging);
-		return sql.selectList("Community.selectReportByUser",map);
+	public int countReport() {
+		return sql.selectOne("Community.countReport");
 	}
 	
 	public ReportDTO selectReportPost(ReportDTO report) {
@@ -119,10 +106,6 @@ public class CommunityDAO {
 		return sql.update("Community.reportRead",report);
 	}
 	
-	public int modifyReportForm(ReportDTO report) {
-		return sql.insert("Community.modifyReportForm", report);
-	}
-
 	public int deleteReport(ReportDTO report) {
 		return sql.delete("Community.deleteReport", report);		
 	}
@@ -135,12 +118,6 @@ public class CommunityDAO {
 		sql.update("Member.loginban", map);
 		return sql.update("Community.acceptReportUpdate",report);
 	}
-
-
-	public void reportReset(String id) {	
-		sql.delete("Community.reportReset",id);
-	}
-
 
 	public int countMyInquire(String id) {
 		return sql.selectOne("Community.countMyInquire", id);

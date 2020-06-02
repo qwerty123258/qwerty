@@ -46,7 +46,7 @@
 					if (result == "yes") {
 						alert('체크아웃성공');
 						window.open("guestEvaluationForm?id="+id+"&rbno="+rbno, "PopupWin", "width=500,height=600");
-location.reload();
+						location.reload();
 					} else {
 						alert('체크아웃실패');
 					}
@@ -65,7 +65,7 @@ location.reload();
 		}				
 		
 		  function gradeView(id){     
-		      window.open("gradeView?page=1&id="+id, "PopupWin", "width=500,height=600");
+		      window.open("gradeView?page=1&id="+id, "PopupWin", "width=300,height=300");
 		   
 		  }
 	</script>
@@ -93,20 +93,14 @@ location.reload();
 						<c:forEach var="booking" items="${list}">
 							<tr>
 								<td>${booking.rbno}</td>
-								
-								
 								<td><a data-toggle="modal" href="gradeView?page=1&id=${booking.id}" data-target="#modal-gradeView" role="button" data-backdrop="static" >${booking.id}</a></td>
 								<td>${booking.rname}</td>
 								<td>${booking.bookingdate}</td>
 								<td>${booking.checkindate}</td>
 								<td>${booking.checkoutdate}</td>
-								<td><a href="javascript:roomsBookingDelete(${booking.rbno})">삭제</a></td>
-								<c:if test="${booking.checks eq 'N'}">
-									<td><a href="javascript:checkOut(${booking.rbno},'${booking.id}')">체크아웃</a></td>								
-								</c:if>								
+								<td><a href="javascript:roomsBookingDelete(${booking.rbno})">삭제</a></td>							
 								<c:if test="${booking.checks eq 'Y'}">
-								<c:if test="${booking.grade eq 'N'}">
-								
+								<c:if test="${booking.grade eq 'N'}">		
 									<td><a href="javascript:grade(${booking.rbno},'${booking.id}')">고객평가</a></td>								
 								</c:if>
 								</c:if>
@@ -169,7 +163,7 @@ location.reload();
 	</div>
 <div id="modal-gradeView" class="modal fade" tabindex="-1"
 		role="dialog" aria-labelledby="테스트정보 등록" aria-describedby="테스트 모달" >
-		<div class="modal-dialog" style="width: 60%; top: 10%; margin:auto;">
+		<div class="modal-dialog" style="width: 40%; top: 25%; ">
 			<div class="modal-content"></div>
 		</div>
 		</div>

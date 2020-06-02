@@ -121,7 +121,7 @@ select distinct to_char(bookingdate,'MM') as month from airlinebk ab,airline a w
 <![CDATA[SELECT C.* FROM (SELECT ROWNUM row_num,r.* from (select a.*,replace(takentime,'분','') as val from airline a WHERE STARTPOINT LIKE '%'||#{airline.endpoint}||'%' AND ENDPOINT LIKE '%'||#{airline.startpoint}||'%' and approval='Y' order by to_number(val) desc) r ) c where row_num >= 1 and row_num <= #{paging.endNum}]]>
 </when>
 <when test="opt != null and opt.equals('longestOneway')">
-<![CDATA[SELECT C.* FROM (SELECT ROWNUM row_num,r.* from (select a.*,replace(takentime,'분','') as val from airline a WHERE STARTPOINT LIKE '%'||#{airline.endpoint}||'%' AND ENDPOINT LIKE '%'||#{airline.startpoint}||'%' and approval='Y' order by to_number(val) asc) r ) c where row_num >= 1 and row_num <= #{paging.endNum}]]>
+<![CDATA[SELECT C.* FROM (SELECT ROWNUM row_num,r.* from (select a.*,replace(takentime,'분','') as val from airline a WHERE STARTPOINT LIKE '%'||#{airline.startpoint}||'%' AND ENDPOINT LIKE '%'||#{airline.endpoint}||'%' and approval='Y' order by to_number(val) asc) r ) c where row_num >= 1 and row_num <= #{paging.endNum}]]>
 </when>
 <when test="opt != null and opt.equals('longestRoundtrip')">
 <![CDATA[SELECT C.* FROM (SELECT ROWNUM row_num,r.* from (select a.*,replace(takentime,'분','') as val from airline a WHERE STARTPOINT LIKE '%'||#{airline.startpoint}||'%' AND ENDPOINT LIKE '%'||#{airline.endpoint}||'%' and approval='Y' order by to_number(val) desc) r ) c where row_num >= 1 and row_num <= #{paging.endNum}]]>

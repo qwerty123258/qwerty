@@ -154,6 +154,7 @@ $(document).ready(function(){
                 sender: '',
                 message: '',
                 messages: [],
+                receiver:'${sessionScope.id}',
             },
             created() {
                 this.roomId = localStorage.getItem('wschat.roomId');

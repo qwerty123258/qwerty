@@ -33,24 +33,26 @@
 			}
 		});
 		function reviewDelete(revno) {
-			$.ajax({
-				type : "post",
-				url : "reviewDelete",
-				data : "revno=" + revno,
-				dataType : "text",
-				success : function(result) {
-					if (result == "yes") {
-						alert('삭제성공');
-						location.reload();
-					} else {
-						alert('삭제실패');
+			if(confirm("삭제하시겠습니까?")){
+				$.ajax({
+					type : "post",
+					url : "reviewDelete",
+					data : "revno=" + revno,
+					dataType : "text",
+					success : function(result) {
+						if (result == "yes") {
+							alert('리뷰 삭제 성공');
+							location.reload();
+						} else {
+							alert('리뷰 삭제 실패');
+						}
+					},
+					error : function() {
+						alert("리뷰 삭제중 에러 발생");
 					}
-				},
-				error : function() {
 
-				}
-
-			});
+				});	
+			}
 		}
 		function good(revno) {
 			$.ajax({
@@ -62,20 +64,18 @@
 					if (result == "yes") {
 						var check = document.getElementById(revno + "good");
 						if (check.style.color =="red") {
-							alert('y');
 							check.style.color="black";
 							$("#" + revno + "good").html("<i class='far fa-heart' ></i>");
 						} else {
-							alert('n');
 							check.style.color="red";							
 							$("#" + revno + "good").html("<i class='far fa-heart' ></i>");
 						}
 					} else {
-						alert('실패');
+						alert('공감 실패');
 					}
 				},
 				error : function() {
-					alert('실패');
+					alert('공감 도중 에러 발생');
 				}
 
 			});
@@ -127,6 +127,9 @@
 
 		function reviewCommentWrite(revno) {
 			var comment = document.getElementById(revno + "input").value;
+			if(comment==""){
+				return;
+			}
 			document.getElementById(revno + "input").value = "";
 			$.ajax({
 				type : "post",
@@ -185,13 +188,35 @@
 							html+="<tr><td>"+data.list[i].id+"</td></tr>";
 							html+="<tr><td>";
 							html += "<a href=reviewUpdateForm?revno="
-									+ data.list[i].revno + ">후기 수정</a>";
+									+ data.list[i].revno + "&check=${check}><i class='far fa-edit'></i></a>";
 							html += "<a href=javascript:reviewDelete("
 									+ data.list[i].revno + ")><i class='far fa-trash-alt'></i></a></td></tr>";
-							html +="<tr><td>"
+							html +="<tr><td>";
 							html +="<img style='width:100%; height:400px;' src='${pageContext.request.contextPath}/resources/fileUpload/"+data.list[i].rimgname+"'</td></tr>";
 							html +="<tr><td>"+data.list[i].contents+"</td></tr>";
-		                	html +="</table>";
+							html +="<tr><td>";
+							if(data.list[i].rlike=='Y'){
+								if(data.list[i].host=='${sessionScope.id}'){
+									html += "<a href='javascript:good("+data.list[i].revno+")' style='color:red' id='"+data.list[i].revno+"good' ><i class='far fa-heart' ></i></a>";								
+								}else{
+									html += "<i class='far fa-heart' style='color:red'></i>";								
+															
+								}
+											
+									}else{
+										if(data.list[i].host=='${sessionScope.id}'){
+															
+										html += "<a href='javascript:good("+data.list[i].revno+")' style='color:black' id='"+data.list[i].revno+"good' ><i class='far fa-heart' ></i></a>";
+	}else{
+		html += "<i class='far fa-heart' style='color:black'></i>";
+	}
+										
+			
+									}
+
+							html +="</tr></td>";
+								
+							html +="</table>";
 		                	reviewCommentList(data.list[i].revno);
 	                
 	                	}
@@ -227,13 +252,34 @@
 							html+="<tr><td>"+data.list[i].id+"</td></tr>";
 							html+="<tr><td>";
 							html += "<a href=reviewUpdateForm?revno="
-									+ data.list[i].revno + ">후기 수정</a>";
+									+ data.list[i].revno + "&check=${check}><i class='far fa-edit'></i></a>";
 							html += "<a href=javascript:reviewDelete("
 									+ data.list[i].revno + ")><i class='far fa-trash-alt'></i></a></td></tr>";
 							html +="<tr><td>"
 							html +="<img style='width:100%; height:400px;' src='${pageContext.request.contextPath}/resources/fileUpload/"+data.list[i].rimgname+"'</td></tr>";
 							html +="<tr><td>"+data.list[i].contents+"</td></tr>";
-		                	html +="</table>";
+							html +="<tr><td>";
+								
+								if(data.list[i].rlike=='Y'){
+							if(data.list[i].host=='${sessionScope.id}'){
+								html += "<a href='javascript:good("+data.list[i].revno+")' style='color:red' id='"+data.list[i].revno+"good' ><i class='far fa-heart' ></i></a>";								
+							}else{
+								html += "<i class='far fa-heart' style='color:red'></i>";								
+														
+							}
+										
+								}else{
+									if(data.list[i].host=='${sessionScope.id}'){
+														
+									html += "<a href='javascript:good("+data.list[i].revno+")' style='color:black' id='"+data.list[i].revno+"good' ><i class='far fa-heart' ></i></a>";
+}else{
+	html += "<i class='far fa-heart' style='color:black'></i>";
+}
+									
+		
+								}
+								html +="</tr></td>";
+							html +="</table>";
 		                	reviewCommentList(data.list[i].revno);
 	                
 	                	}
@@ -343,7 +389,7 @@
 	
 	        	}
 	        	for(var j=0; j<data.comment.length; j++){
-	        		revcomment+="<tr style='text-align:left' id='comment"+data.comment[j].replyno+"' style='height:50px;'><td><img style='width:32px; height:32px;' onError='this.src=\"${pageContext.request.contextPath}/resources/img/default.webp\"'  src='${pageContext.request.contextPath}/resources/fileUpload/"+data.comment[j].imgname+"\' >"+"     "+data.comment[j].id+" : "+data.comment[j].contents+"</td></tr>";
+	        		revcomment+="<tr style='text-align:left' id='comment"+data.comment[j].replyno+"' style='height:50px;'><td><img style='border-radius:16px; width:32px; height:32px; border-radius:16px;' onError='this.src=\"${pageContext.request.contextPath}/resources/img/default.webp\"'  src='${pageContext.request.contextPath}/resources/fileUpload/"+data.comment[j].imgname+"\' >"+"     "+data.comment[j].id+" : "+data.comment[j].contents+"<i style='float:right;' onclick='reviewCommentDelete("+data.comment[j].replyno+","+data.comment[j].revno+")' class='far fa-trash-alt'></i></td></tr>";
 	        	}
 	        	commentinput+="<input type='text' style='width: 95%;' id='commentinput"+data.roomrev.revno+"'/> ";
 	        	commentinput+="<button class='btn btn-info' onclick='writeComment("+data.roomrev.revno+")'><i class='far fa-paper-plane'>"+ "  " +"댓글 입력</button>";
@@ -380,6 +426,8 @@
 	
 		});
 	}
+	
+	
 	function reviewViewScroll(revno,commentpage){
 	    $.ajax({
 	        type:'get',
@@ -394,7 +442,8 @@
 	        	revcomment+="<table id='commentList' class='table table-bordered table-striped table-hover' style='height:100%;'>";
 	        	revcomment+="<tbody style='height:100%;'>"
 	        	for(var j=0; j<data.comment.length; j++){
-	        		revcomment+="<tr style='text-align:left' id='comment"+data.comment[j].replyno+"' style='height:50px;'><td><img style='width:32px; height:32px;' onError='this.src=\"${pageContext.request.contextPath}/resources/img/default.webp\"'  src='${pageContext.request.contextPath}/resources/fileUpload/"+data.comment[j].imgname+"\' >"+"     "+data.comment[j].id+" : "+data.comment[j].contents+"</td></tr>";
+	        		revcomment+="<tr style='text-align:left' id='comment"+data.comment[j].replyno+"' style='height:50px;'><td><img style='border-radius:16px; width:32px; height:32px;' onError='this.src=\"${pageContext.request.contextPath}/resources/img/default.webp\"'  src='${pageContext.request.contextPath}/resources/fileUpload/"+data.comment[j].imgname+"\' >"+"     "+data.comment[j].id+" : "+data.comment[j].contents+"<i style='float:right;' onclick='reviewCommentDelete("+data.comment[j].replyno+","+data.comment[j].revno+")' class='far fa-trash-alt'></i></td></tr>";
+	        	
 	        	}
 	        	revcomment+="</tbody>";
 				
@@ -409,6 +458,9 @@
 	
 	function writeComment(revno){
 	var comment=$("#commentinput"+revno).val();
+	if(comment==""){
+		return;
+	}
 	$.ajax({
 	    type:'POST',
 		url : "writeCommentModal",
@@ -432,6 +484,9 @@
 	    });
 			
 	}
+	
+	
+	
 	function reviewCommentWriteList(revno) {
 		$.ajax({
 			type : "post",
@@ -458,7 +513,7 @@
 				save += "<td>"
 					save += "<input type='text' id='"+revno+"input' style='width: 95%;'>";
 				save += "<button onclick='reviewCommentWrite(" + revno
-						+ ")'>댓글작성</button>";
+						+ ")'>완료</button>";
 				save += "</td>"
 				save += "</tr>"
 				save +="</table>";
@@ -470,6 +525,33 @@
 			}
 	
 		});
+	}
+	
+	function reviewCommentDelete(replyno,revno){
+		if(confirm("삭제하시겠습니까?")){
+			$.ajax({
+			    type:'POST',
+				url : "reviewCommentDelete",
+				data : "replyno=" + replyno,
+			    dataType : "text",
+			    async:false,
+			    success : function(data){
+			    	$("#commentinput"+revno).val("");
+			    	if(data=="Success"){
+			        	reviewCommentWriteList(revno);
+			        	reviewViewScroll(revno,commentpage);
+			    	}
+			    	else{
+			    		alert("댓글 삭제 실패");
+			    	}
+			
+			    },
+			    error:function(){
+			    	alert("댓글 삭제 중 에러 발생");
+			    }
+			    });	
+		}
+		
 	}
 	
 	</script>

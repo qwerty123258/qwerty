@@ -261,7 +261,7 @@ function oneway(page,startpoint,endpoint){
                html +="<td>"+data.list[i].aprice+"</td>";
                html +="</tr>";     
      	       html+="</table>";
-           	order +="<select class='oneway' onchange='javascript:onewaySortby(\""+startpoint+"\",\""+endpoint+"\");'>";
+           	order +="<select id='oneway' onchange='javascript:onewaySortby(\""+startpoint+"\",\""+endpoint+"\");'>";
         	order +="<option value=''>선택하세요</option>";
         	order +="<option value='최단시간순편도'>최단시간순</option>";
         	order +="<option value='최대시간순편도'>최대시간순</option>";
@@ -339,7 +339,7 @@ function roundtrip(page,startpoint,endpoint){
 	});
 }
 function onewaySortby(startpoint,endpoint) {
-	var selectVal = $("select[class=oneway]").val();
+	var selectVal = $("select[id=oneway]").val();
 	if(selectVal != null) {		
 	$.ajax({
         type:'GET',
@@ -397,7 +397,7 @@ function roundtripSortby(startpoint,endpoint) {
 	$.ajax({
         type:'GET',
         url : "airlineSortBy",
-        data : "page=1"+"&startpoint="+endpoint + "&endpoint="+startpoint+"&airlinetype="+selectVal,
+        data : "page=1"+"&startpoint="+startpoint + "&endpoint="+endpoint+"&airlinetype="+selectVal,
         dataType : "json",
         async : false,
         success : function(data){

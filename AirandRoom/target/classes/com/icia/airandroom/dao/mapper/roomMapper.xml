@@ -98,7 +98,7 @@
  </insert>
 
 <update parameterType="room" id="roomsUpdate">
- UPDATE ROOM SET RNAME=#{rname},PRICE=#{price} where rno=#{rno} 
+ UPDATE ROOM SET RNAME=#{rname},CONTENTS=#{contents},PRICE=#{price} where rno=#{rno} 
  </update>
 
 <delete parameterType="String" id="roomPicDelete">
@@ -159,7 +159,7 @@ select r.rno,r.rname,r.price,r.address,count(*) as bkcount from room r,roombk bk
 select r.rno,r.rname,r.address,r.price,pic.rimgname from room r,roompic pic where r.rno=pic.rno and rpno=#{rpno} group by r.rno,r.rname,r.price,r.address,pic.rimgname
 </select>
 <select id="grade" resultType="String" parameterType="String">
-select avg(grade) from rgrade where rno=#{rno}
+select round(avg(grade),1) as grade from rgrade where rno=#{rno}
 </select>
 
 </mapper>

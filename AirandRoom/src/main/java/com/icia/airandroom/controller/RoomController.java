@@ -557,15 +557,10 @@ public class RoomController {
 
 	@ResponseBody
 	@RequestMapping(value = "/reviewCommentDelete", method = RequestMethod.POST)
-	public Map<String, Object> reviewCommentDelete(@RequestParam("replyno") String replyno,
-			@RequestParam("revno") String revno, @RequestParam("commentpage") int page) {
-		CommentsDTO comments = new CommentsDTO();
-		comments.setReplyno(replyno);
-		comments.setRevno(revno);
-		Paging paging = new Paging();
-		paging.setPage(page);
-		Map<String, Object> list = roomService.reviewCommentDelete(comments, revno,paging);
-		return list;
+	public String reviewCommentDelete(@RequestParam("replyno") String replyno) {
+	
+		String result = roomService.reviewCommentDelete(replyno);
+		return result;
 	}
 	
 	@ResponseBody
@@ -609,12 +604,13 @@ public class RoomController {
 	@ResponseBody
 	@RequestMapping(value = "/bookingDelete", method = RequestMethod.POST)
 	public String bookingDelete(@RequestParam("rbno") String rbno) {
-		String returns = "no";
 		boolean result = roomService.bookingDelete(rbno);
 		if (result) {
-			returns = "yes";
+			return "Success";
 		}
-		return returns;
+		else {
+			return "Fail";
+		}
 
 	}
 	

@@ -6,15 +6,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>신고글 보기</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
-function selectReportPost(repno,id,kind){
+function selectReportPost(repno){
 	
 	var num = repno;
-	var id = id;
-	var kind = kind;
-	var popUrl = "selectReportPost?repno="+num+"&id="+id+"&kind="+kind;	
+	var popUrl = "selectReportPost?repno="+num;	
 
 	var popOption = "width=450, height=650, resizable=no, scrollbars=no, status=no;";    //팝업창 옵션(optoin)
 
@@ -273,30 +271,19 @@ a#login_pop:hover, a#join_pop:hover {
     </thead>
     <tr>
         <td>${result.repno}</td>
-        <td><a onclick="javascript:selectReportPost('${result.repno}','${result.id}','${kind}');">${result.title}</a></td>
+        <td><a onclick="javascript:selectReportPost('${result.repno}');">${result.title}</a></td>
         <td>
-
-    
-<c:choose>
-
-   <c:when test="${result.acceptreport eq 'Y' && result.id eq id}">
-       <h4>신고가 받아들여짐</h4>
-   </c:when>   
-   <c:when test="${result.acceptreport eq 'Y' && kind eq 'admin'}">
-       <h4>신고가 받아들여짐</h4>
-   </c:when>   
-   <c:when test="${result.acceptreport eq 'Y' && kind eq 'airline'}">
-       <h4>신고가 받아들여짐</h4>
-   </c:when>
-   <c:when test="${result.acceptreport eq 'Y' && kind eq 'room'}">
-       <h4>신고가 받아들여짐</h4>
+<c:choose>   
+   <c:when test="${result.acceptreport eq 'Y'}">
+       <h4>처리완료</h4>
    </c:when>         
-   <c:when test="${result.acceptreport eq 'N'}">
-       <h4>접수대기중</h4>
+   <c:when test="${result.read eq 'Y'}">
+       <h4>신고 미처리</h4>
    </c:when>
-
+      <c:when test="${result.read eq 'N'}">
+       <h4>접수 대기중</h4>
+   </c:when>
 </c:choose>
-
          </td>
     </tr>
 </table>

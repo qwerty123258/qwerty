@@ -15,7 +15,7 @@
 <c:if test="${sessionScope.kind eq 'admin'}">
 <p><a href="myPage">요청된 숙소 및 노선 등록리스트 보기</a></p>
 <p><a href="memberList?page=1">회원 전체 조회</a></p>
-<p><a href="selectReport?kind=${kind}&id=${id}">신고내역 보기</a></p>
+<p><a href="selectReport">신고내역 보기</a></p>
 </c:if>
 <c:if test="${sessionScope.kind eq 'room'}">
 <p><a href="roomManagement">숙소 관리하기</a></p>
@@ -27,7 +27,7 @@
 <p><a href="myPage">문의글 보기</a></p>
 </c:if>
 <c:if test="${sessionScope.kind eq 'normal'}">
-<p><a href="myReviewListForm?id=${sessionScope.id}">작성한 리뷰보기</a></p>
+<p><a href="myReviewListForm?id=${sessionScope.id}&check=my">작성한 리뷰보기</a></p>
 <p><a href="myInquireList?id=${sessionScope.id}&page=1">문의 내역 보기</a></p>
 <p><a href="myPage">예약 리스트보기</a></p>
 <p><a href="checkDelMembers">회원탈퇴</a></p>

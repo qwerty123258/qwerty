@@ -102,8 +102,8 @@ public class RoomrevDAO {
 		return sql.insert("Roomrev.reviewCommentWrite", comments);
 	}
 
-	public int reviewCommentDelete(CommentsDTO comments) {
-		return sql.delete("Roomrev.reviewCommentDelete", comments);
+	public int reviewCommentDelete(String replyno) {
+		return sql.delete("Roomrev.reviewCommentDelete", replyno);
 	}
 
 	public RoomrevDTO reviewView(String revno) {

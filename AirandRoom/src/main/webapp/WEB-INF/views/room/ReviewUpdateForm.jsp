@@ -150,7 +150,7 @@ $("#deletePicList").append(html);
 				success : function(result) {
 				if (result == "yes") {
 				alert('등록성공');
-				location.href="myReviewListForm?page=1";
+				location.href="myReviewListForm?id=${sessionScope.id}&check=my";
 				} 
 				else if (result == "no") {
 				alert('등록실패');
@@ -160,8 +160,9 @@ $("#deletePicList").append(html);
 				alert('리뷰 수정중 에러 발생');
 				}
 
+		});
 		}
-		}
+	}
 	
 	  function contentlength(){
 		  $("#contentslength").html($("#contents").val().length+"/500");
@@ -199,8 +200,7 @@ $("#deletePicList").append(html);
 </div>
 </td>
 </tr>
-	
-	
+	<tr>
 	<td>기존파일</td>
 	<td>
 		<c:forEach var="plist" items="${plist}">
@@ -211,7 +211,7 @@ $("#deletePicList").append(html);
 						</div>					
 					</c:forEach>
 					</td>
-					</td>
+					</tr>
 						
 					
 	<tr>

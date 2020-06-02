@@ -60,19 +60,18 @@ function checkOut(rbno, rno) {
 }
 
 function bookingDelete(rbno){
+	
 	$.ajax({
 		type:"post",
 		url:"bookingDelete",
 		data:"rbno="+rbno,
 		dataType:"text",
 		success:function(result){
-			if (result == "yes") {
+			if (result == "Success") {
 				customerRoomsBookingList(1);
-			} else {
+			} else if(result=="Fail") {
 				alert('예약 취소 실패');
 			}
-
-
 		},
 		error : function() {
 			alert('예약 취소 중 에러 발생');

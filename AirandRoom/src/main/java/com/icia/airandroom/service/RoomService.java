@@ -518,8 +518,9 @@ public class RoomService {
 			}
 			return true;
 		} else {
-			return false;
+
 		}
+		return false;
 	}
 
 	public Map<String, Object> myReviewList(int page,String nickname) {
@@ -690,16 +691,13 @@ public class RoomService {
 		return map;
 	}
 
-	public Map<String, Object> reviewCommentDelete(CommentsDTO comments, String revno, Paging paging) {
-		revdao.reviewCommentDelete(comments);
-		int count = revdao.countComment(revno);
-		paging.setTotalCount(count);
-		String opt="최신순";
-		Map<String, Object> map = new HashMap<String, Object>();
-		List<CommentsDTO> list = revdao.reviewCommentListPaging(paging,revno,opt);
-		map.put("list", list);
-		map.put("paging", paging);
-		return map;
+	public String reviewCommentDelete(String replyno) {
+		int result=revdao.reviewCommentDelete(replyno);
+	if(result>0) {
+	return "Success";	
+	}else {
+		return "Fail";	
+	}	
 	}
 
 	public Map<String, Object> reviewView(String revno, Paging paging) {

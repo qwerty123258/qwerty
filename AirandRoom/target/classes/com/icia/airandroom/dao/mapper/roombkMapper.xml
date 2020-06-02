@@ -37,7 +37,7 @@ insert into roombk values(roombk_seq.nextval,#{rno},#{rname},#{id},#{checkindate
  select * from roombk where rbno=#{rbno} 
  </select>
  <delete parameterType="String" id="bookingDelete">
-  delete from roombk where rbno=#{rbno} 
+  delete roombk where rbno=#{rbno}  
   </delete>
   <select id="countGradeView" parameterType="String" resultType="int">
   select count(*) from mgrade where id=#{id}
@@ -48,7 +48,7 @@ insert into roombk values(roombk_seq.nextval,#{rno},#{rname},#{id},#{checkindate
   </select>
   
   <select id="gradeAvg" parameterType="String" resultType="String">
-  select round(avg(grade),1) from mgrade where id=#{id}
+  select round(avg(grade),1) as grade from mgrade where id=#{id}
   </select>
   
   

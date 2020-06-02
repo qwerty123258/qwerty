@@ -134,7 +134,7 @@ $("#deleteAr").append(html);
 		else if (prcheck == "") {
 			alert('가격을 입력하세요');	
 		}
-		else if(prcheck.match(regex)){
+		else if(!prcheck.match(regex)){
 			alert('가격태그에는 숫자만입력하세요');
 		}
 		else if(contents==""){

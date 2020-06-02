@@ -49,11 +49,7 @@ public class AirlineService {
 	}
 
 	public int createAirline(AirlineDTO airline) throws IllegalStateException, IOException {
-		mav = new ModelAndView();
 		int createResult = adao.createAirline(airline);
-		if (createResult < 0) {
-			mav.setViewName("airline/Fail");
-		}
 		return createResult;
 	}
 
@@ -102,12 +98,8 @@ public class AirlineService {
 	public ModelAndView modifyAirline(int ano) {
 		mav = new ModelAndView();
 		AirlineDTO airline = adao.modifyAirline(ano);
-		if (airline != null) {
-			mav.addObject("airline", airline);
-			mav.setViewName("airline/ModifyAirline");
-		} else {
-			mav.setViewName("airline/Fail");
-		}
+		mav.addObject("airline", airline);
+		mav.setViewName("airline/ModifyAirline");
 		return mav;
 	}
 

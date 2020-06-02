@@ -16,6 +16,7 @@ public class RoomrevDTO {
 	private String revpno;
 	private String imgname;
 	private String grade;
+	private String host;
 	private int mkey;
 	
 	

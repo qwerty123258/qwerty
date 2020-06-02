@@ -1,10 +1,18 @@
 package com.icia.airandroom.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -145,47 +153,37 @@ public class CommunityController {
 	}
 	
 	@RequestMapping(value = "/selectReport", method = RequestMethod.GET)
-	public ModelAndView selectReport(@ModelAttribute ReportDTO report, @ModelAttribute Paging paging,@RequestParam("kind") String kind) {
+	public ModelAndView selectReport(@ModelAttribute Paging paging) {
 		mav = new ModelAndView();
 		if(paging.getPage() != 1) {
 			paging.setPage(paging.getPage());
-		} else {
+		} 
+		else {
 			paging.setPage(1);
 		}		
-		if (kind.matches("admin")) {
-			int count=communityService.countReport(report);
+			int count=communityService.countReport();
 			paging.setTotalCount(count);
-			mav = communityService.selectReport(report,paging,kind);
-		}
-		else {
-			int count=communityService.countReportByUser(report);
-			paging.setTotalCount(count);
-			mav = communityService.selectReport(report,paging,kind);
-		}		
+			mav = communityService.selectReport(paging);
 		return mav;
 	 }
 
     @RequestMapping(value="/selectReportPost", method=RequestMethod.GET)
-    public ModelAndView selectReportPost(@ModelAttribute ReportDTO report,@RequestParam("kind") String kind) throws IOException {
+    public ModelAndView selectReportPost(@ModelAttribute ReportDTO report) throws IOException {
     	mav = new ModelAndView();
-    	mav = communityService.selectReportPost(report,kind);
+    	mav = communityService.selectReportPost(report);
     	return mav;
     }
-    
-	@ResponseBody
-	@RequestMapping(value = "/modifyReportForm", method = RequestMethod.POST)
-	public int modifyReportForm(@ModelAttribute ReportDTO report,HttpServletRequest request,MultipartHttpServletRequest mtfRequest) throws IllegalStateException, IOException {
-		int result = communityService.modifyReportForm(report,request,mtfRequest);
-		return result; 
-		
-		
-	}
 	
+    @ResponseBody
     @RequestMapping(value="/deleteReport", method=RequestMethod.GET)
-    public ModelAndView deleteReport(@ModelAttribute ReportDTO report,@RequestParam("kind") String kind) throws IOException {
-    	mav = new ModelAndView();
-    	mav = communityService.deleteReport(report,kind);   	
-    	return mav;
+    public String deleteReport(@ModelAttribute ReportDTO report) throws IOException {
+    	boolean result = communityService.deleteReport(report);
+    	if(result) {
+    		return "Success";
+    	}
+    	else {
+    		return "Fail";
+    	}
     }
     
 	@ResponseBody
@@ -194,6 +192,87 @@ public class CommunityController {
 		int result = communityService.acceptReport(report);
 		return result; 		
 	}
+	
+	@RequestMapping(value = "/filedownload", method = RequestMethod.GET)
+	public void filedownload(@RequestParam("filename") String filename,HttpServletRequest request,HttpServletResponse response) throws IOException {
+		HttpSession session = request.getSession(); 
+		String root_path = session.getServletContext().getRealPath("/");
+		String attach_path = "resources/fileUpload/"+filename;
+		String savePath=root_path+""+attach_path;
+		System.out.println(savePath);
+	    File downloadFile = new File(savePath); //그 경로 맞는 파일 객체 생성
+	    FileInputStream inStream = new FileInputStream(downloadFile);  // 객체를 읽어들임
+	    try {
+			setDisposition(filename,request,response);// 파일 다운로드시 한글 처리
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	    System.out.println(response.getOutputStream());
+	    OutputStream outStream = response.getOutputStream(); //객체를 쓰기함
+	     
+	    byte[] buffer = new byte[4096]; 
+	    int bytesRead = -1;
+	     
+	    while ((bytesRead = inStream.read(buffer)) != -1) {
+	        outStream.write(buffer, 0, bytesRead);
+	    }
+	    inStream.close();
+	    outStream.close();
+	}
+	
+	public String getBrowser(HttpServletRequest request) {
+        String header = request.getHeader("User-Agent");
+   if (header.indexOf("MSIE") > -1) {
+       return "MSIE";
+   } else if (header.indexOf("Trident") > -1) {   // IE11 문자열 깨짐 방지
+       return "Trident";
+   } else if (header.indexOf("Chrome") > -1) {
+       return "Chrome";
+   } else if (header.indexOf("Opera") > -1) {
+       return "Opera";
+   } else if (header.indexOf("Safari") > -1) {
+       return "Safari";
+   }
+   return "Firefox";
+  }
+	
+    private void setDisposition(String filename, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String browser = getBrowser(request); //현재 브라우저 리턴 받기
+        String dispositionPrefix = "attachment; filename="; // 값 초기화
+        String encodedFilename = null; //인코딩된 파일 이름
+        if (browser.equals("MSIE")) {
+               encodedFilename = URLEncoder.encode(filename, "UTF-8").replaceAll("\\+", "%20");
+        } else if (browser.equals("Trident")) {       // IE11 문자열 깨짐 방지
+               encodedFilename = URLEncoder.encode(filename, "UTF-8").replaceAll("\\+", "%20");
+        } else if (browser.equals("Firefox")) {
+               encodedFilename = "\"" + new String(filename.getBytes("UTF-8"), "8859_1") + "\"";
+               encodedFilename = URLDecoder.decode(encodedFilename);
+        } else if (browser.equals("Opera")) {
+               encodedFilename = "\"" + new String(filename.getBytes("UTF-8"), "8859_1") + "\"";
+        } else if (browser.equals("Chrome")) {
+               StringBuffer sb = new StringBuffer();
+               for (int i = 0; i < filename.length(); i++) {
+                      char c = filename.charAt(i);
+                      if (c > '~') {
+                            sb.append(URLEncoder.encode("" + c, "UTF-8"));
+                      } else {
+                            sb.append(c);
+                      }
+               }
+               encodedFilename = sb.toString();
+        } else if (browser.equals("Safari")){
+               encodedFilename = "\"" + new String(filename.getBytes("UTF-8"), "8859_1")+ "\"";
+               encodedFilename = URLDecoder.decode(encodedFilename);
+        }
+        else {
+               encodedFilename = "\"" + new String(filename.getBytes("UTF-8"), "8859_1")+ "\"";
+
+        }
+        response.setHeader("Content-Disposition", dispositionPrefix + encodedFilename);
+        if ("Opera".equals(browser)){
+               response.setContentType("application/octet-stream;charset=UTF-8");
+        }
+}
 	
 }
 

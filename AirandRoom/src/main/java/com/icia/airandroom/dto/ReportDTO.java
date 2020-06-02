@@ -10,7 +10,7 @@ public class ReportDTO {
 	private String id;
 	private String otherid;
 	private String writedate;
-	private String rfile;
+	private String rfilename;
 	private String rfileoriname;
 	private String reportid;
 	private String acceptreport;

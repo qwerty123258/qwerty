@@ -28,7 +28,7 @@ select count(*) from roomrev where id=#{id}
 </select>
 
 <select parameterType="map" id="myReviewList" resultType="roomrev">
-<![CDATA[SELECT * FROM (select ROWNUM  row_num, c.* from (select  rev.* from roomrev rev where  rev.id=#{id} order by rev.revno desc)c) where row_num>= 1 and row_num <= #{paging.endNum}]]>
+<![CDATA[SELECT * FROM (select ROWNUM  row_num, c.* from (select  rev.*,ro.id as host from roomrev rev,room ro where rev.rno=ro.rno and rev.id=#{id} order by rev.revno desc)c) where row_num>= 1 and row_num <= #{paging.endNum}]]>
 </select>
 
 <select parameterType="String" id="reviewUpdateForm" resultType="roomrev">
@@ -40,7 +40,7 @@ select count(*) from roomrev where id=#{id}
  </select>
 
 <update parameterType="roomrev" id="reviewUpdate">
- update roomrev set contents=#{contents}, where revno=#{revno} 
+ update roomrev set contents=#{contents} where revno=#{revno} 
  </update>
 
 <insert parameterType="roomrev" id="revpicUpdateWrite"> 
@@ -113,7 +113,7 @@ select count(*) from roomrev where rno=#{rno}
 </select>
 
 <select id="allReviewList" parameterType="map" resultType="roomrev">
-<![CDATA[SELECT * FROM (select ROWNUM  row_num, c.* from (select  rev.* from roomrev rev where  rev.rno=#{rno} order by rev.revno desc)c) where row_num>= 1 and row_num <= #{paging.endNum}]]>
+<![CDATA[SELECT * FROM (select ROWNUM  row_num, c.* from (select  ro.id as host,rev.* from roomrev rev,room ro where rev.rno=ro.rno and rev.rno=#{rno} order by rev.revno desc)c) where row_num>= 1 and row_num <= #{paging.endNum}]]>
 </select>
 
 <insert id="grade" parameterType="roomrev" >

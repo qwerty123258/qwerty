@@ -70,8 +70,8 @@
 	            'width': '100%',
 	            'z-index':'300'  
 	        };
-console.log(docScrollY);
-	        if( docScrollY > 100) {
+
+	        if( docScrollY > 280) {
 	            $('#menubar').css(styleObj); 
 	        }else{
 	        
@@ -298,7 +298,7 @@ function reviewView(revno){
 
 	    	}
 	    	for(var j=0; j<data.comment.length; j++){
-	    		revcomment+="<tr style='text-align:left' id='comment"+data.comment[j].replyno+"' style='height:50px;'><td><img style='width:32px; height:32px;' onError='this.src=\"${pageContext.request.contextPath}/resources/img/default.webp\"'  src='${pageContext.request.contextPath}/resources/fileUpload/"+data.comment[j].imgname+"\' >"+"     "+data.comment[j].id+" : "+data.comment[j].contents+"</td></tr>";
+	    		revcomment+="<tr style='text-align:left' id='comment"+data.comment[j].replyno+"' style='height:50px;'><td><img style='border-radius: 16px; width:32px; height:32px;' onError='this.src=\"${pageContext.request.contextPath}/resources/img/default.webp\"'  src='${pageContext.request.contextPath}/resources/fileUpload/"+data.comment[j].imgname+"\' >"+"     "+data.comment[j].id+" : "+data.comment[j].contents+"<i style='float:right;' onclick='reviewCommentDelete("+data.comment[j].replyno+","+data.comment[j].revno+")' class='far fa-trash-alt'></i></td></tr>";
 	    	}
 	    	commentinput+="<input type='text' style='width: 95%;' id='commentinput"+data.roomrev.revno+"'/> ";
 	    	commentinput+="<button class='btn btn-info' onclick='writeComment("+data.roomrev.revno+")'><i class='far fa-paper-plane'>"+ "  " +"댓글 입력</button>";
@@ -375,7 +375,7 @@ $.ajax({
     	revcomment+="<table id='commentList' class='table table-bordered table-striped table-hover' style='height:100%;'>";
     	revcomment+="<tbody style='height:100%;'>"
     	for(var j=0; j<data.comment.length; j++){
-    		revcomment+="<tr style='text-align:left' id='comment"+data.comment[j].replyno+"' style='height:50px;'><td><img style='width:32px; height:32px;' onError='this.src=\"${pageContext.request.contextPath}/resources/img/default.webp\"'  src='${pageContext.request.contextPath}/resources/fileUpload/"+data.comment[j].imgname+"\' >"+"     "+data.comment[j].id+" : "+data.comment[j].contents+"</td></tr>";
+    		revcomment+="<tr style='text-align:left' id='comment"+data.comment[j].replyno+"' style='height:50px;'><td><img style='border-radius: 16px; width:32px; height:32px;' onError='this.src=\"${pageContext.request.contextPath}/resources/img/default.webp\"'  src='${pageContext.request.contextPath}/resources/fileUpload/"+data.comment[j].imgname+"\' >"+"     "+data.comment[j].id+" : "+data.comment[j].contents+"<i style='float:right;' onclick='reviewCommentDelete("+data.comment[j].replyno+","+data.comment[j].revno+")' class='far fa-trash-alt'></i></td></tr>";
     	}
     	revcomment+="</tbody>";
 		
@@ -456,6 +456,36 @@ function reviewCommentWriteList(revno) {
 
 	});
 }
+
+
+function reviewCommentDelete(replyno,revno){
+	if(confirm("삭제하시겠습니까?")){
+		$.ajax({
+		    type:'POST',
+			url : "reviewCommentDelete",
+			data : "replyno=" + replyno,
+		    dataType : "text",
+		    async:false,
+		    success : function(data){
+		    	$("#commentinput"+revno).val("");
+		    	if(data=="Success"){
+		        	reviewCommentWriteList(revno);
+		        	reviewViewScroll(revno,commentpage);
+		    	}
+		    	else{
+		    		alert("댓글 삭제 실패");
+		    	}
+		
+		    },
+		    error:function(){
+		    	alert("댓글 삭제 중 에러 발생");
+		    }
+		    });	
+	}
+	
+}
+
+
 </script>
 <style>
 *{margin:0; padding:0; list-style:none;}
@@ -726,7 +756,7 @@ h2{ color: #7f8c8d; font-family: Neucha, Arial, sans serif; font-size:18px; marg
 		
 							<c:when test="${!empty revList[0].imgname}">									
 						
-							<img style='width:32px; height:32px;' src='${pageContext.request.contextPath}/resources/fileUpload/revList[0].imgname' >																										
+							<img style='border-radius: 16px; width:32px; height:32px;' src='${pageContext.request.contextPath}/resources/fileUpload/${revList[0].imgname}' >																										
 							</c:when>
 							<c:otherwise>
 							<img style='width:32px; height:32px;' src='${pageContext.request.contextPath}/resources/img/default.webp' >												
@@ -744,7 +774,7 @@ h2{ color: #7f8c8d; font-family: Neucha, Arial, sans serif; font-size:18px; marg
 				<c:choose>
 							<c:when test="${!empty revList[1].imgname}">									
 						
-							<img style='width:32px; height:32px;' src='${pageContext.request.contextPath}/resources/fileUpload/revList[0].imgname+' >																										
+							<img style='border-radius:16px; width:32px; height:32px;' src='${pageContext.request.contextPath}/resources/fileUpload/${revList[1].imgname}'>																										
 							</c:when>
 							<c:otherwise>
 							<img style='width:32px; height:32px;' src='${pageContext.request.contextPath}/resources/img/default.webp' >												
@@ -766,7 +796,7 @@ h2{ color: #7f8c8d; font-family: Neucha, Arial, sans serif; font-size:18px; marg
 			<c:choose>
 							<c:when test="${!empty revList[2].imgname}">									
 						
-							<img style='width:32px; height:32px;' src='${pageContext.request.contextPath}/resources/fileUpload/revList[0].imgname' >																										
+							<img style='border-radius:16px; width:32px; height:32px;' src='${pageContext.request.contextPath}/resources/fileUpload/${revList[2].imgname}' >																										
 							</c:when>
 							<c:otherwise>
 							<img style='width:32px; height:32px;' src='${pageContext.request.contextPath}/resources/img/default.webp' >												
@@ -784,7 +814,7 @@ h2{ color: #7f8c8d; font-family: Neucha, Arial, sans serif; font-size:18px; marg
 				<c:choose>
 							<c:when test="${!empty revList[3].imgname}">									
 						
-							<img style='width:32px; height:32px;' src='${pageContext.request.contextPath}/resources/fileUpload/revList[0].imgname' >																										
+							<img style='border-radius:16px; width:32px; height:32px;' src='${pageContext.request.contextPath}/resources/fileUpload/${revList[3].imgname}' >																										
 							</c:when>
 							<c:otherwise>
 							<img style='width:32px; height:32px;' src='${pageContext.request.contextPath}/resources/img/default.webp' >												
