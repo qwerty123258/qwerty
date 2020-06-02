@@ -215,8 +215,12 @@ function airlineSearch() {
 		html+="</ul>";
 		html+="<div class='tab-content'>";
 		html+="<div id='home' class='tab-pane fade in active'>";
+		html+="<div id='homecontent'></div>";
+		html+="<div id='homecontentorder'></div>";
 		html+="</div>";
 		html+="<div id='menu1' class='tab-pane fade'>";
+		html+="<div id='menu1content'></div>";
+		html+="<div id='menu1contentorder'></div>";
 		html+="</div>";
 		html+="</div>";
 		$("#airlinechoice").html(html);
@@ -232,8 +236,8 @@ function oneway(page,startpoint,endpoint){
         dataType : "json",
         async : false,
         success : function(data){
-        	var page="";
         	var html="";
+        	var order="";
         	for(var i=0; i<data.list.length; i++){
             	html += "<table onclick='choice("+data.list[i].ano+",\""+data.list[i].aname+"\",\""+data.list[i].airporttype+"\",\""+data.list[i].startpoint+"\",\""+data.list[i].endpoint+"\",\""+data.list[i].aprice+"\",\""+data.list[i].id+"\")' class='type03'>";
             	html +="<tr>";
@@ -257,12 +261,12 @@ function oneway(page,startpoint,endpoint){
                html +="<td>"+data.list[i].aprice+"</td>";
                html +="</tr>";     
      	       html+="</table>";
-           	html +="<select class='oneway' onchange='javascript:onewaySortby();'>";
-        	html +="<option value=''>선택하세요</option>";
-        	html +="<option value='최단시간순편도'>최단시간순</option>";
-        	html +="<option value='최대시간순편도'>최대시간순</option>";
-        	html +="<option value='가격순정렬편도'>가격순정렬</option>";
-        	html +="</select>"; 
+           	order +="<select class='oneway' onchange='javascript:onewaySortby(\""+startpoint+"\",\""+endpoint+"\");'>";
+        	order +="<option value=''>선택하세요</option>";
+        	order +="<option value='최단시간순편도'>최단시간순</option>";
+        	order +="<option value='최대시간순편도'>최대시간순</option>";
+        	order +="<option value='가격순정렬편도'>가격순정렬</option>";
+        	order +="</select>"; 
         	}
     		var nextPage=data.paging.endPage+1;
     		if(data.paging.endPage!=data.paging.totalPage){
@@ -271,7 +275,8 @@ function oneway(page,startpoint,endpoint){
     		else{
     			html += "<button style='cursor: not-allowed; opacity: 0.6;'>더 보기</button>";
     		}
-        	$("#home").html(html);
+        	$("#homecontentorder").html(order);
+        	$("#homecontent").html(html);
         },
         error : function(){
         	alert("가는 편 리스트를 불러오는 중 에러 발생");
@@ -287,6 +292,7 @@ function roundtrip(page,startpoint,endpoint){
         async : false,
         success : function(data){
         	var html="";
+        	var order="";
         	for(var i=0; i<data.list.length; i++){
             	html += "<table onclick='choice("+data.list[i].ano+",\""+data.list[i].aname+"\",\""+data.list[i].airporttype+"\",\""+data.list[i].startpoint+"\",\""+data.list[i].endpoint+"\",\""+data.list[i].aprice+"\",\""+data.list[i].id+"\")' class='type03'>";
             	html +="<tr>";
@@ -310,12 +316,12 @@ function roundtrip(page,startpoint,endpoint){
                html +="<td>"+data.list[i].aprice+"</td>";
                html +="</tr>";     
      	       html+="</table>";
-           	html +="<select id='roundtrip' onchange='javascript:roundtripSortby();'>";
-        	html +="<option value=''>선택하세요</option>";
-        	html +="<option value='최단시간순왕복'>최단시간순</option>";
-        	html +="<option value='최대시간순왕복'>최대시간순</option>";
-        	html +="<option value='가격순정렬왕복'>가격순정렬</option>";
-        	html +="</select>"; 
+           	order +="<select id='roundtrip' onchange='javascript:roundtripSortby(\""+startpoint+"\",\""+endpoint+"\");'>";
+           	order +="<option value=''>선택하세요</option>";
+           	order +="<option value='최단시간순왕복'>최단시간순</option>";
+           	order +="<option value='최대시간순왕복'>최대시간순</option>";
+           	order +="<option value='가격순정렬왕복'>가격순정렬</option>";
+           	order +="</select>"; 
         	}
        		var nextPage=data.paging.endPage+1;
     		if(data.paging.endPage!=data.paging.totalPage){
@@ -324,20 +330,21 @@ function roundtrip(page,startpoint,endpoint){
     		else{
     			html += "<button style='cursor: not-allowed; opacity: 0.6;'>더 보기</button>";
     		}
-        	$("#menu1").html(html);
+        	$("#menu1contentorder").html(order);
+        	$("#menu1content").html(html);
         },
         error : function(){
         	alert("오는 편 리스트를 불러오는 중 에러 발생");
         }
 	});
 }
-function onewaySortby() {
+function onewaySortby(startpoint,endpoint) {
 	var selectVal = $("select[class=oneway]").val();
 	if(selectVal != null) {		
 	$.ajax({
         type:'GET',
         url : "airlineSortBy",
-        data : "page=1"+"&startpoint="+"${startpoint}" + "&endpoint="+"${endpoint}"+"&airlinetype="+selectVal,
+        data : "page=1"+"&startpoint="+startpoint + "&endpoint="+endpoint+"&airlinetype="+selectVal,
         dataType : "json",
         async : false,
         success : function(data){
@@ -367,14 +374,6 @@ function onewaySortby() {
                html +="</tr>";     
      	       html +="</table>";
         	}
-        	html +="<select class='oneway' onchange='javascript:onewaySortby();'>";
-        	html +="<option value=''>선택하세요</option>";
-        	html +="<option value='최단시간순편도'>최단시간순</option>";
-        	html +="<option value='최대시간순편도'>최대시간순</option>";
-        	html +="<option value='가격순정렬편도'>가격순정렬</option>";
-        	html +="</select>";
-        	$("#home").html(html);
-
         	var nextPage=data.paging.endPage+1;
     		if(data.paging.endPage!=data.paging.totalPage){
     			html += "<button onclick=oneway("+nextPage+")'>더 보기</button>";
@@ -382,6 +381,7 @@ function onewaySortby() {
     		else{
     			html += "<button style='cursor: not-allowed; opacity: 0.6;'>더 보기</button>";
     		}
+        	$("#homecontent").html(html);
         },
         error : function(){
         	alert("가는 편 리스트를 불러오는 중 에러 발생");
@@ -391,13 +391,13 @@ function onewaySortby() {
 		return false;
 	}
 }	
-function roundtripSortby() {
+function roundtripSortby(startpoint,endpoint) {
 	var selectVal = $("select[id=roundtrip]").val();
 	if(selectVal != null) {
 	$.ajax({
         type:'GET',
         url : "airlineSortBy",
-        data : "page=1"+"&startpoint="+"${startpoint}" + "&endpoint="+"${endpoint}"+"&airlinetype="+selectVal,
+        data : "page=1"+"&startpoint="+endpoint + "&endpoint="+startpoint+"&airlinetype="+selectVal,
         dataType : "json",
         async : false,
         success : function(data){
@@ -427,13 +427,6 @@ function roundtripSortby() {
                html +="</tr>";     
      	       html +="</table>";
         	}
-        	html +="<select id='roundtrip' onchange='javascript:roundtripSortby();'>";
-        	html +="<option value=''>선택하세요</option>";
-        	html +="<option value='최단시간순왕복'>최단시간순</option>";
-        	html +="<option value='최대시간순왕복'>최대시간순</option>";
-        	html +="<option value='가격순정렬왕복'>가격순정렬</option>";
-        	html +="</select>";
-        	$("#menu1").html(html);
         	var nextPage=data.paging.endPage+1;
     		if(data.paging.endPage!=data.paging.totalPage){
     			html += "<button onclick=oneway("+nextPage+")'>더 보기</button>";
@@ -441,6 +434,7 @@ function roundtripSortby() {
     		else{
     			html += "<button style='cursor: not-allowed; opacity: 0.6;'>더 보기</button>";
     		}
+        	$("#menu1content").html(html);
         },
         error : function(){
         	alert("가는 편 리스트를 불러오는 중 에러 발생");
