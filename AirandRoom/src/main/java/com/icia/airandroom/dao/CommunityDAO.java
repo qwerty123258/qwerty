@@ -82,10 +82,6 @@ public class CommunityDAO {
 	public int deleteInquireUpdate(InquireDTO inquire) {
 		return sql.update("Community.deleteInquireUpdate",inquire);
 	}
-
-	public int replyInquireForm(InquireDTO inquire) {		
-		return sql.update("Community.replyInquireForm",inquire);
-	}
 	
 	public int sendReportForm(ReportDTO report) {
 		return sql.insert("Community.sendReportForm", report);

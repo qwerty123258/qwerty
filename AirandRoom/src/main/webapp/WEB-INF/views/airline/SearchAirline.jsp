@@ -59,7 +59,7 @@ table.type03 td {
 	background-Color:white;
 	text-align:center;
 	position:relative;
-	width:60%;
+	width:50%;
 	height:90%;
 	box-shadow : 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 	border-radious:5px;
@@ -96,6 +96,13 @@ background-Color:blue;
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
+}
+.disabled{
+
+cursor:default;
+opacity:0.6;
+pointer-events:none;
+
 }
 </style>
 <script>
@@ -208,7 +215,6 @@ function airlineSearch() {
 	}
 	if(searchStartPoint != "" && searchEndPoint != ""){
 		var html="";
-		html+="<h1>노선 검색 결과 리스트 페이지입니다.</h1>";
 		html+="<ul class='nav nav-tabs nav-justified'>";
 		html+="<li class='active'><a data-toggle='pill' href='#home'>가는 편</a></li>";
 		html+="<li><a data-toggle='pill' href='#menu1'>오는 편</a></li>";
@@ -261,13 +267,13 @@ function oneway(page,startpoint,endpoint){
                html +="<td>"+data.list[i].aprice+"</td>";
                html +="</tr>";     
      	       html+="</table>";
+        	}
            	order +="<select id='oneway' onchange='javascript:onewaySortby(\""+startpoint+"\",\""+endpoint+"\");'>";
         	order +="<option value=''>선택하세요</option>";
         	order +="<option value='최단시간순편도'>최단시간순</option>";
         	order +="<option value='최대시간순편도'>최대시간순</option>";
         	order +="<option value='가격순정렬편도'>가격순정렬</option>";
         	order +="</select>"; 
-        	}
     		var nextPage=data.paging.endPage+1;
     		if(data.paging.endPage!=data.paging.totalPage){
     			html += "<button onclick=oneway("+nextPage+")'>더 보기</button>";
@@ -316,13 +322,13 @@ function roundtrip(page,startpoint,endpoint){
                html +="<td>"+data.list[i].aprice+"</td>";
                html +="</tr>";     
      	       html+="</table>";
+        	}
            	order +="<select id='roundtrip' onchange='javascript:roundtripSortby(\""+startpoint+"\",\""+endpoint+"\");'>";
            	order +="<option value=''>선택하세요</option>";
            	order +="<option value='최단시간순왕복'>최단시간순</option>";
            	order +="<option value='최대시간순왕복'>최대시간순</option>";
            	order +="<option value='가격순정렬왕복'>가격순정렬</option>";
            	order +="</select>"; 
-        	}
        		var nextPage=data.paging.endPage+1;
     		if(data.paging.endPage!=data.paging.totalPage){
     			html += "<button onclick=oneway("+nextPage+")'>더 보기</button>";
@@ -459,10 +465,35 @@ function goReportFormToAirline(id) {
 }
 function choice(ano,aname,airporttype,startpoint,endpoint,aprice,id){
 	$("#modal").show();
+	var html="";
+	html += "<table class='type03' style='width:100%'>";
+	html +="<tr style='width:100%'>";
+	html +="<th scope='row'>노선 이름</th>";
+	html +="<td>"+aname+"</td>";
+	html +="</tr>";
+	html +="<tr>";
+	html +="<th scope='row'>항공사 종류</th>";
+    html +="<td>"+airporttype+"</td>";
+    html +="</tr>";
+	html +="<tr>";
+	html +="<th scope='row'>출발지</th>";
+    html +="<td>"+startpoint+"</td>";
+    html +="</tr>";
+	html +="<tr>";
+	html +="<th scope='row'>도착지</th>";
+    html +="<td>"+endpoint+"</td>";
+   html +="</tr>";
+   html +="<tr>";
+	   html +="<th scope='row'>가격</th>";
+   html +="<td>"+aprice+"</td>";
+   html +="</tr>";     
+    html +="</table>";
 	var inquire="";
-	inquire+="<button class='btn btn-info' onclick='javascript:goInquireFormToAirline(\""+id+"\");'>문의하기</button>";
-	inquire+="<button class='btn btn-danger' onclick='javascript:goReportFormToAirline(\""+id+"\");'>신고하기</button>";
+	inquire+="<button class='btn btn-info' style='margin-right:60px;' onclick='javascript:goInquireFormToAirline(\""+id+"\");'>문의하기</button>";
+	inquire+="<button class='btn btn-danger' style='margin-left:60px;'onclick='javascript:goReportFormToAirline(\""+id+"\");'>신고하기</button>";
+	inquire+="<br>";
 	$("#inquire").html(inquire);
+	$("#ticketinfo").html(html);
 	$("#selectNum").change(function(){
 		selectNum=$("#selectNum").val();
 		$("#ticketNum").val(selectNum);
@@ -507,8 +538,30 @@ function choice(ano,aname,airporttype,startpoint,endpoint,aprice,id){
                     		data : "ano=" + ano,
                     		dataType : "json",
                     		success : function(result) {
-                    			for(var i=0; i<result.length; i++){
-                    				html+="<a href='javascript:getSeats(\""+result[i].sctime+"\","+ano+","+aprice+",\""+id+"\",\""+aname+"\",\""+startpoint+"\",\""+endpoint+"\")'>"+result[i].sctime+"</a><br>";
+                    			if(result.length>0){
+                    				var date=new Date();
+                    				var year=date.getFullYear();
+                    				var month=date.getMonth()+1;
+                    				if(month<10){
+                    					month="0"+month;
+                    				}
+                    				var day=date.getDate();
+                    				if(day<10){
+                    					day="0"+day;
+                    				}
+                    				var nowdate=year+"-"+month+"-"+day;
+                        			for(var i=0; i<result.length; i++){
+											var schedule=new Date(nowdate+" "+result[i].sctime);
+											if(selectedDate==nowdate && new Date()>schedule){
+												html+="<a href='#' class='disabled'>출발 시각 : "+result[i].sctime+"</a><br>";
+											}
+                        					else{
+                        						html+="<a href='javascript:getSeats(\""+result[i].sctime+"\","+ano+","+aprice+",\""+id+"\",\""+aname+"\",\""+startpoint+"\",\""+endpoint+"\")'>출발 시각 : "+result[i].sctime+"</a><br>";
+                        					}
+                        			}	
+                    			}
+                    			else{
+                    				html+="<br><br><p>일정에 맞는 출발 스케줄이 존재하지 않습니다.</p>";
                     			}
                     			$("#timeList").html(html);
           							
@@ -523,6 +576,8 @@ function choice(ano,aname,airporttype,startpoint,endpoint,aprice,id){
 }
 function modalClose(){
 	$("#datear").hide();
+	$("#startDate").val("");
+	$("#ticketNum").val(1);
 	$("#seatList").html("");
 	$("#timeList").html("");
 	$("#info").html("");
@@ -560,7 +615,7 @@ function select(sno,srow,scolumn,sctime,ano,aprice,id,aname,startpoint,endpoint,
 				html += "<p>총 가격 :"+price+ "</p>";
 				html +="<p>선택 좌석 : "+seats+"</p>"
 				if(selectNum==0){
-					html+="<button id='pay' onclick='goAirlinePay(\""+$('#ticketNum').val()+"\",\""+price+"\",\""+sctime+"\","+ano+",\""+id+"\",\""+aname+"\",\""+startpoint+"\",\""+endpoint+"\",\""+startdate+"\")'>예매</button>";
+					html+="<button id='pay' class='btn btn-success' onclick='goAirlinePay(\""+$('#ticketNum').val()+"\",\""+price+"\",\""+sctime+"\","+ano+",\""+id+"\",\""+aname+"\",\""+startpoint+"\",\""+endpoint+"\",\""+startdate+"\")'>결제</button>";
 				}
 				$("#info").html(html);
 			}
@@ -619,25 +674,41 @@ function getSeats(sctime,ano,aprice,id,aname,startpoint,endpoint){
 <body>
 <jsp:include page="../Header.jsp"></jsp:include><br>
 <jsp:include page="../Nav.jsp"></jsp:include>
-				<h1>항공권 검색 페이지 입니다.</h1>
-				<br>
+		<div class="container">
 
-    <input type="text" name="startpoint" id="searchStartPoint" placeholder="출발지">
-    <input type="button" onclick="alterValue()" value="출발지,도착지 바꾸기">   
-    <input type="text" name="endpoint" id="searchEndPoint" placeholder="도착지">
+    <div class="group">      
+      <input type="text" name="startpoint" id="searchStartPoint" class="searchbar" required>
+      <span class="highlight"></span>
+      <span class="bar"></span>
+      <label>출발지</label>
+    </div>
+   
+   
+       <div class="group">      
     
-    <br>
-    <button onclick="airlineSearch()">검색하기</button>
+        <input type="button" id="btn" onclick="alterValue()" value="출발지,도착지 바꾸기">   
+        </div>
+    
+        <div class="group">      
+      <input type="text" name="endpoint" id="searchEndPoint" class="searchbar" required>
+      <span class="highlight"></span>
+      <span class="bar"></span>
+      <label>도착지</label>
+    </div>
+    <button id="button5" onclick="airlineSearch()">검색하기</button>
+    </div>
     <div id="airlinechoice">
     </div>
       								<div id="modal" style="display:none;">
 		<div id="overlay" onclick="modalClose()"></div>
 			<div id="modalcontent">
-					<h1>Air & Room <button style="float:right; margin-right:10px;" onclick="modalClose()">모달 닫기</button></h1>
-					<div id="inquire"></div>
-<button onclick="goBooking()">
+			<h1>Air & Room<i class="far fa-times-circle" style="float:right; margin-right:10px;" onclick="modalClose()"></i></h1>
+			<div id="ticketinfo"></div>
+			<div id="inquire"></div>
+<button style='float:left; margin-left:15px;' class="btn btn-info" onclick="goBooking()">
 예매하기
 </button>
+<br><br><br>
 <div id="datear" style="display:none">
 출발 날짜
 <input type="text" id="startDate" autocomplete="off">
@@ -645,6 +716,7 @@ function getSeats(sctime,ano,aprice,id,aname,startpoint,endpoint){
 <input type="number" id="selectNum" value="1" autocomplete="off">
 <input type="hidden" id="ticketNum" value="1">
 </div>
+<br>
 <div id="timeList">
 
 </div>
@@ -657,4 +729,266 @@ function getSeats(sctime,ano,aprice,id,aname,startpoint,endpoint){
 			</div>
 	</div>
 </body>
+<style>
+* { box-sizing:border-box; }
+
+/* basic stylings ------------------------------------------ */
+body 				 { background:url(https://scotch.io/wp-content/uploads/2014/07/61.jpg); }
+.container 		{ 
+  font-family:'Roboto';
+  width:600px; 
+  margin:30px auto 0; 
+  display:block; 
+  background:#FFF;
+  padding:10px 50px 50px;
+}
+h2 		 { 
+  text-align:center; 
+  margin-bottom:50px; 
+}
+h2 small { 
+  font-weight:normal; 
+  color:#888; 
+  display:block; 
+}
+
+
+/* form starting stylings ------------------------------- */
+.group 			  { 
+  position:relative; 
+  margin-bottom:45px; 
+}
+.searchbar 				{
+  font-size:18px;
+  padding:10px 10px 10px 5px;
+  display:block;
+  width:400px;
+  border:none;
+  border-bottom:1px solid #757575;
+}
+
+#btn {
+  font-size:18px;
+  padding:10px 10px 10px 5px;
+  display:block;
+  width:400px;
+  border:none;
+  border-bottom:1px solid #757575;
+
+}
+input:focus 		{ outline:none; }
+
+/* LABEL ======================================= */
+label 				 {
+  color:#999; 
+  font-size:18px;
+  font-weight:normal;
+  position:absolute;
+  pointer-events:none;
+  left:5px;
+  top:10px;
+  transition:0.2s ease all; 
+  -moz-transition:0.2s ease all; 
+  -webkit-transition:0.2s ease all;
+}
+
+/* active state */
+input:focus ~ label, input:valid ~ label 		{
+  top:-20px;
+  font-size:14px;
+  color:#5264AE;
+}
+
+/* BOTTOM BARS ================================= */
+.bar 	{ position:relative; display:block; width:400px; }
+.bar:before, .bar:after 	{
+  content:'';
+  height:2px; 
+  width:0;
+  bottom:1px; 
+  position:absolute;
+  background:#5264AE; 
+  transition:0.2s ease all; 
+  -moz-transition:0.2s ease all; 
+  -webkit-transition:0.2s ease all;
+}
+.bar:before {
+  left:50%;
+}
+.bar:after {
+  right:50%; 
+}
+
+/* active state */
+input:focus ~ .bar:before, input:focus ~ .bar:after {
+  width:50%;
+}
+
+/* HIGHLIGHTER ================================== */
+.highlight {
+  position:absolute;
+  height:60%; 
+  width:100px; 
+  top:25%; 
+  left:0;
+  pointer-events:none;
+  opacity:0.5;
+}
+
+/* active state */
+input:focus ~ .highlight {
+  -webkit-animation:inputHighlighter 0.3s ease;
+  -moz-animation:inputHighlighter 0.3s ease;
+  animation:inputHighlighter 0.3s ease;
+}
+
+/* ANIMATIONS ================ */
+@-webkit-keyframes inputHighlighter {
+	from { background:#5264AE; }
+  to 	{ width:0; background:transparent; }
+}
+@-moz-keyframes inputHighlighter {
+	from { background:#5264AE; }
+  to 	{ width:0; background:transparent; }
+}
+@keyframes inputHighlighter {
+	from { background:#5264AE; }
+  to 	{ width:0; background:transparent; }
+}
+
+#button5 {
+  background-color: #555555;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+@import "compass/css3";
+
+#showcase {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;  
+  width: 1000px;
+  height: 700px;
+}
+
+section {
+  display: inline-block;
+  position: relative;
+  width: 25%;
+  height: 100%;
+  background-size: cover;
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0; 
+    width: 100%;
+    height: 100%;
+    @include transition(all .5s);
+  }
+}
+
+
+
+
+
+@import "compass/css3";
+
+#showcase {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;  
+  width: 1000px;
+  height: 700px;
+}
+
+section {
+  display: inline-block;
+  position: relative;
+  width: 25%;
+  height: 100%;
+  background-size: cover;
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0; 
+    width: 100%;
+    height: 100%;
+    @include transition(all .5s);
+  }
+}
+
+
+
+
+<!---->
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:700');
+
+body {
+  margin:0px;
+  font-family:'Roboto';
+}
+
+#container2 {
+  color:#999;
+  text-transform: uppercase;
+  font-size:36px;
+  font-weight:bold;
+  padding-top:30px;
+  padding-left:200px;  
+  width:100%;
+  bottom:45%;
+  display:block;
+}
+
+#flip {
+  height:50px;
+  overflow:hidden;
+}
+
+#flip > div > div {
+  color:#fff;
+  padding:0px 12px 12px 12px;
+  height:45px;
+  margin-bottom:45px;
+  display:inline-block;
+}
+
+#flip div:first-child {
+  animation: show 5s linear infinite;
+
+#flip div div {
+  background:#42c58a;
+}
+#flip div:first-child div {
+  background:#4ec7f3;
+}
+#flip div:last-child div {
+  background:#DC143C;
+}
+@keyframes show {
+  0% {margin-top:-270px;}
+  5% {margin-top:-180px;}
+  33% {margin-top:-180px;}
+  38% {margin-top:-90px;}
+  66% {margin-top:-90px;}
+  71% {margin-top:0px;}
+  99.99% {margin-top:0px;}
+  100% {margin-top:-270px;}
+}
+
+
+
+
+</style>
 </html>

@@ -403,7 +403,6 @@ function writeComment(revno){
 	    success : function(data){
 	    	$("#commentinput"+revno).val("");
 	    	if(data=="Success"){
-	        	reviewCommentWriteList(revno);
 	        	reviewViewScroll(revno,commentpage);
 	    	}
 	    	else{
@@ -417,45 +416,6 @@ function writeComment(revno){
 	    });
 			
 	}
-function reviewCommentWriteList(revno) {
-	$.ajax({
-		type : "post",
-		url : "reviewCommentList",
-		data : "revno=" + revno + "&commentpage=" + 1,
-		dataType : "json",
-		success : function(result) {
-			var save = "";
-			save += "<table id='table'"+revno+" class='table table-striped table-bordered table-hover'>"
-			if (result.list.length > 3) {
-				for (var i = 0; i < 3; i++) {
-					save += "<tr>";
-					save += "<td><a herf='myReviewListForm?page=1' style='padding-right:20px;'>" + result.list[i].id + "</a>" + result.list[i].contents + "</td>";
-					save += "</tr>";
-			}
-			} else {
-				for (var i = 0; i < result.list.length; i++) {
-					save += "<tr>";
-					save += "<td><a herf='myReviewListForm?page=1' style='padding-right:20px;'>" + result.list[i].id + "</a>" + result.list[i].contents + "</td>";
-					save += "</tr>";
-					}
-			}
-			save += "<tr>"
-			save += "<td>"
-				save += "<input type='text' id='"+revno+"input' style='width: 95%;'>";
-			save += "<button onclick='reviewCommentWrite(" + revno
-					+ ")'>댓글작성</button>";
-			save += "</td>"
-			save += "</tr>"
-			save +="</table>";
-
-			$("#tableComment" + revno).html(save);
-		},
-		error : function() {
-
-		}
-
-	});
-}
 
 
 function reviewCommentDelete(replyno,revno){
@@ -467,9 +427,7 @@ function reviewCommentDelete(replyno,revno){
 		    dataType : "text",
 		    async:false,
 		    success : function(data){
-		    	$("#commentinput"+revno).val("");
 		    	if(data=="Success"){
-		        	reviewCommentWriteList(revno);
 		        	reviewViewScroll(revno,commentpage);
 		    	}
 		    	else{

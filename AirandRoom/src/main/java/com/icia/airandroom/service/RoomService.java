@@ -835,13 +835,17 @@ public class RoomService {
 			 
 			//현재 년도, 월, 일
 			int year = cal.get ( cal.YEAR );
-			int month = cal.get ( cal.MONTH ) + 1 ;
+			int month = cal.get ( cal.MONTH ) ;
 			int date = cal.get ( cal.DATE ) ;
 			String convertmonth = null;
-			if(month<10) {
+			if(month<9) {
 				convertmonth="0"+month;
 			}
-			List<RoomDTO> list=rdao.mostRoomList(convertmonth);
+			else if(month==0) {
+				convertmonth="12";
+				year=year-1;
+			}
+			List<RoomDTO> list=rdao.mostRoomList(year,convertmonth);
 			List<RoomDTO> piclist=new ArrayList<RoomDTO>();
 			for(int i=0; i<list.size(); i++) {
 				RoomDTO room = new RoomDTO();
@@ -851,6 +855,7 @@ public class RoomService {
 				piclist.add(room);
 			}
 			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("year", year);
 			map.put("month", convertmonth);
 			map.put("list", piclist);
 			return map;

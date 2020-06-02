@@ -15,7 +15,7 @@ public class InquireDTO {
 	private String writedate;	
 	private String read;
 	private String answer;
-	private String ifile;
+	private String ifilename;
 	private String ifileoriname;
 	private String repcontent;
 	private String repwritedate;

@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <title>결제 성공</title>
 <script>
+function closeWindow(){
+	window.close();
+}
 opener.location.reload();
 </script>
 </head>
@@ -17,6 +20,6 @@ opener.location.reload();
 상품수량:    ${info.quantity}<br/>
 결제금액:    ${info.amount.total}<br/>
 결제방법:    ${info.payment_method_type}<br/>
- 
+ <button onclick="closeWindow()">닫기</button>
 </body>
 </html>

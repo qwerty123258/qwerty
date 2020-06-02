@@ -139,10 +139,10 @@ p, h1, form, button {
 #stylized .small {
 	color: #666666;
 	display: block;
-	font-size: 11px;
+	font-size: 18px;
 	font-weight: normal;
 	text-align: right;
-	width: 140px;
+	width: 100px;
 	font-family: dotum;
 	letter-spacing: -1px;
 }
@@ -176,13 +176,14 @@ p, h1, form, button {
 
 	<div id="stylized" class="myform">
 		<h1>${selectReportPost.id}님의 신고글</h1>
-		신고대상 : ${selectReportPost.otherid}
-		<br>
+		신고대상 : ${selectReportPost.otherid}<br>
+		첨부파일 : <a href="filedownload?filename=${selectReportPost.rfilename}">${selectReportPost.rfileoriname}</a>
+		<br><br>
 		<div id="mandu1">
 			<label class="small">제목 :</label> <input type="text" value="${selectReportPost.title}" readonly />
-			<label class="small">첨부파일 :</label> <a href="filedownload?filename=${selectReportPost.rfilename}">${selectReportPost.rfileoriname}</a>
+			<br>
 			<p>
-				<textarea cols="50" rows="30" readonly>${selectReportPost.contents}</textarea>
+				<textarea cols="50" rows="20" readonly>${selectReportPost.contents}</textarea>
 			</p>
 			<div class="spacer"></div>
 					<button onclick="javascript:check();">닫기</button>

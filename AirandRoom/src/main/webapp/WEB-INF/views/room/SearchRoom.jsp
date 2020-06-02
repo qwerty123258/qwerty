@@ -20,7 +20,7 @@ width:150px;
 width:400px;
 height:500px;
 }
-@media all and (max-width:1250px){
+@media all and (max-width:1600px){
 #mapar{
 display:none;
 }
@@ -161,11 +161,25 @@ var address=[];
 	<div class="col-xs-3">
 	</div>
  <div class="col-xs-6">
-  <input id="keyword" onkeyup="enter()"  placeholder="숙소검색" style="border-radius:20px;  font-size:28px; height:60px; width:100%; outline:none;">
+ <div class="container">
+ <div class="col-xs-12">
+ <div class="col-xs-9">
+ 
+       <div class="group">      
+      <input type="text" onkeyup="enter()" id="keyword" class="searchbar" required>
+      <span class="highlight"></span>
+      <span class="bar"></span>
+      <label><i class="fas fa-search" style="font-size:25px;" ></i>국가/지역</label>     
+    </div>
+ </div>
+ <div class="col-xs-3">
+ <button onclick="search()" class="btn btn-success" style="margin-left:50px; background-color: #555555; border: none; padding:10px;"> <i class="fas fa-search" style="font-size:25px;" ></i>검색</button>
+ 
+ </div>
+ 
+  </div>
+ </div>
 </div>
-<div class="col-xs-3" style='margin-top:6px;'>
-<i onclick="search()" class="fas fa-search" style="font-size:56px;" ></i>
-</div><br>
 <div class="col-xs-12">
 <div class="col-xs-10">
 <div id="searchoutput">
@@ -216,4 +230,253 @@ var address=[];
            
         }
       </script>
+      <style>
+* { box-sizing:border-box; }
+
+/* basic stylings ------------------------------------------ */
+body 				 { background:url(https://scotch.io/wp-content/uploads/2014/07/61.jpg); }
+.container 		{ 
+  font-family:'Roboto';
+  width:600px; 
+  margin:30px auto 0; 
+  display:block; 
+  background:#FFF;
+  padding:10px 50px 50px;
+}
+h2 		 { 
+  text-align:center; 
+  margin-bottom:50px; 
+}
+h2 small { 
+  font-weight:normal; 
+  color:#888; 
+  display:block; 
+}
+
+
+/* form starting stylings ------------------------------- */
+.group 			  { 
+  position:relative; 
+  margin-bottom:45px; 
+}
+.searchbar 				{
+  font-size:18px;
+  padding:10px 10px 10px 5px;
+  display:block;
+  width:400px;
+  border:none;
+  border-bottom:1px solid #757575;
+}
+
+#btn {
+  font-size:18px;
+  padding:10px 10px 10px 5px;
+  display:block;
+  width:400px;
+  border:none;
+  border-bottom:1px solid #757575;
+
+}
+input:focus 		{ outline:none; }
+
+/* LABEL ======================================= */
+label 				 {
+  color:#999; 
+  font-size:18px;
+  font-weight:normal;
+  position:absolute;
+  pointer-events:none;
+  left:5px;
+  top:10px;
+  transition:0.2s ease all; 
+  -moz-transition:0.2s ease all; 
+  -webkit-transition:0.2s ease all;
+}
+
+/* active state */
+input:focus ~ label, input:valid ~ label 		{
+  top:-20px;
+  font-size:14px;
+  color:#5264AE;
+}
+
+/* BOTTOM BARS ================================= */
+.bar 	{ position:relative; display:block; width:400px; }
+.bar:before, .bar:after 	{
+  content:'';
+  height:2px; 
+  width:0;
+  bottom:1px; 
+  position:absolute;
+  background:#5264AE; 
+  transition:0.2s ease all; 
+  -moz-transition:0.2s ease all; 
+  -webkit-transition:0.2s ease all;
+}
+.bar:before {
+  left:50%;
+}
+.bar:after {
+  right:50%; 
+}
+
+/* active state */
+input:focus ~ .bar:before, input:focus ~ .bar:after {
+  width:50%;
+}
+
+/* HIGHLIGHTER ================================== */
+.highlight {
+  position:absolute;
+  height:60%; 
+  width:100px; 
+  top:25%; 
+  left:0;
+  pointer-events:none;
+  opacity:0.5;
+}
+
+/* active state */
+input:focus ~ .highlight {
+  -webkit-animation:inputHighlighter 0.3s ease;
+  -moz-animation:inputHighlighter 0.3s ease;
+  animation:inputHighlighter 0.3s ease;
+}
+
+/* ANIMATIONS ================ */
+@-webkit-keyframes inputHighlighter {
+	from { background:#5264AE; }
+  to 	{ width:0; background:transparent; }
+}
+@-moz-keyframes inputHighlighter {
+	from { background:#5264AE; }
+  to 	{ width:0; background:transparent; }
+}
+@keyframes inputHighlighter {
+	from { background:#5264AE; }
+  to 	{ width:0; background:transparent; }
+}
+
+@import "compass/css3";
+
+#showcase {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;  
+  width: 1000px;
+  height: 700px;
+}
+
+section {
+  display: inline-block;
+  position: relative;
+  width: 25%;
+  height: 100%;
+  background-size: cover;
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0; 
+    width: 100%;
+    height: 100%;
+    @include transition(all .5s);
+  }
+}
+
+
+
+
+
+@import "compass/css3";
+
+#showcase {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;  
+  width: 1000px;
+  height: 700px;
+}
+
+section {
+  display: inline-block;
+  position: relative;
+  width: 25%;
+  height: 100%;
+  background-size: cover;
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0; 
+    width: 100%;
+    height: 100%;
+    @include transition(all .5s);
+  }
+}
+
+
+
+
+<!---->
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:700');
+
+body {
+  margin:0px;
+  font-family:'Roboto';
+}
+
+#container2 {
+  color:#999;
+  text-transform: uppercase;
+  font-size:36px;
+  font-weight:bold;
+  padding-top:30px;
+  padding-left:200px;  
+  width:100%;
+  bottom:45%;
+  display:block;
+}
+
+#flip {
+  height:50px;
+  overflow:hidden;
+}
+
+#flip > div > div {
+  color:#fff;
+  padding:0px 12px 12px 12px;
+  height:45px;
+  margin-bottom:45px;
+  display:inline-block;
+}
+
+#flip div:first-child {
+  animation: show 5s linear infinite;
+
+#flip div div {
+  background:#42c58a;
+}
+#flip div:first-child div {
+  background:#4ec7f3;
+}
+#flip div:last-child div {
+  background:#DC143C;
+}
+@keyframes show {
+  0% {margin-top:-270px;}
+  5% {margin-top:-180px;}
+  33% {margin-top:-180px;}
+  38% {margin-top:-90px;}
+  66% {margin-top:-90px;}
+  71% {margin-top:0px;}
+  99.99% {margin-top:0px;}
+  100% {margin-top:-270px;}
+}
+
+
+
+
+</style>
 </html>

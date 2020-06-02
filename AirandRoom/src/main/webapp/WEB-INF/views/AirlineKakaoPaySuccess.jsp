@@ -7,12 +7,7 @@
 <meta charset="UTF-8">
 <title>결제 성공</title>
 <script>
-opener.location.reload();
 function closeWindow(){
-	window.close();
-}
-function search(){
-	opener.location.href="searchAirline?page=1&atype=편도&startpoint=${airlinebk.endpoint}&endpoint=${airlinebk.startpoint}";
 	window.close();
 }
 </script>

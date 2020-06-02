@@ -161,10 +161,10 @@ p, h1, form, button{border:0; margin:0; padding:0;}
 #stylized .small{
 	color:#666666;
 	display:block;
-	font-size:11px;
+	font-size:18px;
 	font-weight:normal;
 	text-align:right;
-	width:140px;
+	width:100px;
 	font-family:dotum;
 	letter-spacing:-1px;
 }
@@ -194,11 +194,12 @@ font-family:tahoma;
 </head>
 <body>
 <div id="stylized" class="myform">
-<h1>${selectInquirePost.id}님의 문의 글</h1>
+<h1>${inquire.id}님의 문의 글</h1>
 <br>
+첨부파일 : ${inquire.ifileoriname}<br><br>
    <div id="mandu1">
 <label class="small">제목 :</label> <input type="text" name="title" id="title" value="${inquire.title}" readonly/>
-<p><textarea cols="50" rows="30" name="contents" id="contents" readonly>${inquire.contents}</textarea></p>
+<p><textarea cols="50" rows="20" name="contents" id="contents" readonly>${inquire.contents}</textarea></p>
 <div class="spacer"></div>                           
                     <button id="btn1">수정하기</button>   
                     <button onclick="javascript:deleteInquire();">삭제하기</button>
@@ -208,7 +209,7 @@ font-family:tahoma;
    <div id="mandu2">
 <form id="form" method="POST" enctype="multipart/form-data">  
 <label class="small">제목 :</label> <input type="text" name="title" id="title" value="${inquire.title}"/>
-<p><textarea cols="50" onkeyup="contentlength()" rows="30" name="contents" id="contents">${inquire.contents}</textarea></p>
+<p><textarea cols="50" onkeyup="contentlength()" rows="20" name="contents" id="contents">${inquire.contents}</textarea></p>
 <div id="contentslength" style="height:20px; text-align:center;">0/500</div>
 <label class="small">첨부파일 :</label> <input type="file" name="ifile" id="ifile">
 <div class="spacer"></div>

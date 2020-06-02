@@ -185,8 +185,7 @@ table tr:hover td {
 		</div>
 		<div class="col-xs-9">
 						<form id="form" enctype="multipart/form-data">
-			<table>
-						<input type="hidden" readonly id="nation" name="nation">
+												<input type="hidden" readonly id="nation" name="nation">
 
 					
 				<input type="hidden" readonly id="region"
@@ -197,6 +196,7 @@ table tr:hover td {
 				
 				 <input type="hidden" readonly id="longitude"
 							name="longitude">
+			<table>
 				
 					<tr>
 						<td>숙소이름:</td><td><input type="text" name="rname" id="rname">
@@ -207,9 +207,8 @@ table tr:hover td {
 						</td>
 					</tr>
 					<tr>
-						<td>위치:</td><td><input type="text" name="address" id="address">
+						<td>위치:</td><td><input type="text" name="address" id="address" readonly>
 						<button type="button" onclick="addressSearch()">위치검색</button>
-							
 						</td>
 					</tr>
 					<tr>

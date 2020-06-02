@@ -91,10 +91,10 @@ p, h1, form, button{border:0; margin:0; padding:0;}
 #stylized .small{
 	color:#666666;
 	display:block;
-	font-size:11px;
+	font-size:18px;
 	font-weight:normal;
 	text-align:right;
-	width:140px;
+	width:100px;
 	font-family:dotum;
 	letter-spacing:-1px;
 }
@@ -128,7 +128,7 @@ font-family:tahoma;
         <form id="form" method="POST" enctype="multipart/form-data">  
 <br>
 <label class="small">제목 :</label> <input type="text" name="title" id="title" />
-<p><textarea onkeyup="contentlength()" cols="50" rows="30" placeholder="내용을 입력해주세요." name="contents" id="contents"></textarea></p>
+<p><textarea onkeyup="contentlength()" cols="50" rows="20" placeholder="내용을 입력해주세요." name="contents" id="contents"></textarea></p>
 <div id="contentslength" style="height:20px; text-align:center;">0/500</div>
 <label class="small">첨부파일 :</label> <input type="file" name="inquiryfile" id="ifile">
 <div class="spacer"></div>

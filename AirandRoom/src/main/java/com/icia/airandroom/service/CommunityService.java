@@ -41,6 +41,7 @@ public class CommunityService {
 		UUID uuid=UUID.randomUUID();
 		String savefilename=uuid+"_"+imgoriname;
 		File target=new File(savePath,savefilename);
+		System.out.println(target);
 		FileCopyUtils.copy(bytes,target);
 		return savefilename;	
 	}
@@ -49,7 +50,7 @@ public class CommunityService {
     	String imgoriname=mtfRequest.getFile("inquiryfile").getOriginalFilename();
     	String imgname=upload(imgoriname,mtfRequest.getFile("inquiryfile").getBytes(),request);
 		inquire.setIfileoriname(imgoriname);
-		inquire.setIfile(imgname);
+		inquire.setIfilename(imgname);
 		int result = cdao.sendInquireForm(inquire);	
 		return result;
 	}
@@ -80,15 +81,6 @@ public class CommunityService {
 		mav.setViewName("community/SelectInquirePost");
 		return mav;
 	}
-	
-	
-	public ModelAndView replyInquireForm(InquireDTO inquire) {
-		mav = new ModelAndView();
-		cdao.replyInquireForm(inquire);
-		mav.addObject("inquire",inquire);
-		mav.setViewName("community/ReplyInquire");
-		return mav;
-	}
 
 	public boolean replyInquire(InquireDTO inquire) throws IllegalStateException, IOException {      
         int insertResult = cdao.replyInquire(inquire);
@@ -115,7 +107,7 @@ public class CommunityService {
     	String imgoriname=mtfRequest.getFile("inquiryfile").getOriginalFilename();
     	String imgname=upload(imgoriname,mtfRequest.getFile("inquiryfile").getBytes(),request);
 		inquire.setIfileoriname(imgoriname);
-		inquire.setIfile(imgname);
+		inquire.setIfilename(imgname);
 		
 		int result = cdao.modifyInquireForm(inquire);
 		

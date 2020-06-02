@@ -143,13 +143,13 @@
 					if (result.list.length > 3) {
 						for (var i = 0; i < 3; i++) {
 							save += "<tr>";
-							save += "<td><a herf='myReviewListForm?id=" + result.list[i].id +"&check=my' style='padding-right:20px;'>" + result.list[i].id + "</a>" + result.list[i].contents + "</td>";
+							save += "<td><a href='myReviewListForm?id=" + result.list[i].id +"&check=my' style='padding-right:20px;'>" + result.list[i].id + "</a>" + result.list[i].contents + "</td>";
 									save += "</tr>";
 					}
 					} else {
 						for (var i = 0; i < result.list.length; i++) {
 							save += "<tr>";
-							save += "<td><a herf='myReviewListForm?id=" + result.list[i].id +"&check=my' style='padding-right:20px;'>" + result.list[i].id + "</a>" + result.list[i].contents + "</td>";
+							save += "<td><a href='myReviewListForm?id=" + result.list[i].id +"&check=my' style='padding-right:20px;'>" + result.list[i].id + "</a>" + result.list[i].contents + "</td>";
 							save += "</tr>";
 							}
 					}
@@ -499,13 +499,13 @@
 				if (result.list.length > 3) {
 					for (var i = 0; i < 3; i++) {
 						save += "<tr>";
-						save += "<td><a herf='myReviewListForm?page=1' style='padding-right:20px;'>" + result.list[i].id + "</a>" + result.list[i].contents + "</td>";
+			            save += "<td><a href='myReviewListForm?id="+result.list[i].id+"&check=my' style='padding-right:20px;'>" + result.list[i].id + "</a>" + result.list[i].contents + "</td>";
 						save += "</tr>";
 				}
 				} else {
 					for (var i = 0; i < result.list.length; i++) {
 						save += "<tr>";
-						save += "<td><a herf='myReviewListForm?page=1' style='padding-right:20px;'>" + result.list[i].id + "</a>" + result.list[i].contents + "</td>";
+			            save += "<td><a href='myReviewListForm?id="+result.list[i].id+"&check=my' style='padding-right:20px;'>" + result.list[i].id + "</a>" + result.list[i].contents + "</td>";
 						save += "</tr>";
 						}
 				}
@@ -536,7 +536,6 @@
 			    dataType : "text",
 			    async:false,
 			    success : function(data){
-			    	$("#commentinput"+revno).val("");
 			    	if(data=="Success"){
 			        	reviewCommentWriteList(revno);
 			        	reviewViewScroll(revno,commentpage);

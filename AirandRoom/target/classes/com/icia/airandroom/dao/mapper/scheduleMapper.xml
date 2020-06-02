@@ -13,7 +13,7 @@
 	select count(*) from schedule where ano=#{ano} and sctime=#{sctime}
 	</select>
 	<select id="timeSetting" parameterType="String" resultType="schedule">
-		<![CDATA[select * from schedule where ano=#{ano} and sctime>to_char(sysdate,'hh24:mi')]]>
+	select * from schedule where ano=#{ano} order by sctime asc
 	</select>
 	<delete id="scheduleDelete" parameterType="String">
 	delete schedule where scno=#{scno}

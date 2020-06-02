@@ -16,10 +16,7 @@ function replyInquire(){
 	var title = $("#title").val();
 	var contents = $("#contents").val();
     var ifile = $("#ifile").val();
-	if(title == "") {
-		alert("제목을 입력해주세요.");
-		$("#title").focus();
-	} else if (contents == "") {
+	 if (contents == "") {
 		alert("내용을 입력해주세요.");
 		$("#contents").focus();		
 	} else {
@@ -82,10 +79,10 @@ p, h1, form, button{border:0; margin:0; padding:0;}
 #stylized .small{
 	color:#666666;
 	display:block;
-	font-size:11px;
+	font-size:18px;
 	font-weight:normal;
 	text-align:right;
-	width:140px;
+	width:100px;
 	font-family:dotum;
 	letter-spacing:-1px;
 }
@@ -114,13 +111,13 @@ font-family:tahoma;
 </head>
 <body>
 <div id="stylized" class="myform">
-<h1>${inquire.id}님에게</h1>
+<h1>${id}님에게</h1>
 <br>
         <form id="form" method="POST" enctype="multipart/form-data">  
-<label class="small">제목 :</label> <input type="text" name="title" id="title"/>
-<p><textarea cols="50" rows="30" name="repcontent" id="contents"></textarea></p>
+<label class="small">제목 :</label> <input type="text" value='${title}' readonly/>
+<p><textarea cols="50" rows="20" name="repcontent" id="contents"></textarea></p>
 <div class="spacer"></div>
-		<input type="hidden" value="${inquire.ino}" name="ino" id="ino"> 
+		<input type="hidden" value="${ino}" name="ino" id="ino"> 
 		<input type="hidden" value="N" name="readuser" id="readuser">
         </form>
         <button onclick="javascript:replyInquire();">답장하기</button>  

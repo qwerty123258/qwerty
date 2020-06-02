@@ -168,25 +168,44 @@ function airlineDeny(rno){
 		})
 	}
 }
-function airlineBookingCancle(abno){
-    $.ajax({
-        type:'GET',
-        url : "deleteAirlinebkByUser",
-        data : "abno=" + abno,
-        dataType : "text",
-        success : function(data){
-        	if(data=="Success"){
-        		customerAirlinesBookingList(1);
-        	}
-        	else if(data=="Fail"){
-        		alert("예약 취소 실패");
-        	}
-        },
-        error : function(){
-    		alert("예약 취소 도중 에러 발생");
-        	
-        	}
-        })
+function airlineBookingCancle(abno,startdate){
+	var startdate=startdate;
+	var date=new Date();
+	var year=date.getFullYear();
+	var month=date.getMonth()+1;
+	if(month<10){
+		month="0"+month;
+	}
+	var day=date.getDate();
+	if(day<10){
+		day="0"+day;
+	}
+	var nowdate=year+"-"+month+"-"+day;
+	var gap=new Date(startdate) - new Date(nowdate);
+	var second = 24 * 60 * 60 * 1000;
+	if(gap/second<7){
+		alert("당일 및 7일전에는 예약 취소가 불가능합니다.");
+	}
+	else{
+	    $.ajax({
+	        type:'GET',
+	        url : "deleteAirlinebkByUser",
+	        data : "abno=" + abno,
+	        dataType : "text",
+	        success : function(data){
+	        	if(data=="Success"){
+	        		customerAirlinesBookingList(1);
+	        	}
+	        	else if(data=="Fail"){
+	        		alert("예약 취소 실패");
+	        	}
+	        },
+	        error : function(){
+	    		alert("예약 취소 도중 에러 발생");
+	        	
+	        	}
+	        });
+	}
 }
 function customerRoomsBookingList(page){
     $.ajax({
@@ -295,7 +314,7 @@ function customerAirlinesBookingList(page){
             if(length > 0){
                 	html += "<table class='table table-striped table-bordered table-hover'><thead><tr><th>예약번호</th><th>노선 번호</th><th>출발날짜</th><th>출발시간</th><th>예약날짜</th><th>가격</th><th>예약취소</th></tr></thead>";
                 	for(var i=0; i<length; i++){
-                        	html +="<tr><td>"+data.list[i].abno+"</td><td>"+data.list[i].ano+"</td><td>"+data.list[i].startdate+"</td><td>"+data.list[i].sctime+"</td><td>"+data.list[i].bookingdate+"</td><td>"+data.list[i].aprice+"</td><td><a href='#' onclick='airlineBookingCancle("+data.list[i].abno+")'>예약취소</a></td></tr>";
+                        	html +="<tr><td>"+data.list[i].abno+"</td><td>"+data.list[i].ano+"</td><td>"+data.list[i].startdate+"</td><td>"+data.list[i].sctime+"</td><td>"+data.list[i].bookingdate+"</td><td>"+data.list[i].aprice+"</td><td><a href='#' onclick='airlineBookingCancle("+data.list[i].abno+",\""+data.list[i].startdate+"\")'>예약취소</a></td></tr>";
                         	var page="<div class='text-center'>";
                     		page+="<ul class='pagination pagination-sm'>";
                     		var prevPage=data.paging.beginPage-1;

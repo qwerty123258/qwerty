@@ -86,9 +86,12 @@ public class CommunityController {
     
     
     @RequestMapping(value="/replyInquireForm", method=RequestMethod.GET)
-    public ModelAndView replyInquireForm(@ModelAttribute InquireDTO inquire) throws IOException {
+    public ModelAndView replyInquireForm(@RequestParam("id") String id,@RequestParam("ino") String ino,@RequestParam("title") String title) throws IOException {
     	mav = new ModelAndView();
-    	mav = communityService.replyInquireForm(inquire);   	
+		mav.addObject("ino",ino);
+		mav.addObject("id",id);
+		mav.addObject("title",title);
+		mav.setViewName("community/ReplyInquire"); 	
     	return mav;
     }
     
@@ -197,9 +200,8 @@ public class CommunityController {
 	public void filedownload(@RequestParam("filename") String filename,HttpServletRequest request,HttpServletResponse response) throws IOException {
 		HttpSession session = request.getSession(); 
 		String root_path = session.getServletContext().getRealPath("/");
-		String attach_path = "resources/fileUpload/"+filename;
-		String savePath=root_path+""+attach_path;
-		System.out.println(savePath);
+		String attach_path = "resources/fileUpload/";
+		String savePath=root_path+""+attach_path+filename;
 	    File downloadFile = new File(savePath); //그 경로 맞는 파일 객체 생성
 	    FileInputStream inStream = new FileInputStream(downloadFile);  // 객체를 읽어들임
 	    try {
@@ -207,7 +209,6 @@ public class CommunityController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	    System.out.println(response.getOutputStream());
 	    OutputStream outStream = response.getOutputStream(); //객체를 쓰기함
 	     
 	    byte[] buffer = new byte[4096]; 

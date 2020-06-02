@@ -5,7 +5,7 @@
  
  <mapper namespace="Community">
     <insert id="sendInquireForm" parameterType="inquire">
-    insert into inquire VALUES(inquire_seq.nextval,#{contents},#{title},#{id},#{otherid},to_char(sysdate,'YYYY.MM.DD'),'N','N',#{ifile},#{ifileoriname},'','')
+    insert into inquire VALUES(inquire_seq.nextval,#{contents},#{title},#{id},#{otherid},to_char(sysdate,'YYYY.MM.DD'),'N','N',#{ifilename},#{ifileoriname},'','')
     </insert>
  	<select id="selectInquire" parameterType="map" resultType="inquire">
     <![CDATA[SELECT to_char(c.writedate,'YYYY-MM-DD') as writedate,C.* FROM (SELECT ROWNUM row_num,r.* from (select * from inquire where otherid=#{otherid}) r ) c where row_num >= #{paging.startNum} and row_num <= #{paging.endNum}]]>
@@ -42,7 +42,7 @@
 	</select>
 	<insert id="sendReportForm" parameterType="report">
 	insert into report
-	values (report_seq.nextval,#{contents},#{title},#{id},#{otherid},to_char(sysdate,'YYYY.MM.DD'),'N','N',#{rfile},#{rfileoriname})
+	values (report_seq.nextval,#{contents},#{title},#{id},#{otherid},to_char(sysdate,'YYYY.MM.DD'),'N','N',#{rfilename},#{rfileoriname})
 	</insert>
 	<select id="selectReport" parameterType="paging" resultType="report">
     <![CDATA[SELECT C.* FROM (SELECT ROWNUM row_num,r.* from (select * from report) r ) c where row_num >= #{startNum} and row_num <= #{endNum}]]>

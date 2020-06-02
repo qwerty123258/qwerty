@@ -153,7 +153,7 @@ select sum(rb.price) as sprice from roombk rb,room r where to_char(bookingdate,'
 select distinct to_char(bookingdate,'MM') as month from roombk rb,room r where to_char(bookingdate,'YYYY') = #{year} and rb.rno=r.rno and r.id=#{id}
 </select>
 <select id="mostRoomList" resultType="room" parameterType="String">
-select r.rno,r.rname,r.price,r.address,count(*) as bkcount from room r,roombk bk where bk.rno=r.rno and to_char(bookingdate,'MM') like '%'||#{convertmonth} group by bk.rno,r.rno,r.rname,r.address,r.price order by bkcount desc
+select r.rno,r.rname,r.price,r.address,count(*) as bkcount from room r,roombk bk where bk.rno=r.rno and to_char(bookingdate,'MM') like '%'||#{month} and  to_char(bookingdate,'YYYY') like '%'||#{year} group by bk.rno,r.rno,r.rname,r.address,r.price order by bkcount desc
 </select>
 <select id="getPic" resultType="room" parameterType="String">
 select r.rno,r.rname,r.address,r.price,pic.rimgname from room r,roompic pic where r.rno=pic.rno and rpno=#{rpno} group by r.rno,r.rname,r.price,r.address,pic.rimgname

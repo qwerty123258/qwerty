@@ -23,7 +23,8 @@ function replyInquire(){
 	else {
 		var id = '${selectInquirePost.id}'; 
 		var ino = ${selectInquirePost.ino};
-		var popUrl = "replyInquireForm?&ino="+ino;	
+		var title = "${selectInquirePost.title}";
+		var popUrl = "replyInquireForm?id="+id+"&ino="+ino+"&title="+title;	
 		var popOption = "width=450, height=650, resizable=no, scrollbars=no, status=no;";
 			window.open(popUrl,"",popOption);		
 	} 
@@ -108,10 +109,10 @@ p, h1, form, button{border:0; margin:0; padding:0;}
 #stylized .small{
 	color:#666666;
 	display:block;
-	font-size:11px;
+	font-size:18px;
 	font-weight:normal;
 	text-align:right;
-	width:140px;
+	width:100px;
 	font-family:dotum;
 	letter-spacing:-1px;
 }
@@ -145,18 +146,18 @@ font-family:tahoma;
 <div id="stylized" class="myform">
 <h1>${selectInquirePost.id}님의 문의 글</h1>
 <br>
+첨부파일 : <a href="filedownload?filename=${selectInquirePost.ifilename}">${selectInquirePost.ifileoriname}</a><br><br>
 
    <div id="mandu1">
 
 <label class="small">제목 :</label> <input type="text" name="title" id="title" value="${selectInquirePost.title}" readonly/>
 
-<p><textarea cols="50" rows="30" name="contents" id="contents" readonly>${selectInquirePost.contents}</textarea></p>
+<p><textarea cols="50" rows="20" name="contents" id="contents" readonly>${selectInquirePost.contents}</textarea></p>
 
 <div class="spacer"></div>
 		<input type="hidden" value="${selectInquirePost.ino}" name="ino" id="ino">                  
-                    
+                    <button onclick="javascript:deleteInquire();">삭제하기</button> 
                     <button onclick="javascript:replyInquire();">답장하기</button>    
-                    <button onclick="javascript:deleteInquire();">삭제하기</button>
                     <button onclick="javascript:check();">닫기</button>                                        
     </div>
         

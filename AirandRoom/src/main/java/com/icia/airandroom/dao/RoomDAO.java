@@ -219,7 +219,10 @@ public class RoomDAO {
 		return sql.selectList("Room.yearMonth",map);
 	}
 
-	public List<RoomDTO> mostRoomList(String convertmonth) {
+	public List<RoomDTO> mostRoomList(int year, String convertmonth) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("month", convertmonth);
+		map.put("year", year);
 		return sql.selectList("Room.mostRoomList" ,convertmonth);
 	}
 
