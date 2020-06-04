@@ -747,10 +747,10 @@ h2{ color: #7f8c8d; font-family: Neucha, Arial, sans serif; font-size:18px; marg
 	<div class="col-xs-3"></div>
 	</div>
 	<div class="col-xs-12">
+			<div class="col-xs-12" style="height:100px;"></div>	
 	<div class="col-xs-3"></div>
 	<div class="col-xs-3">
-	<c:if test="${!empty revList[2]}">
-		<div class="col-xs-12" style="height:100px;"></div>									
+	<c:if test="${!empty revList[2]}">								
 						
 							<img style='border-radius:16px; width:32px; height:32px;' src='${pageContext.request.contextPath}/resources/fileUpload/${revList[2].imgname}' onError='this.src="${pageContext.request.contextPath}/resources/img/default.webp"'>																										
 	<a style='margin-left:10px;' href="myReviewListForm?id=${revList[2].id}&check=my">${revList[2].id}</a><br><br>

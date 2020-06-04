@@ -26,7 +26,7 @@ function most6(){
         	if(data.list.length>6){
         		
 				for(var i=0; i<7; i++){		
-					
+					console.log(data.list[i].rno);
 					html+="<div class='gallery-item'>";
 					html+= "<div class='gallery-item-image'>";
 					html+="<a href='roomView?page=1&rno="+data.list[i].rno+"'><img style='width:300px; height:300px;' src='${pageContext.request.contextPath}/resources/fileUpload/"+data.list[i].rimgname+"'></a></div>";
@@ -38,13 +38,13 @@ function most6(){
         	}else{
 
 
-        		for(var i=0; i<data.list.length; i++){		
+        		for(var i=0; i<data.list.length; i++){
         			html+="<div class='gallery-item'>";
 					html+= "<div class='gallery-item-image'>";
 					html+="<a href='roomView?page=1&rno="+data.list[i].rno+"'><img style='width:300px; height:300px;' src='${pageContext.request.contextPath}/resources/fileUpload/"+data.list[i].rimgname+"'></a></div>";
-						html+="<div class='gallery-item-description'>";
-						html+="<h4 style='  color:black;'>"+data.list[i].rname+"<br>₩"+data.list[i].price+"</h4></div>";
-								html+="</div>";					
+					html+="<div class='gallery-item-description'>";
+					html+="<h4 style='color:black;'>"+data.list[i].rname+"<br>₩"+data.list[i].price+"</h4></div>";
+					html+="</div>";					
 
         		}   
 

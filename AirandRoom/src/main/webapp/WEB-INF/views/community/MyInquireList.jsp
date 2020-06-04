@@ -3,9 +3,11 @@
         <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta charset="UTF-8">
 <title>문의 내역보기</title>
+	<script src="//code.jquery.com/jquery.min.js"></script>
 <script>
 function replyView(ino){
 	var popUrl = "replyView?ino="+ino;	

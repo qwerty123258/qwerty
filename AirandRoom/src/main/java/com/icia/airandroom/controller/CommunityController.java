@@ -1,8 +1,8 @@
 package com.icia.airandroom.controller;
 
 import java.io.File;
+
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLDecoder;
@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,11 +31,15 @@ import com.icia.airandroom.dto.ReportDTO;
 import com.icia.airandroom.page.Paging;
 import com.icia.airandroom.service.CommunityService;
 
+
 @Controller
 public class CommunityController {
 
 	@Autowired
 	private CommunityService communityService;
+	
+	@Autowired
+	private HttpSession session;
 
 	private ModelAndView mav;
 	
@@ -50,6 +56,7 @@ public class CommunityController {
 		mav.setViewName("community/InquireForm");
 		return mav;
 	}
+	
 	@ResponseBody
 	@RequestMapping(value = "/sendInquireForm", method = RequestMethod.POST)
 	public int sendInquireForm(@ModelAttribute InquireDTO inquire,HttpServletRequest request,MultipartHttpServletRequest mtfRequest) throws IllegalStateException, IOException {
@@ -70,8 +77,9 @@ public class CommunityController {
 	 }
 	
 	@RequestMapping(value = "/myInquireList", method = RequestMethod.GET)
-	public ModelAndView myInquireList(@RequestParam("page") int page,@RequestParam("id") String id) {
+	public ModelAndView myInquireList(@RequestParam("page") int page) {
 		mav=new ModelAndView();
+		String id=(String) session.getAttribute("id");
 		mav = communityService.myInquireList(id,page);
 		return mav;
 	 }
@@ -84,7 +92,7 @@ public class CommunityController {
     	return mav;
     }
     
-    
+	
     @RequestMapping(value="/replyInquireForm", method=RequestMethod.GET)
     public ModelAndView replyInquireForm(@RequestParam("id") String id,@RequestParam("ino") String ino,@RequestParam("title") String title) throws IOException {
     	mav = new ModelAndView();
@@ -94,7 +102,7 @@ public class CommunityController {
 		mav.setViewName("community/ReplyInquire"); 	
     	return mav;
     }
-    
+	
     @ResponseBody
     @RequestMapping(value="/replyInquire", method=RequestMethod.POST)
     public String replyInquire(@ModelAttribute InquireDTO inquire) throws IOException {
@@ -106,14 +114,14 @@ public class CommunityController {
     		return "Fail";
     	}
     }
-    
+	
     @RequestMapping(value="/replyView", method=RequestMethod.GET)
     public ModelAndView selectReplyInquire(@ModelAttribute InquireDTO inquire) throws IOException {
     	mav = new ModelAndView();
     	mav = communityService.selectReplyInquire(inquire);   	
     	return mav;
     }
-    
+	
     @RequestMapping(value="/myInquire", method=RequestMethod.GET)
     public ModelAndView myInquire(@ModelAttribute InquireDTO inquire) throws IOException {
     	mav = new ModelAndView();
@@ -169,7 +177,7 @@ public class CommunityController {
 			mav = communityService.selectReport(paging);
 		return mav;
 	 }
-
+	
     @RequestMapping(value="/selectReportPost", method=RequestMethod.GET)
     public ModelAndView selectReportPost(@ModelAttribute ReportDTO report) throws IOException {
     	mav = new ModelAndView();
@@ -195,7 +203,7 @@ public class CommunityController {
 		int result = communityService.acceptReport(report);
 		return result; 		
 	}
-	
+    
 	@RequestMapping(value = "/filedownload", method = RequestMethod.GET)
 	public void filedownload(@RequestParam("filename") String filename,HttpServletRequest request,HttpServletResponse response) throws IOException {
 		HttpSession session = request.getSession(); 

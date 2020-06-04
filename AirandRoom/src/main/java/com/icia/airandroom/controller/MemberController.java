@@ -20,6 +20,8 @@ import org.codehaus.jackson.JsonNode;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -41,6 +43,8 @@ import com.icia.airandroom.service.MemberService;
 import com.icia.airandroom.util.KakaoJoinApi;
 import com.icia.airandroom.util.MailSend;
 
+import nl.captcha.Captcha;
+
 
 
 @Controller
@@ -58,8 +62,7 @@ public class MemberController {
 	@Autowired
 	private KakaoService kakaoService;
 	
-	@Autowired
-	private CommunityService communityService;
+	
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home() {
@@ -119,7 +122,7 @@ public class MemberController {
 	public String emailModify() {
 		return "member/EmailModify";
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value="/checkMember", method=RequestMethod.POST)
 	public String checkMember(@ModelAttribute MemberDTO member) {
@@ -160,7 +163,6 @@ public class MemberController {
 			return "Fail";
 		}
 	}
-	
 	@ResponseBody
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String login(@ModelAttribute MemberDTO member,HttpServletResponse response) {
@@ -193,7 +195,7 @@ public class MemberController {
 			return "Fail";
 		}
 	}
-	
+
 	@RequestMapping(value="/logout", method=RequestMethod.GET)
 	public String logout(HttpServletResponse response,HttpServletRequest request) {
         Object obj = session.getAttribute("id");
@@ -412,7 +414,6 @@ public class MemberController {
 		FileCopyUtils.copy(bytes,target);
 		return savefilename;	
 	}
-	
 	 @RequestMapping(value="/googleApiLogin", method=RequestMethod.GET)	   
 	private ModelAndView googleApiLogin(@RequestParam("googleid") String googleid) {		 
 		mav=new ModelAndView();
@@ -429,51 +430,7 @@ public class MemberController {
 		return mav;
 		
 	 }
-	 
-		@PostMapping(value="/googleLogin.do", produces="application/x-www-form-urlencoded")
-		@ResponseBody
-		public String googleLogin(@RequestBody String param) {
-			
-			BufferedReader in  = null;
-			InputStream is = null;
-			InputStreamReader isr = null;
-			JSONParser jsonParser = new JSONParser();
-	        
-			String userId = null;
-			
-			try {
-				String idToken = param.split("=")[1];
-				
-				String url = "https://oauth2.googleapis.com/tokeninfo";
-				url += "?id_token="+idToken;
-				
-				URL gUrl = new URL(url);
-				HttpURLConnection conn = (HttpURLConnection) gUrl.openConnection();
-
-				is = conn.getInputStream();
-				isr = new InputStreamReader(is, "UTF-8");
-				in = new BufferedReader(isr);
-				
-
-				JSONObject jsonObj = (JSONObject)jsonParser.parse(in);
-
-				userId = jsonObj.get("sub").toString();
-				String name = jsonObj.get("name").toString();
-				String email = jsonObj.get("email").toString();
-				String imageUrl = jsonObj.get("picture").toString();
-				
-				System.out.println(userId);
-				System.out.println(name);
-				System.out.println(email);
-				System.out.println(imageUrl);
-				
-			}catch(Exception e) {
-				System.out.println(e);
-			}
-			
-			return userId;
-		}
-	 
+	
 		@RequestMapping(value = "/jsjkakaoJoin", method = RequestMethod.GET)
 		public ModelAndView kakaoJoin(@RequestParam("code") String code,HttpSession session) {
 			mav=new ModelAndView();
@@ -482,7 +439,7 @@ public class MemberController {
 			mav=kakaoService.kakaoJoin(profile);
 			return mav;
 		}
-		
+	
 		@RequestMapping(value = "/kakaoCreate", method = RequestMethod.GET)
 		public ModelAndView kakao() {
 			String kakaoUrl=KakaoJoinApi.getAuthorizationUrl(session);
@@ -491,7 +448,7 @@ public class MemberController {
 			mav.setViewName("member/KakaoCreate");
 			return 	mav;
 		}
-		
+	
 		@RequestMapping(value = "/createKakaoMembers", method = RequestMethod.GET)
 		public ModelAndView createKakaoMembers(@RequestParam("kakaoid") String kakaoid,@RequestParam("kind") String kind) {
 			mav=new ModelAndView();
@@ -500,6 +457,9 @@ public class MemberController {
 			mav.setViewName("member/JoinForm");
 			return 	mav;
 		}
+	
+	
+
 	
 
 	

@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,6 +26,7 @@ import com.icia.airandroom.service.AirlineService;
 import com.icia.airandroom.service.ScheduleService;
 import com.icia.airandroom.util.KakaoPay;
 import com.icia.airandroom.util.MailSend;
+
 
 @Controller
 public class AirlineController {
@@ -75,6 +78,7 @@ public class AirlineController {
 		return resultMsg;
 
 	}
+
 	@ResponseBody
 	@RequestMapping(value = "/registerAirline", method = RequestMethod.POST)
 	public int createAirline(@ModelAttribute AirlineDTO airline) throws IOException {
@@ -176,7 +180,7 @@ public class AirlineController {
 		mav = airlineService.modifyAirline(ano);
 		return mav;
 	}
-
+	
 	@ResponseBody
 	@RequestMapping(value = "/updateAirline", method = RequestMethod.POST)
 	public int updateAirline(@ModelAttribute AirlineDTO airline) {
@@ -288,11 +292,13 @@ public class AirlineController {
 			mav.setViewName("airline/kakaopay");
 	      return mav;
 	}
+	
 	@RequestMapping(value="/airlinekakaoPay",method=RequestMethod.POST)
 	   public String kakaoPay(@ModelAttribute AirlinebkDTO airlinebk,@RequestParam("airlineid") String airlineid) {
 			session.setAttribute("seats", airlinebk.getSeats());
 			return "redirect:" + kakaopay.kakaoPayReady(airlinebk,airlineid);
 	}
+	
 	@RequestMapping(value="/AirlineKakaoPaySuccess")
 		public void kakaoPaySuccess(@RequestParam("pg_token") String pg_token,Model model,@RequestParam("airlineid") String airlineid,@ModelAttribute AirlinebkDTO airlinebk) {
 		String id=(String) session.getAttribute("id");

@@ -845,11 +845,9 @@ public class RoomService {
 			return map;
 		}
 		
-				public Map<String, Object> allReviewList(int page, String roomrno) {
-			// TODO Auto-generated method stub
+		public Map<String, Object> allReviewList(int page, String roomrno) {
 			Paging paging = new Paging();
 			String rno = roomrno;
-			System.out.println(rno);
 			int count = revdao.allReviewListCount(rno);
 			if (page <= 0) {
 				page = 1;
@@ -876,7 +874,7 @@ public class RoomService {
 						RoomDTO room = new RoomDTO();
 						String rno= list.get(i).getRno();
 						String rpno=rdao.getRpno(rno);
-						room=rdao.getPic(rpno);
+						room=rdao.getPic2(rpno);
 						piclist.add(room);
 					}
 					Map<String,Object> map = new HashMap<String,Object>();

@@ -60,8 +60,7 @@
 			<jsp:include page="SideNav.jsp"></jsp:include>
 		</div>
 		<div class="col-xs-9">
-			본인 확인을 위하여 비밀번호를 입력하세요.<br>
-			<br>
+		본인확인을 위하여 비밀번호를 입력하여 주세요.<br>
 			<br> <input type="password" id="pw">
 			<button class="btn btn-success" onclick="checkDelMember()">확인하기</button>
 		</div>

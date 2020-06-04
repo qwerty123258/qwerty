@@ -57,6 +57,7 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
             ModelAndView modelAndView)throws Exception {
     	  String requestURI = request.getRequestURI();
+    	  System.out.println(requestURI);
     	  if(requestURI.equals("/airandroom/roomsRegForm") || requestURI.equals("/airandroom/roomsUpdateForm") || requestURI.equals("/airandroom/roomManagement")) {
     		  String kind=(String)session.getAttribute("kind");
     		  if(!kind.equals("room")) {

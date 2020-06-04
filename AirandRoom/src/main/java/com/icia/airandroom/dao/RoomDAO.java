@@ -237,4 +237,8 @@ public class RoomDAO {
 	public List<RoomDTO> mostGrade() {
 		return sql.selectList("Room.mostGrade");
 	}
+
+	public RoomDTO getPic2(String rpno) {
+		return sql.selectOne("Room.getPic2",rpno);
+	}
 }

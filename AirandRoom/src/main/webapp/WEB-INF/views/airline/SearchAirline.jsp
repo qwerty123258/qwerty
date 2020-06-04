@@ -274,9 +274,12 @@ function oneway(page,startpoint,endpoint){
         	order +="<option value='최대시간순편도'>최대시간순</option>";
         	order +="<option value='가격순정렬편도'>가격순정렬</option>";
         	order +="</select>"; 
-    		var nextPage=data.paging.endPage+1;
-    		if(data.paging.endPage!=data.paging.totalPage){
-    			html += "<button onclick=oneway("+nextPage+")'>더 보기</button>";
+    		var nextPage=data.paging.page+1;
+    		console.log(data.paging.endPage);
+    		console.log(data.paging.totalPage);
+    		console.log(data.paging.page);
+    		if(data.paging.page!=data.paging.totalPage){
+    			html += "<button onclick='oneway("+nextPage+",\""+startpoint+"\",\""+endpoint+"\")'>더 보기</button>";
     		}
     		else{
     			html += "<button style='cursor: not-allowed; opacity: 0.6;'>더 보기</button>";
@@ -329,9 +332,9 @@ function roundtrip(page,startpoint,endpoint){
            	order +="<option value='최대시간순왕복'>최대시간순</option>";
            	order +="<option value='가격순정렬왕복'>가격순정렬</option>";
            	order +="</select>"; 
-       		var nextPage=data.paging.endPage+1;
-    		if(data.paging.endPage!=data.paging.totalPage){
-    			html += "<button onclick=oneway("+nextPage+")'>더 보기</button>";
+    		var nextPage=data.paging.page+1;
+    		if(data.paging.page!=data.paging.totalPage){
+    			html += "<button onclick='roundtrip("+nextPage+",\""+startpoint+"\",\""+endpoint+"\")'>더 보기</button>";
     		}
     		else{
     			html += "<button style='cursor: not-allowed; opacity: 0.6;'>더 보기</button>";
@@ -380,9 +383,9 @@ function onewaySortby(startpoint,endpoint) {
                html +="</tr>";     
      	       html +="</table>";
         	}
-        	var nextPage=data.paging.endPage+1;
-    		if(data.paging.endPage!=data.paging.totalPage){
-    			html += "<button onclick=oneway("+nextPage+")'>더 보기</button>";
+    		var nextPage=data.paging.page+1;
+    		if(data.paging.page!=data.paging.totalPage){
+    			html += "<button onclick='oneway("+nextPage+",\""+startpoint+"\",\""+endpoint+"\")'>더 보기</button>";
     		}
     		else{
     			html += "<button style='cursor: not-allowed; opacity: 0.6;'>더 보기</button>";
@@ -433,9 +436,9 @@ function roundtripSortby(startpoint,endpoint) {
                html +="</tr>";     
      	       html +="</table>";
         	}
-        	var nextPage=data.paging.endPage+1;
-    		if(data.paging.endPage!=data.paging.totalPage){
-    			html += "<button onclick=oneway("+nextPage+")'>더 보기</button>";
+    		var nextPage=data.paging.page+1;
+    		if(data.paging.page!=data.paging.totalPage){
+    			html += "<button onclick='roundtrip("+nextPage+",\""+startpoint+"\",\""+endpoint+"\")'>더 보기</button>";
     		}
     		else{
     			html += "<button style='cursor: not-allowed; opacity: 0.6;'>더 보기</button>";

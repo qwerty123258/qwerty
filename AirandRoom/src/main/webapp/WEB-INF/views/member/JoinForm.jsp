@@ -39,9 +39,26 @@
 		var emailid = document.getElementById("emailid").value
 		var emaildomain = document.getElementById("emaildomain").value
 		var email = emailid + "@" + emaildomain;
-		var url = "sendCode?email=" + email;
-		window.open(url, 'pop01',
-				'width=500, height=500, status=no, menubar=no, toolbar=no');
+		$.ajax({
+			type : "POST",
+			url : "checkEmail",
+			data : "email=" + email,
+			dataType : "text",
+			success : function(result) {
+				if (result == "Overlap") {
+					alert("해당 이메일 주소는 이미 사용중입니다.");
+				} else if (result = "NotOverlap") {
+					var url = "sendCode?email=" + email;
+					window.open(url, 'pop01',
+							'width=500, height=500, status=no, menubar=no, toolbar=no');
+				}
+
+			},
+			error : function() {
+				alert("이메일 중복 체크중 에러 발생");
+			}
+
+		});
 
 	}
 	function checkID() {
@@ -104,25 +121,6 @@
 		$("#email").val(emailid + "@" + emaildomain);
 		var email = $("#email").val();
 		var phoneval = $("#phone").val();
-		$.ajax({
-			type : "POST",
-			url : "checkEmail",
-			data : "email=" + email,
-			dataType : "text",
-			success : function(result) {
-				if (result == "Overlap") {
-					$("#checkEmailResult").val("중복된 이메일");
-				} else if (result = "NotOverlap") {
-					$("#checkEmailResult").val("중복되지 않은 이메일");
-				}
-
-			},
-			error : function() {
-				alert("이메일 중복 체크중 에러 발생");
-			}
-
-		});
-		var checkEmailResult = $("#checkEmailResult").val();
 		if (id == "") {
 			alert("아이디를 입력하세요");
 			$("#id").focus();
@@ -176,11 +174,6 @@
 			$("#id").focus();
 		} else if (certify == "인증안됨") {
 			alert("이메일 인증이 완료되지 않았습니다.");
-		} else if (checkEmailResult == "중복된 이메일") {
-			alert("입력하신 이메일 주소는 이미 사용중입니다.");
-			$("#emailid").val("");
-			$("#emaildomain").val("");
-			$("#emailid").focus();
 		} else if (checkIMG()) {
 				if (id.match(idreg) && pw.match(pwreg) && phone.match(phonereg)) {
 					var formData = new FormData(document.getElementById("form")); // 
@@ -246,25 +239,6 @@
 	$("#email").val(emailid + "@" + emaildomain);
 	var email = $("#email").val();
 	var phoneval = $("#phone").val();
-	$.ajax({
-		type : "POST",
-		url : "checkEmail",
-		data : "email=" + email,
-		dataType : "text",
-		success : function(result) {
-			if (result == "Overlap") {
-				$("#checkEmailResult").val("중복된 이메일");
-			} else if (result = "NotOverlap") {
-				$("#checkEmailResult").val("중복되지 않은 이메일");
-			}
-
-		},
-		error : function() {
-			alert("이메일 중복 체크중 에러 발생");
-		}
-
-	});
-	var checkEmailResult = $("#checkEmailResult").val();
 	if (id == "") {
 		alert("아이디를 입력하세요");
 		$("#id").focus();
@@ -299,12 +273,7 @@
 		$("#id").focus();
 	} else if (certify == "인증안됨") {
 		alert("이메일 인증이 완료되지 않았습니다.");
-	} else if (checkEmailResult == "중복된 이메일") {
-		alert("입력하신 이메일 주소는 이미 사용중입니다.");
-		$("#emailid").val("");
-		$("#emaildomain").val("");
-		$("#emailid").focus();
-	} else if (checkIMG()) {
+	}else if (checkIMG()) {
 			if (id.match(idreg) && phone.match(phonereg)) {
 				var formData = new FormData(document.getElementById("form")); // 
 				$.ajax({
@@ -344,25 +313,6 @@
 		$("#email").val(emailid + "@" + emaildomain);
 		var email = $("#email").val();
 		var phoneval = $("#phone").val();
-		$.ajax({
-			type : "POST",
-			url : "checkEmail",
-			data : "email=" + email,
-			dataType : "text",
-			success : function(result) {
-				if (result == "Overlap") {
-					$("#checkEmailResult").val("중복된 이메일");
-				} else if (result = "NotOverlap") {
-					$("#checkEmailResult").val("중복되지 않은 이메일");
-				}
-
-			},
-			error : function() {
-				alert("이메일 중복 체크중 에러 발생");
-			}
-
-		});
-		var checkEmailResult = $("#checkEmailResult").val();
 		if (id == "") {
 			alert("아이디를 입력하세요");
 			$("#id").focus();
@@ -397,12 +347,8 @@
 			$("#id").focus();
 		} else if (certify == "인증안됨") {
 			alert("이메일 인증이 완료되지 않았습니다.");
-		} else if (checkEmailResult == "중복된 이메일") {
-			alert("입력하신 이메일 주소는 이미 사용중입니다.");
-			$("#emailid").val("");
-			$("#emaildomain").val("");
-			$("#emailid").focus();
-		} else if (checkIMG()) {
+		}
+		else if (checkIMG()) {
 				if (id.match(idreg) && phone.match(phonereg)) {
 					var formData = new FormData(document.getElementById("form")); // 
 					$.ajax({
@@ -522,7 +468,6 @@
 		 </div>
 		<input type="hidden" value="인증안됨" id="certify"> 
 		<input type="hidden" id="email" name="email"> 
-		<input type="hidden" id="checkEmailResult"> 
 		<br><br>
 		<button type="button" class="btn btn-success" onclick="sendVerifyCode()">이메일 인증하기</button><br><br>
 				연락처 

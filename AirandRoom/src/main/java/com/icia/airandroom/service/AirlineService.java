@@ -150,6 +150,7 @@ public class AirlineService {
 		String id=(String) session.getAttribute("id");
 		int count=adao.countAirlineBooking(id);
 		Paging paging = new Paging();
+		paging.setPage(page);
 		paging.setDisplayRow(10);
 		paging.setTotalCount(count);
 		List<AirlinebkDTO> airlinebkList=adao.customerAirlinesBookingList(paging,id);

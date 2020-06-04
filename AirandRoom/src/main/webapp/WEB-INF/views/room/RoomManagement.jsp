@@ -297,7 +297,6 @@ $(document).ready(function(){
 </select>
 <script>
 function defaultYear(year) {
-	$("select[name='month']").val("");
 	$.ajax({
 		type : "GET",
 		url : "getRoomMonth",
@@ -316,23 +315,21 @@ function defaultYear(year) {
 }
 function year() {
 	var year =  $("select[name='year']").val();
-	$("select[name='month']").val("");
 	$.ajax({
 		type : "GET",
 		url : "getRoomMonth",
 		data : "year=" + year,
 		dataType : "json",
-		success : function(result) {			
+		success : function(result) {
+			console.log(result);
 			var length = result.length;
 			var output = "";
-			var output 
 			for(i=0; i<length; i++) {
-       	    	var output = "";
-       			output +="<select onchange='graphInfo("+result[i]+","+year+")' name='month'>";
-       			output +="<option value='' selected disabled >"+"월 별로 보기"+"</option>";
+       			output +="<select onchange='graphInfoSelect("+year+")' name='month'>";
+       			output +="<option value='' selected disabled >+"+"월 별로 보기"+"</option>";
        			for (var i = 0; i < length; i++) {
-           		output += "<option value='"+result[i]+"'>"+result[i]+"</option>";
-       			}
+               		output += "<option value='"+result[i]+"'>"+result[i]+"</option>";
+           		}
            		output += "</select>"; 
        			$("#month").html(output);
 			}
@@ -380,8 +377,38 @@ function graphInfo(getMonth,year){
 	$.ajax({
 		type : "GET",
 		url : "getRoomDay",
+		data : "month=" + getMonth+"&year=" + year,
+		dataType : "json",
+		async:false,
+		success : function(result) {
+			getDay=result;
+			graph(getMonth,getDay,getPrice,year);
+		},
+		error : function() {
+			alert("통신 실패");
+		}
+	});
+}
+function graphInfoSelect(year){
+	var getMonth =  $("select[name='month']").val();
+	$.ajax({
+		type : "GET",
+		url : "getRoomPrice",
 		data : "month=" + getMonth+
-	       "&year=" + year,,
+	       "&year=" + year,
+		dataType : "json",
+		async:false,
+		success : function(result) {
+			getPrice=result;
+		},
+		error : function() {
+			alert("통신 실패");
+		}
+	});
+	$.ajax({
+		type : "GET",
+		url : "getRoomDay",
+		data : "month=" + getMonth+"&year=" + year,
 		dataType : "json",
 		async:false,
 		success : function(result) {

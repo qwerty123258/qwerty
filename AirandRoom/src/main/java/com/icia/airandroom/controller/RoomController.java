@@ -1,6 +1,7 @@
 package com.icia.airandroom.controller;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -11,6 +12,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +34,7 @@ import com.icia.airandroom.page.Paging;
 import com.icia.airandroom.service.RoomService;
 import com.icia.airandroom.util.KakaoPay;
 import com.icia.airandroom.util.MailSend;
+
 
 @Controller
 public class RoomController {
@@ -106,7 +110,7 @@ public class RoomController {
 	public String roomsRegForm() {
 		return "room/RoomsRegForm";
 	}
-
+	
 	@ResponseBody
 	@RequestMapping(value = "/roomsReg", method = RequestMethod.POST)
 	public String roomsReg(@ModelAttribute RoomDTO room, MultipartHttpServletRequest mtfRequest,HttpServletRequest request) throws IOException {
@@ -177,7 +181,7 @@ public class RoomController {
 		}
 		return "Fail";
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/selectKeyword", method = RequestMethod.GET)
 	public List<RoomDTO> selectKeyword(@RequestParam("keyword") String keyword) {
@@ -207,7 +211,7 @@ public class RoomController {
 		}
 		return keywordList;
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/searchRoom", method = RequestMethod.GET)
 	public Map<String,Object> searchRoom(@RequestParam("keyword") String keyword,@RequestParam("page") int page) {
@@ -257,6 +261,7 @@ public class RoomController {
 		mav=roomService.roomView(rno,page);
 		return mav;
 	}
+	
 	@ResponseBody
 	@RequestMapping(value="/checkinSetting",method=RequestMethod.GET)
 	public List<RoombkDTO> checkinSetting(@RequestParam("rno") String rno) {
@@ -281,6 +286,7 @@ public class RoomController {
 			mav.setViewName("room/kakaopay");
 	      return mav;
 	}
+	
 	@RequestMapping(value="/kakaoPay",method=RequestMethod.POST)
 	   public String kakaoPay(@ModelAttribute RoombkDTO roombk,@RequestParam("roomid") String roomid) {
 			return "redirect:" + kakaopay.kakaoPayReady(roombk,roomid);
@@ -308,7 +314,7 @@ public class RoomController {
 	public String goSearchRoom() {
 		return "room/SearchRoom";
 	}
-
+	
 	@ResponseBody
 	@RequestMapping(value = "/myRoomsDelete", method = RequestMethod.POST)
 	public String myRoomsDelete(@RequestParam("rno") String rno,HttpServletRequest request) {
@@ -335,7 +341,7 @@ public class RoomController {
 		mav = roomService.roomsUpdateForm(rno);
 		return mav;
 	}
-
+	
 	@ResponseBody
 	@RequestMapping(value = "/roomsUpdate", method = RequestMethod.POST) //
 	public String roomsUpdate(@ModelAttribute RoomDTO dto, MultipartHttpServletRequest msr,HttpServletRequest request) throws IOException {
@@ -347,7 +353,7 @@ public class RoomController {
 		}
 		return check;
 	}
-
+	
 	@ResponseBody
 	@RequestMapping(value = "/roomBookingCancel", method = RequestMethod.POST)
 	public String roomBookingCancel(@RequestParam("rno") String rno,HttpServletRequest request) {
@@ -367,7 +373,7 @@ public class RoomController {
 	
 		return returns;	
 		}
-	   
+	
 	@RequestMapping(value="/selectMyRoombk",method=RequestMethod.GET)
 	public ModelAndView selectMyRoombk(@RequestParam("page") int page) {
 		mav=new ModelAndView();	
@@ -554,7 +560,7 @@ public class RoomController {
 		Map<String, Object> list = roomService.reviewCommentWrite(comments, revno,paging);
 		return list;
 	}
-
+	
 	@ResponseBody
 	@RequestMapping(value = "/reviewCommentDelete", method = RequestMethod.POST)
 	public String reviewCommentDelete(@RequestParam("replyno") String replyno) {

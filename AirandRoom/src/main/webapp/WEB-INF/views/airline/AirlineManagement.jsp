@@ -318,7 +318,6 @@ function defaultYear(year) {
 
 function year() {
 	var year =  $("select[name='year']").val();
-	$("select[name='month']").val("");
 	$.ajax({
 		type : "GET",
 		url : "getAirlineMonth",
@@ -328,14 +327,12 @@ function year() {
 			
 			var length = result.length;
 			var output = "";
-			var output 
 			for(i=0; i<length; i++) {
-       	    	var output = "";
-       			output +="<select onchange='graphInfo("+result[i]+","+year+")' name='month'>";
-       			output +="<option value='' selected disabled >"+"월 별로 보기"+"</option>";
+       			output +="<select onchange='graphInfoSelect("+year+")' name='month'>";
+       			output +="<option value='' selected disabled >+"+"월 별로 보기"+"</option>";
        			for (var i = 0; i < length; i++) {
-           		output += "<option value='"+result[i]+"'>"+result[i]+"</option>";
-       			}
+               		output += "<option value='"+result[i]+"'>"+result[i]+"</option>";
+           		}
            		output += "</select>"; 
        			$("#month").html(output);
 			}
@@ -365,7 +362,6 @@ function year() {
 	var getDay;
 	var getPrice;
     function graphInfo(getMonth,year){
-    	
     		$.ajax({
     			type : "GET",
     			url : "getAirlinePrice",
@@ -389,7 +385,6 @@ function year() {
     			async:false,
     			success : function(result) {
     				getDay=result;
-    				console.log(getMonth,getDay,getPrice);
     				graph(getMonth,getDay,getPrice,year);
     			},
     			error : function() {
@@ -397,6 +392,38 @@ function year() {
     			}
     		});
     }
+    function graphInfoSelect(year){
+    	var getMonth =  $("select[name='month']").val();
+		$.ajax({
+			type : "GET",
+			url : "getAirlinePrice",
+			data : "month=" + getMonth +
+			       "&year=" + year,
+			dataType : "json",
+			async:false,
+			success : function(result) {
+				getPrice=result;
+			},
+			error : function() {
+				alert("통신 실패");
+			}
+		});
+		$.ajax({
+			type : "GET",
+			url : "getAirlineDay",
+			data : "month=" + getMonth +
+			       "&year=" + year,
+			dataType : "json",
+			async:false,
+			success : function(result) {
+				getDay=result;
+				graph(getMonth,getDay,getPrice,year);
+			},
+			error : function() {
+				alert("통신 실패");
+			}
+		});
+}
     function graph(getMonth,getDay,getPrice,year){
     	Highcharts.chart('container', {
     		title: {

@@ -156,6 +156,9 @@ select distinct to_char(bookingdate,'MM') as month from roombk rb,room r where t
 select r.rno,r.rname,r.price,r.address,count(*) as bkcount from room r,roombk bk where bk.rno=r.rno group by bk.rno,r.rno,r.rname,r.address,r.price order by bkcount desc
 </select>
 <select id="getPic" resultType="room" parameterType="String">
+select r.rno,r.rname,r.price,pic.rimgname from room r,roompic pic where r.rno=pic.rno and rpno=#{rpno} group by r.rno,r.rname,r.price,r.address,pic.rimgname
+</select>
+<select id="getPic2" resultType="room" parameterType="String">
 select r.rno,r.rname,r.price,pic.rimgname,round(avg(grade),1) as grade from room r,roompic pic,rgrade rg where r.rno=pic.rno and rpno=#{rpno} and r.rno=rg.rno group by r.rno,r.rname,r.price,r.address,pic.rimgname order by grade
 </select>
 <select id="grade" resultType="String" parameterType="String">

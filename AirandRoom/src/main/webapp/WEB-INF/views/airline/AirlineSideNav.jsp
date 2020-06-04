@@ -5,9 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>노선 관리 좌측 페이지</title>
-	<link href='https://fonts.googleapis.com/css?family=Quicksand:400,700' rel='stylesheet' type='text/css' />
-	
-	<link href="https://netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.min.css" rel="stylesheet" />
 <style>
 
 	body {

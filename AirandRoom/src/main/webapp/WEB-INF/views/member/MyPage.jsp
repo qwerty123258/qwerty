@@ -60,24 +60,25 @@ function checkOut(rbno, rno) {
 }
 
 function bookingDelete(rbno){
-	
-	$.ajax({
-		type:"post",
-		url:"bookingDelete",
-		data:"rbno="+rbno,
-		dataType:"text",
-		success:function(result){
-			if (result == "Success") {
-				customerRoomsBookingList(1);
-			} else if(result=="Fail") {
-				alert('예약 취소 실패');
+	if(confirm("예약을 취소하시겠습니까???")){
+		$.ajax({
+			type:"post",
+			url:"bookingDelete",
+			data:"rbno="+rbno,
+			dataType:"text",
+			success:function(result){
+				if (result == "Success") {
+					customerRoomsBookingList(1);
+				} else if(result=="Fail") {
+					alert('예약 취소 실패');
+				}
+			},
+			error : function() {
+				alert('예약 취소 중 에러 발생');
 			}
-		},
-		error : function() {
-			alert('예약 취소 중 에러 발생');
-		}
-		
-	});
+			
+		});
+	}
 	
 }
 function roomApproval(rno){
@@ -229,7 +230,7 @@ function customerRoomsBookingList(page){
                 		else if(data.list[i].checkout=="체크아웃 가능" && data.list[i].cancle=="취소 불가"){
                     		html +="<tr><td>"+data.list[i].rbno+"</td><td>"+data.list[i].rno+"</td><td>"+data.list[i].checkindate+"</td><td>"+data.list[i].checkoutdate+"</td><td>"+data.list[i].bookingdate+"</td><td>"+data.list[i].price+"</td>";
                     		
-                    		
+                    		 
                     		if(data.list[i].checks=="N"){
                     			html +="<td onclick='checkOut("+data.list[i].rbno+","+data.list[i].rno+")'>체크아웃 가능</td>";
                     		}
@@ -307,7 +308,6 @@ function customerAirlinesBookingList(page){
         url : "customerAirlinesBookingList",
         data : "page=" + page,
         dataType : "json",
-        async : false,
         success : function(data){
             var html = "<h2>항공권 예약리스트</h2>";
             var length=data.list.length;

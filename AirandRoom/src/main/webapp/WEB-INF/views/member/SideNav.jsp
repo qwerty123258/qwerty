@@ -4,10 +4,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link href='https://fonts.googleapis.com/css?family=Quicksand:400,700' rel='stylesheet' type='text/css' />
-	<script type="text/javascript" src="https://code.jquery.com/jquery-2.0.0.min.js" /></script>
-	
-	<link href="https://netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.min.css" rel="stylesheet" />
 <meta charset="UTF-8">
 <title>마이페이지 좌측 메뉴</title>
 
@@ -118,7 +114,7 @@
 </c:if>
 <c:if test="${sessionScope.kind eq 'normal'}">
 <li><a href="myReviewListForm?id=${sessionScope.id}&check=my" class="green">작성한 리뷰보기</a></li>
-<li><a href="myInquireList?id=${sessionScope.id}&page=1" class="red">문의 내역 보기</a></li>
+<li><a href="myInquireList?page=1" class="red">문의 내역 보기</a></li>
 <li><a href="myPage" class="yellow">예약 리스트보기</a></li>
 <li><a href="checkDelMembers" class="red">회원탈퇴</a></li>
 </c:if>
