@@ -820,8 +820,6 @@ h2{ color: #7f8c8d; font-family: Neucha, Arial, sans serif; font-size:18px; marg
 			</div>
 	</div>
 	<div class="col-xs-12" style="height:100px;"></div>
-	
-<jsp:include page="../Footer.jsp"></jsp:include>
    
 </body>
 <script>
