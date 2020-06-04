@@ -43,7 +43,6 @@ import com.icia.airandroom.service.MemberService;
 import com.icia.airandroom.util.KakaoJoinApi;
 import com.icia.airandroom.util.MailSend;
 
-import nl.captcha.Captcha;
 
 
 
