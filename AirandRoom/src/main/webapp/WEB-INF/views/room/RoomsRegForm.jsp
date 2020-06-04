@@ -213,7 +213,7 @@ table tr:hover td {
 					</tr>
 					<tr>
 						<td>숙소 설명 </td>
-						<td><textarea id="contents" onkeyup="contentlength()" name="contents" rows="10" cols="100"></textarea>
+						<td><textarea id="contents" onkeyup="contentlength()" name="contents" rows="15" cols="100"></textarea>
 						<div id="contentslength" style="height:20px; text-align:right;">0/500</div> 
 						</td>
 					</tr>

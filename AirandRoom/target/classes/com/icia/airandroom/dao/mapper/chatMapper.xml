@@ -32,6 +32,9 @@ update chatmessage set contents=#{contents} ,cdate=sysdate where roomid=#{roomId
 	
 	select count(*) from chatmessage where roomid=#{roomId}
 	</select>
+	<delete id="chatDelete" parameterType="String">
+		delete chatmessage where roomid=#{id}
+	</delete>
 	
 	
 	

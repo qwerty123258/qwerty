@@ -134,17 +134,19 @@ public class AirlineDAO {
 		return sql.delete("Airline.deleteAirlinebk", ano);
 	}
 
-	public List<String> dayList(String month, String id) {
+	public List<String> dayList(String month, String id,String year) {
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("id", id);
 		map.put("month", month);
+		map.put("year", year);
 		return sql.selectList("Airline.dayList",map);
 	}
 
-	public List<String> priceList(String month, String id) {
+	public List<String> priceList(String month, String id,String year) {
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("id", id);
 		map.put("month", month);
+		map.put("year", year);
 		return sql.selectList("Airline.priceList",map);
 	}
 
@@ -161,11 +163,12 @@ public class AirlineDAO {
 	public List<String> getMonths() {
 		return sql.selectList("Airline.getMonths");
 	}
-	public List<AirlineGraphDTO> perDayList(String day,String month, String id) {
+	public List<AirlineGraphDTO> perDayList(String day,String month, String id,String year) {
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("day", day);
 		map.put("month", month);
 		map.put("id", id);
+		map.put("year", year);
 		return sql.selectList("Airline.perDayList",map);
 	}
 

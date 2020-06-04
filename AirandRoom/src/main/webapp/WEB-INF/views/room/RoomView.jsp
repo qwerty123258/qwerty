@@ -290,7 +290,7 @@ function reviewView(revno){
 	    	var revcomment="";
 	    	var commentinput="";
 	    	revcomment+="<table id='commentList' class='table table-bordered table-striped table-hover' style='height:100%;'>";
-	    	revcomment+="<tbody style='height:100%;'>"
+	    	revcomment+="<tbody>"
 	    	plist+="<div class='w3-content w3-display-container' style='height:100%'>";
 	    	for(var i=0; i<data.plist.length; i++){
 				
@@ -298,7 +298,10 @@ function reviewView(revno){
 
 	    	}
 	    	for(var j=0; j<data.comment.length; j++){
-	    		revcomment+="<tr style='text-align:left' id='comment"+data.comment[j].replyno+"' style='height:50px;'><td><img style='border-radius: 16px; width:32px; height:32px;' onError='this.src=\"${pageContext.request.contextPath}/resources/img/default.webp\"'  src='${pageContext.request.contextPath}/resources/fileUpload/"+data.comment[j].imgname+"\' >"+"     "+data.comment[j].id+" : "+data.comment[j].contents+"<i style='float:right;' onclick='reviewCommentDelete("+data.comment[j].replyno+","+data.comment[j].revno+")' class='far fa-trash-alt'></i></td></tr>";
+	    		revcomment+="<tr style='text-align:left; height:50px;' id='comment"+data.comment[j].replyno+"'><td style='height:50px;'><img style='border-radius:16px; width:32px; height:32px; border-radius:16px;' onError='this.src=\"${pageContext.request.contextPath}/resources/img/default.webp\"'  src='${pageContext.request.contextPath}/resources/fileUpload/"+data.comment[j].imgname+"\' >"+"     "+data.comment[j].id+" : "+data.comment[j].contents;
+        		if(data.comment[j].id=='${sessionScope.id}'||'${sessionScope.id}'=='admin'){
+        			revcomment+="<i style='float:right;' onclick='reviewCommentDelete("+data.comment[j].replyno+","+data.comment[j].revno+")' class='far fa-trash-alt'></i></td></tr>";
+        		}
 	    	}
 	    	commentinput+="<input type='text' style='width: 95%;' id='commentinput"+data.roomrev.revno+"'/> ";
 	    	commentinput+="<button class='btn btn-info' onclick='writeComment("+data.roomrev.revno+")'><i class='far fa-paper-plane'>"+ "  " +"댓글 입력</button>";
@@ -373,9 +376,12 @@ $.ajax({
     	var revcontent="";
     	var revcomment="";
     	revcomment+="<table id='commentList' class='table table-bordered table-striped table-hover' style='height:100%;'>";
-    	revcomment+="<tbody style='height:100%;'>"
+    	revcomment+="<tbody>"
     	for(var j=0; j<data.comment.length; j++){
-    		revcomment+="<tr style='text-align:left' id='comment"+data.comment[j].replyno+"' style='height:50px;'><td><img style='border-radius: 16px; width:32px; height:32px;' onError='this.src=\"${pageContext.request.contextPath}/resources/img/default.webp\"'  src='${pageContext.request.contextPath}/resources/fileUpload/"+data.comment[j].imgname+"\' >"+"     "+data.comment[j].id+" : "+data.comment[j].contents+"<i style='float:right;' onclick='reviewCommentDelete("+data.comment[j].replyno+","+data.comment[j].revno+")' class='far fa-trash-alt'></i></td></tr>";
+    		revcomment+="<tr style='text-align:left; height:50px;' id='comment"+data.comment[j].replyno+"' ><td><img style='border-radius:16px; width:32px; height:32px; border-radius:16px;' onError='this.src=\"${pageContext.request.contextPath}/resources/img/default.webp\"'  src='${pageContext.request.contextPath}/resources/fileUpload/"+data.comment[j].imgname+"\' >"+"     "+data.comment[j].id+" : "+data.comment[j].contents;
+    		if(data.comment[j].id=='${sessionScope.id}'||'${sessionScope.id}'=='admin'){
+    			revcomment+="<i style='float:right;' onclick='reviewCommentDelete("+data.comment[j].replyno+","+data.comment[j].revno+")' class='far fa-trash-alt'></i></td></tr>";
+    		}
     	}
     	revcomment+="</tbody>";
 		
@@ -618,6 +624,13 @@ h2{ color: #7f8c8d; font-family: Neucha, Arial, sans serif; font-size:18px; marg
       #map #infowindow-content {
         display: inline;
       }
+      div p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 200px;
+  height: 30px;
+}
 </style>
 </head>
 <body>
@@ -658,7 +671,7 @@ h2{ color: #7f8c8d; font-family: Neucha, Arial, sans serif; font-size:18px; marg
    <div class="col-xs-3">
    </div>
    <div class="col-xs-6" style="text-align:center; margin:auto;">
-   	<pre>${room.contents}</pre>
+   	<p>${room.contents}</p>
 <button onclick="goBooking()" class="btn btn-info">예약하기</button><br>
  </div>
    
@@ -710,76 +723,51 @@ h2{ color: #7f8c8d; font-family: Neucha, Arial, sans serif; font-size:18px; marg
 		
 		<c:if test="${!empty revList[0]}">
 							
-		<c:choose>
-		
-							<c:when test="${!empty revList[0].imgname}">									
+									
 						
-							<img style='border-radius: 16px; width:32px; height:32px;' src='${pageContext.request.contextPath}/resources/fileUpload/${revList[0].imgname}' >																										
-							</c:when>
-							<c:otherwise>
-							<img style='width:32px; height:32px;' src='${pageContext.request.contextPath}/resources/img/default.webp' >												
-							</c:otherwise>
-						</c:choose>
-<a href="myReviewListForm?id=${revList[0].id}&check=my">${revList[0].id}</a><br>${revList[0].contents}
-	<br>
+							<img style='border-radius: 16px; width:32px; height:32px;' src='${pageContext.request.contextPath}/resources/fileUpload/${revList[0].imgname}' onError='this.src="${pageContext.request.contextPath}/resources/img/default.webp"'>																																					
+<a style='margin-left:10px;' href="myReviewListForm?id=${revList[0].id}&check=my">${revList[0].id}</a><br><br>
+<p>${revList[0].contents}</p>
+	<br><br><br>
 	<a href="javascript:reviewView(${revList[0].revno})">리뷰 상세 보기</a>
 	</c:if>
 	</div>
 	
 	<div class="col-xs-3">
 	<c:if test="${!empty revList[1]}">
-		
-				<c:choose>
-							<c:when test="${!empty revList[1].imgname}">									
+										
 						
-							<img style='border-radius:16px; width:32px; height:32px;' src='${pageContext.request.contextPath}/resources/fileUpload/${revList[1].imgname}'>																										
-							</c:when>
-							<c:otherwise>
-							<img style='width:32px; height:32px;' src='${pageContext.request.contextPath}/resources/img/default.webp' >												
-							</c:otherwise>
-						</c:choose>
-<a href="myReviewListForm?id=${revList[1].id}&check=my">${revList[1].id}</a><br>${revList[1].contents}
-	<br>
+							<img style='border-radius:16px; width:32px; height:32px;' src='${pageContext.request.contextPath}/resources/fileUpload/${revList[1].imgname}' onError='this.src="${pageContext.request.contextPath}/resources/img/default.webp"'>																										
+<a style='margin-left:10px;' href="myReviewListForm?id=${revList[1].id}&check=my">${revList[1].id}</a><br><br>
+<p>${revList[1].contents}</p>
+	<br><br><br>
 	<a href="javascript:reviewView(${revList[1].revno})">리뷰 상세 보기</a>
 	</c:if>
 	</div>	
 	<div class="col-xs-3"></div>
 	</div>
-<div class="col-xs-12" style="height:100px;"></div>	
 	<div class="col-xs-12">
 	<div class="col-xs-3"></div>
 	<div class="col-xs-3">
 	<c:if test="${!empty revList[2]}">
-		
-			<c:choose>
-							<c:when test="${!empty revList[2].imgname}">									
+		<div class="col-xs-12" style="height:100px;"></div>									
 						
-							<img style='border-radius:16px; width:32px; height:32px;' src='${pageContext.request.contextPath}/resources/fileUpload/${revList[2].imgname}' >																										
-							</c:when>
-							<c:otherwise>
-							<img style='width:32px; height:32px;' src='${pageContext.request.contextPath}/resources/img/default.webp' >												
-							</c:otherwise>
-						</c:choose>
-	<a href="myReviewListForm?id=${revList[2].id}&check=my">${revList[2].id}</a><br>${revList[2].contents}
+							<img style='border-radius:16px; width:32px; height:32px;' src='${pageContext.request.contextPath}/resources/fileUpload/${revList[2].imgname}' onError='this.src="${pageContext.request.contextPath}/resources/img/default.webp"'>																										
+	<a style='margin-left:10px;' href="myReviewListForm?id=${revList[2].id}&check=my">${revList[2].id}</a><br><br>
+	<p>${revList[2].contents}</p>
 	
-	<br>
+	<br><br><br>
 	<a href="javascript:reviewView(${revList[2].revno})">리뷰 상세 보기</a>
 	</c:if>
 </div>
 	<div class="col-xs-3">
 	<c:if test="${!empty revList[3]}">
-		
-				<c:choose>
-							<c:when test="${!empty revList[3].imgname}">									
+							
 						
-							<img style='border-radius:16px; width:32px; height:32px;' src='${pageContext.request.contextPath}/resources/fileUpload/${revList[3].imgname}' >																										
-							</c:when>
-							<c:otherwise>
-							<img style='width:32px; height:32px;' src='${pageContext.request.contextPath}/resources/img/default.webp' >												
-							</c:otherwise>
-						</c:choose>
-	<a href="myReviewListForm?id=${revList[3].id}&check=my">${revList[3].id}</a><br>${revList[3].contents}
-	<br>
+							<img style='border-radius:16px; width:32px; height:32px;' src='${pageContext.request.contextPath}/resources/fileUpload/${revList[3].imgname}' onError='this.src="${pageContext.request.contextPath}/resources/img/default.webp"'>																										
+	<a style='margin-left:10px;' href="myReviewListForm?id=${revList[3].id}&check=my">${revList[3].id}</a><br><br>
+	<p>${revList[3].contents}</p>
+	<br><br><br>
 	<a href="javascript:reviewView(${revList[3].revno})">리뷰 상세 보기</a>
 	</c:if>
 	</div>	
@@ -802,34 +790,8 @@ h2{ color: #7f8c8d; font-family: Neucha, Arial, sans serif; font-size:18px; marg
 	</div>	
 	
 	</div>	
-		<div id="modal" style="display:none;">
-		<div id="overlay" onclick="modalClose()"></div>
-			<div id="modalcontent">
-					<h1>Air & Room<i class="far fa-times-circle" style="float:right; margin-right:10px;" onclick="modalClose()"></i></h1>
-					<div class="col-xs-8" style="height:90%;">
-					<div id="plist" style="height:100%;">
-
-					
-					</div>
-					</div>
-					<div class="col-xs-4" style="height:90%">
-						<div id="revcontent" style="height:auto">
-						
-						</div>
-						<div id="revcomment" style='overflow-y:auto; overflow-x:hidden; width:100%; height:55%;'>
-						
-						
-						</div>
-						<div id="commentinput" class="input-group">
-						
-						</div>
-					</div>
-
-			</div>
-	</div>
-			
-			
-			
+	
+		</div>
 		</div>
 		<div id="modal" style="display:none;">
 		<div id="overlay" onclick="modalClose()"></div>

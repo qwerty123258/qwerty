@@ -39,7 +39,7 @@ public class ChatRoomRepository {
         chatRoomMap.put(chatRoom.getRoomId(), chatRoom);
         ChatRoom chatRoomSave=new ChatRoom();
         chatRoomSave.setRoomId(chatRoom.getRoomId());
-        chatRoomSave.setName((String)session.getAttribute("id"));
+        chatRoomSave.setName(chatRoom.getName());
        int check=chatRoomCheck(chatRoom.getRoomId());
        if(check==0) {
 
@@ -61,14 +61,26 @@ public class ChatRoomRepository {
 	public int chatRoomReg(ChatRoom chat) {
 		return sql.insert("Chat.chatRoomReg",chat);
 	}
-	public int changeMessage(ChatRoom chat) {
-		return sql.update("Chat.changeMessage", chat);
-	}
+	public void changeMessage(ChatRoom chat) {
+	   		sql.update("Chat.changeMessage", chat);
+	 }
 	public void chatMessageReg(ChatMessage chatmessage) {
 		sql.insert("Chat.chatMessageReg",chatmessage);
 	}
 	public int checkMessage(ChatMessage message) {
 		return sql.selectOne("Chat.checkMessage",message);
+	}
+
+	public int checkChatRoom(ChatMessage message) {
+		return sql.selectOne("Chat.checkChatRoom",message);
+	}
+
+	public void chatRoomCreate(String roomId) {
+		sql.insert("Chat.chatRoomCreate",roomId);
+	}
+
+	public void chatDelete(String id) {
+		sql.delete("Chat.chatDelete", id);
 	}
 	
 

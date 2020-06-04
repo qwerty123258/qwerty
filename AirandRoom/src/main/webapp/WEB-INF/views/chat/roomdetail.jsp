@@ -82,6 +82,7 @@ $(document).ready(function(){
         <div>
         <c:if test="${sessionScope.id eq 'admin'}">
                 	<a href="../../../chat/room">뒤로가기</a>
+                	<a href="#" @click="chatDelete">대화내용 삭제</a>
         </c:if>
             <h2>관리자와 채팅</h2>
         </div>
@@ -99,7 +100,7 @@ $(document).ready(function(){
    			 </div>
         </c:if>
         </c:forEach>
-   			 <div v-for="(message,i) in messages" >
+           			 <div id="messageList" v-for="(message,i) in messages" >
    			 <div v-if="message.sender.includes(receiver)" style="text-align:right;">
    			 <div class="balloon_04">{{message.message}}</div>
    			 </div>
@@ -108,7 +109,7 @@ $(document).ready(function(){
    			 <div class="balloon_03">{{message.message}}</div>
    			 </div>
             </div>
-            </div>
+         </div>
          <div class="input-group">
             <input type="text" id="chatCheck"  class="form-control" style="width:85%"  v-model="message" @keyup.enter="sendMessage">
              <button class="btn btn-primary" id="chatbtn" type="button" @click="sendMessage">보내기</button>
@@ -143,7 +144,7 @@ $(document).ready(function(){
     var check = "";
     
         // websocket & stomp initialize
-        var sock = new SockJS("http://localhost:8090/airandroom/ws-stomp");
+        var sock = new SockJS("http://icia.kro.kr:8090/ws-stomp");
         var ws = Stomp.over(sock);
         // vue.js
         var vm = new Vue({
@@ -172,7 +173,7 @@ $(document).ready(function(){
             },
             methods: {
                 findRoom: function() {
-                    axios.get('http://localhost:8090/airandroom/chat/room/'+this.roomId).then(response => {
+                    axios.get('http://icia.kro.kr:8090/chat/room/'+this.roomId).then(response => {
                     	this.room = response.data;
                     });
                 },
@@ -186,6 +187,13 @@ $(document).ready(function(){
          }
                    
                 },
+                chatDelete: function() {
+                    	var id=localStorage.getItem('wschat.roomId');
+                        axios.get('http://icia.kro.kr:8090/chat/chatDelete?id='+id).then(response => {
+                        	$("#scroll").html("");
+                        });
+                              
+                           },
                 recvMessage: function(recv) {
                     this.messages.push({
                     	"sender":recv.sender,

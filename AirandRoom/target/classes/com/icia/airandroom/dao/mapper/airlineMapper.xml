@@ -94,20 +94,24 @@ select distinct to_char(bookingdate,'YYYY') from airlinebk ab,airline a where a.
 select distinct to_char(bookingdate,'MM') from airlinebk order by to_char(bookingdate,'MM') asc 
 </select>
 
+
+
 <select id="dayList" parameterType="map" resultType="String">
- select distinct to_char(bookingdate,'DD') from airlinebk ab,airline a where to_char(bookingdate,'MM') like '%'||#{month} and a.ano=ab.ano and a.id=#{id} group by bookingdate order by to_char(bookingdate,'DD') asc 
+ select distinct to_char(bookingdate,'DD') from airlinebk ab,airline a where to_char(bookingdate,'MM') like '%'||#{month} and a.ano=ab.ano and a.id=#{id} and to_char(bookingdate,'YYYY') like #{year}  group by bookingdate order by to_char(bookingdate,'DD') asc 
 </select>
 
-<select resultType="String" id="priceList" parameterType="map"> 
-select sum(ab.price) as sprice from airlinebk ab,airline a where to_char(bookingdate,'MM') like '%'||#{month} and a.ano=ab.ano and a.id=#{id} group by bookingdate order by to_char(bookingdate,'DD') asc 
+<select id="priceList" resultType="String" parameterType="map"> 
+select sum(ab.price) as sprice from airlinebk ab,airline a where to_char(bookingdate,'MM') like '%'||#{month} and a.ano=ab.ano and a.id=#{id} and to_char(bookingdate,'YYYY') like #{year} group by bookingdate order by to_char(bookingdate,'MM-DD') asc 
 </select>
+
+
 
 <select id="yearMonth" resultType="String" parameterType="map">
 select distinct to_char(bookingdate,'MM') as month from airlinebk ab,airline a where to_char(bookingdate,'YYYY') = #{year} and ab.ano=a.ano and a.id=#{id}
 </select>
 
 <select resultType="airlinegraph" id="perDayList" parameterType="map">
-  select count(ab.aname) as caname,ab.aname,sum(ab.price) as sprice from airlinebk ab,airline a where to_char(bookingdate,'DD') like '%'||#{day} and to_char(bookingdate,'MM') like '%'||#{month} and a.ano=ab.ano and a.id=#{id} group by ab.aname,ab.price
+  select count(ab.aname) as caname,ab.aname,sum(ab.price) as sprice from airlinebk ab,airline a where to_char(bookingdate,'DD') like '%'||#{day} and to_char(bookingdate,'MM') like '%'||#{month} and a.ano=ab.ano and a.id=#{id} and to_char(bookingdate,'YYYY') like #{year} group by ab.aname,ab.price
  </select>
 <select resultType="airline" id="sortByAirline" parameterType="map">
 <choose>

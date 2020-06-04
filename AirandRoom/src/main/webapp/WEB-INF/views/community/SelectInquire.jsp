@@ -1,64 +1,71 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>신고글 보기</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<title>문의글 리스트 페이지.</title>
+
 <script>
-function selectReportPost(repno){
+
+function selectInquirePost(ino,id,kind){
 	
-	var num = repno;
-	var popUrl = "selectReportPost?repno="+num;	
+	console.log(ino);
+	var num = ino;
+	var id = id;
+	var kind = kind;
+	var popUrl = "selectInquirePost?ino="+num+"&id="+id+"&kind="+kind;	
 
 	var popOption = "width=450, height=650, resizable=no, scrollbars=no, status=no;";    //팝업창 옵션(optoin)
 
 		window.open(popUrl,"",popOption);
 
 	}
+
+function selectReplyInquire(ino,id,kind) {
+	
+	var num = ino;
+	var id = id;
+	var kind = kind;
+	var popUrl = "selectReplyInquire?ino="+num+"&otherid="+id+"&kind="+kind;	
+
+	var popOption = "width=450, height=650, resizable=no, scrollbars=no, status=no;";    //팝업창 옵션(optoin)
+
+		window.open(popUrl,"",popOption);
+
+}
+
+
+
 </script>
 
 <style>
 
 
 
-
-table.type09 {
-    margin: 20px 10px;
-    border-spacing: 1px;
+table.type11 {
     border-collapse: separate;
-    border-collapse: collapse;
-    text-align: left;
+    border-spacing: 1px;
+    text-align: center;
     line-height: 1.5;
+    margin: 20px 10px;
 }
-
-
-table.type09 thead th {
-    padding: 10px;
-    width: 50px;
-    font-weight: bold;
-    vertical-align: top;
-    color: #369;
-    border-bottom: 3px solid #036;
-}
-
-
-table.type09 tbody th {
-    width: 50px;
+table.type11 th {
+    width: 155px;
     padding: 10px;
     font-weight: bold;
     vertical-align: top;
-    border-bottom: 1px solid #ccc;
-    background: #f3f6f7;
+    color: #fff;
+    background: #EFE5E5 ;
 }
-table.type09 td {
-    width: 300px;
-    padding: 10px;
+table.type11 td {
+    width: 155px;
+    padding: 3px;
     vertical-align: top;
     border-bottom: 1px solid #ccc;
+    background: #FAF8F8;
 }
 .button {
   background-color: #4CAF50;
@@ -73,9 +80,7 @@ table.type09 td {
   cursor: pointer;
 }
 
-.title {
-padding-left:250;
-}
+
 
 
 
@@ -267,43 +272,50 @@ a#login_pop:hover, a#join_pop:hover {
 </head>
 <body>
 <jsp:include page="../Header.jsp"></jsp:include><br>
-<jsp:include page="../Nav.jsp"></jsp:include><br>
-	<div class="row">
-<div class="col-xs-3">
-<jsp:include page="../member/SideNav.jsp"></jsp:include>
-</div>
-<div class="col-xs-9">
+<jsp:include page="../Nav.jsp"></jsp:include>
+<h2>문의글 리스트 보는곳입니다.</h2>
 
-<table class="type09">
+
+<c:forEach items="${inquireList}" var="result">
+<table class="type11">
     <thead>
     <tr>
-        <th width="50">번호</th>
+        <th>번호</th>
         <th>제목</th>
-        <th>신고 접수 유무</th>
+        <th>답변 유무</th>
     </tr>
     </thead>
-<c:forEach items="${reportList}" var="result">
     <tr>
-        <td width="50">${result.repno}</td>
-        <td class="title"><a onclick="javascript:selectReportPost('${result.repno}');">${result.title}</a></td>
+        <td>${result.ino}</td>
+        <td><a onclick="javascript:selectInquirePost('${result.ino}','${result.id}','${kind}');">${result.title}</a></td>
         <td>
-<c:choose>   
-   <c:when test="${result.acceptreport eq 'Y'}">
-       <h4>처리완료</h4>
+
+    
+<c:choose>
+
+   <c:when test="${result.answer eq 'Y' && result.id eq id}">
+       <a href="javascript:selectReplyInquire('${result.ino}','${result.id}','${kind}')">답변이 왔어요~</a>
+   </c:when>   
+   <c:when test="${result.answer eq 'Y' && result.otherid eq 'admin'}">
+       <a href="javascript:selectReplyInquire('${result.ino}','${result.id}','${kind}'">답변 완료함</a>
+   </c:when>   
+   <c:when test="${result.answer eq 'Y' && result.otherid eq 'test1'}">
+       <a href="javascript:selectReplyInquire('${result.ino}','${result.id}','${kind}')">답변 완료함</a>
+   </c:when>
+   <c:when test="${result.answer eq 'Y' && result.otherid eq 'test2'}">
+       <a href="javascript:selectReplyInquire('${result.ino}','${result.id}','${kind}')">답변 완료함</a>
    </c:when>         
-   <c:when test="${result.read eq 'Y'}">
-       <h4>신고 미처리</h4>
+   <c:when test="${result.answer eq 'N'}">
+       답변 대기중
    </c:when>
-      <c:when test="${result.read eq 'N'}">
-       <h4>접수 대기중</h4>
-   </c:when>
+
 </c:choose>
+
          </td>
     </tr>
-</c:forEach>
 </table>
-
-			<c:url var="action" value="/selectReport" />
+</c:forEach>
+			<c:url var="action" value="/selectInquire" />
 			<div class="text-center">
 				<ul class="pagination pagination-sm pager">
 					<c:choose>
@@ -352,10 +364,9 @@ a#login_pop:hover, a#join_pop:hover {
 					</c:choose>
 				</ul>
 			</div>
-</div>
-</div>
 			
-
+			
+			
 
 
 </body>

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>리뷰 보기</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<script>
@@ -21,15 +21,28 @@
 		var check = false;
 		var page = 1;
 		$(window).scroll(function() {
-			let $window = $(this);
-			let scrollTop = $window.scrollTop();
-			let windowHeight = $window.height();
-			let documentHeight = $(document).height();
-			let scrollHeight = $(document).prop('scrollHeight');
+			if(check){
+		console.log('스크롤종료');
+			}else{
+				let $window = $(this);
+				let scrollTop = $window.scrollTop();
+				let windowHeight = $window.height();
+				let documentHeight = $(document).height();
+				let scrollHeight = $(document).prop('scrollHeight');
 
-			if (scrollTop + documentHeight >= scrollHeight) {
-				page += 1;
-				MyReviewListForm(page);
+				console.log($(window).scrollTop() == $(document).height() - $(window).height());
+				if($(window).scrollTop() == $(document).height() - $(window).height()){ //스크롤영역 세로길이+스크롤로 이동한 길이>=얻어온값(공식)
+						page += 1;
+						if('${check}'=='my'){
+							MyReviewListForm(page);		
+							
+						}else{
+						
+							AllReviewListForm(page);				
+							
+							
+						}
+				}		
 			}
 		});
 		function reviewDelete(revno) {
@@ -68,7 +81,7 @@
 							$("#" + revno + "good").html("<i class='far fa-heart' ></i>");
 						} else {
 							check.style.color="red";							
-							$("#" + revno + "good").html("<i class='far fa-heart' ></i>");
+							$("#" + revno + "good").html("<i class='far fa-heart' >숙소주인이 이 글을 좋아합니다.</i>");
 						}
 					} else {
 						alert('공감 실패');
@@ -138,6 +151,7 @@
 						+ "&commentpage=" + 1,
 				dataType : "json",
 				success : function(result) {
+					
 					var save = "";
 					save += "<table id='table'"+revno+" class='table table-striped table-bordered table-hover'>"
 					if (result.list.length > 3) {
@@ -187,19 +201,27 @@
 			            	html += "<table id='table"+data.list[i].revno+"' class='table table-striped table-bordered table-hover'>";
 							html+="<tr><td>"+data.list[i].id+"</td></tr>";
 							html+="<tr><td>";
+							if(data.list[i].id=='${sessionScope.id}'){
 							html += "<a href=reviewUpdateForm?revno="
-									+ data.list[i].revno + "&check=${check}><i class='far fa-edit'></i></a>";
+									+ data.list[i].revno + "&check=${check}><i class='far fa-edit'>리뷰 수정</i></a>";
 							html += "<a href=javascript:reviewDelete("
-									+ data.list[i].revno + ")><i class='far fa-trash-alt'></i></a></td></tr>";
-							html +="<tr><td>";
+								+ data.list[i].revno + ")><i class='far fa-trash-alt'></i>리뷰 삭제</a></td></tr>";
+				
+							} 
+							if('${sessionScope.id}'=='admin'){
+								html += "<a href=javascript:reviewDelete("
+									+ data.list[i].revno + ")><i class='far fa-trash-alt'></i>리뷰 삭제</a></td></tr>";									
+							}
+							
+									html +="<tr><td>";
 							html +="<img style='width:100%; height:400px;' src='${pageContext.request.contextPath}/resources/fileUpload/"+data.list[i].rimgname+"'</td></tr>";
 							html +="<tr><td>"+data.list[i].contents+"</td></tr>";
 							html +="<tr><td>";
 							if(data.list[i].rlike=='Y'){
 								if(data.list[i].host=='${sessionScope.id}'){
-									html += "<a href='javascript:good("+data.list[i].revno+")' style='color:red' id='"+data.list[i].revno+"good' ><i class='far fa-heart' ></i></a>";								
+									html += "<a href='javascript:good("+data.list[i].revno+")' style='color:red' id='"+data.list[i].revno+"good' ><i class='far fa-heart' ></i>숙소주인이 이 글을 좋아합니다.</a>";								
 								}else{
-									html += "<i class='far fa-heart' style='color:red'></i>";								
+									html += "<i class='far fa-heart' style='color:red'></i>숙소주인이 이 글을 좋아합니다.";								
 															
 								}
 											
@@ -219,6 +241,9 @@
 							html +="</table>";
 		                	reviewCommentList(data.list[i].revno);
 	                
+	                	}
+	                	if(data.paging.totalPage==data.paging.page){
+	                		check=true;
 	                	}
 		            }
 		            else{
@@ -251,20 +276,26 @@
 			            	html += "<table id='table"+data.list[i].revno+"' class='table table-striped table-bordered table-hover'>";
 							html+="<tr><td>"+data.list[i].id+"</td></tr>";
 							html+="<tr><td>";
-							html += "<a href=reviewUpdateForm?revno="
-									+ data.list[i].revno + "&check=${check}><i class='far fa-edit'></i></a>";
-							html += "<a href=javascript:reviewDelete("
-									+ data.list[i].revno + ")><i class='far fa-trash-alt'></i></a></td></tr>";
-							html +="<tr><td>"
+							if(data.list[i].id=='${sessionScope.id}'){
+								html += "<a href=reviewUpdateForm?revno="
+										+ data.list[i].revno + "&check=${check}><i class='far fa-edit'>리뷰 수정</i></a>";
+								html += "<a href=javascript:reviewDelete("
+									+ data.list[i].revno + ")><i class='far fa-trash-alt'></i>리뷰 삭제</a></td></tr>";
+					
+								} 
+								if('${sessionScope.id}'=='admin'){
+									html += "<a href=javascript:reviewDelete("
+										+ data.list[i].revno + ")><i class='far fa-trash-alt'></i>리뷰 삭제</a></td></tr>";									
+								}html +="<tr><td>"
 							html +="<img style='width:100%; height:400px;' src='${pageContext.request.contextPath}/resources/fileUpload/"+data.list[i].rimgname+"'</td></tr>";
 							html +="<tr><td>"+data.list[i].contents+"</td></tr>";
 							html +="<tr><td>";
 								
 								if(data.list[i].rlike=='Y'){
 							if(data.list[i].host=='${sessionScope.id}'){
-								html += "<a href='javascript:good("+data.list[i].revno+")' style='color:red' id='"+data.list[i].revno+"good' ><i class='far fa-heart' ></i></a>";								
+								html += "<a href='javascript:good("+data.list[i].revno+")' style='color:red' id='"+data.list[i].revno+"good' ><i class='far fa-heart' ></i>숙소주인이 이 글을 좋아합니다.</a>";								
 							}else{
-								html += "<i class='far fa-heart' style='color:red'></i>";								
+								html += "<i class='far fa-heart' style='color:red'>숙소주인이 이 글을 좋아합니다.</i>";								
 														
 							}
 										
@@ -282,6 +313,9 @@
 							html +="</table>";
 		                	reviewCommentList(data.list[i].revno);
 	                
+	                	}
+	                	if(data.paging.totalPage==data.paging.page){
+	                		check=true;
 	                	}
 		            }
 		            else{
@@ -389,8 +423,12 @@
 	
 	        	}
 	        	for(var j=0; j<data.comment.length; j++){
-	        		revcomment+="<tr style='text-align:left' id='comment"+data.comment[j].replyno+"' style='height:50px;'><td><img style='border-radius:16px; width:32px; height:32px; border-radius:16px;' onError='this.src=\"${pageContext.request.contextPath}/resources/img/default.webp\"'  src='${pageContext.request.contextPath}/resources/fileUpload/"+data.comment[j].imgname+"\' >"+"     "+data.comment[j].id+" : "+data.comment[j].contents+"<i style='float:right;' onclick='reviewCommentDelete("+data.comment[j].replyno+","+data.comment[j].revno+")' class='far fa-trash-alt'></i></td></tr>";
-	        	}
+	        		
+	        		revcomment+="<tr style='text-align:left' id='comment"+data.comment[j].replyno+"' style='height:50px;'><td><img style='border-radius:16px; width:32px; height:32px; border-radius:16px;' onError='this.src=\"${pageContext.request.contextPath}/resources/img/default.webp\"'  src='${pageContext.request.contextPath}/resources/fileUpload/"+data.comment[j].imgname+"\' >"+"     "+data.comment[j].id+" : "+data.comment[j].contents;
+	        		if(data.comment[j].id=='${sessionScope.id}'||'${sessionScope.id}'=='admin'){
+	        			revcomment+="<i style='float:right;' onclick='reviewCommentDelete("+data.comment[j].replyno+","+data.comment[j].revno+")' class='far fa-trash-alt'></i></td></tr>";
+	        		}
+	        		}
 	        	commentinput+="<input type='text' style='width: 95%;' id='commentinput"+data.roomrev.revno+"'/> ";
 	        	commentinput+="<button class='btn btn-info' onclick='writeComment("+data.roomrev.revno+")'><i class='far fa-paper-plane'>"+ "  " +"댓글 입력</button>";
 	        	revcomment+="</tbody>";
@@ -442,8 +480,10 @@
 	        	revcomment+="<table id='commentList' class='table table-bordered table-striped table-hover' style='height:100%;'>";
 	        	revcomment+="<tbody style='height:100%;'>"
 	        	for(var j=0; j<data.comment.length; j++){
-	        		revcomment+="<tr style='text-align:left' id='comment"+data.comment[j].replyno+"' style='height:50px;'><td><img style='border-radius:16px; width:32px; height:32px;' onError='this.src=\"${pageContext.request.contextPath}/resources/img/default.webp\"'  src='${pageContext.request.contextPath}/resources/fileUpload/"+data.comment[j].imgname+"\' >"+"     "+data.comment[j].id+" : "+data.comment[j].contents+"<i style='float:right;' onclick='reviewCommentDelete("+data.comment[j].replyno+","+data.comment[j].revno+")' class='far fa-trash-alt'></i></td></tr>";
-	        	
+	        		revcomment+="<tr style='text-align:left' id='comment"+data.comment[j].replyno+"' style='height:50px;'><td><img style='border-radius:16px; width:32px; height:32px; border-radius:16px;' onError='this.src=\"${pageContext.request.contextPath}/resources/img/default.webp\"'  src='${pageContext.request.contextPath}/resources/fileUpload/"+data.comment[j].imgname+"\' >"+"     "+data.comment[j].id+" : "+data.comment[j].contents;
+	        		if(data.comment[j].id=='${sessionScope.id}'||'${sessionScope.id}'=='admin'){
+	        			revcomment+="<i style='float:right;' onclick='reviewCommentDelete("+data.comment[j].replyno+","+data.comment[j].revno+")' class='far fa-trash-alt'></i></td></tr>";
+	        		} 	
 	        	}
 	        	revcomment+="</tbody>";
 				

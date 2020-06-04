@@ -9,7 +9,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <meta name="google-signin-client_id"
-	content="101693162941-4crapife530n72503cleuam0gp759do7.apps.googleusercontent.com">
+	content="20725507984-gsrbklib5246f9bve87ajhk1m7dlgdmm.apps.googleusercontent.com">
 <script>
 function goJoinForm(){
 	location.href="welcome";

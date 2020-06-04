@@ -1,7 +1,12 @@
 package com.icia.airandroom.controller;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Date;
 import java.util.Random;
 import java.util.UUID;
@@ -12,10 +17,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.codehaus.jackson.JsonNode;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -420,6 +429,50 @@ public class MemberController {
 		return mav;
 		
 	 }
+	 
+		@PostMapping(value="/googleLogin.do", produces="application/x-www-form-urlencoded")
+		@ResponseBody
+		public String googleLogin(@RequestBody String param) {
+			
+			BufferedReader in  = null;
+			InputStream is = null;
+			InputStreamReader isr = null;
+			JSONParser jsonParser = new JSONParser();
+	        
+			String userId = null;
+			
+			try {
+				String idToken = param.split("=")[1];
+				
+				String url = "https://oauth2.googleapis.com/tokeninfo";
+				url += "?id_token="+idToken;
+				
+				URL gUrl = new URL(url);
+				HttpURLConnection conn = (HttpURLConnection) gUrl.openConnection();
+
+				is = conn.getInputStream();
+				isr = new InputStreamReader(is, "UTF-8");
+				in = new BufferedReader(isr);
+				
+
+				JSONObject jsonObj = (JSONObject)jsonParser.parse(in);
+
+				userId = jsonObj.get("sub").toString();
+				String name = jsonObj.get("name").toString();
+				String email = jsonObj.get("email").toString();
+				String imageUrl = jsonObj.get("picture").toString();
+				
+				System.out.println(userId);
+				System.out.println(name);
+				System.out.println(email);
+				System.out.println(imageUrl);
+				
+			}catch(Exception e) {
+				System.out.println(e);
+			}
+			
+			return userId;
+		}
 	 
 		@RequestMapping(value = "/jsjkakaoJoin", method = RequestMethod.GET)
 		public ModelAndView kakaoJoin(@RequestParam("code") String code,HttpSession session) {

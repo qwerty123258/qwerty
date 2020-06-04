@@ -138,28 +138,30 @@ select distinct to_char(bookingdate,'MM') from roombk order by to_char(bookingda
 </select>
 
 <select id="dayList" parameterType="map" resultType="String">
- select distinct to_char(bookingdate,'DD') from roombk rb,room r where to_char(bookingdate,'MM') like '%'||#{month} and r.rno=rb.rno and r.id=#{id} group by bookingdate order by to_char(bookingdate,'DD') asc 
+ select distinct to_char(bookingdate,'DD') from roombk rb,room r where to_char(bookingdate,'MM') like '%'||#{month} and r.rno=rb.rno and r.id=#{id} and to_char(bookingdate,'YYYY') like #{year} group by bookingdate order by to_char(bookingdate,'DD') asc 
 </select>
 
 <select resultType="String" id="priceList" parameterType="map"> 
-select sum(rb.price) as sprice from roombk rb,room r where to_char(bookingdate,'MM') like '%'||#{month} and r.rno=rb.rno and r.id=#{id} group by bookingdate order by to_char(bookingdate,'DD') asc 
+select sum(rb.price) as sprice from roombk rb,room r where to_char(bookingdate,'MM') like '%'||#{month} and r.rno=rb.rno and r.id=#{id} and to_char(bookingdate,'YYYY') like #{year} group by bookingdate order by to_char(bookingdate,'DD') asc 
 </select>
 
 <select resultType="roomgraph" id="perDayList" parameterType="map">
- select rb.rname,sum(rb.price) as sprice from roombk rb,room r where to_char(bookingdate,'DD') like '%'||#{day} and to_char(bookingdate,'MM') like '%'||#{month} and r.rno=rb.rno and r.id=#{id} group by rb.rname,rb.price 
+ select rb.rname,sum(rb.price) as sprice from roombk rb,room r where to_char(bookingdate,'DD') like '%'||#{day} and to_char(bookingdate,'MM') like '%'||#{month} and r.rno=rb.rno and r.id=#{id} and to_char(bookingdate,'YYYY') like #{year} group by rb.rname,rb.price 
  </select>
  
  <select id="yearMonth" resultType="String" parameterType="map">
 select distinct to_char(bookingdate,'MM') as month from roombk rb,room r where to_char(bookingdate,'YYYY') = #{year} and rb.rno=r.rno and r.id=#{id}
 </select>
-<select id="mostRoomList" resultType="room" parameterType="String">
-select r.rno,r.rname,r.price,r.address,count(*) as bkcount from room r,roombk bk where bk.rno=r.rno and to_char(bookingdate,'MM') like '%'||#{month} and  to_char(bookingdate,'YYYY') like '%'||#{year} group by bk.rno,r.rno,r.rname,r.address,r.price order by bkcount desc
+<select id="mostRoomList" resultType="room">
+select r.rno,r.rname,r.price,r.address,count(*) as bkcount from room r,roombk bk where bk.rno=r.rno group by bk.rno,r.rno,r.rname,r.address,r.price order by bkcount desc
 </select>
 <select id="getPic" resultType="room" parameterType="String">
-select r.rno,r.rname,r.address,r.price,pic.rimgname from room r,roompic pic where r.rno=pic.rno and rpno=#{rpno} group by r.rno,r.rname,r.price,r.address,pic.rimgname
+select r.rno,r.rname,r.price,pic.rimgname,round(avg(grade),1) as grade from room r,roompic pic,rgrade rg where r.rno=pic.rno and rpno=#{rpno} and r.rno=rg.rno group by r.rno,r.rname,r.price,r.address,pic.rimgname order by grade
 </select>
 <select id="grade" resultType="String" parameterType="String">
 select round(avg(grade),1) as grade from rgrade where rno=#{rno}
 </select>
-
+<select id="mostGrade" resultType="room">
+select round(avg(grade),1) as grade,r.rno,r.rname,r.price from rgrade rg,room r where r.rno=rg.rno group by r.rno,r.rname,r.price order by grade
+</select>
 </mapper>

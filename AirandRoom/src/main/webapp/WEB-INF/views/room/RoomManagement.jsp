@@ -236,6 +236,35 @@ a#login_pop:hover, a#join_pop:hover {
 .popup input[type="text"]:hover, .popup input[type="password"]:hover {
     border-color: #555 #888 #888;
 }
+
+
+.table4_3 table {
+font-size:large;
+}
+.table4_3 th {
+	background-color:#87CEFA;
+	color:#000000
+}
+.table4_3,.table4_3 th,.table4_3 td {
+	font-size:0.95em;
+	text-align:center;
+	padding:4px;
+	border-collapse:collapse;
+}
+.table4_3 th,.table4_3 td {
+	border: 1px solid #bae3fc;
+	border-width:1px 0 1px 0
+}
+.table4_3 tr {
+	border: 1px solid #bae3fc;
+}
+.table4_3 tr:nth-child(odd){
+	background-color:#d7eefd;
+}
+.table4_3 tr:nth-child(even){
+	background-color:#fdfdfd;
+}
+
 </style>
 <script>
 $(document).ready(function(){
@@ -277,7 +306,7 @@ function defaultYear(year) {
 		success : function(result) {			
 			var length = result.length;
 			for(i=0; i<length; i++) {
-				graphInfo(result[0]);
+				graphInfo(result[0],year);
 			}
 		},
 		error : function() {
@@ -299,7 +328,7 @@ function year() {
 			var output 
 			for(i=0; i<length; i++) {
        	    	var output = "";
-       			output +="<select onchange='graphInfo("+result[i]+")' name='month'>";
+       			output +="<select onchange='graphInfo("+result[i]+","+year+")' name='month'>";
        			output +="<option value='' selected disabled >"+"월 별로 보기"+"</option>";
        			for (var i = 0; i < length; i++) {
            		output += "<option value='"+result[i]+"'>"+result[i]+"</option>";
@@ -333,11 +362,12 @@ function year() {
     <script>
 var getDay;
 var getPrice;
-function graphInfo(getMonth){
+function graphInfo(getMonth,year){
 	$.ajax({
 		type : "GET",
 		url : "getRoomPrice",
-		data : "month=" + getMonth,
+		data : "month=" + getMonth+
+	       "&year=" + year,
 		dataType : "json",
 		async:false,
 		success : function(result) {
@@ -350,19 +380,20 @@ function graphInfo(getMonth){
 	$.ajax({
 		type : "GET",
 		url : "getRoomDay",
-		data : "month=" + getMonth,
+		data : "month=" + getMonth+
+	       "&year=" + year,,
 		dataType : "json",
 		async:false,
 		success : function(result) {
 			getDay=result;
-			graph(getMonth,getDay,getPrice);
+			graph(getMonth,getDay,getPrice,year);
 		},
 		error : function() {
 			alert("통신 실패");
 		}
 	});
 }
-function graph(getMonth,getDay,getPrice){
+function graph(getMonth,getDay,getPrice,year){
 	Highcharts.chart('container', {
 		title: {
 		text: getMonth+'월 숙소 예약추이'
@@ -411,20 +442,24 @@ function graph(getMonth,getDay,getPrice){
 		            		url : "roomPerDayList",
 		            		dataType : "json",
 		            		data : "day="+day+
-		            		       "&month="+getMonth,
+		            		       "&month="+getMonth+"&year="+year,
 		            		success : function(result) {
 		               	    	var length = result.length;
 		               	    	var output = "<a class='close' onClick='history.back()'></a>";
-		               	    	output += day+"일에는..";             	    	
-		               			output +="<table border='1'>";
+		               	    	output += "<h3>"+day+"일에는..</h3><br>";
+		               			output +="<table border='1' class='table4_3' width='600px' height='100px' font-size='large'>";
+		               			output +="<tr>";
+		               			output +="<th width='440'>숙소 이름</th>";
+		               			output +="<th width='160'>합계</th>";
+		               			output +="</tr>";
 		               			for (var i = 0; i < length; i++) {
 		                   		output += "<tr>";
 		                   		output += "<td>"+result[i].rname+"</td>";
 		                   		output += "<td>합계 : "+result[i].sprice+"</td>";
 		                   		output += "</tr>";
 		               			}
-		                   		output += "</table>"; 
-		               			output += "총 합계 : "+event.point.y;
+		                   		output += "</table><br>"; 
+		               			output += "<h4>총 합계 : "+event.point.y+"</h4>";
 		               			$("#popup").html(output);
 		                   		location.href="#info";
 		            		},

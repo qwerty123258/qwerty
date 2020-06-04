@@ -733,7 +733,6 @@ function getSeats(sctime,ano,aprice,id,aname,startpoint,endpoint){
 * { box-sizing:border-box; }
 
 /* basic stylings ------------------------------------------ */
-body 				 { background:url(https://scotch.io/wp-content/uploads/2014/07/61.jpg); }
 .container 		{ 
   font-family:'Roboto';
   width:600px; 

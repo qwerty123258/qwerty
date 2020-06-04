@@ -20,4 +20,5 @@ public class RoomDTO {
 	private String nation;
 	private String region;
 	private String searchoutput;
+	private String grade;
 }

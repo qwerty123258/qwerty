@@ -173,9 +173,9 @@ public class AirlineService {
 		}
 	}
 	
-	public List<AirlineGraphDTO> perDayList(String day, String month, String id) {
+	public List<AirlineGraphDTO> perDayList(String day, String month, String id,String year) {
 		mav = new ModelAndView();
-		List<AirlineGraphDTO> graphList = adao.perDayList(day,month,id);
+		List<AirlineGraphDTO> graphList = adao.perDayList(day,month,id,year);
 		return graphList;
 	}
 	public List<String> yearMonth(String year, String id) {
@@ -183,13 +183,13 @@ public class AirlineService {
 		return yearMonth;
 	}
 
-	public List<String> airlineDay(String month, String id) {
-		List<String> dayList = adao.dayList(month,id);
+	public List<String> airlineDay(String month, String id,String year) {
+		List<String> dayList = adao.dayList(month,id,year);
 		return dayList;
 	}
 
-	public List<String> airlinePrice(String month, String id) {
-		List<String> priceList = adao.priceList(month,id);
+	public List<String> airlinePrice(String month, String id,String year) {
+		List<String> priceList = adao.priceList(month,id,year);
 		return priceList;
 	}
 

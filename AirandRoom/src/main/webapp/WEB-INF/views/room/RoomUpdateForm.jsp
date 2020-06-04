@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>숙소 정보 수정</title>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <style>
@@ -198,7 +198,7 @@ $("#deleteAr").append(html);
 	</tr>
 	<tr>
 	<td>숙소 설명 </td>
-	<td><textarea id="contents" name="contents" onkeyup="contentlength()" rows="10" cols="100">${room.contents}</textarea>
+	<td><textarea id="contents" name="contents" onkeyup="contentlength()" rows="15" cols="100">${room.contents}</textarea>
 							<div id="contentslength" style="height:20px; text-align:right;">0/500</div> 
 			</td>
 			</tr>

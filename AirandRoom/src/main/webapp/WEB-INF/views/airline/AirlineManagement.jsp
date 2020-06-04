@@ -236,6 +236,35 @@ a#login_pop:hover, a#join_pop:hover {
 .popup input[type="text"]:hover, .popup input[type="password"]:hover {
     border-color: #555 #888 #888;
 }
+
+
+
+.table4_3 table {
+font-size:large;
+}
+.table4_3 th {
+	background-color:#87CEFA;
+	color:#000000
+}
+.table4_3,.table4_3 th,.table4_3 td {
+	font-size:0.95em;
+	text-align:center;
+	padding:4px;
+	border-collapse:collapse;
+}
+.table4_3 th,.table4_3 td {
+	border: 1px solid #bae3fc;
+	border-width:1px 0 1px 0
+}
+.table4_3 tr {
+	border: 1px solid #bae3fc;
+}
+.table4_3 tr:nth-child(odd){
+	background-color:#d7eefd;
+}
+.table4_3 tr:nth-child(even){
+	background-color:#fdfdfd;
+}
 </style>
 
 </head>
@@ -260,7 +289,6 @@ $(document).ready(function(){
  
     </p>
 </figure>
-<h2>그래프 테스트 페이지입니다.</h2>
 <select onchange="year()" name="year">
     <option value="">년도 선택</option>
 	<c:forEach var="year" items="${yearList}">
@@ -278,14 +306,16 @@ function defaultYear(year) {
 			
 			var length = result.length;
 			for(i=0; i<length; i++) {
-				graphInfo(result[0]);
+				graphInfo(result[0],year);
 			}
 		},
 		error : function() {
 			alert("통신 실패");
 		}
 	});
+
 }
+
 function year() {
 	var year =  $("select[name='year']").val();
 	$("select[name='month']").val("");
@@ -301,7 +331,7 @@ function year() {
 			var output 
 			for(i=0; i<length; i++) {
        	    	var output = "";
-       			output +="<select onchange='graphInfo("+result[i]+")' name='month'>";
+       			output +="<select onchange='graphInfo("+result[i]+","+year+")' name='month'>";
        			output +="<option value='' selected disabled >"+"월 별로 보기"+"</option>";
        			for (var i = 0; i < length; i++) {
            		output += "<option value='"+result[i]+"'>"+result[i]+"</option>";
@@ -315,7 +345,6 @@ function year() {
 		}
 	});
 }
-
 
 
 
@@ -335,11 +364,13 @@ function year() {
     <script>
 	var getDay;
 	var getPrice;
-    function graphInfo(getMonth){
+    function graphInfo(getMonth,year){
+    	
     		$.ajax({
     			type : "GET",
     			url : "getAirlinePrice",
-    			data : "month=" + getMonth,
+    			data : "month=" + getMonth +
+    			       "&year=" + year,
     			dataType : "json",
     			async:false,
     			success : function(result) {
@@ -352,20 +383,21 @@ function year() {
     		$.ajax({
     			type : "GET",
     			url : "getAirlineDay",
-    			data : "month=" + getMonth,
+    			data : "month=" + getMonth +
+    			       "&year=" + year,
     			dataType : "json",
     			async:false,
     			success : function(result) {
     				getDay=result;
     				console.log(getMonth,getDay,getPrice);
-    				graph(getMonth,getDay,getPrice);
+    				graph(getMonth,getDay,getPrice,year);
     			},
     			error : function() {
     				alert("통신 실패");
     			}
     		});
     }
-    function graph(getMonth,getDay,getPrice){
+    function graph(getMonth,getDay,getPrice,year){
     	Highcharts.chart('container', {
     		title: {
     		text: getMonth+'월 항공권 판매추이'
@@ -414,21 +446,28 @@ function year() {
     		            		url : "airlinePerDayList",
     		            		dataType : "json",
     		            		data : "day="+day+
-    		            		       "&month="+getMonth,
+    		            		       "&month="+getMonth+
+    		            		       "&year="+year,
     		            		success : function(result) {
     		               	    	var length = result.length;
     		               	    	var output = "<a class='close' onClick='history.back()'></a>";
-    		               	    	output += day+"일에는..";             	    	
-    		               			output +="<table border='1'>";
+    		               	    	output += "<h3>"+day+"일에는..</h3><br>";
+    		               			output +="<table border='1' class='table4_3' width='600px' height='100px' font-size='large'>";
+    		               			output +="<tr>";
+    		               			output +="<th>노선 이름</th>";
+    		               			output +="<th width='80';>갯수</th>";
+    		               			output +="<th width='160'>합계</th>";
+    		               			output +="</tr>";
     		               			for (var i = 0; i < length; i++) {
     		                   		output += "<tr>";
     		                   		output += "<td>"+result[i].aname+"</td>";
-    		                   		output += "<td>총 팔린 갯수 : "+result[i].caname+"</td>";
-    		                   		output += "<td>합계 : "+result[i].sprice+"</td>";
+    		                   		output += "<td>"+result[i].caname+"</td>";
+    		                   		output += "<td>"+result[i].sprice+"</td>";
     		                   		output += "</tr>";
     		               			}
-    		                   		output += "</table>"; 
-    		               			output += "총 합계 : "+event.point.y;
+    		                   		output += "</table><br>"; 
+    		                   		console.log(event.point.y);
+    		               			output += "<h4>총 합계 : "+event.point.y+"</h4>";
     		               			$("#popup").html(output);
     		                   		location.href="#info";
     		            		},

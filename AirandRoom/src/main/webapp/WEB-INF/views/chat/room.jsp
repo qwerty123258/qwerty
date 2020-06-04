@@ -7,7 +7,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <title>웹소켓 채팅방</title>
+    <title>관리자 채팅</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <style>
@@ -33,6 +33,7 @@
         <div class="input-group">
             <input type="hidden" class="form-control" v-model="room_name">
         </div>
+        <h2>채팅방 리스트</h2>
         <table class="table" id="chatRoomList">
 		
         </table>
@@ -58,7 +59,7 @@
     			for(var i=0; i<result.length; i++){
     				html +="<tr onclick='enterRoom(\""+result[i].name+"\")''>";
     				html +="<td>";
-    				html+="<img class='profile' style='width:100px;height:100px;' src='${pageContext.request.contextPath}/resources/fileUpload/"+result[i].imgname+"'>";
+    				html+="<img class='profile' style='width:100px;height:100px;' src='${pageContext.request.contextPath}/resources/fileUpload/"+result[i].imgname+"' onError='this.src=\"${pageContext.request.contextPath}/resources/img/default.webp\"'>";
     				html +="</td>";
     				html +="<td style='width:75%;'>";
     				html+=result[i].name +"와의 대화";
@@ -87,7 +88,7 @@
             created() {
                 if(id=="admin"){
                 	findAllRoom();
-                    var sock = new SockJS("http://localhost:8090/airandroom/ws-stomp");
+                    var sock = new SockJS("http://icia.kro.kr:8090/ws-stomp");
                     var ws = Stomp.over(sock);
                     ws.connect(
                     		{}, 
@@ -117,7 +118,7 @@
                     } else {
                         var params = new URLSearchParams();
                         params.append("name",this.room_name);
-                        axios.post('http://localhost:8090/airandroom/chat/room', params)
+                        axios.post('http://icia.kro.kr:8090/chat/room', params)
                         .then(
                             response => {
                                 this.room_name = '';

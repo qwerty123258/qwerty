@@ -90,54 +90,106 @@ function search(){
 		alert("검색할 키워드가 비어있습니다.");
 	}
 	else{
-		$.ajax({
-            type: "GET",
-            url: "searchRoom",
-            dataType: "json",
-            data: "keyword=" + keyword +"&page=1",
-            success: function(data) {
-            	var html="";
-        		html+="<h3>"+data.output+"에 대한 숙소 검색결과</h1>";
-        		html+="<div class='col-xs-4'>";
-        		html+="<div id='mapar'>";
-        		html+="<div id='map'></div>";
-        		html+="<div id='infowindow-content'>";
-        		html+="<span id='place-name' class='title'></span>";
-        		html+="<br> <span id='place-address'></span>";
-        		html+="</div>";
-        		html+="</div>";
-        		html+="</div>";
-        		html+="<div id='listar' class='col-xs-8'>";
-        		html+="<table class='table table-striped table-bordered table-hover'>";
-        		html+="<thead>";
-        		html+="<tr>";
-        		html+="<th>구분</th>";
-        		html+="<th>숙소 이름</th>";
-        		html+="<th>상세 위치</th>";
-        		html+="<th>1박시 가격</th>";
-        		html+="</tr>";
-        		html+="</thead>";
-            	for(var i=0; i<data.roomList.length; i++){
-					html+="<tr onclick='roomDetail("+data.roomList[i].rno+")'>";
-                    html+="<td><img class='pic' src='${pageContext.request.contextPath}/resources/fileUpload/"+data.roomList[i].rimgname+"'></td>";
-                    html+="<td>"+data.roomList[i].rname+"</td>";
-                    html+="<td>"+data.roomList[i].address+"</td>";
-                    html+="<td>"+data.roomList[i].price+"</td>";
-                    html+="</tr>";
-                    latitude.push(data.roomList[i].latitude);
-                    longitude.push(data.roomList[i].longitude);
-                    roomname.push(data.roomList[i].rname);
-                    address.push(data.roomList[i].address);
-            	}
-            	html+="</table>";
-            	$("#searchoutput").html(html);
-            	initMap();
-            },
-			error :function(){
-				alert("검색 도중 에러 발생");
-			}
-		});
+		searchRooms(keyword,1);
 	}
+}
+function searchRooms(keyword,page){
+	$.ajax({
+        type: "GET",
+        url: "searchRoom",
+        dataType: "json",
+        data: "keyword=" + keyword +"&page="+page,
+        success: function(data) {
+        	latitude=[];
+        	longitude=[];
+        	roomname=[];
+        	address=[];
+        	var html="";
+    		html+="<h3>"+data.output+"에 대한 숙소 검색결과</h1>";
+    		html+="<div class='col-xs-4'>";
+    		html+="<div id='mapar'>";
+    		html+="<div id='map'></div>";
+    		html+="<div id='infowindow-content'>";
+    		html+="<span id='place-name' class='title'></span>";
+    		html+="<br> <span id='place-address'></span>";
+    		html+="</div>";
+    		html+="</div>";
+    		html+="</div>";
+    		html+="<div id='listar' class='col-xs-8'>";
+    		html+="<table class='table table-striped table-bordered table-hover'>";
+    		html+="<thead>";
+    		html+="<tr>";
+    		html+="<th>구분</th>";
+    		html+="<th>숙소 이름</th>";
+    		html+="<th>상세 위치</th>";
+    		html+="<th>1박시 가격</th>";
+    		html+="</tr>";
+    		html+="</thead>";
+        	for(var i=0; i<data.roomList.length; i++){
+				html+="<tr onclick='roomDetail("+data.roomList[i].rno+")'>";
+                html+="<td><img class='pic' src='${pageContext.request.contextPath}/resources/fileUpload/"+data.roomList[i].rimgname+"'></td>";
+                html+="<td>"+data.roomList[i].rname+"</td>";
+                html+="<td>"+data.roomList[i].address+"</td>";
+                html+="<td>"+data.roomList[i].price+"</td>";
+                html+="</tr>";
+                latitude.push(data.roomList[i].latitude);
+                longitude.push(data.roomList[i].longitude);
+                roomname.push(data.roomList[i].rname);
+                address.push(data.roomList[i].address);
+        	}
+        	html+="</table>";
+        	var page="<div class='text-center'>";
+   		 page+="<ul class='pagination pagination-sm'>";
+   		var prevPage=data.paging.beginPage-1;
+   		var nextPage=data.paging.endPage+1;
+   		if(data.paging.page!=1){
+   			page += "<li><a href='javascript:searchRooms(\""+keyword+"\","+1+")'>처음</a></li>";
+   		}
+   		else{
+   			page += "<li class='disable'><a>처음</a></li>";
+   		}
+   		if(data.paging.beginPage!=1){
+   			page +="<li><a href='javascript:searchRooms(\""+keyword+"\","+prevPage+")'>이전</a></li>";
+   		}
+   		else{
+   			page +="<li class='disable'><a>이전</a></li>";
+   			
+   		}
+   		for(var j=data.paging.beginPage; j<=data.paging.endPage; j++){
+   			if(j==data.paging.page){
+   				page+="<li><a style='color:red'><span>"+j+"</span></a></li>";
+   			}
+   			else{
+   				page+="<li><a href='javascript:searchRooms(\""+keyword+"\","+j+")'>"+j+"</a></li>";
+   				
+   			}
+   		}
+   		
+   		if(data.paging.endPage!=data.paging.totalPage){
+   			page += "<li><a href='javascript:searchRooms(\""+keyword+"\","+nextPage+")'>다음</a></li>";
+   		}
+   		else{
+   			page += "<li class='disable'><a>다음</a></li>";
+   		}
+   		if(data.paging.page<data.paging.totalPage){
+   			page +="<li><a href='javascript:searchRooms(\""+keyword+"\","+data.paging.totalPage+")'>끝</a></li>";
+   		}
+   		else{
+   			page +="<li class='disable'><a>끝</a></li>";
+   		}
+		page+="</ul>";
+		page+="</div>";
+		$("#searchpage").html(page);
+    	$("#searchlist").html(html);
+        initMap();
+        },
+		error :function(){
+			alert("검색 도중 에러 발생");
+		}
+	});
+}
+function searchRoom(keyword,page){
+	
 }
 function enter(){
     if (window.event.keyCode == 13) {
@@ -182,8 +234,11 @@ var address=[];
 </div>
 <div class="col-xs-12">
 <div class="col-xs-10">
-<div id="searchoutput">
+<div id="searchlist">
 <div id="map" style="display:none"></div>
+
+</div>
+<div id="searchpage">
 
 </div>
 </div>
@@ -234,7 +289,6 @@ var address=[];
 * { box-sizing:border-box; }
 
 /* basic stylings ------------------------------------------ */
-body 				 { background:url(https://scotch.io/wp-content/uploads/2014/07/61.jpg); }
 .container 		{ 
   font-family:'Roboto';
   width:600px; 

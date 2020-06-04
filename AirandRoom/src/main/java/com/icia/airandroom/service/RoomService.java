@@ -798,9 +798,9 @@ public class RoomService {
 		return mav;
 	}
 		
-		public List<RoomGraphDTO> perDayList(String day, String month, String id) {
+		public List<RoomGraphDTO> perDayList(String day, String month, String id, String year) {
 			mav = new ModelAndView();
-			List<RoomGraphDTO> graphList = rdao.perDayList(day,month,id);
+			List<RoomGraphDTO> graphList = rdao.perDayList(day,month,id,year);
 			return graphList;
 		}
 		public List<String> yearMonth(String year, String id) {
@@ -808,13 +808,13 @@ public class RoomService {
 			return yearMonth;
 		}
 
-		public List<String> roomDay(String month, String id) {
-			List<String> dayList = rdao.dayList(month,id);
+		public List<String> roomDay(String month, String id, String year) {
+			List<String> dayList = rdao.dayList(month,id,year);
 			return dayList;
 		}
 
-		public List<String> roomPrice(String month, String id) {
-			List<String> priceList = rdao.priceList(month,id);
+		public List<String> roomPrice(String month, String id, String year) {
+			List<String> priceList = rdao.priceList(month,id,year);
 			return priceList;
 		}
 
@@ -831,21 +831,7 @@ public class RoomService {
 		}
 
 		public Map<String, Object> mostRoomList() {
-			Calendar cal = Calendar.getInstance();
-			 
-			//현재 년도, 월, 일
-			int year = cal.get ( cal.YEAR );
-			int month = cal.get ( cal.MONTH ) ;
-			int date = cal.get ( cal.DATE ) ;
-			String convertmonth = null;
-			if(month<9) {
-				convertmonth="0"+month;
-			}
-			else if(month==0) {
-				convertmonth="12";
-				year=year-1;
-			}
-			List<RoomDTO> list=rdao.mostRoomList(year,convertmonth);
+			List<RoomDTO> list=rdao.mostRoomList();
 			List<RoomDTO> piclist=new ArrayList<RoomDTO>();
 			for(int i=0; i<list.size(); i++) {
 				RoomDTO room = new RoomDTO();
@@ -855,8 +841,6 @@ public class RoomService {
 				piclist.add(room);
 			}
 			Map<String,Object> map = new HashMap<String,Object>();
-			map.put("year", year);
-			map.put("month", convertmonth);
 			map.put("list", piclist);
 			return map;
 		}
@@ -884,5 +868,20 @@ public class RoomService {
 			result.put("paging", paging);
 			return result;
 		}
+
+				public Map<String, Object> mostGrade() {
+					List<RoomDTO> list=rdao.mostGrade();
+					List<RoomDTO> piclist=new ArrayList<RoomDTO>();
+					for(int i=0; i<list.size(); i++) {
+						RoomDTO room = new RoomDTO();
+						String rno= list.get(i).getRno();
+						String rpno=rdao.getRpno(rno);
+						room=rdao.getPic(rpno);
+						piclist.add(room);
+					}
+					Map<String,Object> map = new HashMap<String,Object>();
+					map.put("list", piclist);
+					return map;
+				}
 
 }

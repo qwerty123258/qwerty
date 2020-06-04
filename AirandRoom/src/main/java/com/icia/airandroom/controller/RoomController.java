@@ -64,9 +64,9 @@ public class RoomController {
 	
 	@ResponseBody
 	@RequestMapping(value="/getRoomDay",method=RequestMethod.GET)
-	public List<Integer> roomDay(@RequestParam("month") String month) {
+	public List<Integer> roomDay(@RequestParam("month") String month,@RequestParam("year") String year) {
 		String id=(String) session.getAttribute("id");
-		List<String> roomDay = roomService.roomDay(month,id);
+		List<String> roomDay = roomService.roomDay(month,id,year);
 		List<Integer> dayList = new ArrayList<Integer>();
 		for(int i=0; i<roomDay.size(); i++) {
 			dayList.add(Integer.parseInt(roomDay.get(i)));
@@ -76,9 +76,9 @@ public class RoomController {
 	
 	@ResponseBody
 	@RequestMapping(value="/getRoomPrice",method=RequestMethod.GET)
-	public List<Integer> roomPrice(@RequestParam("month") String month) {
+	public List<Integer> roomPrice(@RequestParam("month") String month,@RequestParam("year") String year) {
 		String id=(String) session.getAttribute("id");
-		List<String> roomPrice = roomService.roomPrice(month,id);
+		List<String> roomPrice = roomService.roomPrice(month,id,year);
 		List<Integer> priceList = new ArrayList<Integer>();
 		for(int i=0; i<roomPrice.size(); i++) {
 			priceList.add(Integer.parseInt(roomPrice.get(i)));
@@ -95,10 +95,10 @@ public class RoomController {
 	}
 	
 	@RequestMapping(value = "/roomPerDayList", method = RequestMethod.GET)
-	public @ResponseBody List<RoomGraphDTO> perDayList(@RequestParam("day") String day,@RequestParam("month") String month) {
+	public @ResponseBody List<RoomGraphDTO> perDayList(@RequestParam("day") String day,@RequestParam("month") String month,@RequestParam("year") String year) {
 		mav = new ModelAndView();
 		String id=(String) session.getAttribute("id");
-		List<RoomGraphDTO> graphList = roomService.perDayList(day,month,id);
+		List<RoomGraphDTO> graphList = roomService.perDayList(day,month,id,year);
 		return graphList;
 	}
 
@@ -637,7 +637,14 @@ public class RoomController {
 		Map<String,Object> result=roomService.allReviewList(page,rno);
 		return result;
 	}
-	
-	
+		
+		@ResponseBody
+		@RequestMapping(value="/mostGrade", method=RequestMethod.GET)
+		public Map<String, Object> mostGrade(){
+			Map<String,Object> map = new HashMap<String,Object>();
+			map=roomService.mostGrade();
+			return map;	
+		}
+
 	
 }

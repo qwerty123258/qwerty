@@ -379,9 +379,9 @@ public class AirlineController {
 	
 	@ResponseBody
 	@RequestMapping(value="/getAirlineDay",method=RequestMethod.GET)
-	public List<Integer> airlineDay(@RequestParam("month") String month) {
+	public List<Integer> airlineDay(@RequestParam("month") String month,@RequestParam("year") String year) {
 		String id=(String) session.getAttribute("id");
-		List<String> airlineDay = airlineService.airlineDay(month,id);
+		List<String> airlineDay = airlineService.airlineDay(month,id,year);
 		List<Integer> dayList = new ArrayList<Integer>();
 		for(int i=0; i<airlineDay.size(); i++) {
 			dayList.add(Integer.parseInt(airlineDay.get(i)));
@@ -391,9 +391,10 @@ public class AirlineController {
 	
 	@ResponseBody
 	@RequestMapping(value="/getAirlinePrice",method=RequestMethod.GET)
-	public List<Integer> airlinePrice(@RequestParam("month") String month) {
+	public List<Integer> airlinePrice(@RequestParam("month") String month,@RequestParam("year") String year) {
 		String id=(String) session.getAttribute("id");
-		List<String> airlinePrice = airlineService.airlinePrice(month,id);
+		List<String> airlinePrice = airlineService.airlinePrice(month,id,year);
+		
 		List<Integer> priceList = new ArrayList<Integer>();
 		for(int i=0; i<airlinePrice.size(); i++) {
 			priceList.add(Integer.parseInt(airlinePrice.get(i)));
@@ -402,10 +403,9 @@ public class AirlineController {
 	}
 	
 	@RequestMapping(value = "/airlinePerDayList", method = RequestMethod.GET)
-	public @ResponseBody List<AirlineGraphDTO> perDayList(@RequestParam("day") String day,@RequestParam("month") String month) {
+	public @ResponseBody List<AirlineGraphDTO> perDayList(@RequestParam("day") String day,@RequestParam("month") String month,@RequestParam("year") String year) {
 		String id=(String) session.getAttribute("id");
-		mav = new ModelAndView();
-		List<AirlineGraphDTO> graphList = airlineService.perDayList(day,month,id);
+		List<AirlineGraphDTO> graphList = airlineService.perDayList(day,month,id,year);
 		return graphList;
 	}
 	

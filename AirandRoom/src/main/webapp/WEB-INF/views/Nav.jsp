@@ -47,11 +47,26 @@ function getCookie(name) {
 $(function() {  
     var noticeCookie=getCookie("popup");
     if (noticeCookie != "no"){
-        window.open('goPopup','popTest','width=450,height=650');
+        window.open('goPopup','popTest','width=450,height=750');
     }else{
     }
 });
 </script>
+<style>
+body {
+  font-family: 'PT Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #4f5d6e;
+  position: relative;
+  filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#1a315f', endColorstr='#1a315f', GradientType=0);
+}
+
+nav {
+  box-shadow: 5px 4px 5px #000;
+}
+
+</style>
 </head>
 <body>
 <nav class="navbar navbar-inverse">

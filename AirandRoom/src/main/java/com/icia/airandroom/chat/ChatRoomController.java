@@ -87,4 +87,17 @@ public class ChatRoomController {
  	List<ChatRoom> list=chatRoomRepository.chatRoomList();
  	return list;
  }
+ 
+ @ResponseBody
+ @GetMapping("/chatDelete")
+ public String chatDelete(@RequestParam("id") String id) {
+    ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(SpringRedisConfig.class);
+ 	RedisTemplate<String, Object> redisTemplate1 = (RedisTemplate<String, Object>)ctx.getBean("redisTemplate");
+	redisTemplate1.opsForValue().getOperations().delete(String.valueOf(id));
+	chatRoomRepository.chatDelete(id);
+	return "Success";
+ }
+
+ 
+ 
 }

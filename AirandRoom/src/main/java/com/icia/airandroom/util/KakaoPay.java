@@ -50,9 +50,9 @@ public class KakaoPay {
         params.add("quantity", "1");
         params.add("total_amount", roombk.getPrice());
         params.add("tax_free_amount", "0");
-        params.add("approval_url", "http://localhost:8090/airandroom/kakaoPaySuccess?roomid="+roomid +"&rname="+roombk.getRname()+"&price="+roombk.getPrice()+"&checkindate="+roombk.getCheckindate()+"&checkoutdate="+roombk.getCheckoutdate()+"&rno=" + roombk.getRno());
-        params.add("cancel_url", "http://localhost:8090/airandroom/kakaoPayCancel");
-        params.add("fail_url", "http://localhost:8090/airandroom/kakaoPaySuccessFail");
+        params.add("approval_url", "http://icia.kro.kr:8090/kakaoPaySuccess?roomid="+roomid +"&rname="+roombk.getRname()+"&price="+roombk.getPrice()+"&checkindate="+roombk.getCheckindate()+"&checkoutdate="+roombk.getCheckoutdate()+"&rno=" + roombk.getRno());
+        params.add("cancel_url", "http://icia.kro.kr:8090/kakaoPayCancel");
+        params.add("fail_url", "http://icia.kro.kr:8090/kakaoPaySuccessFail");
  
          HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
  
@@ -136,10 +136,10 @@ public class KakaoPay {
         params.add("quantity", "1");
         params.add("total_amount", airlinebk.getPrice());
         params.add("tax_free_amount", "0");
-        params.add("approval_url", "http://localhost:8090/airandroom/AirlineKakaoPaySuccess?airlineid="+airlineid + "&ano=" + airlinebk.getAno() 
+        params.add("approval_url", "http://icia.kro.kr:8090/AirlineKakaoPaySuccess?airlineid="+airlineid + "&ano=" + airlinebk.getAno() 
         + "&aname=" + airlinebk.getAname()+ "&price=" + airlinebk.getPrice()+ "&startdate=" + airlinebk.getStartdate()+ "&sctime=" + airlinebk.getSctime() +"&startpoint="+airlinebk.getStartpoint() + "&endpoint="+airlinebk.getEndpoint() );
-        params.add("cancel_url", "http://localhost:8090/airandroom/kakaoPayCancel");
-        params.add("fail_url", "http://localhost:8090/airandroom/kakaoPaySuccessFail");
+        params.add("cancel_url", "http://icia.kro.kr:8090/kakaoPayCancel");
+        params.add("fail_url", "http://icia.kro.kr:8090/kakaoPaySuccessFail");
  
          HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
  

@@ -8,7 +8,8 @@
 </head>
 <script>
 $(function(){
-	most6();	
+	most6();
+	mostGrade();
 });
 
 
@@ -19,7 +20,9 @@ function most6(){
         dataType : "json",
         async : false,
         success : function(data){
-        	var html="";		
+        	var html="";
+        	var info="";
+        	info+="<h2>가장 많이 예약된 숙소</h2><br>";
         	if(data.list.length>6){
         		
 				for(var i=0; i<7; i++){		
@@ -35,7 +38,7 @@ function most6(){
         	}else{
 
 
-        		for(var i=0; i<data.list.length; i++){					
+        		for(var i=0; i<data.list.length; i++){		
         			html+="<div class='gallery-item'>";
 					html+= "<div class='gallery-item-image'>";
 					html+="<a href='roomView?page=1&rno="+data.list[i].rno+"'><img style='width:300px; height:300px;' src='${pageContext.request.contextPath}/resources/fileUpload/"+data.list[i].rimgname+"'></a></div>";
@@ -46,13 +49,61 @@ function most6(){
         		}   
 
         	}
+        	$("#info").html(info);
 		      $("#gallerys").html(html);
             
 		
         	
         },
         error:function(){
+        	alert("인기 리스트를 불러오는 중 에러 발생");
+        }
+        });
+}
+
+function mostGrade(){
+    $.ajax({
+        type:'GET',
+        url : "mostGrade",
+        dataType : "json",
+        async : false,
+        success : function(data){
+        	var html="";
+        	var info="";
+			info+="<h2>평점이 높은 숙소</h2><br>";
+        	if(data.list.length>6){
+        		
+				for(var i=0; i<7; i++){		
+					html+="<div class='gallery-item'>";
+					html+= "<div class='gallery-item-image'>";
+					html+="<a href='roomView?page=1&rno="+data.list[i].rno+"'><img style='width:300px; height:300px;' src='${pageContext.request.contextPath}/resources/fileUpload/"+data.list[i].rimgname+"'></a></div>";
+					html+="<div class='gallery-item-description'>";
+					html+="<h4 style='  color:black;'>"+data.list[i].rname+"평점 : "+data.list[i].grade+"<br>₩"+data.list[i].price+"</h4></div>";
+					html+="</div>";					
+				}	
+			
+        	}else{
+
+
+        		for(var i=0; i<data.list.length; i++){
+        			html+="<div class='gallery-item'>";
+					html+= "<div class='gallery-item-image'>";
+					html+="<a href='roomView?page=1&rno="+data.list[i].rno+"'><img style='width:300px; height:300px;' src='${pageContext.request.contextPath}/resources/fileUpload/"+data.list[i].rimgname+"'></a></div>";
+					html+="<div class='gallery-item-description'>";
+					html+="<h4 style='  color:black;'>"+data.list[i].rname+"평점 : "+data.list[i].grade+"<br>₩"+data.list[i].price+"</h4></div>";
+					html+="</div>";					
+
+        		}   
+
+        	}
+        	$("#info2").html(info);
+		      $("#gallerys2").html(html);
+            
+		
         	
+        },
+        error:function(){
+        	alert("평점 순 리스트를 불러오는 중 에러 발생");
         }
         });
 }
@@ -82,6 +133,27 @@ div p{
   padding: 2rem;
 }
 #gallerys{
+  width: 100%;
+  max-width: 960px;
+
+  margin: 2rem auto;
+  
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+#gallerys2{
   width: 100%;
   max-width: 960px;
 
@@ -157,8 +229,16 @@ div p{
 </div>
 </div>
 <div class="col-xs-8">
-<h2>Best rooms</h2>
+<div id="info">
+
+</div>
 <div id="gallerys">
+
+  </div>
+  <div id="info2">
+
+</div>
+<div id="gallerys2">
 
   </div>
 </div>

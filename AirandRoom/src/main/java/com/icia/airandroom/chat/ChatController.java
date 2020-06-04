@@ -28,7 +28,7 @@ public class ChatController {
 	private final SimpMessageSendingOperations messagingTemplate;
     @MessageMapping("/chat/message")
     public void message(ChatMessage message) {
-        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(SpringRedisConfig.class);		
+        ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(SpringRedisConfig.class);
     	RedisTemplate<String, Object> redisTemplate1 = (RedisTemplate<String, Object>)ctx.getBean("redisTemplate");
 		  ListOperations<String, Object> list=redisTemplate1.opsForList();
 		  ChatRoom chatroom=new ChatRoom();

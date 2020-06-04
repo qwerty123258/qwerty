@@ -190,24 +190,27 @@ public class RoomDAO {
 		return sql.selectList("Room.getYear",id);
 	}
 	
-	public List<String> dayList(String month, String id) {
+	public List<String> dayList(String month, String id, String year) {
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("id", id);
 		map.put("month", month);
+		map.put("year", year);
 		return sql.selectList("Room.dayList",map);
 	}
 
-	public List<String> priceList(String month, String id) {
+	public List<String> priceList(String month, String id, String year) {
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("id", id);
 		map.put("month", month);
+		map.put("year", year);
 		return sql.selectList("Room.priceList",map);
 	}
 	
-	public List<RoomGraphDTO> perDayList(String day,String month, String id) {
+	public List<RoomGraphDTO> perDayList(String day,String month, String id, String year) {
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("day", day);
 		map.put("month", month);
+		map.put("year", year);
 		map.put("id", id);
 		return sql.selectList("Room.perDayList",map);
 	}
@@ -219,11 +222,8 @@ public class RoomDAO {
 		return sql.selectList("Room.yearMonth",map);
 	}
 
-	public List<RoomDTO> mostRoomList(int year, String convertmonth) {
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("month", convertmonth);
-		map.put("year", year);
-		return sql.selectList("Room.mostRoomList" ,convertmonth);
+	public List<RoomDTO> mostRoomList() {
+		return sql.selectList("Room.mostRoomList");
 	}
 
 	public RoomDTO getPic(String rpno) {
@@ -231,7 +231,10 @@ public class RoomDAO {
 	}
 
 	public String grade(String rno) {
-		// TODO Auto-generated method stub
 		return sql.selectOne("Room.grade",rno);
+	}
+
+	public List<RoomDTO> mostGrade() {
+		return sql.selectList("Room.mostGrade");
 	}
 }
