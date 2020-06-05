@@ -188,6 +188,8 @@ public class AirlineDAO {
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("paging", paging);
 		map.put("id", id);
+		System.out.println(paging.getEndNum());
+		System.out.println(paging);
 		return sql.selectList("Airline.selectMyAirlinebk",map);
 	}
 

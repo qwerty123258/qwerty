@@ -641,6 +641,7 @@ public class RoomController {
 	public Map<String,Object> allReviewList(@RequestParam("page") int page,@RequestParam("rno") String rno) {
 	
 		Map<String,Object> result=roomService.allReviewList(page,rno);
+		
 		return result;
 	}
 		

@@ -165,6 +165,6 @@ select r.rno,r.rname,r.price,pic.rimgname,round(avg(grade),1) as grade from room
 select round(avg(grade),1) as grade from rgrade where rno=#{rno}
 </select>
 <select id="mostGrade" resultType="room">
-select round(avg(grade),1) as grade,r.rno,r.rname,r.price from rgrade rg,room r where r.rno=rg.rno group by r.rno,r.rname,r.price order by grade
+select round(avg(grade),1) as grade,r.rno,r.rname,r.price from rgrade rg,room r where r.rno=rg.rno group by r.rno,r.rname,r.price order by grade desc
 </select>
 </mapper>

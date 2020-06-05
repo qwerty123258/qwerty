@@ -20,7 +20,7 @@ public class KakaoJoinApi {
 // 카카오 개발자 페이지의 REST API 키 값
 private final static String K_CLIENT_ID = "1ec27332cb739285d288014badb78149";
 // 카카오 개발자 페이지에서 로그인 Redirect URI 에 설정한 값
-private final static String K_REDIRECT_URI = "http://localhost:8090/airandroom/jsjkakaoJoin";
+private final static String K_REDIRECT_URI = "http://icia.kro.kr:8090/jsjkakaoJoin";
 
 public static String getAuthorizationUrl(HttpSession session) {
     String kakaoUrl = "https://kauth.kakao.com/oauth/authorize?" + 

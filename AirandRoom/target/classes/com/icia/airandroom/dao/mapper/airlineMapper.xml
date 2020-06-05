@@ -13,7 +13,7 @@
     <![CDATA[SELECT C.* FROM (SELECT ROWNUM row_num,air.* from (select * from airline where id=#{id}) air ) c where row_num >= #{paging.startNum} and row_num <= #{paging.endNum}]]>
  	</select>
  	<select id="countMyAirlinebk" parameterType="String" resultType="int">
-		select count(*) from airline ab,airline a where a.id=#{id} and a.ano=ab.ano
+		select count(*) from airlinebk ab,airline a where a.id=#{id} and a.ano=ab.ano
 	</select>
 	 <select id="selectMyAirlinebk" parameterType="map" resultType="airlinebk">
 <![CDATA[SELECT airlinebk.ano,airlinebk.abno,airlinebk.aname,airlinebk.id,to_char(bookingdate,'YYYY-MM-DD') as bookingdate,airlinebk.sctime,to_char(startdate,'YYYY-MM-DD') as startdate FROM (select ROWNUM row_num, ab.* from airlinebk ab,airline a where ab.ano=a.ano and a.id=#{id} order by ab.abno desc) airlinebk where row_num >= #{paging.startNum} and row_num <= #{paging.endNum}]]>

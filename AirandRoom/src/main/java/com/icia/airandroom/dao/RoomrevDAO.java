@@ -42,7 +42,8 @@ public class RoomrevDAO {
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("id", id);
 		map.put("paging", paging);
-		return sql.selectList("Roomrev.myReviewList", map);
+		List<RoomrevDTO> list=sql.selectList("Roomrev.myReviewList", map);
+		return list;
 	}
 
 

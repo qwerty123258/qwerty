@@ -29,7 +29,16 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
             throws Exception { 
         HttpSession session = request.getSession();
         Object obj = session.getAttribute("id");
+        String requestURI = request.getRequestURI();
         if ( obj ==null ){
+      	  if(requestURI.equals("/roomsRegForm") || requestURI.equals("/roomsUpdateForm") || requestURI.equals("/roomManagement")) {
+      		response.sendRedirect("/fail");
+      		  	return false;
+    	  }
+    	  else if( requestURI.equals("/modifyAirline") || requestURI.equals("/goCreateAirline") || requestURI.equals("/airlineManagement")) {
+    	      		response.sendRedirect("/fail");
+          		  	return false;
+    	  }
             Cookie loginCookie = WebUtils.getCookie(request,"loginCookie");
             if ( loginCookie !=null ){
                 String sessionId = loginCookie.getValue();
@@ -57,14 +66,13 @@ public class AuthenticationInterceptor extends HandlerInterceptorAdapter{
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
             ModelAndView modelAndView)throws Exception {
     	  String requestURI = request.getRequestURI();
-    	  System.out.println(requestURI);
-    	  if(requestURI.equals("/airandroom/roomsRegForm") || requestURI.equals("/airandroom/roomsUpdateForm") || requestURI.equals("/airandroom/roomManagement")) {
+    	  if(requestURI.equals("/roomsRegForm") || requestURI.equals("/roomsUpdateForm") || requestURI.equals("/roomManagement")) {
     		  String kind=(String)session.getAttribute("kind");
     		  if(!kind.equals("room")) {
     			  modelAndView.setViewName("Fail");
     		  }
     	  }
-    	  else if( requestURI.equals("/airandroom/modifyAirline") || requestURI.equals("/airandroom/goCreateAirline") || requestURI.equals("/airandroom/airlineManagement")) {
+    	  else if( requestURI.equals("/modifyAirline") || requestURI.equals("/goCreateAirline") || requestURI.equals("/airlineManagement")) {
     		  String kind=(String)session.getAttribute("kind");
     		  if(!kind.equals("airline")) {
     			  modelAndView.setViewName("Fail");

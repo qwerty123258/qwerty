@@ -139,50 +139,57 @@
 		}
 
 		function reviewCommentWrite(revno) {
-			var comment = document.getElementById(revno + "input").value;
-			if(comment==""){
-				return;
+			var id="${sessionScope.id}";
+			if(id==""){
+				alert("로그인 하세요");
+				location.href="loginMembers";
 			}
-			document.getElementById(revno + "input").value = "";
-			$.ajax({
-				type : "post",
-				url : "reviewCommentWrite",
-				data : "revno=" + revno + "&contents=" + comment
-						+ "&commentpage=" + 1,
-				dataType : "json",
-				success : function(result) {
-					
-					var save = "";
-					save += "<table id='table'"+revno+" class='table table-striped table-bordered table-hover'>"
-					if (result.list.length > 3) {
-						for (var i = 0; i < 3; i++) {
-							save += "<tr>";
-							save += "<td><a href='myReviewListForm?id=" + result.list[i].id +"&check=my' style='padding-right:20px;'>" + result.list[i].id + "</a>" + result.list[i].contents + "</td>";
-									save += "</tr>";
-					}
-					} else {
-						for (var i = 0; i < result.list.length; i++) {
-							save += "<tr>";
-							save += "<td><a href='myReviewListForm?id=" + result.list[i].id +"&check=my' style='padding-right:20px;'>" + result.list[i].id + "</a>" + result.list[i].contents + "</td>";
-							save += "</tr>";
-							}
-					}
-					save += "<tr>"
-					save += "<td>"
-						save += "<input type='text' id='"+revno+"input' style='width: 95%;'>";
-					save += "<button onclick='reviewCommentWrite(" + revno
-							+ ")'>완료</button>";
-					save += "</td>"
-					save += "</tr>"
-					save +="</table>";
-
-					$("#tableComment" + revno).html(save);
-				},
-				error : function() {
-
+			else{
+				var comment = document.getElementById(revno + "input").value;
+				if(comment==""){
+					return;
 				}
+				document.getElementById(revno + "input").value = "";
+				$.ajax({
+					type : "post",
+					url : "reviewCommentWrite",
+					data : "revno=" + revno + "&contents=" + comment
+							+ "&commentpage=" + 1,
+					dataType : "json",
+					success : function(result) {
+						
+						var save = "";
+						save += "<table id='table'"+revno+" class='table table-striped table-bordered table-hover'>"
+						if (result.list.length > 3) {
+							for (var i = 0; i < 3; i++) {
+								save += "<tr>";
+								save += "<td><a href='myReviewListForm?id=" + result.list[i].id +"&check=my' style='padding-right:20px;'>" + result.list[i].id + "</a>" + result.list[i].contents + "</td>";
+										save += "</tr>";
+						}
+						} else {
+							for (var i = 0; i < result.list.length; i++) {
+								save += "<tr>";
+								save += "<td><a href='myReviewListForm?id=" + result.list[i].id +"&check=my' style='padding-right:20px;'>" + result.list[i].id + "</a>" + result.list[i].contents + "</td>";
+								save += "</tr>";
+								}
+						}
+						save += "<tr>"
+						save += "<td>"
+							save += "<input type='text' id='"+revno+"input' style='width: 95%;'>";
+						save += "<button onclick='reviewCommentWrite(" + revno
+								+ ")'>완료</button>";
+						save += "</td>"
+						save += "</tr>"
+						save +="</table>";
 
-			});
+						$("#tableComment" + revno).html(save);
+					},
+					error : function() {
+
+					}
+
+				});	
+			}
 		}
 		function MyReviewListForm(page) {
 			if (check == true) {
@@ -497,31 +504,38 @@
 	}
 	
 	function writeComment(revno){
-	var comment=$("#commentinput"+revno).val();
-	if(comment==""){
-		return;
-	}
-	$.ajax({
-	    type:'POST',
-		url : "writeCommentModal",
-		data : "revno=" + revno+ "&comment="+comment,
-	    dataType : "text",
-	    async:false,
-	    success : function(data){
-	    	$("#commentinput"+revno).val("");
-	    	if(data=="Success"){
-	        	reviewCommentWriteList(revno);
-	        	reviewViewScroll(revno,commentpage);
-	    	}
-	    	else{
-	    		alert("댓글 작성 실패");
-	    	}
-	
-	    },
-	    error:function(){
-	    	alert("댓글 작성 중 에러 발생");
-	    }
-	    });
+		var id="${sessionScope.id}";
+		if(id==""){
+			alert("로그인 하세요");
+			location.href="loginMembers";
+		}
+		else{
+			var comment=$("#commentinput"+revno).val();
+			if(comment==""){
+				return;
+			}
+			$.ajax({
+			    type:'POST',
+				url : "writeCommentModal",
+				data : "revno=" + revno+ "&comment="+comment,
+			    dataType : "text",
+			    async:false,
+			    success : function(data){
+			    	$("#commentinput"+revno).val("");
+			    	if(data=="Success"){
+			        	reviewCommentWriteList(revno);
+			        	reviewViewScroll(revno,commentpage);
+			    	}
+			    	else{
+			    		alert("댓글 작성 실패");
+			    	}
+			
+			    },
+			    error:function(){
+			    	alert("댓글 작성 중 에러 발생");
+			    }
+			    });
+		}
 			
 	}
 	

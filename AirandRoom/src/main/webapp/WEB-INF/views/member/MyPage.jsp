@@ -19,6 +19,7 @@ $(document).ready(function(){
 		adminAirlineList(1);
 	}
 	else if(kind=="airline" || kind=="room"){
+		
 		inquiryList(1);
 	}
 });

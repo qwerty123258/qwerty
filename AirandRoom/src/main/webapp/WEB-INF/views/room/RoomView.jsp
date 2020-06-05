@@ -163,8 +163,11 @@
                     						minDay = "0" + minDay; 
                     					}
                     					var minDate3=year+"-"+month+"-"+minDay;
-                    					$("#endDate").datepicker("option", "maxDate", "");
+                    					$("#endDate").datepicker("option", "maxDate", );
                     					$("#endDate").datepicker("option", "minDate", minDate3);
+                    				}
+                    				else{
+                    					$("#endDate").datepicker("option", "maxDate", "");
                     				}
                     			}
                 				$("#endDate").focus();
@@ -206,23 +209,30 @@ var checkoutend=[];
 var date2=[];
 var date3=[];
 function goBooking(){
-	$("#datear").show();
-	var rno=${room.rno};
-	$.ajax({
-		type : "GET",
-		url : "checkinSetting",
-		data : "rno=" + rno,
-		dataType : "json",
-		success : function(result) {
-			for(var i=0; i<result.length; i++){
-				checkinstart[i]=result[i].checkindate;
-				checkinend[i]=result[i].checkoutdate;
+	var id="${sessionScope.id}";
+	if(id==""){
+		alert("로그인 하세요");
+		location.href="loginMembers";
+	}
+	else{
+		$("#datear").show();
+		var rno=${room.rno};
+		$.ajax({
+			type : "GET",
+			url : "checkinSetting",
+			data : "rno=" + rno,
+			dataType : "json",
+			success : function(result) {
+				for(var i=0; i<result.length; i++){
+					checkinstart[i]=result[i].checkindate;
+					checkinend[i]=result[i].checkoutdate;
+				}
+			},
+			error : function() {
+				alert("달력 설정 중 에러 발생");
 			}
-		},
-		error : function() {
-			alert("달력 설정 중 에러 발생");
-		}
-	});
+		});
+	}
 
 }
 
@@ -263,18 +273,31 @@ function booking(){
     window.open("goRoomPay?rno="+rno +"&rname="+rname +"&price="+totalPrice +"&checkindate=" + startDate + "&checkoutdate=" + endDate +"&roomid=" + roomid, "PopupWin", "width=500,height=600");
 }
 function goInquireFormToRoom(id){
-
-	var id=id;
-	var popUrl = "goInquireForm?id="+id;	
-	var popOption = "width=450, height=650, resizable=no, scrollbars=no, status=no;";
-		window.open(popUrl,"",popOption);
+	var userid="${sessionScope.id}";
+	if(userid==""){
+		alert("로그인 하세요.");
+		location.href="loginMembers";
+	}
+	else{
+		var id=id;
+		var popUrl = "goInquireForm?id="+id;	
+		var popOption = "width=450, height=650, resizable=no, scrollbars=no, status=no;";
+			window.open(popUrl,"",popOption);
+		}
 	}
 	
 function goReportFormToRoom(id) {
-	var id=id;
-	var popUrl = "goReportForm?id="+id;	
-	var popOption = "width=450, height=650, resizable=no, scrollbars=no, status=no;";
-		window.open(popUrl,"",popOption);
+	var userid="${sessionScope.id}";
+	if(userid==""){
+		alert("로그인 하세요.");
+		location.href="loginMembers";
+	}
+	else{
+		var id=id;
+		var popUrl = "goReportForm?id="+id;	
+		var popOption = "width=450, height=650, resizable=no, scrollbars=no, status=no;";
+			window.open(popUrl,"",popOption);	
+	}
 }
 function reviewView(revno){
 	sysrevno=revno;
@@ -395,31 +418,38 @@ $.ajax({
 }
 
 function writeComment(revno){
-	if($("#commentinput"+revno).val()==""){
-		alert('댓글내용을 기입해주세요');
-		return;
+	var id="${sessionScope.id}";
+	if(id==""){
+		alert("로그인 하세요");
+		location.href="loginMembers";
 	}
-	var comment=$("#commentinput"+revno).val();
-	$.ajax({
-	    type:'POST',
-		url : "writeCommentModal",
-		data : "revno=" + revno+ "&comment="+comment,
-	    dataType : "text",
-	    async:false,
-	    success : function(data){
-	    	$("#commentinput"+revno).val("");
-	    	if(data=="Success"){
-	        	reviewViewScroll(revno,commentpage);
-	    	}
-	    	else{
-	    		alert("댓글 작성 실패");
-	    	}
-	
-	    },
-	    error:function(){
-	    	alert("댓글 작성 중 에러 발생");
-	    }
-	    });
+	else{
+		if($("#commentinput"+revno).val()==""){
+			alert('댓글내용을 기입해주세요');
+			return;
+		}
+		var comment=$("#commentinput"+revno).val();
+		$.ajax({
+		    type:'POST',
+			url : "writeCommentModal",
+			data : "revno=" + revno+ "&comment="+comment,
+		    dataType : "text",
+		    async:false,
+		    success : function(data){
+		    	$("#commentinput"+revno).val("");
+		    	if(data=="Success"){
+		        	reviewViewScroll(revno,commentpage);
+		    	}
+		    	else{
+		    		alert("댓글 작성 실패");
+		    	}
+		
+		    },
+		    error:function(){
+		    	alert("댓글 작성 중 에러 발생");
+		    }
+		    });
+	}
 			
 	}
 

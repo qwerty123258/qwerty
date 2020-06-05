@@ -456,6 +456,13 @@ public class MemberController {
 			mav.setViewName("member/JoinForm");
 			return 	mav;
 		}
+		
+		@RequestMapping(value = "/fail", method = RequestMethod.GET)
+		public ModelAndView fail() {
+			mav=new ModelAndView();
+			mav.setViewName("Fail");
+			return 	mav;
+		}
 	
 	
 

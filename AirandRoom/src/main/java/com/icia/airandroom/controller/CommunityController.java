@@ -69,7 +69,7 @@ public class CommunityController {
 	public Map<String,Object> selectInquire(@RequestParam("page") int page,@RequestParam("otherid") String id) {
 		Map<String,Object> map = new HashMap<String,Object>();
 		Paging paging=new Paging();
-		paging.setPage(1);
+		paging.setPage(page);
 		int count=communityService.countInquire(id);
 		paging.setTotalCount(count);
 		map = communityService.selectInquire(id,paging);
